@@ -24,7 +24,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "jsxImportSource": "@emotion/react"
   },
   "exclude": [
     "node_modules",
