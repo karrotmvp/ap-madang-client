@@ -133,6 +133,7 @@ const reset = css`
   html,
   body {
     height: 100%;
+    font-size: 62.5%;
   }
 
   #root {
