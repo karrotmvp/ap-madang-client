@@ -8,6 +8,7 @@ interface Props {
   disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   text: string;
+  className?: string;
 }
 
 type BtnStyleType = {
@@ -33,9 +34,14 @@ const BtnStyle = styled.div`
     disabled ? '#DFE1E3' : '#70BB78'};
 `;
 
-function ReservationBtn({ onClick, text, disabled }: Props): ReactElement {
+function ReservationBtn({
+  onClick,
+  text,
+  disabled,
+  className,
+}: Props): ReactElement {
   return (
-    <BtnStyle onClick={onClick} disabled={disabled}>
+    <BtnStyle className={className} onClick={onClick} disabled={disabled}>
       {text}
     </BtnStyle>
   );
