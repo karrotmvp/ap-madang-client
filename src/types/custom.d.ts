@@ -1,4 +1,9 @@
-declare module '*.svg' {
-  const content: any;
-  export default content;
+declare module 'customProps' {
+  export namespace svgProps {
+    type svg = {
+      width?: string;
+      height?: string;
+      fill?: string;
+    };
+  }
 }
