@@ -3,12 +3,17 @@ import { jsx } from '@emotion/react';
 import { ReactElement, useState, useMemo } from 'react';
 import { ScreenHelmet } from 'karrotframe';
 import 'karrotframe/lib/index.css';
-import Arrow_back_and from '../../assets/icon/Arrow_back_and.svg';
-import Arrow_back_ios from '../../assets/icon/Arrow_back_ios.svg';
+
 import styled from '@emotion/styled';
 import ReservationBtn from '../../components/Button/ReservationBtn';
 import checkMobileType from '../../util/checkMobileType';
 import ReservationModal from '../../components/Modal/ReservationModal';
+import RotateTitle from '../../components/Title/RotateTitle';
+import ResizingTextArea from '../../components/TextArea/ResizingTextArea';
+
+import Arrow_back_and from '../../assets/icon/Arrow_back_and';
+import Arrow_back_ios from '../../assets/icon/Arrow_back_ios';
+import Notifications_none from '../../assets/icon/Notifications_none';
 
 interface Props {}
 
@@ -24,17 +29,34 @@ const ReservationStyle = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 2.6rem;
+  font-size: 2.8rem;
   font-weight: 700;
-  line-height: 3.4rem;
-  max-width: 34rem;
+  line-height: 3.36rem;
+  /* max-width: 34rem; */
   word-break: keep-all;
 `;
 
-const FormStyle = styled.div`
+const SubTitle = styled.div`
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  letter-spacing: -2%;
+  margin-top: 2.4rem;
+  word-break: keep-all;
+  color: #767676;
+`;
+
+const RotateItem = styled.div`
+  font-weight: 800;
+  font-size: 4.8rem;
+  line-height: 5.76rem;
+  letter-spacing: -1.5%;
+  padding: 0.7rem 0;
+  color: #70bb78;
+`;
+
+const ContentsArea = styled.div`
   flex: 1;
   align-content: stretch;
-  overflow: auto;
 `;
 
 const Footer = styled.div`
@@ -42,53 +64,28 @@ const Footer = styled.div`
   box-sizing: border-box;
 `;
 
-const InfoText = styled.div`
-  color: #767676;
-  padding-bottom: 1.4rem;
-  font-size: 1.6rem;
-  line-height: 2.4rem;
-`;
-
 const Message = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
-  position: relative;
+  justify-content: center;
+  align-items: flex;
+  margin-bottom: 1.6rem;
+`;
 
-  padding: 1.1rem 1rem;
-  margin-bottom: 1.5rem;
-  background-color: #3b3e41;
-  border-radius: 0.6rem;
-
-  color: white;
-  font-family: Pretendard;
+const InfoText = styled.div`
+  color: #767676;
   font-style: normal;
-  font-weight: normal;
-  font-size: 1.4rem;
-  line-height: 1.7rem;
-  letter-spacing: -0.015em;
-
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 0;
-    margin-left: -0.8rem;
-    margin-bottom: -0.8rem;
-    border: 8px solid transparent;
-    border-top-color: #3b3e41;
-    border-bottom: 0;
-  }
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  letter-spacing: -2%;
 `;
 
 function ReservationPage({}: Props): ReactElement {
   const [openModal, setOpenModal] = useState(false);
-  const [selectForm] = useState<boolean[]>([true, false, false, false]);
 
   const FooterBtn = useMemo(() => {
-    if (selectForm.includes(true)) {
+    if (true) {
       return (
         <ReservationBtn
           onClick={() => {
@@ -99,34 +96,42 @@ function ReservationPage({}: Props): ReactElement {
       );
     }
     return <ReservationBtn disabled text={'오픈시 알림받기'} />;
-  }, [selectForm]);
+  }, []);
 
   return (
     <ReservationStyle>
       {openModal && <ReservationModal openHandler={setOpenModal} />}
       <ScreenHelmet
         customCloseButton={
-          <img
-            style={{ width: '1.58rem', height: '1.58rem' }}
-            src={
-              checkMobileType() === 'Android' ? Arrow_back_and : Arrow_back_ios
-            }
-          />
+          checkMobileType() === 'Android' ? (
+            <Arrow_back_and fill="#3B3E41" />
+          ) : (
+            <Arrow_back_ios fill="#3B3E41" width="20" />
+          )
         }
       />
-      <Title>
-        관악구에 거리두기 걱정없이 이웃들과 만날 수 있는 공간을 오픈 준비
-        중이에요!
-      </Title>
-      <FormStyle></FormStyle>
-
+      <Title>관악구에 이웃과 </Title>
+      <RotateTitle>
+        <RotateItem>새벽공부</RotateItem>
+        <RotateItem>미라클모닝</RotateItem>
+        <RotateItem>퇴근후수다</RotateItem>
+        <RotateItem>육아수다</RotateItem>
+      </RotateTitle>
+      <Title>온라인에서 해볼까?</Title>
+      <SubTitle>
+        온라인으로 이웃과 함께 하는 모임 서비스를 오픈 준비 중이에요. 원하는
+        모임이 있다면 적어주세요.
+      </SubTitle>
+      <ContentsArea>
+        <ResizingTextArea
+          placeholder={'이웃과 함께 하고 싶은 모임을 적어주세요.(선택)'}
+        />
+      </ContentsArea>
       <Footer>
-        <InfoText>
-          나만없어강아지님 알림 신청하고
-          <br />
-          즐거운 이웃과의 만남을 놓치지 마세요
-        </InfoText>
-        <Message>🎉 2,123명이 벌써 기다리고 있어요.</Message>
+        <Message>
+          <Notifications_none fill="#767676" width="24" height="24" />
+          <InfoText>알림 신청하고 이웃과 즐거운 시간을 보내보세요.</InfoText>
+        </Message>
         {FooterBtn}
       </Footer>
     </ReservationStyle>
