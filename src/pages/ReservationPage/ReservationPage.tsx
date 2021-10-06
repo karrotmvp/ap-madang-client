@@ -9,8 +9,8 @@ import styled from '@emotion/styled';
 import ReservationBtn from '../../components/Button/ReservationBtn';
 import checkMobileType from '../../util/checkMobileType';
 import ReservationModal from '../../components/Modal/ReservationModal';
-
-interface Props {}
+import Mini from '@karrotmarket/mini';
+import { APP_ID } from '../../config/env.dev';
 
 const ReservationStyle = styled.div`
   display: flex;
@@ -83,9 +83,14 @@ const Message = styled.div`
   }
 `;
 
-function ReservationPage({}: Props): ReactElement {
+function ReservationPage(): ReactElement {
   const [openModal, setOpenModal] = useState(false);
   const [selectForm] = useState<boolean[]>([true, false, false, false]);
+  const regionId = useMemo(
+    () => window.location.href.split(/[?|=|&]/)[2],
+    [window],
+  );
+  const mini = new Mini();
 
   const FooterBtn = useMemo(() => {
     if (selectForm.includes(true)) {
@@ -93,6 +98,22 @@ function ReservationPage({}: Props): ReactElement {
         <ReservationBtn
           onClick={() => {
             setOpenModal(true);
+            mini.startPreset({
+              preset:
+                'https://mini-assets.kr.karrotmarket.com/presets/common-login/alpha.html',
+              params: {
+                appId: APP_ID,
+              },
+              onSuccess: function (result) {
+                if (result && result.code) {
+                  console.log(regionId);
+                  setOpenModal(true);
+                }
+              },
+              onFailure: function () {
+                console.log('실패');
+              },
+            });
           }}
           text={'오픈시 알림받기'}
         />
