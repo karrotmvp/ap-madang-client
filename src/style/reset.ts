@@ -134,6 +134,8 @@ const reset = css`
   body {
     height: 100%;
     font-size: 62.5%;
+    font-family: 'Pretendard';
+    font-weight: 400;
   }
 
   #root {

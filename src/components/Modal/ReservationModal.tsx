@@ -11,7 +11,6 @@ interface Props {
 
 const Title = styled.div`
   color: #111111;
-  font-family: Pretendard;
   font-size: 1.8rem;
   font-style: bold;
   font-weight: 700;
@@ -21,7 +20,6 @@ const Title = styled.div`
 
 const Contents = styled.div`
   color: #767676;
-  font-family: Pretendard;
   font-size: 1.6rem;
   font-style: normal;
   font-weight: 400;
