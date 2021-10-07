@@ -17,8 +17,27 @@ export const alarmReservation = async ({
   }
 };
 
+export const getRegionName = async ({ region_id }: regionNameReq) => {
+  try {
+    let result = await customAxios.get<regionNameRes>('/reservation/region', {
+      params: { region_id: region_id },
+    });
+    return { success: true, data: result.data };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
 interface alarmReservationReq {
   code: string;
   region_id: string;
   suggestion: string;
+}
+
+interface regionNameReq {
+  region_id: string;
+}
+
+interface regionNameRes {
+  region: string;
 }

@@ -10,10 +10,9 @@ module.exports = {
   entry: {
     app: path.join(__dirname, 'src', 'index.tsx'),
   },
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
-  },
+
+  output: { filename: 'main.js', path: path.resolve(__dirname, 'dist') },
+
   // 번들링 될 파일 확장자 등록
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.svg'],

@@ -1,10 +1,10 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Cookies } from 'react-cookie';
 import { mini } from '../../App';
 import { APP_ID } from '../../config/env.dev';
-import { alarmReservation } from '../../api/reservation';
+import { alarmReservation, getRegionName } from '../../api/reservation';
 
 import ReservationBtn from '../../components/Button/ReservationBtn';
 import ReservationModal from '../../components/Modal/ReservationModal';
@@ -18,13 +18,29 @@ import styled from '@emotion/styled';
 import { Notifications_none } from '../../assets/icon';
 import '@karrotframe/navigator/index.css';
 import { getRegionId } from '../../util/utils';
+import Spinner from '../../components/Spinner/Spinner';
 
 const ReservationPage: React.FC = () => {
   const [openModal, setOpenModal] = useState<string | undefined>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [suggestionForm, setSuggestionForm] = useState<string>('');
+  const [regionName, setRegionName] = useState<string>('');
 
   const cookies = new Cookies();
-  const regionId = getRegionId(window);
+  const regionId = getRegionId(location.search);
+
+  const fetchRegionName = async () => {
+    setLoading(true);
+    const result = await getRegionName({
+      region_id: regionId,
+    });
+    if (result.success && result.data) setRegionName(result.data.region);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchRegionName();
+  }, []);
 
   const reservationEventHandler = useCallback(() => {
     mini.startPreset({
@@ -34,6 +50,7 @@ const ReservationPage: React.FC = () => {
       },
       onSuccess: async function (result) {
         if (result && result.code) {
+          setLoading(true);
           let apiResult = await alarmReservation({
             code: result.code,
             region_id: regionId,
@@ -46,6 +63,7 @@ const ReservationPage: React.FC = () => {
             setOpenModal(RESERVATION.SUCCESS);
           }
           if (!apiResult.success) setOpenModal(RESERVATION.FAIL);
+          setLoading(false);
         }
       },
       onFailure: function () {
@@ -82,7 +100,7 @@ const ReservationPage: React.FC = () => {
       return (
         <ReservationModal
           openHandler={setOpenModal}
-          title={RESERVATION.MODAL.SUCCESS_TILE}
+          title={RESERVATION.MODAL.SUCCESS_TITLE}
           contents={RESERVATION.MODAL.SUCCESS_TEXT}
         />
       );
@@ -99,8 +117,9 @@ const ReservationPage: React.FC = () => {
     <PageWrapper>
       <NavBar />
       <ReservationStyle>
+        {loading && <Spinner />}
         {openModal && Modal}
-        <Title>{RESERVATION.LOCATION1 + ' ' + RESERVATION.TITLE1}</Title>
+        <Title>{regionName + ' ' + RESERVATION.TITLE1}</Title>
         <RotateTitle items={RESERVATION.ROTATE_TITLE} intervalTime={1300} />
         <Title>{RESERVATION.TITLE2}</Title>
         <SubTitle>{RESERVATION.SUB_TITLE}</SubTitle>

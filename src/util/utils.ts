@@ -10,5 +10,4 @@ export const checkMobileType = () => {
   return 'Android';
 };
 
-export const getRegionId = (window: { location: { href: string } }) =>
-  window.location.href.split(/[?|=|&]/)[2];
+export const getRegionId = (search: string) => search.split(/[?|=|&]/)[2];

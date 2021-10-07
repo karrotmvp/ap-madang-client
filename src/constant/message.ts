@@ -22,7 +22,7 @@ export const RESERVATION = {
   INFO_TEXT: '알림 신청하고 이웃과 즐거운 시간을 보내보세요.',
 
   MODAL: {
-    SUCCESS_TILE: '알림받기 완료',
+    SUCCESS_TITLE: '알림받기 완료',
     SUCCESS_TEXT: '알림을 신청했어요. 온라인 모임이 열리면 알려드릴게요.',
     FAIL_TITLE: '알림신청 실패',
     FAIL_TEXT: '알림 신청에 실패했어요. 다시 시도해주세요.',
