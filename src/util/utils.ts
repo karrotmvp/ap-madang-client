@@ -1,4 +1,4 @@
-function checkMobileType() {
+export const checkMobileType = () => {
   const UA = navigator.userAgent.toLowerCase(); // userAgent 값 얻기
   if (UA.indexOf('android') > -1) return 'Android';
   if (
@@ -8,6 +8,7 @@ function checkMobileType() {
   )
     return 'Cupertino';
   return 'Android';
-}
+};
 
-export default checkMobileType;
+export const getRegionId = (window: { location: { href: string } }) =>
+  window.location.href.split(/[?|=|&]/)[2];

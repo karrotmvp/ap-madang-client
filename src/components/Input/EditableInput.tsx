@@ -1,9 +1,29 @@
 import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
+import { COLOR } from '../../constant/color';
+
+function EditableInput({
+  contentEditable,
+  placeholder,
+  formHandler,
+}: Props): ReactElement {
+  return (
+    <EditableArea
+      contentEditable={contentEditable}
+      placeholder={placeholder}
+      onInput={(e: React.ChangeEvent<HTMLDivElement>) =>
+        formHandler && formHandler(e.target.innerText)
+      }
+    />
+  );
+}
+
+export default EditableInput;
 
 interface Props {
+  contentEditable?: boolean;
   placeholder?: string;
-  formHandler: React.Dispatch<React.SetStateAction<string>>;
+  formHandler?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const EditableArea = styled.div`
@@ -12,9 +32,9 @@ const EditableArea = styled.div`
   max-height: 7.5rem;
   border-width: 0 0 1px 0;
   border-style: solid;
-  border-color: #a6aaae;
-  color: #111111;
-  caret-color: #70bb78;
+  border-color: ${COLOR.INPUT_BORDER_GRAY};
+  color: ${COLOR.TEXT_BLACK};
+  caret-color: ${COLOR.LIGHT_GREEN};
   overflow-y: scroll;
 
   font-size: 1.7rem;
@@ -22,7 +42,7 @@ const EditableArea = styled.div`
   line-height: 2.5rem;
   letter-spacing: -0.03rem;
   padding-bottom: 0.4rem;
-  margin-top: 8rem;
+  margin-top: 6rem;
   margin-bottom: 1rem;
 
   &:focus {
@@ -30,20 +50,6 @@ const EditableArea = styled.div`
   }
   &[placeholder]:empty::before {
     content: attr(placeholder);
-    color: #c6c9cc;
+    color: ${COLOR.PLACEHOLDER_GRAY};
   }
 `;
-
-function EditableInput({ placeholder, formHandler }: Props): ReactElement {
-  return (
-    <EditableArea
-      contentEditable
-      placeholder={placeholder}
-      onInput={(e: React.ChangeEvent<HTMLDivElement>) =>
-        formHandler(e.target.innerText)
-      }
-    ></EditableArea>
-  );
-}
-
-export default EditableInput;
