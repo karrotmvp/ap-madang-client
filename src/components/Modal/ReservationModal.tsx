@@ -18,7 +18,7 @@ const Title = styled.div`
   font-size: 1.8rem;
   font-style: bold;
   font-weight: 700;
-  letter-spacing: -1.5%;
+  letter-spacing: -0.03rem;
   line-height: 2.4rem;
 `;
 
@@ -27,12 +27,13 @@ const Contents = styled.div`
   font-size: 1.6rem;
   font-style: normal;
   font-weight: 400;
-  letter-spacing: -1.5%;
+  letter-spacing: -0.03rem;
   line-height: 2.4rem;
 `;
 
 const ReservationBtnStyle = styled(ReservationBtn)`
   height: 44px;
+  font-size: 1.6rem;
 `;
 
 function ReservationModal({

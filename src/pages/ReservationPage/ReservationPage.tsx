@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 import ReservationBtn from '../../components/Button/ReservationBtn';
 import ReservationModal from '../../components/Modal/ReservationModal';
 import RotateTitle from '../../components/Title/RotateTitle';
-import ResizingTextArea from '../../components/TextArea/ResizingTextArea';
+import ResizingTextArea from '../../components/Input/EditableInput';
 import checkMobileType from '../../util/checkMobileType';
 
 import Arrow_back_and from '../../assets/icon/Arrow_back_and';
@@ -35,14 +35,14 @@ const Title = styled.div`
   font-size: 2.8rem;
   font-weight: 700;
   line-height: 3.36rem;
-  /* max-width: 34rem; */
+  letter-spacing: -0.06rem;
   word-break: keep-all;
 `;
 
 const SubTitle = styled.div`
   font-size: 1.6rem;
   line-height: 2.4rem;
-  letter-spacing: -2%;
+  letter-spacing: -0.03rem;
   margin-top: 2.4rem;
   word-break: keep-all;
   color: #767676;
@@ -52,7 +52,7 @@ const RotateItem = styled.div`
   font-weight: 800;
   font-size: 4.8rem;
   line-height: 5.76rem;
-  letter-spacing: -1.5%;
+  letter-spacing: -0.08rem;
   padding: 0.7rem 0;
   color: #70bb78;
 `;
@@ -70,9 +70,8 @@ const Footer = styled.div`
 const Message = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: flex;
-  margin-bottom: 1.6rem;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
 `;
 
 const InfoText = styled.div`
@@ -81,14 +80,12 @@ const InfoText = styled.div`
   font-weight: 400;
   font-size: 1.6rem;
   line-height: 2.4rem;
-  letter-spacing: -2%;
+  letter-spacing: -0.03rem;
 `;
 
 const ReservationPage: React.FC = () => {
-  const [openModal, setOpenModal] = useState<'success' | 'fail' | undefined>(
-    undefined,
-  );
-  // const [suggestionForm] = useState<string>('');
+  const [openModal, setOpenModal] = useState<'success' | 'fail' | undefined>();
+  const [suggestionForm, setSuggestionForm] = useState<string>('');
 
   const regionId = useMemo(
     () => window.location.href.split(/[?|=|&]/)[2],
@@ -110,7 +107,7 @@ const ReservationPage: React.FC = () => {
                 let apiResult = await alarmReservation({
                   code: result.code,
                   region_id: regionId,
-                  suggestion: 'text',
+                  suggestion: suggestionForm,
                 });
                 if (apiResult.success) setOpenModal('success');
                 if (!apiResult.success) setOpenModal('fail');
@@ -124,7 +121,7 @@ const ReservationPage: React.FC = () => {
         text={'오픈시 알림받기'}
       />
     );
-  }, []);
+  }, [regionId, suggestionForm]);
 
   return (
     <ReservationStyle>
@@ -152,7 +149,7 @@ const ReservationPage: React.FC = () => {
         />
       )}
 
-      <Title>관악구에 이웃과 </Title>
+      <Title>관악구 이웃과 </Title>
       <RotateTitle>
         <RotateItem>새벽공부</RotateItem>
         <RotateItem>미라클모닝</RotateItem>
@@ -166,13 +163,14 @@ const ReservationPage: React.FC = () => {
       </SubTitle>
       <ContentsArea>
         <ResizingTextArea
-          placeholder={'이웃과 함께 하고 싶은 모임을 적어주세요.(선택)'}
+          formHandler={setSuggestionForm}
+          placeholder={'이웃과 함께 하고 싶은 모임을 적어주세요. (선택)'}
         />
       </ContentsArea>
 
       <Footer>
         <Message>
-          <Notifications_none fill="#767676" width="24" height="24" />
+          <Notifications_none fill="#767676" width="30" height="25" />
           <InfoText>알림 신청하고 이웃과 즐거운 시간을 보내보세요.</InfoText>
         </Message>
         {FooterBtn}

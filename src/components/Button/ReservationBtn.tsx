@@ -22,7 +22,7 @@ const BtnStyle = styled.div`
   align-items: center;
 
   width: 100%;
-  height: 50px;
+  height: 56px;
   padding: 0.8rem;
   color: white;
   font-size: 1.9rem;
