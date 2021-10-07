@@ -1,16 +1,17 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
-import { ReactElement, useState, useMemo } from 'react';
-import { ScreenHelmet } from 'karrotframe';
-import 'karrotframe/lib/index.css';
-import Arrow_back_and from '../../assets/icon/Arrow_back_and.svg';
-import Arrow_back_ios from '../../assets/icon/Arrow_back_ios.svg';
+import { useState, useMemo } from 'react';
+import { ScreenHelmet } from '@karrotframe/navigator';
+import '@karrotframe/navigator/index.css';
+
 import styled from '@emotion/styled';
 import ReservationBtn from '../../components/Button/ReservationBtn';
-import checkMobileType from '../../util/checkMobileType';
 import ReservationModal from '../../components/Modal/ReservationModal';
-import Mini from '@karrotmarket/mini';
+
+import { mini } from '../../App';
 import { APP_ID } from '../../config/env.dev';
+import { alarmReservation } from '../../api/reservation';
+import Arrow_back_and from '../../assets/icon/Arrow_back_and.svg';
 
 const ReservationStyle = styled.div`
   display: flex;
@@ -83,58 +84,66 @@ const Message = styled.div`
   }
 `;
 
-function ReservationPage(): ReactElement {
-  const [openModal, setOpenModal] = useState(false);
-  const [selectForm] = useState<boolean[]>([true, false, false, false]);
+const ReservationPage: React.FC = () => {
+  const [openModal, setOpenModal] = useState<'success' | 'fail' | undefined>(
+    undefined,
+  );
+  // const [suggestionForm] = useState<string>('');
+
   const regionId = useMemo(
     () => window.location.href.split(/[?|=|&]/)[2],
     [window],
   );
-  const mini = new Mini();
 
   const FooterBtn = useMemo(() => {
-    if (selectForm.includes(true)) {
-      return (
-        <ReservationBtn
-          onClick={() => {
-            setOpenModal(true);
-            mini.startPreset({
-              preset:
-                'https://mini-assets.kr.karrotmarket.com/presets/common-login/alpha.html',
-              params: {
-                appId: APP_ID,
-              },
-              onSuccess: function (result) {
-                if (result && result.code) {
-                  console.log(regionId);
-                  setOpenModal(true);
-                }
-              },
-              onFailure: function () {
-                console.log('실패');
-              },
-            });
-          }}
-          text={'오픈시 알림받기'}
-        />
-      );
-    }
-    return <ReservationBtn disabled text={'오픈시 알림받기'} />;
-  }, [selectForm]);
+    return (
+      <ReservationBtn
+        onClick={async () => {
+          mini.startPreset({
+            preset:
+              'https://mini-assets.kr.karrotmarket.com/presets/common-login/alpha.html',
+            params: {
+              appId: APP_ID,
+            },
+            onSuccess: async function (result) {
+              if (result && result.code) {
+                let apiResult = await alarmReservation({
+                  code: result.code,
+                  region_id: regionId,
+                  suggestion: 'text',
+                });
+                if (apiResult.success) setOpenModal('success');
+                if (!apiResult.success) setOpenModal('fail');
+              }
+            },
+            onFailure: function () {
+              setOpenModal('fail');
+            },
+          });
+        }}
+        text={'오픈시 알림받기'}
+      />
+    );
+  }, []);
 
   return (
     <ReservationStyle>
-      {openModal && <ReservationModal openHandler={setOpenModal} />}
-      <ScreenHelmet
-        customCloseButton={
-          <img
-            style={{ width: '1.58rem', height: '1.58rem' }}
-            src={
-              checkMobileType() === 'Android' ? Arrow_back_and : Arrow_back_ios
-            }
-          />
-        }
-      />
+      <ScreenHelmet customCloseButton={<img src={Arrow_back_and} />} />
+      {openModal === 'success' && (
+        <ReservationModal
+          openHandler={setOpenModal}
+          title="알림받기 완료"
+          contents="알림을 신청했어요. 온라인 모임이 열리면 알려드릴게요."
+        />
+      )}
+      {openModal === 'fail' && (
+        <ReservationModal
+          openHandler={setOpenModal}
+          title="알림 신청 실패"
+          contents="알림을 신청에 실패했어요. 다시 시도해주세요."
+        />
+      )}
+
       <Title>
         관악구에 거리두기 걱정없이 이웃들과 만날 수 있는 공간을 오픈 준비
         중이에요!
@@ -152,6 +161,6 @@ function ReservationPage(): ReactElement {
       </Footer>
     </ReservationStyle>
   );
-}
+};
 
 export default ReservationPage;
