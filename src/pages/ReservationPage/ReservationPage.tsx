@@ -1,21 +1,24 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
-import { ReactElement, useState, useMemo } from 'react';
-import { ScreenHelmet } from 'karrotframe';
-import 'karrotframe/lib/index.css';
+
+import { useState, useMemo } from 'react';
+import { ScreenHelmet } from '@karrotframe/navigator';
+import '@karrotframe/navigator/index.css';
 
 import styled from '@emotion/styled';
 import ReservationBtn from '../../components/Button/ReservationBtn';
-import checkMobileType from '../../util/checkMobileType';
 import ReservationModal from '../../components/Modal/ReservationModal';
 import RotateTitle from '../../components/Title/RotateTitle';
 import ResizingTextArea from '../../components/TextArea/ResizingTextArea';
+import checkMobileType from '../../util/checkMobileType';
 
 import Arrow_back_and from '../../assets/icon/Arrow_back_and';
 import Arrow_back_ios from '../../assets/icon/Arrow_back_ios';
 import Notifications_none from '../../assets/icon/Notifications_none';
 
-interface Props {}
+import { mini } from '../../App';
+import { APP_ID } from '../../config/env.dev';
+import { alarmReservation } from '../../api/reservation';
 
 const ReservationStyle = styled.div`
   display: flex;
@@ -81,26 +84,50 @@ const InfoText = styled.div`
   letter-spacing: -2%;
 `;
 
-function ReservationPage({}: Props): ReactElement {
-  const [openModal, setOpenModal] = useState(false);
+const ReservationPage: React.FC = () => {
+  const [openModal, setOpenModal] = useState<'success' | 'fail' | undefined>(
+    undefined,
+  );
+  // const [suggestionForm] = useState<string>('');
+
+  const regionId = useMemo(
+    () => window.location.href.split(/[?|=|&]/)[2],
+    [window],
+  );
 
   const FooterBtn = useMemo(() => {
-    if (true) {
-      return (
-        <ReservationBtn
-          onClick={() => {
-            setOpenModal(true);
-          }}
-          text={'오픈시 알림받기'}
-        />
-      );
-    }
-    return <ReservationBtn disabled text={'오픈시 알림받기'} />;
+    return (
+      <ReservationBtn
+        onClick={async () => {
+          mini.startPreset({
+            preset:
+              'https://mini-assets.kr.karrotmarket.com/presets/common-login/alpha.html',
+            params: {
+              appId: APP_ID,
+            },
+            onSuccess: async function (result) {
+              if (result && result.code) {
+                let apiResult = await alarmReservation({
+                  code: result.code,
+                  region_id: regionId,
+                  suggestion: 'text',
+                });
+                if (apiResult.success) setOpenModal('success');
+                if (!apiResult.success) setOpenModal('fail');
+              }
+            },
+            onFailure: function () {
+              setOpenModal('fail');
+            },
+          });
+        }}
+        text={'오픈시 알림받기'}
+      />
+    );
   }, []);
 
   return (
     <ReservationStyle>
-      {openModal && <ReservationModal openHandler={setOpenModal} />}
       <ScreenHelmet
         customCloseButton={
           checkMobileType() === 'Android' ? (
@@ -110,6 +137,21 @@ function ReservationPage({}: Props): ReactElement {
           )
         }
       />
+      {openModal === 'success' && (
+        <ReservationModal
+          openHandler={setOpenModal}
+          title="알림받기 완료"
+          contents="알림을 신청했어요. 온라인 모임이 열리면 알려드릴게요."
+        />
+      )}
+      {openModal === 'fail' && (
+        <ReservationModal
+          openHandler={setOpenModal}
+          title="알림 신청 실패"
+          contents="알림을 신청에 실패했어요. 다시 시도해주세요."
+        />
+      )}
+
       <Title>관악구에 이웃과 </Title>
       <RotateTitle>
         <RotateItem>새벽공부</RotateItem>
@@ -127,6 +169,7 @@ function ReservationPage({}: Props): ReactElement {
           placeholder={'이웃과 함께 하고 싶은 모임을 적어주세요.(선택)'}
         />
       </ContentsArea>
+
       <Footer>
         <Message>
           <Notifications_none fill="#767676" width="24" height="24" />
@@ -136,6 +179,6 @@ function ReservationPage({}: Props): ReactElement {
       </Footer>
     </ReservationStyle>
   );
-}
+};
 
 export default ReservationPage;

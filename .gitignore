@@ -15,5 +15,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-#config
-/src/config/
+
+# config
+/src/config/env.dev.ts
+/src/config/env.prod.ts
+

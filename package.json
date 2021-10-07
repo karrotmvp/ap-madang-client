@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "scripts": {
     "start": "webpack --mode development",
-    "dev": "webpack-dev-server --open",
+    "dev": "webpack-dev-server --open --mode development",
     "build": "webpack --mode production --config webpack.config.js",
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'"
   },
+  "proxy": "http://ec2-15-165-246-184.ap-northeast-2.compute.amazonaws.com/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/karrotmvp/meetup-client.git"
@@ -22,8 +23,12 @@
     "@emotion/css": "^11.1.3",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@karrotframe/navigator": "^0.17.3",
+    "@karrotmarket/mini": "^0.11.3",
+    "axios": "^0.22.0",
     "karrotframe": "^0.16.11",
     "react": "^17.0.2",
+    "react-cookie": "^4.1.1",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.3.0",
     "ts-node": "^10.2.1"
