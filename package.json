@@ -9,7 +9,6 @@
     "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'",
     "zip": "bestzip deploy.zip dist/*"
   },
-  "proxy": "http://ec2-15-165-246-184.ap-northeast-2.compute.amazonaws.com/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/karrotmvp/meetup-client.git"
