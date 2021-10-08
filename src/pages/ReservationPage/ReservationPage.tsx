@@ -3,12 +3,7 @@ import { jsx } from '@emotion/react';
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Cookies } from 'react-cookie';
 import { mini } from '../../App';
-import {
-  DEV_APP_ID,
-  MINI_PRESET_URL_DEV,
-  MINI_PRESET_URL_PROD,
-  PROD_APP_ID,
-} from '../../config/env.dev';
+
 import { alarmReservation, getRegionName } from '../../api/reservation';
 
 import ReservationBtn from '../../components/Button/ReservationBtn';
@@ -49,13 +44,9 @@ const ReservationPage: React.FC = () => {
 
   const reservationEventHandler = useCallback(() => {
     mini.startPreset({
-      preset:
-        process.env.NODE_ENV === 'development'
-          ? MINI_PRESET_URL_DEV
-          : MINI_PRESET_URL_PROD,
+      preset: process.env.MINI_PRESET_URL || '',
       params: {
-        appId:
-          process.env.NODE_ENV === 'development' ? DEV_APP_ID : PROD_APP_ID,
+        appId: process.env.APP_ID || '',
       },
       onSuccess: async function (result) {
         if (result && result.code) {
