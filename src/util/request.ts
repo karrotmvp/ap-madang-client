@@ -1,8 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
-import { API_URL_DEV, API_URL_PROD } from '../config/env';
 
-const baseURL =
-  process.env.NODE_ENV === 'development' ? API_URL_DEV : API_URL_PROD;
+const baseURL = process.env.API_URL;
 
 const options = {
   withCredentials: true,

@@ -17,4 +17,10 @@ yarn-error.log*
 
 
 # config
-/src/config/env.ts
+/src/config/env.dev.ts
+/src/config/env.prod.ts
+
+.env*
+
+deploy.zip
+

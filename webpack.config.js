@@ -1,7 +1,7 @@
 const path = require('path');
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const mode = process.env.NODE_ENV || 'development';
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   // 개발모드, development or production
@@ -63,5 +63,6 @@ module.exports = {
             }
           : false,
     }),
+    new Dotenv(),
   ],
 };
