@@ -1,18 +1,12 @@
 export const RESERVATION = {
   SUCCESS: 'success',
   FAIL: 'fail',
-  PRESET_URL:
-    'https://mini-assets.kr.karrotmarket.com/presets/common-login/alpha.html',
   COOKIE_NAME: 'reservation',
   COOKIE_EXPIRE_DATE: '2021-10-20',
   BTN_TEXT: '오픈시 알림받기',
   DISABLE_BTN_TEXT: '알림받기 완료',
   INPUT_PLACEHOLDER: '이웃과 함께 하고 싶은 모임을 적어주세요. (선택)',
   DONE_PLACEHOLDER: '이미 알림을 신청했어요. 조금만 기다려주세요!',
-
-  LOCATION1: '관악구',
-  LOCATION2: '송파구',
-  LOCATION3: '서초구',
 
   TITLE1: ' 이웃과',
   TITLE2: '온라인에서 해볼까?',
