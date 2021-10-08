@@ -134,10 +134,16 @@ const ReservationPage: React.FC = () => {
         <SubTitle>{RESERVATION.SUB_TITLE}</SubTitle>
         <ContentsArea>{InputForm}</ContentsArea>
         <Footer>
-          <Message>
-            <Notifications_none fill={COLOR.TEXT_GRAY} width="24" height="24" />
-            <InfoText>{RESERVATION.INFO_TEXT}</InfoText>
-          </Message>
+          {!cookies.get(RESERVATION.COOKIE_NAME) && (
+            <Message>
+              <Notifications_none
+                fill={COLOR.TEXT_GRAY}
+                width="24"
+                height="24"
+              />
+              <InfoText>{RESERVATION.INFO_TEXT}</InfoText>
+            </Message>
+          )}
           {ReservationButton}
         </Footer>
       </ReservationStyle>
