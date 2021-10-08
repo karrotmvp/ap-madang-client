@@ -35,7 +35,7 @@ const EditableArea = styled.div`
   border-color: ${COLOR.INPUT_BORDER_GRAY};
   color: ${COLOR.TEXT_BLACK};
   caret-color: ${COLOR.LIGHT_GREEN};
-  overflow-y: scroll;
+  overflow-y: auto;
 
   font-size: 1.7rem;
   font-family: 'Pretendard';

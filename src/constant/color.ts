@@ -7,7 +7,7 @@ export const COLOR = {
   GRAY_300: '#DFE1E3',
   GRAY_400: '#DFE1E3',
   GRAY_500: '#A6AAAE',
-  LIGHT_GREEN: '#70BB78',
+  LIGHT_GREEN: '#41AC70',
   ICON_GRAY: '#3B3E41',
   NAV_BACKGROUND_WHITE: '#ffffff',
   NAV_BORDER_GRAY: '#f1f1f1',
