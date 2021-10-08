@@ -153,7 +153,7 @@ const ReservationStyle = styled.div`
   position: relative;
 
   height: 100%;
-  padding: 2rem 2.4rem 3.7rem 2.4rem;
+  padding: 2.4rem 2.4rem 1rem 2.4rem;
   box-sizing: border-box;
 `;
 
