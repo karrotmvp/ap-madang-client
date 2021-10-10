@@ -5,6 +5,7 @@
     "start": "webpack --mode development",
     "dev": "webpack-dev-server --open --mode development",
     "build": "webpack --mode production --config webpack.config.js",
+    "build:dev": "webpack --mode development --config webpack.config.js",
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'",
     "zip": "bestzip deploy.zip dist/*"
