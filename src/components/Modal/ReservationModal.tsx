@@ -1,26 +1,12 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/react';
 import React, { ReactElement } from 'react';
+
+import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
+
+import { COLOR } from '../../constant/color';
 import ReservationBtn from '../Button/ReservationBtn';
 import Modal from './Modal';
-import { COLOR } from '../../constant/color';
-
-function ReservationModal({
-  openHandler,
-  title,
-  contents,
-}: Props): ReactElement {
-  return (
-    <Modal onClose={() => openHandler(undefined)}>
-      <Title>{title}</Title>
-      <Contents>{contents}</Contents>
-      <ReservationBtnStyle text="확인" onClick={() => openHandler(undefined)} />
-    </Modal>
-  );
-}
-
-export default ReservationModal;
 
 interface Props {
   openHandler: React.Dispatch<React.SetStateAction<string | undefined>>;
@@ -50,3 +36,19 @@ const ReservationBtnStyle = styled(ReservationBtn)`
   height: 44px;
   font-size: 1.6rem;
 `;
+
+function ReservationModal({
+  openHandler,
+  title,
+  contents,
+}: Props): ReactElement {
+  return (
+    <Modal onClose={() => openHandler(undefined)}>
+      <Title>{title}</Title>
+      <Contents>{contents}</Contents>
+      <ReservationBtnStyle text="확인" onClick={() => openHandler(undefined)} />
+    </Modal>
+  );
+}
+
+export default ReservationModal;

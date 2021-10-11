@@ -1,23 +1,87 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/react';
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import { Cookies } from 'react-cookie';
-import { mini } from '../../App';
-import { alarmReservation, getRegionName } from '../../api/reservation';
 
-import ReservationBtn from '../../components/Button/ReservationBtn';
-import ReservationModal from '../../components/Modal/ReservationModal';
-import RotateTitle from '../../components/Title/RotateTitle';
-import EditableInput from '../../components/Input/EditableInput';
-import NavBar from '../../components/NavBar/NavBar';
-import { RESERVATION } from '../../constant/message';
-import { COLOR } from '../../constant/color';
-
+import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Notifications_none } from '../../assets/icon';
+import { Cookies } from 'react-cookie';
+
+import { alarmReservation, getRegionName } from '../../api/reservation';
+import { mini } from '../../App';
+import { NotificationsNone } from '../../assets/icon';
+import ReservationBtn from '../../components/Button/ReservationBtn';
+import EditableInput from '../../components/Input/EditableInput';
+import ReservationModal from '../../components/Modal/ReservationModal';
+import NavBar from '../../components/NavBar/NavBar';
+import Spinner from '../../components/Spinner/Spinner';
+import RotateTitle from '../../components/Title/RotateTitle';
+import { COLOR } from '../../constant/color';
+import { RESERVATION } from '../../constant/message';
 import '@karrotframe/navigator/index.css';
 import { getRegionId } from '../../util/utils';
-import Spinner from '../../components/Spinner/Spinner';
+
+const PageWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+`;
+
+const ReservationStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+
+  height: 100%;
+  padding: 2.4rem 2.4rem 1.6rem 2.4rem;
+  box-sizing: border-box;
+`;
+
+const Header = styled.header``;
+
+const Title = styled.div`
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 3.36rem;
+  letter-spacing: -0.06rem;
+  word-break: keep-all;
+`;
+
+const SubTitle = styled.div`
+  color: ${COLOR.TEXT_GRAY};
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  letter-spacing: -0.03rem;
+  margin-top: 2.4rem;
+  word-break: keep-all;
+`;
+
+const ContentsArea = styled.div`
+  flex: 1;
+  align-content: stretch;
+`;
+
+const Footer = styled.footer`
+  width: 100%;
+  box-sizing: border-box;
+`;
+
+const Message = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+`;
+
+const InfoText = styled.div`
+  color: ${COLOR.TEXT_GRAY};
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  letter-spacing: -0.03rem;
+  margin-left: 0.2rem;
+`;
 
 const ReservationPage: React.FC = () => {
   const [openModal, setOpenModal] = useState<string | undefined>();
@@ -28,18 +92,18 @@ const ReservationPage: React.FC = () => {
   const cookies = new Cookies();
   const regionId = getRegionId(location.search);
 
-  const fetchRegionName = async () => {
+  const fetchRegionName = useCallback(async () => {
     setLoading(true);
     const result = await getRegionName({
       region_id: regionId,
     });
     if (result.success && result.data) setRegionName(result.data.region);
     setLoading(false);
-  };
+  }, [regionId]);
 
   useEffect(() => {
     fetchRegionName();
-  }, []);
+  }, [fetchRegionName]);
 
   const reservationEventHandler = useCallback(() => {
     mini.startPreset({
@@ -47,12 +111,12 @@ const ReservationPage: React.FC = () => {
       params: {
         appId: process.env.APP_ID || '',
       },
-      onSuccess: async function (result) {
+      async onSuccess(result) {
         if (result && result.code) {
           setLoading(true);
-          let apiResult = await alarmReservation({
+          const apiResult = await alarmReservation({
             code: result.code,
-            region_id: regionId,
+            regionId,
             suggestion: suggestionForm,
           });
           if (apiResult.success) {
@@ -65,11 +129,11 @@ const ReservationPage: React.FC = () => {
           setLoading(false);
         }
       },
-      onFailure: function () {
+      onFailure() {
         setOpenModal(RESERVATION.FAIL);
       },
     });
-  }, [regionId, suggestionForm]);
+  }, [cookies, regionId, suggestionForm]);
 
   const ReservationButton = useMemo(() => {
     if (!cookies.get(RESERVATION.COOKIE_NAME))
@@ -80,7 +144,7 @@ const ReservationPage: React.FC = () => {
         />
       );
     return <ReservationBtn disabled text={RESERVATION.DISABLE_BTN_TEXT} />;
-  }, [cookies]);
+  }, [cookies, reservationEventHandler]);
 
   const InputForm = useMemo(() => {
     if (!cookies.get(RESERVATION.COOKIE_NAME))
@@ -118,15 +182,17 @@ const ReservationPage: React.FC = () => {
       <ReservationStyle>
         {loading && <Spinner />}
         {openModal && Modal}
-        <Title>{regionName + ' ' + RESERVATION.TITLE1}</Title>
-        <RotateTitle items={RESERVATION.ROTATE_TITLE} intervalTime={1300} />
-        <Title>{RESERVATION.TITLE2}</Title>
-        <SubTitle>{RESERVATION.SUB_TITLE}</SubTitle>
+        <Header>
+          <Title>{`${regionName} ${RESERVATION.TITLE1}`}</Title>
+          <RotateTitle items={RESERVATION.ROTATE_TITLE} intervalTime={1300} />
+          <Title>{RESERVATION.TITLE2}</Title>
+          <SubTitle>{RESERVATION.SUB_TITLE}</SubTitle>
+        </Header>
         <ContentsArea>{InputForm}</ContentsArea>
         <Footer>
           {!cookies.get(RESERVATION.COOKIE_NAME) && (
             <Message>
-              <Notifications_none
+              <NotificationsNone
                 fill={COLOR.TEXT_GRAY}
                 width="24"
                 height="24"
@@ -142,65 +208,3 @@ const ReservationPage: React.FC = () => {
 };
 
 export default ReservationPage;
-
-const PageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-`;
-
-const ReservationStyle = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-
-  height: 100%;
-  padding: 2.4rem 2.4rem 1.6rem 2.4rem;
-  box-sizing: border-box;
-`;
-
-const Title = styled.div`
-  font-size: 2.8rem;
-  font-weight: 700;
-  line-height: 3.36rem;
-  letter-spacing: -0.06rem;
-  word-break: keep-all;
-`;
-
-const SubTitle = styled.div`
-  color: ${COLOR.TEXT_GRAY};
-  font-size: 1.6rem;
-  line-height: 2.4rem;
-  letter-spacing: -0.03rem;
-  margin-top: 2.4rem;
-  word-break: keep-all;
-`;
-
-const ContentsArea = styled.div`
-  flex: 1;
-  align-content: stretch;
-`;
-
-const Footer = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-`;
-
-const Message = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 1rem;
-`;
-
-const InfoText = styled.div`
-  color: ${COLOR.TEXT_GRAY};
-  font-style: normal;
-  font-weight: 400;
-  font-size: 1.6rem;
-  line-height: 2.4rem;
-  letter-spacing: -0.03rem;
-  margin-left: 0.2rem;
-`;

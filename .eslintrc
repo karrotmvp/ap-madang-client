@@ -1,16 +1,16 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "react-hooks", "prettier"],
+  "plugins": ["react", "@typescript-eslint",  "react-hooks", "import", "prettier"],
   "extends": [
-    "airbnb-base",
+
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
   "rules": {
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "@typescript-eslint/camelcase": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "@typescript-eslint/no-unused-vars": [2, { "args": "none" }],
@@ -43,7 +43,11 @@
           "caseInsensitive": true
         }
       }
-    ]
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-uses-react": "error",   
+    "react/jsx-uses-vars": "error" 
   },
   "settings": {
     "import/resolver": {

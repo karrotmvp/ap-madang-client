@@ -1,19 +1,10 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/react';
 import React, { ReactElement } from 'react';
 
+import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
+
 import { COLOR } from '../../constant/color';
-
-function Modal({ onClose, children }: Props): ReactElement {
-  return (
-    <ModalWrapper onClick={onClose}>
-      <ModalInner onClick={e => e.stopPropagation()}>{children}</ModalInner>
-    </ModalWrapper>
-  );
-}
-
-export default Modal;
 
 interface Props {
   onClose: () => void;
@@ -50,3 +41,13 @@ const ModalInner = styled.div`
   border-radius: 0.8rem;
   box-sizing: border-box;
 `;
+
+function Modal({ onClose, children }: Props): ReactElement {
+  return (
+    <ModalWrapper onClick={onClose}>
+      <ModalInner onClick={e => e.stopPropagation()}>{children}</ModalInner>
+    </ModalWrapper>
+  );
+}
+
+export default Modal;

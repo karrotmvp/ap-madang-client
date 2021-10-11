@@ -7,7 +7,7 @@ const options = {
 };
 
 const customAxios: AxiosInstance = axios.create({
-  baseURL: baseURL,
+  baseURL,
   ...options,
 });
 

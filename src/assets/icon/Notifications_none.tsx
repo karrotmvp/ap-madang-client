@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
+
 import { svgProps } from 'customProps';
 
-function Notifications_none({
+function NotificationsNone({
   width = '24',
   height = '24',
   fill = 'none',
@@ -23,4 +24,4 @@ function Notifications_none({
   );
 }
 
-export default Notifications_none;
+export default NotificationsNone;

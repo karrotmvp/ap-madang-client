@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
+
 import { svgProps } from 'customProps';
 
-function More_horiz_ios({
+function MoreHorizIos({
   width = '16',
   height = '4',
   fill = 'none',
@@ -19,4 +20,4 @@ function More_horiz_ios({
   );
 }
 
-export default More_horiz_ios;
+export default MoreHorizIos;

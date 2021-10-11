@@ -1,7 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+
 import { Global } from '@emotion/react';
+import ReactDOM from 'react-dom';
+
+import App from './App';
 import reset from './style/reset';
 
 ReactDOM.render(

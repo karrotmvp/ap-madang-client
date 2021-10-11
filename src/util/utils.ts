@@ -1,4 +1,4 @@
-export const checkMobileType = () => {
+export const checkMobileType = (): string => {
   const UA = navigator.userAgent.toLowerCase(); // userAgent 값 얻기
   if (UA.indexOf('android') > -1) return 'Android';
   if (
@@ -10,4 +10,5 @@ export const checkMobileType = () => {
   return 'Android';
 };
 
-export const getRegionId = (search: string) => search.split(/[?|=|&]/)[2];
+export const getRegionId = (search: string): string =>
+  search.split(/[?|=|&]/)[2];
