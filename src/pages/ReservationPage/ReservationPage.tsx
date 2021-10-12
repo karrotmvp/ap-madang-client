@@ -188,7 +188,6 @@ const Footer = styled.div`
 const Message = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   margin-bottom: 1rem;
 `;
 
@@ -204,4 +203,5 @@ const InfoText = styled.div`
   line-height: 2.4rem;
   letter-spacing: -0.03rem;
   margin-left: 0.4rem;
+  word-break: keep-all;
 `;
