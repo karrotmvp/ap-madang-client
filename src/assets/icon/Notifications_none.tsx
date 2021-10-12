@@ -1,17 +1,23 @@
 import React, { ReactElement } from 'react';
 import { svgProps } from 'customProps';
 
+interface NotiType {
+  className?: string;
+}
+
 function Notifications_none({
   width = '24',
   height = '24',
   fill = 'none',
-}: svgProps.svg): ReactElement {
+  className,
+}: svgProps.svg & NotiType): ReactElement {
   return (
     <svg
       width={width}
       height={height}
       viewBox={`0 0 ${width} ${height}`}
       fill={fill}
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
