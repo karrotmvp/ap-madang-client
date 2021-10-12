@@ -126,11 +126,7 @@ const ReservationPage: React.FC = () => {
         <Footer>
           {!cookies.get(RESERVATION.COOKIE_NAME) && (
             <Message>
-              <Notifications_none
-                fill={COLOR.TEXT_GRAY}
-                width="24"
-                height="24"
-              />
+              <NotiIcon fill={COLOR.TEXT_GRAY} width="24" height="24" />
               <InfoText>{RESERVATION.INFO_TEXT}</InfoText>
             </Message>
           )}
@@ -192,10 +188,17 @@ const Footer = styled.div`
 const Message = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   margin-bottom: 1rem;
 `;
 
+const NotiIcon = styled(Notifications_none)`
+  margin-right: 0.2rem;
+  flex: 1;
+`;
+
 const InfoText = styled.div`
+  flex: 9;
   color: ${COLOR.TEXT_GRAY};
   font-style: normal;
   font-weight: 400;
