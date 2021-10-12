@@ -10,5 +10,7 @@ export const checkMobileType = (): string => {
   return 'Android';
 };
 
-export const getRegionId = (search: string): string =>
-  search.split(/[?|=|&]/)[2];
+export const getRegionId = (search: string): string => {
+  const urlSearchParams = new URLSearchParams(search);
+  return urlSearchParams.get('region_id') || '';
+};
