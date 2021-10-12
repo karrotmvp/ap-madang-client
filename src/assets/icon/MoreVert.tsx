@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
+
 import { svgProps } from 'customProps';
 
-function More_vert({
+function MoreVert({
   width = '4',
   height = '16',
   fill = 'none',
@@ -19,4 +20,4 @@ function More_vert({
   );
 }
 
-export default More_vert;
+export default MoreVert;

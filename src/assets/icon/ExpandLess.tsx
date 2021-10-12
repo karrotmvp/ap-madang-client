@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
+
 import { svgProps } from 'customProps';
 
-function Expand_less({
+function ExpandLess({
   width = '12',
   height = '8',
   fill = 'none',
@@ -19,4 +20,4 @@ function Expand_less({
   );
 }
 
-export default Expand_less;
+export default ExpandLess;
