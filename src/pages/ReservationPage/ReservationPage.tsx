@@ -194,16 +194,14 @@ const Message = styled.div`
 
 const NotiIcon = styled(Notifications_none)`
   margin-right: 0.2rem;
-  flex: 1;
 `;
 
 const InfoText = styled.div`
-  flex: 9;
   color: ${COLOR.TEXT_GRAY};
   font-style: normal;
   font-weight: 400;
   font-size: 1.6rem;
   line-height: 2.4rem;
   letter-spacing: -0.03rem;
-  margin-left: 0.2rem;
+  margin-left: 0.4rem;
 `;
