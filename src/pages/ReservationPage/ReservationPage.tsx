@@ -38,8 +38,6 @@ const ReservationStyle = styled.div`
   box-sizing: border-box;
 `;
 
-const Header = styled.header``;
-
 const Title = styled.div`
   font-size: 2.8rem;
   font-weight: 700;
@@ -186,12 +184,12 @@ const ReservationPage: React.FC = () => {
       <ReservationStyle>
         {loading && <Spinner />}
         {openModal && Modal}
-        <Header>
+        <header>
           <Title>{`${regionName} ${RESERVATION.TITLE1}`}</Title>
           <RotateTitle items={RESERVATION.ROTATE_TITLE} intervalTime={1300} />
           <Title>{RESERVATION.TITLE2}</Title>
           <SubTitle>{RESERVATION.SUB_TITLE}</SubTitle>
-        </Header>
+        </header>
         <ContentsArea>{InputForm}</ContentsArea>
         <Footer>
           {!cookies.get(RESERVATION.COOKIE_NAME) && (
