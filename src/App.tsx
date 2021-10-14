@@ -5,6 +5,7 @@ import { Navigator, Screen } from '@karrotframe/navigator';
 import Mini from '@karrotmarket/mini';
 
 import LandingPage from './pages/LandingPage/LandingPage';
+import OnBoardingPage from './pages/OnBoardingPage/OnBoardingPage';
 import ReservationPage from './pages/ReservationPage/ReservationPage';
 import { checkMobileType } from './util/utils';
 export const mini = new Mini();
@@ -21,6 +22,8 @@ const App: React.FC = () => (
   >
     <Screen path="/" component={ReservationPage} />
     <Screen path="/" component={LandingPage} />
+    <Screen path="/onboarding" component={OnBoardingPage} />
+    <Screen path="/reservation" component={ReservationPage} />
   </Navigator>
 );
 

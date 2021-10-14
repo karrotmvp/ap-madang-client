@@ -50,6 +50,8 @@ function LandingPage(): ReactElement {
   const cookie = new Cookies();
   const setUserInfo = useSetRecoilState(userInfoAtom);
   const setMeetings = useSetRecoilState(meetingsAtom);
+  const [onBoard] = useState(cookie.get('onboard'));
+  const { replace } = useNavigator();
 
   const userInfoHandler = useCallback(
     async code => {
@@ -95,6 +97,10 @@ function LandingPage(): ReactElement {
   }, [userInfoHandler]);
 
   useEffect(() => {
+    if (!onBoard) {
+      replace('/onboarding');
+      return;
+    }
     const code = getCodefromUrl(location.search);
     console.log('code', code);
     if (code) userInfoHandler(code);
