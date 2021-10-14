@@ -4,6 +4,7 @@ import { css } from '@emotion/css';
 import { Navigator, Screen } from '@karrotframe/navigator';
 import Mini from '@karrotmarket/mini';
 
+import LandingPage from './pages/LandingPage/LandingPage';
 import ReservationPage from './pages/ReservationPage/ReservationPage';
 
 export const mini = new Mini();
@@ -19,6 +20,7 @@ const App: React.FC = () => (
     className={NavigatorStyle}
   >
     <Screen path="/" component={ReservationPage} />
+    <Screen path="/" component={LandingPage} />
   </Navigator>
 );
 
