@@ -14,3 +14,8 @@ export const getRegionId = (search: string): string => {
   const urlSearchParams = new URLSearchParams(search);
   return urlSearchParams.get('region_id') || '';
 };
+
+export const getCodefromUrl = (search: string) => {
+  const urlSearchParams = new URLSearchParams(search);
+  return urlSearchParams.get('code');
+};
