@@ -1,20 +1,17 @@
 /** @jsx jsx */
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Cookies from 'universal-cookie';
 
 import { getMeetings } from '../../api/meeting';
-import { login } from '../../api/user';
-import { mini } from '../../App';
 import MeetingList from '../../components/MeetingList/MeetingList';
 import { LANDING } from '../../constant/message';
 import { meetingsAtom } from '../../store/meeting';
-import { userInfoAtom } from '../../store/user';
-import { getCodefromUrl, getRegionId } from '../../util/utils';
+import { authAtom } from '../../store/user';
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -46,74 +43,35 @@ const Banner = styled.div`
   font-size: 3rem;
 `;
 
-function LandingPage(): ReactElement {
+const LandingPage: React.FC = () => {
   const cookie = new Cookies();
-  const setUserInfo = useSetRecoilState(userInfoAtom);
   const setMeetings = useSetRecoilState(meetingsAtom);
+  const auth = useRecoilValue(authAtom);
   const [onBoard] = useState(cookie.get('onboard'));
   const { replace } = useNavigator();
 
-  const userInfoHandler = useCallback(
-    async code => {
-      const regionId = getRegionId(location.search);
-      if (code && regionId) {
-        const result = await login({ code, regionId });
-        if (!result.success) return;
-        if (
-          result.data?.token &&
-          result.data?.nickname &&
-          result.data?.region
-        ) {
-          cookie.set('Authorization', result.data?.token);
-          setUserInfo({
-            nickname: result.data.nickname,
-            region: result.data.region,
-          });
-        }
-      }
-    },
-    // eslint-disable-next-line
-    [setUserInfo],
-  );
-
   const meetingListHandler = useCallback(async () => {
     const result = await getMeetings();
-    console.log(result);
     if (!result.success || !result.data) return;
-
     if (result.data) setMeetings(result.data);
   }, [setMeetings]);
-
-  const miniPresetHandler = useCallback(() => {
-    mini.startPreset({
-      preset: process.env.MINI_PRESET_URL || '',
-      params: {
-        appId: process.env.APP_ID || '',
-      },
-      async onSuccess(result) {
-        if (result && result.code) userInfoHandler(result.code);
-      },
-    });
-  }, [userInfoHandler]);
 
   useEffect(() => {
     if (!onBoard) {
       replace('/onboarding');
       return;
     }
-    const code = getCodefromUrl(location.search);
-    console.log('code', code);
-    if (code) userInfoHandler(code);
-    else miniPresetHandler();
-  }, [miniPresetHandler, onBoard, replace, userInfoHandler]);
+  }, [onBoard, replace]);
 
   useEffect(() => {
-    const auth = cookie.get('Authorization');
-    if (!auth) return;
-    meetingListHandler();
-  }, [cookie, meetingListHandler]);
+    if (auth) meetingListHandler();
+    // else replace('/reservation');
+    // eslint-disable-next-line
+  }, [cookie, meetingListHandler, auth]);
 
-  return (
+  return !auth ? (
+    <div>인증중!</div>
+  ) : (
     <PageWrapper>
       <ScreenHelmet
         appendLeft={<PageTitle>{LANDING.NAVIGATOR_TITLE}</PageTitle>}
@@ -121,9 +79,8 @@ function LandingPage(): ReactElement {
       <Banner>{/* TODO: 배너 이미지 삽입*/}랜.동.모 하이~👋</Banner>
       <MeetingList title={LANDING.CURRENT_MEETING} />
       <MeetingList title={LANDING.UPCOMING_MEETING} />
-      {/* <MeetingList title={LANDING.TOMORROW_MEETING} /> */}
     </PageWrapper>
   );
-}
+};
 
 export default LandingPage;
