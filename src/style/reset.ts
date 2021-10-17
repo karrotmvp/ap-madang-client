@@ -86,7 +86,8 @@ const reset = css`
   time,
   mark,
   audio,
-  video {
+  video,
+  textarea {
     margin: 0;
     padding: 0;
     border: 0;
@@ -131,7 +132,8 @@ const reset = css`
     border-spacing: 0;
   }
   html,
-  body {
+  body,
+  textarea {
     height: 100%;
     font-size: 62.5%;
     font-family: 'Pretendard';
