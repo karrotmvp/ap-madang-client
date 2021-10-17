@@ -1,23 +1,19 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
-import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
+import { ScreenHelmet } from '@karrotframe/navigator';
 import Cookies from 'universal-cookie';
 
 function OnBoardingPage(): ReactElement {
   const cookie = new Cookies();
-  const { replace } = useNavigator();
-  const popHandler = () => {
+
+  useEffect(() => {
     cookie.set('onboard', true);
-    replace('/');
-  };
+  }, [cookie]);
 
   return (
     <div>
       <ScreenHelmet />
-      <div
-        onClick={popHandler}
-        style={{ height: '30px', border: '1px solid black' }}
-      >
+      <div style={{ height: '30px', border: '1px solid black' }}>
         onBoarding Page입니다.
       </div>
     </div>

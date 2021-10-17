@@ -4,6 +4,7 @@ import React, { useCallback, useEffect } from 'react';
 import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
+import { Link } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Cookies from 'universal-cookie';
 
@@ -47,6 +48,8 @@ const LandingPage: React.FC = () => {
   const cookie = new Cookies();
   const setMeetings = useSetRecoilState(meetingsAtom);
   const userInfo = useRecoilValue(userInfoAtom);
+  const onBoard = cookie.get('onboard');
+  const { push } = useNavigator();
 
   const meetingListHandler = useCallback(async () => {
     const result = await getMeetings();
@@ -62,20 +65,26 @@ const LandingPage: React.FC = () => {
     console.log(userInfo);
 
     if (!onBoard) {
+      console.log('onBoard');
+      push('/onboarding');
       return;
     }
     if (userInfo) meetingListHandler();
     // eslint-disable-next-line
-  }, [meetingListHandler, userInfo, onBoard]);
+  }, [meetingListHandler, userInfo, onBoard, push]);
 
   return !userInfo ? (
-    <div>인증중!</div>
+    <div>
+      인증중!
+      <Link to="/suggestion/meeting">meeting 제안</Link>
+    </div>
   ) : (
     <PageWrapper>
       <ScreenHelmet
         appendLeft={<PageTitle>{LANDING.NAVIGATOR_TITLE}</PageTitle>}
       />
       <Banner>{/* TODO: 배너 이미지 삽입*/}랜.동.모 하이~👋</Banner>
+      <div onClick={() => push('/suggestion/meeting')}>meeting 제안</div>
       <MeetingList title={LANDING.CURRENT_MEETING} />
       <MeetingList title={LANDING.UPCOMING_MEETING} />
     </PageWrapper>
