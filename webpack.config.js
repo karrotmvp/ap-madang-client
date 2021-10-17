@@ -47,7 +47,7 @@ module.exports = {
       directory: '/',
     },
     port: 3000,
-    hot: 'only',
+    hot: true,
     historyApiFallback: true,
   },
 
