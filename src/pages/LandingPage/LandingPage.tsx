@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -11,7 +11,7 @@ import { getMeetings } from '../../api/meeting';
 import MeetingList from '../../components/MeetingList/MeetingList';
 import { LANDING } from '../../constant/message';
 import { meetingsAtom } from '../../store/meeting';
-import { authAtom } from '../../store/user';
+import { userInfoAtom } from '../../store/user';
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -46,30 +46,29 @@ const Banner = styled.div`
 const LandingPage: React.FC = () => {
   const cookie = new Cookies();
   const setMeetings = useSetRecoilState(meetingsAtom);
-  const auth = useRecoilValue(authAtom);
-  const [onBoard] = useState(cookie.get('onboard'));
-  const { replace } = useNavigator();
+  const userInfo = useRecoilValue(userInfoAtom);
 
   const meetingListHandler = useCallback(async () => {
     const result = await getMeetings();
-    if (!result.success || !result.data) return;
+    console.log('meetingListHandler', new Cookies().get('Authorization'));
+    if (!result.success || !result.data) {
+      console.log(result);
+      return;
+    }
     if (result.data) setMeetings(result.data);
   }, [setMeetings]);
 
   useEffect(() => {
+    console.log(userInfo);
+
     if (!onBoard) {
-      replace('/onboarding');
       return;
     }
-  }, [onBoard, replace]);
-
-  useEffect(() => {
-    if (auth) meetingListHandler();
-    // else replace('/reservation');
+    if (userInfo) meetingListHandler();
     // eslint-disable-next-line
-  }, [cookie, meetingListHandler, auth]);
+  }, [meetingListHandler, userInfo, onBoard]);
 
-  return !auth ? (
+  return !userInfo ? (
     <div>인증중!</div>
   ) : (
     <PageWrapper>

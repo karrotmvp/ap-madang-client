@@ -28,6 +28,7 @@
     "@karrotmarket/mini": "^0.11.3",
     "axios": "^0.22.0",
     "dotenv-webpack": "^7.0.3",
+    "jwt-decode": "^3.1.2",
     "karrotframe": "^0.16.11",
     "react": "^17.0.2",
     "react-cookie": "^4.1.1",
