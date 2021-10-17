@@ -4,9 +4,9 @@ import { css } from '@emotion/css';
 import { Navigator, Screen } from '@karrotframe/navigator';
 import Mini from '@karrotmarket/mini';
 
-// import Auth from './hoc/Auth';
-import Auth from './HOC/Auth';
+import Auth from './hoc/Auth';
 import LandingPage from './pages/LandingPage/LandingPage';
+import MeetingSuggestionPage from './pages/MeetingSuggestionPage/MeetingSuggestionPage';
 import OnBoardingPage from './pages/OnBoardingPage/OnBoardingPage';
 import ReservationPage from './pages/ReservationPage/ReservationPage';
 import { checkMobileType } from './util/utils';
@@ -25,6 +25,7 @@ const App: React.FC = () => (
   >
     <Screen path="/" component={Auth({ Component: LandingPage })} />
     <Screen path="/onboarding" component={OnBoardingPage} />
+    <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
     <Screen path="/reservation" component={ReservationPage} />
   </Navigator>
 );
