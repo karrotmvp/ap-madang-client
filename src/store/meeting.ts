@@ -7,7 +7,7 @@ export const meetingsAtom = atom({
 
 export const currMeetings = selector({
   key: 'CurrentMeetings',
-  get: async ({ get }) => {
+  get: ({ get }) => {
     const meetings = get(meetingsAtom);
     if (meetings.length === 0) return 0;
     return meetings.filter(el => el.is_live);
@@ -16,7 +16,7 @@ export const currMeetings = selector({
 
 export const upcomingMeetings = selector({
   key: 'UpcomingMeetings',
-  get: async ({ get }) => {
+  get: ({ get }) => {
     const meetings = get(meetingsAtom);
     if (meetings.length === 0) return 0;
     return meetings.filter(el => !el.is_live);
