@@ -2,7 +2,7 @@ import customAxios from '../util/request';
 
 export const login = async ({ code, regionId }: loginReq) => {
   try {
-    const result: loginRes = await customAxios.post('/users/login', {
+    const result: loginRes = await customAxios().post('/users/login', {
       code,
       region_id: regionId,
     });
