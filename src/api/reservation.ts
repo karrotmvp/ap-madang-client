@@ -6,7 +6,7 @@ export const alarmReservation = async ({
   suggestion,
 }: alarmReservationReq): Promise<alarmReservationRes> => {
   try {
-    await customAxios.post('/reservation/', {
+    await customAxios().post('/reservation/', {
       code,
       region_id: regionId,
       suggestion,
@@ -21,7 +21,7 @@ export const getRegionName = async ({
   region_id,
 }: getRegionNameReq): Promise<getRegionNameRes> => {
   try {
-    const result = await customAxios.get<regionNameFetchRes>(
+    const result = await customAxios().get<regionNameFetchRes>(
       '/reservation/region',
       {
         params: { region_id },

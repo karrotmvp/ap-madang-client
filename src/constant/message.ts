@@ -29,3 +29,13 @@ export const LANDING = {
   UPCOMING_MEETING: '오늘 오픈예정인 모임',
   TOMORROW_MEETING: '내일 오픈예정인 모임',
 };
+
+export const SUGGESTION = {
+  NAVIGATOR_TITLE: '모임 건의하기',
+  SUBMIT_BUTTON: '의견 전달하기',
+  CONFITM_BUTTON: '확인',
+  TELL_ME_NEW_MEETING: '이웃과 함께하고 싶은 모임을 말해주세요.',
+  NEW_MEETING_INPUT_PLACEHOLDER:
+    '근처 주민들과 함께하고 싶은 모임이나 나누고 싶은 이야기를 적어주세요.',
+  DONE_SUBMIT_TITLE: `소중한 이야기가\n잘 전달되었어요.`,
+};

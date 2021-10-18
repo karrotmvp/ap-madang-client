@@ -8,7 +8,8 @@ function OnBoardingPage(): ReactElement {
 
   useEffect(() => {
     cookie.set('onboard', true);
-  }, [cookie]);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div>

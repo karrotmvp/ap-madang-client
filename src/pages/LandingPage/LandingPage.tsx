@@ -4,7 +4,6 @@ import React, { useCallback, useEffect } from 'react';
 import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
-import { Link } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Cookies from 'universal-cookie';
 
@@ -53,32 +52,22 @@ const LandingPage: React.FC = () => {
 
   const meetingListHandler = useCallback(async () => {
     const result = await getMeetings();
-    console.log('meetingListHandler', new Cookies().get('Authorization'));
     if (!result.success || !result.data) {
-      console.log(result);
       return;
     }
     if (result.data) setMeetings(result.data);
   }, [setMeetings]);
 
   useEffect(() => {
-    console.log(userInfo);
-
     if (!onBoard) {
-      console.log('onBoard');
       push('/onboarding');
       return;
     }
     if (userInfo) meetingListHandler();
     // eslint-disable-next-line
-  }, [meetingListHandler, userInfo, onBoard, push]);
+  }, [meetingListHandler, userInfo, onBoard]);
 
-  return !userInfo ? (
-    <div>
-      인증중!
-      <Link to="/suggestion/meeting">meeting 제안</Link>
-    </div>
-  ) : (
+  return (
     <PageWrapper>
       <ScreenHelmet
         appendLeft={<PageTitle>{LANDING.NAVIGATOR_TITLE}</PageTitle>}
