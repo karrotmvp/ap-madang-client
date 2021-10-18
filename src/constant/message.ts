@@ -22,3 +22,10 @@ export const RESERVATION = {
     FAIL_TEXT: '알림 신청에 실패했어요. 다시 시도해주세요.',
   },
 };
+
+export const LANDING = {
+  NAVIGATOR_TITLE: '랜선동네모임',
+  CURRENT_MEETING: '현재 진행중인 모임',
+  UPCOMING_MEETING: '오늘 오픈예정인 모임',
+  TOMORROW_MEETING: '내일 오픈예정인 모임',
+};

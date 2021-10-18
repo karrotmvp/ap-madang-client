@@ -1,5 +1,6 @@
 export const COLOR = {
   TEXT_BLACK: '#111111',
+  TEXT_REAL_BLACK: '#000000',
   TEXT_GRAY: '#767676',
   TEXT_WHITE: '#ffffff',
   BACKGROUND_WHITE: '#ffffff',
@@ -14,4 +15,5 @@ export const COLOR = {
   DISABLE_BTN: '#DFE1E3',
   PLACEHOLDER_GRAY: '#c6c9cc',
   INPUT_BORDER_GRAY: '#a6aaae',
+  BACKGROUND_MEETING_CARD: 'rgba(243, 244, 245, 0.5)',
 };

@@ -28,12 +28,14 @@
     "@karrotmarket/mini": "^0.11.3",
     "axios": "^0.22.0",
     "dotenv-webpack": "^7.0.3",
+    "jwt-decode": "^3.1.2",
     "karrotframe": "^0.16.11",
     "react": "^17.0.2",
     "react-cookie": "^4.1.1",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-router-dom": "^5.3.0",
+    "recoil": "^0.4.1",
     "ts-node": "^10.2.1"
   },
   "devDependencies": {
