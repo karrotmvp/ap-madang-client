@@ -10,7 +10,7 @@ export const currMeetings = selector({
   get: ({ get }) => {
     const meetings = get(meetingsAtom);
     if (meetings.length === 0) return 0;
-    return meetings.filter(el => el.is_live);
+    return meetings.filter(el => el.live_status === 'live');
   },
 });
 
@@ -19,14 +19,24 @@ export const upcomingMeetings = selector({
   get: ({ get }) => {
     const meetings = get(meetingsAtom);
     if (meetings.length === 0) return 0;
-    return meetings.filter(el => !el.is_live);
+    return meetings.filter(el => el.live_status === 'upcoming');
+  },
+});
+
+export const tomorrowMeetings = selector({
+  key: 'TomorrowMeetings',
+  get: ({ get }) => {
+    const meetings = get(meetingsAtom);
+    if (meetings.length === 0) return 0;
+    return meetings.filter(el => el.live_status === 'finish');
   },
 });
 
 export interface meetingType {
   id: number;
   title: string;
-  start_time: Date;
-  end_time: Date;
-  is_live: boolean;
+  start_time: string;
+  end_time: string;
+  alarm_id: number | undefined;
+  live_status: 'live' | 'finish' | 'upcoming';
 }
