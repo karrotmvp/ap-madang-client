@@ -24,7 +24,8 @@ const App: React.FC = () => (
     onClose={() => mini.close()}
     className={NavigatorStyle}
   >
-    <Screen path="/" component={Auth({ Component: LandingPage })} />
+    <Screen path="/" component={Auth(LandingPage)} />
+    {/* <Screen path="/" component={Auth({ Component: LandingPage })} /> */}
     <Screen path="/meetings/:id" component={MeetingDetailPage} />
     <Screen path="/onboarding" component={OnBoardingPage} />
     <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
