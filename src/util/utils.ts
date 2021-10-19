@@ -21,6 +21,27 @@ export const getCodefromUrl = (search: string) => {
   const urlSearchParams = new URLSearchParams(search);
   return urlSearchParams.get('code');
 };
+
+export const getRemainTime = (start_time: string) => {
+  const today = new Date();
+  const currHour = today.getHours();
+  const currMin = today.getMinutes();
+  const startTimeArr = start_time.split(':');
+
+  let hourDiff = parseInt(startTimeArr[0]) - currHour;
+  let minDiff = parseInt(startTimeArr[1]) - currMin;
+
+  let result = '';
+  if (minDiff < 0) {
+    hourDiff -= 1;
+    minDiff += 60;
+  }
+  if (hourDiff > 0) result += `${hourDiff}시간 `;
+  if (minDiff > 0) result += `${minDiff}분 `;
+
+  return result;
+};
+
 const getTimeText = (hour: number, min: number) => {
   let tempTimeText = '';
   if (hour !== 0 && hour < 12) tempTimeText += `오전 ${hour}시`;
