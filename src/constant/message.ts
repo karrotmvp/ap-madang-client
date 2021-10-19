@@ -39,3 +39,34 @@ export const SUGGESTION = {
     '근처 주민들과 함께하고 싶은 모임이나 나누고 싶은 이야기를 적어주세요.',
   DONE_SUBMIT_TITLE: `소중한 이야기가\n잘 전달되었어요.`,
 };
+
+export const MEETING_DETAIL = {
+  MANNER_INFO_CARD: '즐거운 랜선동네모임을 위한\n대화 매너에 대해 알아보세요',
+  DESCRIPTION_TITLE1: '이런 분이면 참여해보세요!',
+  DESCRIPTION_TITLE2: '이런 주제로 대화를 나눠보세요!',
+  JOIN_NOW: '지금 참여하기',
+  CLOSE_MEETING: '오늘은 종료된 모임이에요',
+  JOIN_LATER: ' 후부터 참여할 수 있어요',
+  GUIDE: {
+    TITLE: '즐거운 랜선동네모임을 위해\n함께 지켜주세요!',
+    SUB_TITLE: [
+      {
+        BOLD: '첫째, ',
+        TEXT: '서로 배려하고 존댓말로 대화해요.',
+      },
+      {
+        BOLD: '둘째, ',
+        TEXT: '이웃 모두가 함께 나눌 수 있는 대화를 해요.',
+      },
+      {
+        BOLD: '셋째, ',
+        TEXT: '카메라를 켜라고 강요하지 않기로 해요.',
+      },
+      {
+        BOLD: '넷째, ',
+        TEXT: '이웃을 공개적으로 비방하지 않기로 해요.',
+      },
+    ],
+    CLOSE: '닫기',
+  },
+};
