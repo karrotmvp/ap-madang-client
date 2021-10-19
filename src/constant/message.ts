@@ -25,9 +25,22 @@ export const RESERVATION = {
 
 export const LANDING = {
   NAVIGATOR_TITLE: '랜선동네모임',
-  CURRENT_MEETING: '현재 진행중인 모임',
-  UPCOMING_MEETING: '오늘 오픈예정인 모임',
-  TOMORROW_MEETING: '내일 오픈예정인 모임',
+  CURRENT_MEETING: '지금 이웃들이 참여하고 있는 모임',
+  UPCOMING_MEETING: '오늘 참여할 수 있는 모임',
+  TOMORROW_MEETING: '미리 보는 내일 모임',
+};
+
+export const COMMON = {
+  NEW_ALARM_MODAL: {
+    TEXT: '모임 오픈 알림을 설정했어요.\n선택한 모임이 시작되면\n알림으로 바로알려드릴게요.',
+  },
+  DELETE_ALARM_MODAL: {
+    TITLE: '선택한 모임의 시작 알림을\n해제하시겠어요?',
+    SUB_TITLE: '알림받기를 해제하면 모임이 시작될 때 알림을 받을 수 없어요.',
+    DONE_DELETE: '선택한 모임의 알림이\n해제되었어요.',
+    CLOSE: '닫기',
+    DELETE: '해제하기',
+  },
 };
 
 export const SUGGESTION = {
