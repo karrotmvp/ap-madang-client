@@ -142,6 +142,7 @@ const reset = css`
 
   #root {
     height: 100%;
+    white-space: pre-line;
   }
 `;
 
