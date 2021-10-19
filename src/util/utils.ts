@@ -21,3 +21,37 @@ export const getCodefromUrl = (search: string) => {
   const urlSearchParams = new URLSearchParams(search);
   return urlSearchParams.get('code');
 };
+const getTimeText = (hour: number, min: number) => {
+  let tempTimeText = '';
+  if (hour !== 0 && hour < 12) tempTimeText += `오전 ${hour}시`;
+  else if (hour === 0) tempTimeText += `오전 12시`;
+  else if (hour === 12) tempTimeText += `오후 ${hour}시`;
+  else tempTimeText += `오후 ${hour - 12}시`;
+
+  if (min === 0) return tempTimeText;
+  else tempTimeText += ` ${min}분`;
+  return tempTimeText;
+};
+
+export const getTimeForm = (
+  start_time: string,
+  end_time: string,
+  live_status: 'live' | 'finish' | 'upcoming',
+) => {
+  let text = '';
+  const startTimeArr = start_time.split(':');
+  const endTimeArr = end_time.split(':');
+
+  if (live_status === 'live')
+    return `${getTimeText(
+      parseInt(endTimeArr[0]),
+      parseInt(endTimeArr[1]),
+    )}에 모임이 종료돼요`;
+
+  if (live_status === 'finish') text += '내일 ';
+  else text += '오늘';
+  text += getTimeText(parseInt(startTimeArr[0]), parseInt(startTimeArr[1]));
+  text += '~';
+  text += getTimeText(parseInt(endTimeArr[0]), parseInt(endTimeArr[1]));
+  return text;
+};
