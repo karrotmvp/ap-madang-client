@@ -5,7 +5,11 @@ import { useRecoilValue } from 'recoil';
 
 import { COLOR } from '../../constant/color';
 import { LANDING } from '../../constant/message';
-import { currMeetings, upcomingMeetings } from '../../store/meeting';
+import {
+  currMeetings,
+  tomorrowMeetings,
+  upcomingMeetings,
+} from '../../store/meeting';
 import MeetingCard from '../MeetingCard/MeetingCard';
 
 interface Props {
@@ -14,29 +18,49 @@ interface Props {
 
 const MeetingListWrapper = styled.div`
   box-sizing: border-box;
-  margin: 0 1.6rem 3rem 1.6rem;
+  padding: 3rem 1.6rem 3rem 1.6rem;
+`;
+
+const MeetingCounter = styled.span`
+  font-weight: 600;
+  font-size: 1.8rem;
+  line-height: 2.8rem;
+  letter-spacing: -0.04rem;
+  color: ${COLOR.LIGHT_GREEN};
+  margin-left: 0.6rem;
 `;
 
 const ListTitle = styled.div`
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 19px;
-  letter-spacing: -0.3px;
+  font-weight: bold;
+  font-size: 1.8rem;
+  line-height: 2.8rem;
+  letter-spacing: -0.04rem;
   color: ${COLOR.TEXT_REAL_BLACK};
-  margin: 0 0 1.2rem 0.4rem;
+  padding-left: 0.4rem;
 `;
 
 function MeetingList({ title }: Props): ReactElement {
   const meetings = useRecoilValue(
-    title === LANDING.CURRENT_MEETING ? currMeetings : upcomingMeetings,
+    title === LANDING.CURRENT_MEETING
+      ? currMeetings
+      : title === LANDING.UPCOMING_MEETING
+      ? upcomingMeetings
+      : tomorrowMeetings,
   );
 
   return (
     <MeetingListWrapper>
-      <ListTitle>{title}</ListTitle>
+      <ListTitle>
+        {title}
+        {title !== LANDING.CURRENT_MEETING && (
+          <MeetingCounter>
+            {meetings && meetings.length.toString()}
+          </MeetingCounter>
+        )}
+      </ListTitle>
       {meetings !== 0 ? (
-        meetings.map(el => {
-          return <MeetingCard key={el.id} data={el} />;
+        meetings.map((el, idx) => {
+          return <MeetingCard key={el.id} data={el} idx={idx} />;
         })
       ) : (
         <div>loading.....</div>
