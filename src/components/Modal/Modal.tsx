@@ -1,14 +1,16 @@
 /** @jsx jsx */
 import React, { ReactElement } from 'react';
 
-import { jsx } from '@emotion/react';
+import { jsx, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { COLOR } from '../../constant/color';
 
 interface Props {
-  onClose: () => void;
+  onClose?: React.MouseEventHandler<HTMLDivElement>;
   children: React.ReactNode;
+  className?: string;
+  innerModalStyle?: SerializedStyles;
 }
 
 const ModalWrapper = styled.div`
@@ -24,6 +26,7 @@ const ModalWrapper = styled.div`
   height: 100%;
   background: ${COLOR.MODAL_WRAPPER_BLACK};
   box-sizing: border-box;
+  border-radius: 0;
 
   z-index: 1000;
 `;
@@ -42,10 +45,21 @@ const ModalInner = styled.div`
   box-sizing: border-box;
 `;
 
-function Modal({ onClose, children }: Props): ReactElement {
+function Modal({
+  onClose,
+  children,
+  className,
+  innerModalStyle,
+}: Props): ReactElement {
+  const onCloseHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    onClose && onClose(e);
+  };
   return (
-    <ModalWrapper onClick={onClose}>
-      <ModalInner onClick={e => e.stopPropagation()}>{children}</ModalInner>
+    <ModalWrapper onClick={onCloseHandler} className={className}>
+      <ModalInner onClick={e => e.stopPropagation()} css={innerModalStyle}>
+        {children}
+      </ModalInner>
     </ModalWrapper>
   );
 }

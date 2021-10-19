@@ -25,9 +25,22 @@ export const RESERVATION = {
 
 export const LANDING = {
   NAVIGATOR_TITLE: '랜선동네모임',
-  CURRENT_MEETING: '현재 진행중인 모임',
-  UPCOMING_MEETING: '오늘 오픈예정인 모임',
-  TOMORROW_MEETING: '내일 오픈예정인 모임',
+  CURRENT_MEETING: '지금 이웃들이 참여하고 있는 모임',
+  UPCOMING_MEETING: '오늘 참여할 수 있는 모임',
+  TOMORROW_MEETING: '미리 보는 내일 모임',
+};
+
+export const COMMON = {
+  NEW_ALARM_MODAL: {
+    TEXT: '모임 오픈 알림을 설정했어요.\n선택한 모임이 시작되면\n알림으로 바로알려드릴게요.',
+  },
+  DELETE_ALARM_MODAL: {
+    TITLE: '선택한 모임의 시작 알림을\n해제하시겠어요?',
+    SUB_TITLE: '알림받기를 해제하면 모임이 시작될 때 알림을 받을 수 없어요.',
+    DONE_DELETE: '선택한 모임의 알림이\n해제되었어요.',
+    CLOSE: '닫기',
+    DELETE: '해제하기',
+  },
 };
 
 export const SUGGESTION = {
@@ -38,4 +51,35 @@ export const SUGGESTION = {
   NEW_MEETING_INPUT_PLACEHOLDER:
     '근처 주민들과 함께하고 싶은 모임이나 나누고 싶은 이야기를 적어주세요.',
   DONE_SUBMIT_TITLE: `소중한 이야기가\n잘 전달되었어요.`,
+};
+
+export const MEETING_DETAIL = {
+  MANNER_INFO_CARD: '즐거운 랜선동네모임을 위한\n대화 매너에 대해 알아보세요',
+  DESCRIPTION_TITLE1: '이런 분이면 참여해보세요!',
+  DESCRIPTION_TITLE2: '이런 주제로 대화를 나눠보세요!',
+  JOIN_NOW: '지금 참여하기',
+  CLOSE_MEETING: '오늘은 종료된 모임이에요',
+  JOIN_LATER: ' 후부터 참여할 수 있어요',
+  GUIDE: {
+    TITLE: '즐거운 랜선동네모임을 위해\n함께 지켜주세요!',
+    SUB_TITLE: [
+      {
+        BOLD: '첫째, ',
+        TEXT: '서로 배려하고 존댓말로 대화해요.',
+      },
+      {
+        BOLD: '둘째, ',
+        TEXT: '이웃 모두가 함께 나눌 수 있는 대화를 해요.',
+      },
+      {
+        BOLD: '셋째, ',
+        TEXT: '카메라를 켜라고 강요하지 않기로 해요.',
+      },
+      {
+        BOLD: '넷째, ',
+        TEXT: '이웃을 공개적으로 비방하지 않기로 해요.',
+      },
+    ],
+    CLOSE: '닫기',
+  },
 };

@@ -8,28 +8,21 @@ import { login } from '../api/user';
 import { codeSelector, userInfoAtom } from '../store/user';
 import { getRegionId } from '../util/utils';
 
-type Props = {
-  Component: React.FC;
-  option?: boolean;
-};
-
 type TokenPayloadType = {
   code: string;
   nickname: string;
   region: string;
 } & JwtPayload;
 
-export default function Auth({ Component, option }: Props) {
+export default function Auth(Component: React.FC) {
   const AuthenticateCheck = (
     props: JSX.IntrinsicAttributes & {
       children?: React.ReactNode;
     },
   ) => {
     const cookie = new Cookies();
-
-    const jwtToken = cookie.get('Authorization');
     const code = useRecoilValue(codeSelector);
-
+    const jwtToken = cookie.get('Authorization');
     const setUserInfo = useSetRecoilState(userInfoAtom);
 
     const userInfoHandler = useCallback(
@@ -53,7 +46,7 @@ export default function Auth({ Component, option }: Props) {
     );
 
     useEffect(() => {
-      console.log('Auth UseEffect - auth', option);
+      console.log('Auth UseEffect - auth');
       if (jwtToken) {
         const decodedJwt: TokenPayloadType = jwt_decode(jwtToken);
         if (decodedJwt.code === code) {

@@ -5,6 +5,7 @@ import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
 import { IoEllipse } from 'react-icons/io5';
 import { useRecoilValue } from 'recoil';
 
+import { meetingSuggestion } from '../../api/suggestion';
 import Bulb from '../../assets/icon/Bulb';
 import { COLOR } from '../../constant/color';
 import { SUGGESTION } from '../../constant/message';
@@ -130,10 +131,11 @@ const MeetingSuggestionPage = () => {
     setText(e.target.value);
   };
 
-  const onSubmitHandler = () => {
+  const onSubmitHandler = async () => {
     if (text.length === 0) return;
     /* TODO: submit axios */
-    setsubmit(true);
+    const result = await meetingSuggestion(text);
+    if (result.success) setsubmit(true);
   };
 
   const Title = useMemo(() => {

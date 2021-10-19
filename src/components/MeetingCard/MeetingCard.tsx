@@ -1,51 +1,98 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useCallback, useState } from 'react';
 
 import styled from '@emotion/styled';
+import { useNavigator } from '@karrotframe/navigator';
+import { useSetRecoilState } from 'recoil';
 
+import { deleteAlarm, newAlarm } from '../../api/alarm';
+import card_noti_off from '../../assets/icon/card_noti_off.svg';
+import card_noti_on from '../../assets/icon/card_noti_on.svg';
 import { COLOR } from '../../constant/color';
-import { meetingType } from '../../store/meeting';
+import { meetingsAtom, meetingType } from '../../store/meeting';
+import { getTimeForm } from '../../util/utils';
+import DeleteAlarmModal from '../Modal/DeleteAlarmModal';
+import NewAlarmModal from '../Modal/NewAlarmModal';
 
 interface Props {
   data: meetingType;
+  idx: number;
 }
 
-const MeetingCardWrapper = styled.div`
+interface WrapperProps {
+  idx: number;
+}
+
+const MeetingCardWrapper = styled.div<WrapperProps>`
   box-sizing: border-box;
-  margin: 1rem 0 1.6rem 0;
-  padding: 1.6rem;
+  margin: 0 0 1.6rem 0;
+  height: auto;
+  padding: 1.6rem 1.6rem 1.7rem 1.6rem;
   display: flex;
   flex-direction: column;
   word-break: keep-all;
-  background-color: ${COLOR.BACKGROUND_MEETING_CARD};
+  background-color: ${COLOR.TEXT_WHITE};
   border-radius: 0.6rem;
+  border: 1px solid ${COLOR.TEXTAREA_LIGHT_GRAY};
+  box-sizing: border-box;
+  margin-top: ${props => (props.idx === 0 ? '1.8rem' : 0)};
 `;
 
-const CardHeader = styled.div`
+const ContentsWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
+`;
+
+const InfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const AlarmWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+`;
+const CardHeader = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const MeetingTime = styled.div`
   color: ${COLOR.TEXT_GRAY};
-  font-size: 1.4rem;
-  line-height: 1.7rem;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
   letter-spacing: -0.03rem;
+  color: ${COLOR.LIGHT_GREEN};
 `;
 
 interface MeetingTitleType {
-  isLive: boolean;
+  live_status: 'live' | 'finish' | 'upcoming';
 }
 
 const MeetingTitle = styled.div`
-  margin: 1rem 5rem 2.2rem 0;
   color: ${COLOR.TEXT_BLACK};
   font-size: 1.6rem;
   line-height: 2.4rem;
-  letter-spacing: -0.02rem;
-  margin-bottom: ${({ isLive }: MeetingTitleType) =>
-    isLive ? '2.2rem' : '0.6rem'};
+  letter-spacing: -0.03rem;
+  margin-bottom: ${({ live_status }: MeetingTitleType) =>
+    live_status === 'live'
+      ? '0.8rem'
+      : live_status === 'upcoming'
+      ? '1rem'
+      : '0'};
+  margin-top: ${({ live_status }: MeetingTitleType) =>
+    live_status === 'live' ? '0.8rem' : '.4rem'};
+`;
+
+const LiveTag = styled.span`
+  font-weight: bold;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  letter-spacing: -0.03rem;
+  color: ${COLOR.ORANGE};
+  margin-right: 0.5rem;
 `;
 
 const CardFooter = styled.div`
@@ -62,21 +109,93 @@ const FooterText = styled.div`
   color: ${COLOR.TEXT_GRAY};
 `;
 
-function MeetingCard({ data }: Props): ReactElement {
-  return (
-    <MeetingCardWrapper>
-      <CardHeader>
-        <MeetingTime>
-          📡 {data.start_time} ~ {data.end_time}
-        </MeetingTime>
-        {/* TODO: 알림 설정 API 및 알림 상태 업데이트 */}
-        <div style={{ fontSize: '30px' }}>🔔</div>
-      </CardHeader>
+function MeetingCard({ idx, data }: Props): ReactElement {
+  const setMeetings = useSetRecoilState(meetingsAtom);
+  const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
+  const [openDeleteAlarmModal, setOpenDeleteAlarmModal] = useState(false);
 
-      <MeetingTitle isLive={data.is_live}>{data.title}</MeetingTitle>
-      {data.is_live && (
+  const { push } = useNavigator();
+
+  const deleteAlarmHandler = useCallback(async () => {
+    if (data?.alarm_id) {
+      const result = await deleteAlarm(data.alarm_id.toString());
+      if (result.success) {
+        setMeetings(el =>
+          el.map(prevState => {
+            if (prevState.id === data.id) {
+              return { ...prevState, alarm_id: undefined };
+            }
+            return { ...prevState };
+          }),
+        );
+        return true;
+      }
+    }
+    return false;
+  }, [data.alarm_id, data.id, setMeetings]);
+
+  const alarmHandler = useCallback(
+    async e => {
+      e.stopPropagation();
+      if (data?.alarm_id) {
+        setOpenDeleteAlarmModal(true);
+      } else if (data.id) {
+        const result = await newAlarm(data.id.toString());
+        if (result.success && result.data?.id) {
+          setMeetings(el =>
+            el.map(prevState => {
+              if (prevState.id === data.id && result.data?.id) {
+                return { ...prevState, alarm_id: result.data?.id };
+              }
+              return prevState;
+            }),
+          );
+          setOpenNewAlarmModal(true);
+        }
+      }
+    },
+    [data.alarm_id, data.id, setMeetings],
+  );
+
+  const onClickCardHandler = useCallback(() => {
+    push(`/meetings/${data.id}`);
+  }, [data.id, push]);
+
+  return (
+    <MeetingCardWrapper onClick={onClickCardHandler} idx={idx}>
+      {openNewAlarmModal && (
+        <NewAlarmModal closeHandler={() => setOpenNewAlarmModal(false)} />
+      )}
+      {openDeleteAlarmModal && (
+        <DeleteAlarmModal
+          closeHandler={() => setOpenDeleteAlarmModal(false)}
+          deleteAlarmHandler={deleteAlarmHandler}
+        />
+      )}
+      <ContentsWrapper>
+        <InfoWrapper>
+          <CardHeader>
+            <MeetingTime>
+              {data.live_status === 'live' && <LiveTag>진행중</LiveTag>}
+              {getTimeForm(data.start_time, data.end_time, data.live_status)}
+            </MeetingTime>
+          </CardHeader>
+
+          <MeetingTitle live_status={data.live_status}>
+            {data.title}
+          </MeetingTitle>
+        </InfoWrapper>
+        <AlarmWrapper>
+          {data.alarm_id ? (
+            <img src={card_noti_on} onClick={alarmHandler} />
+          ) : (
+            <img src={card_noti_off} onClick={alarmHandler} />
+          )}
+        </AlarmWrapper>
+      </ContentsWrapper>
+      {data.live_status !== 'finish' && (
         <CardFooter>
-          <FooterText>모임에 참여해 이야기를 나눠보세요</FooterText>
+          <FooterText>지금 바로 이웃들과 대화를 나눠보세요</FooterText>
         </CardFooter>
       )}
     </MeetingCardWrapper>

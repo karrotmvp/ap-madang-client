@@ -6,6 +6,7 @@ import Mini from '@karrotmarket/mini';
 
 import Auth from './hoc/Auth';
 import LandingPage from './pages/LandingPage/LandingPage';
+import MeetingDetailPage from './pages/MeetingDetailPage/MeetingDetailPage';
 import MeetingSuggestionPage from './pages/MeetingSuggestionPage/MeetingSuggestionPage';
 import OnBoardingPage from './pages/OnBoardingPage/OnBoardingPage';
 import ReservationPage from './pages/ReservationPage/ReservationPage';
@@ -23,7 +24,9 @@ const App: React.FC = () => (
     onClose={() => mini.close()}
     className={NavigatorStyle}
   >
-    <Screen path="/" component={Auth({ Component: LandingPage })} />
+    <Screen path="/" component={Auth(LandingPage)} />
+    {/* <Screen path="/" component={Auth({ Component: LandingPage })} /> */}
+    <Screen path="/meetings/:id" component={MeetingDetailPage} />
     <Screen path="/onboarding" component={OnBoardingPage} />
     <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
     <Screen path="/reservation" component={ReservationPage} />
