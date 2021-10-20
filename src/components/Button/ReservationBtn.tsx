@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
+import classnames from 'classnames';
 
 import { COLOR } from '../../constant/color';
 
@@ -43,7 +44,11 @@ function ReservationBtn({
   text,
 }: Props): ReactElement {
   return (
-    <BtnStyle className={className} onClick={onClick} disabled={disabled}>
+    <BtnStyle
+      className={classnames('reservation-btn', className)}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {text}
     </BtnStyle>
   );

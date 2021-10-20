@@ -56,10 +56,6 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.div`
-  font-weight: bold;
-  font-size: 2.2rem;
-  line-height: 3rem;
-  letter-spacing: -0.04rem;
   color: ${COLOR.TEXT_BLACK};
   margin-bottom: 0.9rem;
 `;
@@ -70,9 +66,6 @@ const TimeWrapper = styled.div`
   align-items: center;
 `;
 const Time = styled.div`
-  font-size: 1.4rem;
-  line-height: 2.3rem;
-  letter-spacing: -0.03rem;
   color: ${COLOR.TEXT_GRAY};
   margin-left: 0.8rem;
 `;
@@ -91,10 +84,6 @@ const MannerInfoCardWrapper = styled.div`
 `;
 
 const InfoCardTitle = styled.div`
-  font-weight: 600;
-  font-size: 1.6rem;
-  line-height: 2.4rem;
-  letter-spacing: -0.03rem;
   color: ${COLOR.TEXT_BLACK};
 `;
 
@@ -253,7 +242,7 @@ const MeetingDetailPage = () => {
   }, [data.live_status, data.start_time]);
 
   return (
-    <PageWrapper>
+    <PageWrapper className="meeting-detail">
       <ScreenHelmet />
       {openGuideModal && (
         <MeetingGuideModal closeHandler={() => setOpenGuideModal(false)} />
@@ -267,19 +256,19 @@ const MeetingDetailPage = () => {
           deleteAlarmHandler={deleteAlarmHandler}
         />
       )}
-      <ContentsWrapper>
+      <ContentsWrapper className="meeting-detail__contents">
         <BannerImg src={data.image} />
-        <TitleWrapper>
-          <Title>{data?.title}</Title>
+        <TitleWrapper className="meeting-detail__header">
+          <Title className="title1">{data?.title}</Title>
           <TimeWrapper>
             <Clock />
-            <Time>
+            <Time className="body4">
               {data?.start_time} ~ {data?.end_time}
             </Time>
           </TimeWrapper>
         </TitleWrapper>
         <LineDivider />
-        <DescriptionWrapper>
+        <DescriptionWrapper className="meeting-detail__body">
           <DescriptionList
             title={MEETING_DETAIL.DESCRIPTION_TITLE1}
             data={data?.description.recommend_user}
@@ -290,15 +279,20 @@ const MeetingDetailPage = () => {
           />
         </DescriptionWrapper>
         <BlockDivider />
-        <MannerInfoCardWrapper onClick={() => setOpenGuideModal(true)}>
-          <InfoCardTitle>{MEETING_DETAIL.MANNER_INFO_CARD}</InfoCardTitle>
+        <MannerInfoCardWrapper
+          className="meeting-detail__footer-banner"
+          onClick={() => setOpenGuideModal(true)}
+        >
+          <InfoCardTitle className="title3">
+            {MEETING_DETAIL.MANNER_INFO_CARD}
+          </InfoCardTitle>
           <MoreIcon>
             <ExpandRight />
           </MoreIcon>
         </MannerInfoCardWrapper>
         <BlockDivider />
       </ContentsWrapper>
-      <NavBar>
+      <NavBar className="meeting-detail__footer-nav-bar">
         <AlarmBtn onClick={alarmHandler}>
           {data.alarm_id ? (
             <NotificationFilled fill={COLOR.LIGHT_GREEN} />

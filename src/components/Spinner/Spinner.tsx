@@ -37,7 +37,7 @@ const SpinnerIcon = styled(ImSpinner2)`
 
 function Spinner(): ReactElement {
   return (
-    <SpinnerWrapper>
+    <SpinnerWrapper className="spinner">
       <SpinnerIcon />
     </SpinnerWrapper>
   );

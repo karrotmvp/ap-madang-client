@@ -179,7 +179,7 @@ const ReservationPage: React.FC = () => {
   }, [openModal]);
 
   return (
-    <PageWrapper>
+    <PageWrapper className="reservation">
       <NavBar />
       <ReservationStyle>
         {loading && <Spinner />}

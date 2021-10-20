@@ -3,6 +3,7 @@ import { ReactElement, useEffect } from 'react';
 
 import { css, jsx } from '@emotion/react';
 import styled from '@emotion/styled';
+import classnames from 'classnames';
 
 import { COLOR } from '../../constant/color';
 import { COMMON } from '../../constant/message';
@@ -10,6 +11,7 @@ import Modal from './Modal';
 
 interface Props {
   closeHandler: () => void;
+  className?: string;
 }
 
 const InnerModalStyle = css`
@@ -19,14 +21,11 @@ const InnerModalStyle = css`
 `;
 
 const ContentsWrapper = styled.div`
-  font-size: 1.5rem;
-  line-height: 2.5rem;
   text-align: center;
-  letter-spacing: -0.03rem;
   color: ${COLOR.TEXT_BLACK};
 `;
 
-function NewAlarmModal({ closeHandler }: Props): ReactElement {
+function NewAlarmModal({ closeHandler, className }: Props): ReactElement {
   useEffect(() => {
     const closeModal = setTimeout(() => {
       closeHandler();
@@ -37,8 +36,13 @@ function NewAlarmModal({ closeHandler }: Props): ReactElement {
   }, [closeHandler]);
 
   return (
-    <Modal innerModalStyle={InnerModalStyle}>
-      <ContentsWrapper>{COMMON.NEW_ALARM_MODAL.TEXT}</ContentsWrapper>
+    <Modal
+      className={classnames('new-alarm-modal', className)}
+      innerModalStyle={InnerModalStyle}
+    >
+      <ContentsWrapper className="new-alarm-modal__contents body3">
+        {COMMON.NEW_ALARM_MODAL.TEXT}
+      </ContentsWrapper>
     </Modal>
   );
 }

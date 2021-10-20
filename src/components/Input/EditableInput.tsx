@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
+import classnames from 'classnames';
 
 import { COLOR } from '../../constant/color';
 
@@ -8,6 +9,7 @@ interface Props {
   contentEditable?: boolean;
   placeholder?: string;
   formHandler?: React.Dispatch<React.SetStateAction<string>>;
+  className?: string;
 }
 
 const EditableArea = styled.div`
@@ -42,9 +44,11 @@ function EditableInput({
   contentEditable,
   placeholder,
   formHandler,
+  className,
 }: Props): ReactElement {
   return (
     <EditableArea
+      className={classnames('editable-input', className)}
       contentEditable={contentEditable}
       placeholder={placeholder}
       onInput={(e: React.ChangeEvent<HTMLDivElement>) =>

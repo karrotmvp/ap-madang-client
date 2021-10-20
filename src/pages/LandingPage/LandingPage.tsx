@@ -8,6 +8,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Cookies from 'universal-cookie';
 
 import { getMeetings } from '../../api/meeting';
+import nav_close from '../../assets/icon/nav_close.svg';
 import home_banner from '../../assets/image/home_banner.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
 import MeetingList from '../../components/MeetingList/MeetingList';
@@ -24,11 +25,11 @@ const PageWrapper = styled.div`
   box-sizing: border-box;
 `;
 
+const NavCustomBtn = styled.img`
+  margin-left: 1.5rem;
+`;
+
 const PageTitle = styled.div`
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 19px;
-  letter-spacing: -0.02em;
   margin-left: 20px;
 `;
 
@@ -79,17 +80,31 @@ const LandingPage: React.FC = () => {
   }, [meetingListHandler, userInfo, onBoard, push]);
 
   return (
-    <PageWrapper>
+    <PageWrapper className="landing">
       <ScreenHelmet
-        appendLeft={<PageTitle>{LANDING.NAVIGATOR_TITLE}</PageTitle>}
+        customBackButton={<NavCustomBtn src={nav_close} />}
+        appendLeft={
+          <PageTitle className="landing__nav-title title3">
+            {LANDING.NAVIGATOR_TITLE}
+          </PageTitle>
+        }
       />
-      <BannerImg src={home_banner} />
-      <MeetingList title={LANDING.CURRENT_MEETING} />
-      <BlockDivider />
-      <MeetingList title={LANDING.UPCOMING_MEETING} />
-      <BlockDivider />
-      <MeetingList title={LANDING.TOMORROW_MEETING} />
-      <BlockDivider />
+      <BannerImg src={home_banner} className="landing__banner-img" />
+      <MeetingList
+        className="landing__current"
+        title={LANDING.CURRENT_MEETING}
+      />
+      <BlockDivider className="landing__divider" />
+      <MeetingList
+        className="landing__upoming"
+        title={LANDING.UPCOMING_MEETING}
+      />
+      <BlockDivider className="landing__divider" />
+      <MeetingList
+        className="landing__tomorrow"
+        title={LANDING.TOMORROW_MEETING}
+      />
+      <BlockDivider className="landing__divider" />
       <SuggestionBannerWrapper>
         <SuggestionImg
           src={suggestion_img}

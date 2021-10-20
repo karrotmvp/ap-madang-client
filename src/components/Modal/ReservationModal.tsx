@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
+import classnames from 'classnames';
 
 import { COLOR } from '../../constant/color';
 import ReservationBtn from '../Button/ReservationBtn';
@@ -12,6 +13,7 @@ interface Props {
   openHandler: React.Dispatch<React.SetStateAction<string | undefined>>;
   title: string;
   contents: string;
+  className?: string;
 }
 
 const Title = styled.div`
@@ -41,9 +43,13 @@ function ReservationModal({
   openHandler,
   title,
   contents,
+  className,
 }: Props): ReactElement {
   return (
-    <Modal onClose={() => openHandler(undefined)}>
+    <Modal
+      className={classnames('reservation-modal', className)}
+      onClose={() => openHandler(undefined)}
+    >
       <Title>{title}</Title>
       <Contents>{contents}</Contents>
       <ReservationBtnStyle text="확인" onClick={() => openHandler(undefined)} />

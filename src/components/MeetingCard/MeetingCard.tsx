@@ -60,10 +60,6 @@ const CardHeader = styled.div`
 `;
 
 const MeetingTime = styled.div`
-  color: ${COLOR.TEXT_GRAY};
-  font-size: 1.5rem;
-  line-height: 2.5rem;
-  letter-spacing: -0.03rem;
   color: ${COLOR.LIGHT_GREEN};
 `;
 
@@ -73,9 +69,6 @@ interface MeetingTitleType {
 
 const MeetingTitle = styled.div`
   color: ${COLOR.TEXT_BLACK};
-  font-size: 1.6rem;
-  line-height: 2.4rem;
-  letter-spacing: -0.03rem;
   margin-bottom: ${({ live_status }: MeetingTitleType) =>
     live_status === 'live'
       ? '0.8rem'
@@ -162,30 +155,41 @@ function MeetingCard({ idx, data }: Props): ReactElement {
   }, [data.id, push]);
 
   return (
-    <MeetingCardWrapper onClick={onClickCardHandler} idx={idx}>
+    <MeetingCardWrapper
+      className="meeting-card"
+      onClick={onClickCardHandler}
+      idx={idx}
+    >
       {openNewAlarmModal && (
-        <NewAlarmModal closeHandler={() => setOpenNewAlarmModal(false)} />
+        <NewAlarmModal
+          className="meeting-card__new-alarm-modal"
+          closeHandler={() => setOpenNewAlarmModal(false)}
+        />
       )}
       {openDeleteAlarmModal && (
         <DeleteAlarmModal
+          className="meeting-card__delete-alarm-modal"
           closeHandler={() => setOpenDeleteAlarmModal(false)}
           deleteAlarmHandler={deleteAlarmHandler}
         />
       )}
-      <ContentsWrapper>
+      <ContentsWrapper className="meeting-card__contents">
         <InfoWrapper>
           <CardHeader>
-            <MeetingTime>
+            <MeetingTime className="body3 meeting-card__time">
               {data.live_status === 'live' && <LiveTag>진행중</LiveTag>}
               {getTimeForm(data.start_time, data.end_time, data.live_status)}
             </MeetingTime>
           </CardHeader>
 
-          <MeetingTitle live_status={data.live_status}>
+          <MeetingTitle
+            className="body1 meeting-card__title"
+            live_status={data.live_status}
+          >
             {data.title}
           </MeetingTitle>
         </InfoWrapper>
-        <AlarmWrapper>
+        <AlarmWrapper className="meeting-card__alarm-icon">
           {data.alarm_id ? (
             <img src={card_noti_on} onClick={alarmHandler} />
           ) : (
@@ -194,7 +198,7 @@ function MeetingCard({ idx, data }: Props): ReactElement {
         </AlarmWrapper>
       </ContentsWrapper>
       {data.live_status !== 'finish' && (
-        <CardFooter>
+        <CardFooter className="body3 meeting-card__footer">
           <FooterText>지금 바로 이웃들과 대화를 나눠보세요</FooterText>
         </CardFooter>
       )}

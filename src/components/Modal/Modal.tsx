@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { jsx, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
+import classnames from 'classnames';
 
 import { COLOR } from '../../constant/color';
 
@@ -56,7 +57,10 @@ function Modal({
     onClose && onClose(e);
   };
   return (
-    <ModalWrapper onClick={onCloseHandler} className={className}>
+    <ModalWrapper
+      onClick={onCloseHandler}
+      className={classnames('modal', className)}
+    >
       <ModalInner onClick={e => e.stopPropagation()} css={innerModalStyle}>
         {children}
       </ModalInner>

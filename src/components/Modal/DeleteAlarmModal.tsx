@@ -3,6 +3,7 @@ import React from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import classnames from 'classnames';
 
 import { COLOR } from '../../constant/color';
 import { COMMON } from '../../constant/message';
@@ -11,6 +12,7 @@ import Modal from './Modal';
 interface Props {
   closeHandler: () => void;
   deleteAlarmHandler: () => Promise<boolean>;
+  className?: string;
 }
 
 const InnerModalStyle = css`
@@ -22,43 +24,26 @@ const InnerModalStyle = css`
 const ContentsWrapper = styled.div`
   overflow-y: auto;
   color: ${COLOR.TEXT_GRAY};
-  font-size: 1.6rem;
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: -0.03rem;
-  line-height: 2.4rem;
   padding: 2rem;
 `;
 
 const Title = styled.div`
   color: ${COLOR.TEXT_BLACK};
-  font-weight: 500;
-  font-size: 1.6rem;
-  line-height: 2.4rem;
-  letter-spacing: -0.03rem;
   margin-bottom: 1.2rem;
 `;
 
 const SubTitle = styled.span`
-  font-weight: normal;
-  font-size: 1.4rem;
-  line-height: 2.1rem;
-  letter-spacing: -0.03rem;
   color: ${COLOR.TEXT_GRAY};
 `;
 
 const DoneTitle = styled.div`
-  font-size: 1.5rem;
-  line-height: 2.5rem;
   text-align: center;
-  letter-spacing: -0.03rem;
   color: ${COLOR.TEXT_BLACK};
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
-
   align-items: center;
   width: 100%;
   height: 4.3rem;
@@ -76,9 +61,6 @@ const Btn = styled.div`
   align-items: center;
   width: 50%;
   height: 100%;
-  font-size: 1.5rem;
-  line-height: 1.8rem;
-  letter-spacing: -0.02rem;
   color: ${COLOR.LIGHT_GREEN};
 `;
 
@@ -89,6 +71,7 @@ const CloseBtn = styled(Btn)`
 function DeleteAlarmModal({
   closeHandler,
   deleteAlarmHandler,
+  className,
 }: Props): ReactElement {
   const [deleted, setDeleted] = useState(false);
 
@@ -114,27 +97,45 @@ function DeleteAlarmModal({
   const onClickOutsideHandler: React.MouseEventHandler<HTMLDivElement> =
     event => {
       event.stopPropagation();
-      closeHandler();
+      !deleted && closeHandler();
     };
 
-  return deleted ? (
-    <Modal innerModalStyle={InnerModalStyle}>
-      <ContentsWrapper>
-        <DoneTitle>{COMMON.DELETE_ALARM_MODAL.DONE_DELETE}</DoneTitle>
-      </ContentsWrapper>
-    </Modal>
-  ) : (
-    <Modal onClose={onClickOutsideHandler} innerModalStyle={InnerModalStyle}>
-      <ContentsWrapper>
-        <Title>{COMMON.DELETE_ALARM_MODAL.TITLE}</Title>
-        <SubTitle>{COMMON.DELETE_ALARM_MODAL.SUB_TITLE}</SubTitle>
-      </ContentsWrapper>
-      <ButtonWrapper>
-        <CloseBtn onClick={closeHandler}>
-          {COMMON.DELETE_ALARM_MODAL.CLOSE}
-        </CloseBtn>
-        <Btn onClick={deleteBtnHandler}>{COMMON.DELETE_ALARM_MODAL.DELETE}</Btn>
-      </ButtonWrapper>
+  return (
+    <Modal
+      className={classnames('delete-alarm-modal', className)}
+      onClose={onClickOutsideHandler}
+      innerModalStyle={InnerModalStyle}
+    >
+      {deleted ? (
+        <ContentsWrapper>
+          <DoneTitle className="delete-alarm-modal__title body3">
+            {COMMON.DELETE_ALARM_MODAL.DONE_DELETE}
+          </DoneTitle>
+        </ContentsWrapper>
+      ) : (
+        <>
+          <ContentsWrapper className="delete-alarm-modal__contents">
+            <Title className="body1">{COMMON.DELETE_ALARM_MODAL.TITLE}</Title>
+            <SubTitle className="body4">
+              {COMMON.DELETE_ALARM_MODAL.SUB_TITLE}
+            </SubTitle>
+          </ContentsWrapper>
+          <ButtonWrapper>
+            <CloseBtn
+              className="delete-alarm-modal__close-btn body4"
+              onClick={closeHandler}
+            >
+              {COMMON.DELETE_ALARM_MODAL.CLOSE}
+            </CloseBtn>
+            <Btn
+              className="delete-alarm-modal__delete-btn body4"
+              onClick={deleteBtnHandler}
+            >
+              {COMMON.DELETE_ALARM_MODAL.DELETE}
+            </Btn>
+          </ButtonWrapper>
+        </>
+      )}
     </Modal>
   );
 }

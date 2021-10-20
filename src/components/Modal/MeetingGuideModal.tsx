@@ -3,6 +3,7 @@ import { ReactElement } from 'react';
 
 import { css, jsx } from '@emotion/react';
 import styled from '@emotion/styled';
+import classnames from 'classnames';
 
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
@@ -10,6 +11,7 @@ import Modal from './Modal';
 
 interface Props {
   closeHandler: () => void;
+  className?: string;
 }
 
 const ModalStyle = styled(Modal)`
@@ -85,14 +87,23 @@ const ConfirmBtn = styled.div`
   color: ${COLOR.TEXT_BLACK};
 `;
 
-function MeetingGuideModal({ closeHandler }: Props): ReactElement {
+function MeetingGuideModal({ closeHandler, className }: Props): ReactElement {
   return (
-    <ModalStyle onClose={closeHandler} innerModalStyle={InnerModalStyle}>
+    <ModalStyle
+      className={classnames('meeting-guide-modal', className)}
+      onClose={closeHandler}
+      innerModalStyle={InnerModalStyle}
+    >
       <ContentsWrapper>
-        <Title>{MEETING_DETAIL.GUIDE.TITLE}</Title>
+        <Title className="meeting-guide-modal__title">
+          {MEETING_DETAIL.GUIDE.TITLE}
+        </Title>
         {MEETING_DETAIL.GUIDE.SUB_TITLE.map((el, idx) => {
           return (
-            <GuideWrapper key={idx.toString()}>
+            <GuideWrapper
+              className="meeting-guide-modal__text"
+              key={idx.toString()}
+            >
               <SubTitle>
                 <BoldText>{el.BOLD}</BoldText>
                 {el.TEXT}
@@ -101,7 +112,10 @@ function MeetingGuideModal({ closeHandler }: Props): ReactElement {
           );
         })}
       </ContentsWrapper>
-      <ConfirmBtn onClick={closeHandler}>
+      <ConfirmBtn
+        className="meeting-guide-modal__confirm-btn"
+        onClick={closeHandler}
+      >
         {MEETING_DETAIL.GUIDE.CLOSE}
       </ConfirmBtn>
     </ModalStyle>

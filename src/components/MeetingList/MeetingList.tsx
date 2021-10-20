@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
+import classnames from 'classnames';
 import { useRecoilValue } from 'recoil';
 
 import { COLOR } from '../../constant/color';
@@ -14,6 +15,7 @@ import MeetingCard from '../MeetingCard/MeetingCard';
 
 interface Props {
   title: string;
+  className?: string;
 }
 
 const MeetingListWrapper = styled.div`
@@ -22,10 +24,6 @@ const MeetingListWrapper = styled.div`
 `;
 
 const MeetingCounter = styled.span`
-  font-weight: 600;
-  font-size: 1.8rem;
-  line-height: 2.8rem;
-  letter-spacing: -0.04rem;
   color: ${COLOR.LIGHT_GREEN};
   margin-left: 0.6rem;
 `;
@@ -39,7 +37,7 @@ const ListTitle = styled.div`
   padding-left: 0.4rem;
 `;
 
-function MeetingList({ title }: Props): ReactElement {
+function MeetingList({ title, className }: Props): ReactElement {
   const meetings = useRecoilValue(
     title === LANDING.CURRENT_MEETING
       ? currMeetings
@@ -49,11 +47,11 @@ function MeetingList({ title }: Props): ReactElement {
   );
 
   return (
-    <MeetingListWrapper>
+    <MeetingListWrapper className={classnames('meeting-list', className)}>
       <ListTitle>
         {title}
         {title !== LANDING.CURRENT_MEETING && (
-          <MeetingCounter>
+          <MeetingCounter className="title2 meeting-list__counter">
             {meetings && meetings.length.toString()}
           </MeetingCounter>
         )}

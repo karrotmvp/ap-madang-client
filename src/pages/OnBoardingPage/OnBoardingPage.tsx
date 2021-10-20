@@ -12,7 +12,7 @@ function OnBoardingPage(): ReactElement {
   }, []);
 
   return (
-    <div>
+    <div className="on-board">
       <ScreenHelmet />
       <div style={{ height: '30px', border: '1px solid black' }}>
         onBoarding Page입니다.

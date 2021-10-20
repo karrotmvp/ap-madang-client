@@ -148,7 +148,7 @@ const MeetingSuggestionPage = () => {
   }, [submit, userInfo]);
 
   return (
-    <PageWrapper>
+    <PageWrapper className="meeting-suggestion">
       <ScreenHelmet
         appendLeft={<PageTitle>{SUGGESTION.NAVIGATOR_TITLE}</PageTitle>}
       />
@@ -164,9 +164,12 @@ const MeetingSuggestionPage = () => {
           )}
         </IconWrapper>
 
-        <SuggestionTitle>{Title}</SuggestionTitle>
+        <SuggestionTitle className="meeting-suggestion__title">
+          {Title}
+        </SuggestionTitle>
         {!submit && (
           <TextArea
+            className="meeting-suggestion__textarea"
             onFocus={() => setInputFocus(true)}
             onBlur={() => setInputFocus(false)}
             onChange={onChangeHandler}
@@ -181,6 +184,7 @@ const MeetingSuggestionPage = () => {
       </ContentsWrapper>
 
       <Button
+        className="meeting-suggestion__submit"
         inputFocus={inputFocus}
         inputLength={text.length}
         onClick={submit ? () => pop() : onSubmitHandler}

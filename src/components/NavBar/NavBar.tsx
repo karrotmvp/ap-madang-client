@@ -27,7 +27,7 @@ const CloseBtn = styled.div`
 
 function NavBar(): ReactElement {
   return (
-    <NavigationBar>
+    <NavigationBar className="navigation-bar">
       <CloseBtn onClick={() => mini.close()}>
         {checkMobileType() === 'Android' ? (
           <ArrowBackAnd fill={COLOR.ICON_GRAY} />

@@ -23,7 +23,7 @@ const RotateTitle = ({ intervalTime = 1500, items }: Props): ReactElement => {
     return () => clearInterval(interval);
   }, [intervalTime, items.length]);
 
-  return <RotateItem>{items[idx]}</RotateItem>;
+  return <RotateItem className="rotate-title">{items[idx]}</RotateItem>;
 };
 
 export default RotateTitle;

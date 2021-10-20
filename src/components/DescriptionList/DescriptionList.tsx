@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styled from '@emotion/styled';
+import classnames from 'classnames';
 
 import { Dot } from '../../assets/icon';
 import { COLOR } from '../../constant/color';
@@ -12,6 +13,7 @@ interface DescriptionProp {
 interface Props {
   title: string;
   data: DescriptionProp[] | undefined;
+  className?: string;
 }
 
 const Wrapper = styled.div`
@@ -66,12 +68,17 @@ const DescriptionItem = styled.div`
 
 export const DescriptionList = (props: Props) => {
   return (
-    <Wrapper>
-      <DescriptionTitle>{props.title}</DescriptionTitle>
+    <Wrapper className={classnames('description-list', props.className)}>
+      <DescriptionTitle className="description-list__title">
+        {props.title}
+      </DescriptionTitle>
       <List>
         {props.data &&
           props.data.map((el, idx) => (
-            <DescriptionItem key={idx.toString()}>
+            <DescriptionItem
+              className="description-list__contents"
+              key={idx.toString()}
+            >
               <DotIcon>
                 <Dot />
               </DotIcon>
