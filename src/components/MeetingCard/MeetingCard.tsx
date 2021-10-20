@@ -20,6 +20,7 @@ interface Props {
 
 interface WrapperProps {
   idx: number;
+  live_status: 'live' | 'upcoming' | 'tomorrow' | 'finish';
 }
 
 const MeetingCardWrapper = styled.div<WrapperProps>`
@@ -30,9 +31,14 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
   display: flex;
   flex-direction: column;
   word-break: keep-all;
-  background-color: ${COLOR.TEXT_WHITE};
+  background-color: ${props =>
+    props.live_status === 'tomorrow' ? COLOR.GRAY_000 : COLOR.TEXT_WHITE};
   border-radius: 0.6rem;
-  border: 1px solid ${COLOR.TEXTAREA_LIGHT_GRAY};
+  border: 1px solid
+    ${props =>
+      props.live_status === 'tomorrow'
+        ? COLOR.GRAY_000
+        : COLOR.TEXTAREA_LIGHT_GRAY};
   box-sizing: border-box;
   margin-top: ${props => (props.idx === 0 ? '1.8rem' : 0)};
 `;
@@ -157,6 +163,7 @@ function MeetingCard({ idx, data }: Props): ReactElement {
   return (
     <MeetingCardWrapper
       className="meeting-card"
+      live_status={data.live_status}
       onClick={onClickCardHandler}
       idx={idx}
     >
