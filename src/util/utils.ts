@@ -58,6 +58,7 @@ export const getTimeForm = (
   start_time: string,
   end_time: string,
   live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish',
+  head_text?: boolean,
 ) => {
   let text = '';
   const startTimeArr = start_time.split(':');
@@ -69,8 +70,8 @@ export const getTimeForm = (
       parseInt(endTimeArr[1]),
     )}에 모임이 종료돼요`;
 
-  if (live_status === 'tomorrow') text += '내일 ';
-  else text += '오늘';
+  if (head_text && live_status === 'tomorrow') text += '내일 ';
+  else if (head_text) text += '오늘 ';
   text += getTimeText(parseInt(startTimeArr[0]), parseInt(startTimeArr[1]));
   text += '~';
   text += getTimeText(parseInt(endTimeArr[0]), parseInt(endTimeArr[1]));

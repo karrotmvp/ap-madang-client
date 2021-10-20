@@ -185,7 +185,12 @@ function MeetingCard({ idx, data }: Props): ReactElement {
           <CardHeader>
             <MeetingTime className="body3 meeting-card__time">
               {data.live_status === 'live' && <LiveTag>진행중</LiveTag>}
-              {getTimeForm(data.start_time, data.end_time, data.live_status)}
+              {getTimeForm(
+                data.start_time,
+                data.end_time,
+                data.live_status,
+                true,
+              )}
             </MeetingTime>
           </CardHeader>
 
