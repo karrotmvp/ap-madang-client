@@ -6,19 +6,18 @@ import { useRouteMatch } from 'react-router-dom';
 
 import { deleteAlarm, newAlarm } from '../../api/alarm';
 import { getMeetingDetail, MeetingDetailType } from '../../api/meeting';
-import {
-  ExpandRight,
-  NotificationEmpty,
-  NotificationFilled,
-} from '../../assets/icon';
+import arrow_iOS_large from '../../assets/icon/arrow_iOS_large.svg';
 import clock from '../../assets/icon/clock.svg';
+import nav_back from '../../assets/icon/nav_back.svg';
+import notification_empty from '../../assets/icon/notification_empty.svg';
+import notification_fill from '../../assets/icon/notification_fill.svg';
 import { DescriptionList } from '../../components/DescriptionList/DescriptionList';
 import DeleteAlarmModal from '../../components/Modal/DeleteAlarmModal';
 import MeetingGuideModal from '../../components/Modal/MeetingGuideModal';
 import NewAlarmModal from '../../components/Modal/NewAlarmModal';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
-import { getRemainTime } from '../../util/utils';
+import { getRemainTime, getTimeForm } from '../../util/utils';
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -28,6 +27,11 @@ const PageWrapper = styled.div`
   justify-content: space-between;
   white-space: pre-line;
 `;
+
+const NavCustomBtn = styled.img`
+  margin-left: 1.5rem;
+`;
+
 const BannerImg = styled.img`
   width: 100%;
   height: 14rem;
@@ -104,6 +108,7 @@ const AlarmBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 0.6rem;
   border-radius: 0.6rem;
   border: 0.1rem solid ${COLOR.TEXTAREA_LIGHT_GRAY};
 `;
@@ -111,7 +116,7 @@ const AlarmBtn = styled.div`
 const JoinBtn = styled.a`
   flex: 1;
   height: 4.4rem;
-  margin-left: 0.6rem;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -242,7 +247,7 @@ const MeetingDetailPage = () => {
 
   return (
     <PageWrapper className="meeting-detail">
-      <ScreenHelmet />
+      <ScreenHelmet customBackButton={<NavCustomBtn src={nav_back} />} />
       {openGuideModal && (
         <MeetingGuideModal closeHandler={() => setOpenGuideModal(false)} />
       )}
@@ -286,19 +291,21 @@ const MeetingDetailPage = () => {
             {MEETING_DETAIL.MANNER_INFO_CARD}
           </InfoCardTitle>
           <MoreIcon>
-            <ExpandRight />
+            <img src={arrow_iOS_large} />
           </MoreIcon>
         </MannerInfoCardWrapper>
         <BlockDivider />
       </ContentsWrapper>
       <NavBar className="meeting-detail__footer-nav-bar">
-        <AlarmBtn onClick={alarmHandler}>
-          {data.alarm_id ? (
-            <NotificationFilled fill={COLOR.LIGHT_GREEN} />
-          ) : (
-            <NotificationEmpty fill={COLOR.NOTIFICATION_EMPTY} />
-          )}
-        </AlarmBtn>
+        {data.live_status !== 'live' && (
+          <AlarmBtn onClick={alarmHandler}>
+            {data.alarm_id ? (
+              <img src={notification_fill} />
+            ) : (
+              <img src={notification_empty} />
+            )}
+          </AlarmBtn>
+        )}
         {data.live_status === 'live' ? (
           <JoinBtn href={data.meeting_url} target="_blank">
             {MEETING_DETAIL.JOIN_NOW}

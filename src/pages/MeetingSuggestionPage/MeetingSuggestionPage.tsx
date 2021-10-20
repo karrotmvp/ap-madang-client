@@ -6,7 +6,8 @@ import { IoEllipse } from 'react-icons/io5';
 import { useRecoilValue } from 'recoil';
 
 import { meetingSuggestion } from '../../api/suggestion';
-import Bulb from '../../assets/icon/Bulb';
+import bulb from '../../assets/icon/bulb.svg';
+import nav_back from '../../assets/icon/nav_back.svg';
 import { COLOR } from '../../constant/color';
 import { SUGGESTION } from '../../constant/message';
 import { userInfoAtom } from '../../store/user';
@@ -25,6 +26,10 @@ const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+`;
+
+const NavCustomBtn = styled.img`
+  margin-left: 1.5rem;
 `;
 
 const ContentsWrapper = styled.div<ContentsWrapperProps>`
@@ -133,7 +138,6 @@ const MeetingSuggestionPage = () => {
 
   const onSubmitHandler = async () => {
     if (text.length === 0) return;
-    /* TODO: submit axios */
     const result = await meetingSuggestion(text);
     if (result.success) setsubmit(true);
   };
@@ -150,12 +154,13 @@ const MeetingSuggestionPage = () => {
   return (
     <PageWrapper className="meeting-suggestion">
       <ScreenHelmet
+        customBackButton={<NavCustomBtn src={nav_back} />}
         appendLeft={<PageTitle>{SUGGESTION.NAVIGATOR_TITLE}</PageTitle>}
       />
       <ContentsWrapper isSubmit={submit}>
         <IconWrapper>
           <BulbIcon>
-            <Bulb fill={COLOR.LIGHT_GREEN} />
+            <img src={bulb} />
           </BulbIcon>
           {submit && (
             <EllipseIcon>
