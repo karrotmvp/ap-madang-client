@@ -42,7 +42,7 @@ export interface MeetingDetailType {
   title: string;
   start_time: string;
   end_time: string;
-  live_status: 'live' | 'finish' | 'upcoming';
+  live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
   alarm_id: number | undefined;
   description: MeetingDetailDescriptionType;
   meeting_url: string;

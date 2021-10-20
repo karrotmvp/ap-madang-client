@@ -28,7 +28,7 @@ export const tomorrowMeetings = selector({
   get: ({ get }) => {
     const meetings = get(meetingsAtom);
     if (meetings.length === 0) return 0;
-    return meetings.filter(el => el.live_status === 'finish');
+    return meetings.filter(el => el.live_status === 'tomorrow');
   },
 });
 
@@ -38,5 +38,5 @@ export interface meetingType {
   start_time: string;
   end_time: string;
   alarm_id: number | undefined;
-  live_status: 'live' | 'finish' | 'upcoming';
+  live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
 }

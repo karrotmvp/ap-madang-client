@@ -64,7 +64,7 @@ const MeetingTime = styled.div`
 `;
 
 interface MeetingTitleType {
-  live_status: 'live' | 'finish' | 'upcoming';
+  live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
 }
 
 const MeetingTitle = styled.div`
@@ -197,7 +197,7 @@ function MeetingCard({ idx, data }: Props): ReactElement {
           )}
         </AlarmWrapper>
       </ContentsWrapper>
-      {data.live_status !== 'finish' && (
+      {data.live_status !== 'tomorrow' && (
         <CardFooter className="body3 meeting-card__footer">
           <FooterText>지금 바로 이웃들과 대화를 나눠보세요</FooterText>
         </CardFooter>

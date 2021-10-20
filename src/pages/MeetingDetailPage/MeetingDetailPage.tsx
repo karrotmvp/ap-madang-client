@@ -9,9 +9,9 @@ import { getMeetingDetail, MeetingDetailType } from '../../api/meeting';
 import {
   ExpandRight,
   NotificationEmpty,
-  Clock,
   NotificationFilled,
 } from '../../assets/icon';
+import clock from '../../assets/icon/clock.svg';
 import { DescriptionList } from '../../components/DescriptionList/DescriptionList';
 import DeleteAlarmModal from '../../components/Modal/DeleteAlarmModal';
 import MeetingGuideModal from '../../components/Modal/MeetingGuideModal';
@@ -19,7 +19,6 @@ import NewAlarmModal from '../../components/Modal/NewAlarmModal';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
 import { getRemainTime } from '../../util/utils';
-// import { isOpenTomorrow } from '../../util/utils';
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -162,7 +161,7 @@ const defaultValue: MeetingDetailType = {
   title: '',
   start_time: '',
   end_time: '',
-  live_status: 'finish',
+  live_status: 'tomorrow',
   alarm_id: undefined,
   description: {
     recommend_user: [{ text: '' }],
@@ -261,7 +260,7 @@ const MeetingDetailPage = () => {
         <TitleWrapper className="meeting-detail__header">
           <Title className="title1">{data?.title}</Title>
           <TimeWrapper>
-            <Clock />
+            <img src={clock} />
             <Time className="body4">
               {data?.start_time} ~ {data?.end_time}
             </Time>
