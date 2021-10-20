@@ -35,6 +35,7 @@ export const tomorrowMeetings = selector({
 export interface meetingType {
   id: number;
   title: string;
+  image: string;
   start_time: string;
   end_time: string;
   alarm_id: number | undefined;
