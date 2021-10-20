@@ -5,7 +5,6 @@ import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import Cookies from 'universal-cookie';
 
 import { getMeetings } from '../../api/meeting';
 import nav_close from '../../assets/icon/nav_close.svg';
@@ -56,33 +55,24 @@ const BlockDivider = styled.div`
 `;
 
 const LandingPage: React.FC = () => {
-  const cookie = new Cookies();
   const setMeetings = useSetRecoilState(meetingsAtom);
   const userInfo = useRecoilValue(userInfoAtom);
-  const onBoard = cookie.get('onboard');
 
   const { push } = useNavigator();
 
   const meetingListHandler = useCallback(async () => {
     const result = await getMeetings();
-    if (!result.success || !result.data) {
-      return;
-    }
-    if (result.data) setMeetings(result.data);
+    if (result.success && result.data) setMeetings(result.data);
   }, [setMeetings]);
 
   useEffect(() => {
-    if (!onBoard) {
-      push('/onboarding');
-      return;
-    }
     if (userInfo) meetingListHandler();
-  }, [meetingListHandler, userInfo, onBoard, push]);
+  }, [meetingListHandler, userInfo, push]);
 
   return (
     <PageWrapper className="landing">
       <ScreenHelmet
-        customBackButton={<NavCustomBtn src={nav_close} />}
+        customCloseButton={<NavCustomBtn src={nav_close} />}
         appendLeft={
           <PageTitle className="landing__nav-title title3">
             {LANDING.NAVIGATOR_TITLE}
