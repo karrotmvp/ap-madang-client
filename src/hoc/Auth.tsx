@@ -25,6 +25,7 @@ export default function Auth(Component: React.FC) {
     const code = useRecoilValue(codeSelector);
     const jwtToken = cookie.get('Authorization');
     const setUserInfo = useSetRecoilState(userInfoAtom);
+    const storage = window.localStorage;
 
     const userInfoHandler = useCallback(
       async code => {
@@ -40,11 +41,13 @@ export default function Auth(Component: React.FC) {
               region: decodeToken.region,
             });
           }
+          storage.setItem('Authorization', result.data.token);
         }
       },
       // eslint-disable-next-line
       [],
     );
+      const jwtToken = localStorage.getItem('Authorization');
 
     useEffect(() => {
       console.log('Auth UseEffect - auth');

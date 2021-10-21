@@ -1,15 +1,16 @@
 import axios, { AxiosInstance } from 'axios';
-import Cookies from 'universal-cookie';
 
 const baseURL: string = process.env.API_URL || '';
 
 const customAxios = (): AxiosInstance => {
+  const jwtToken = window.localStorage.getItem('Authorization');
   const options = {
     withCredentials: process.env.NODE_ENV !== 'development',
     headers: {
-      Authorization: new Cookies().get('Authorization') || '',
+      Authorization: jwtToken || '',
     },
   };
+
   return axios.create({
     baseURL,
     ...options,
