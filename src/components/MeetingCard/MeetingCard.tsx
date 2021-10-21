@@ -7,6 +7,7 @@ import { useSetRecoilState } from 'recoil';
 import { deleteAlarm, newAlarm } from '../../api/alarm';
 import card_noti_off from '../../assets/icon/card_noti_off.svg';
 import card_noti_on from '../../assets/icon/card_noti_on.svg';
+import tooltip_close from '../../assets/icon/tooltip_close.svg';
 import { COLOR } from '../../constant/color';
 import { LANDING } from '../../constant/message';
 import useInterval from '../../hook/useInterval';
@@ -101,9 +102,63 @@ const FooterText = styled.div`
   color: ${COLOR.TEXT_GRAY};
 `;
 
+const TooltipWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const TooltipBox = styled.div`
+  box-sizing: border-box;
+  padding: 1rem 1.4rem;
+  bottom: 1rem;
+  right: -3rem;
+  position: absolute;
+  width: 18rem;
+  height: 5.8rem;
+  background-color: ${COLOR.SECONDARY};
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  border-radius: 0.4rem;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0.5rem;
+    width: 0;
+    height: 0;
+    border: 1rem solid transparent;
+    border-top-color: ${COLOR.SECONDARY};
+    border-bottom: 0;
+    margin-left: -1rem;
+    margin-bottom: -1rem;
+  }
+`;
+
+const TooltipText = styled.div`
+  position: relative;
+  flex: 1;
+  font-size: 1.3rem;
+  line-height: 1.9rem;
+  letter-spacing: -0.03rem;
+  word-break: none;
+
+  color: ${COLOR.TEXT_BLACK};
+`;
+const TooltipIconWrapper = styled.div`
+  line-height: 1.9rem;
+`;
+
+const TooltipClose = styled.img`
+  width: 0.989rem;
+  height: 0.989rem;
+`;
+
 function MeetingCard({ idx, data }: Props): ReactElement {
   const setMeetings = useSetRecoilState(meetingsAtom);
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
+  const [openTooltip, setOpenTooltip] = useState(true);
   const [openDeleteAlarmModal, setOpenDeleteAlarmModal] = useState(false);
   const [remainTime, setRemainTime] = useState('');
 
@@ -153,6 +208,11 @@ function MeetingCard({ idx, data }: Props): ReactElement {
   const onClickCardHandler = useCallback(() => {
     push(`/meetings/${data.id}`);
   }, [data.id, push]);
+
+  const closeTooltip = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setOpenTooltip(false);
+  };
 
   useInterval(
     () => {
@@ -206,6 +266,21 @@ function MeetingCard({ idx, data }: Props): ReactElement {
           </MeetingTitle>
         </InfoWrapper>
         <AlarmWrapper className="meeting-card__alarm-icon">
+          {openTooltip && (
+            <TooltipWrapper>
+              <TooltipBox>
+                <TooltipText>
+                  알림을 신청하면 모임이
+                  <br />
+                  시작될 때 알려드릴게요.
+                </TooltipText>
+
+                <TooltipIconWrapper onClick={closeTooltip}>
+                  <TooltipClose src={tooltip_close} />
+                </TooltipIconWrapper>
+              </TooltipBox>
+            </TooltipWrapper>
+          )}
           {data.alarm_id ? (
             <img src={card_noti_on} onClick={alarmHandler} />
           ) : (
