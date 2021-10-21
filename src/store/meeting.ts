@@ -38,6 +38,7 @@ export interface meetingType {
   image: string;
   start_time: string;
   end_time: string;
+  date: string;
   alarm_id: number | undefined;
   live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
 }
