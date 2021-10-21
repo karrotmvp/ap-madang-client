@@ -26,4 +26,5 @@ export const COLOR = {
   NOTIFICATION_EMPTY: '#ACAEAF',
   ORANGE: '#ff6e3d',
   FONT_BODY_GRAY: '#999999',
+  PRIMARY_L1: '#ECF9F2',
 };

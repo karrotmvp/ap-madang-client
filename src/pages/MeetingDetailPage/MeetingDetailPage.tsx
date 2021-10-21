@@ -169,6 +169,18 @@ const DisableBtn = styled.div`
   letter-spacing: -0.02rem;
 `;
 
+const GreenInfoBox = styled.div`
+  background: ${COLOR.PRIMARY_L1};
+  border: 0.1rem solid ${COLOR.LIGHT_GREEN};
+  color: ${COLOR.LIGHT_GREEN};
+  font-size: 1.3rem;
+  line-height: 2rem;
+  letter-spacing: -0.03rem;
+  border-radius: 0.6rem;
+  margin: 0 1.6rem;
+  padding: 1rem 1.4rem;
+`;
+
 interface MatchParams {
   id: string;
 }
@@ -286,6 +298,7 @@ const MeetingDetailPage = () => {
           </TimeWrapper>
         </TitleWrapper>
         <LineDivider />
+        <GreenInfoBox>{MEETING_DETAIL.GREEN_BOX_INFO}</GreenInfoBox>
         <DescriptionWrapper className="meeting-detail__body">
           <DescriptionList
             title={MEETING_DETAIL.DESCRIPTION_TITLE1}

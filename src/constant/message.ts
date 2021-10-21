@@ -62,6 +62,8 @@ export const MEETING_DETAIL = {
   JOIN_NOW: '지금 참여하기',
   CLOSE_MEETING: '오늘은 종료된 모임이에요',
   JOIN_LATER: ' 후에 만나요',
+  GREEN_BOX_INFO:
+    '랜동모의 모든 모임은 화상으로 진행돼요. 카메라를 켜지 않아도 괜찮아요.',
   GUIDE: {
     TITLE: '즐거운 랜선동네모임을 위해\n함께 지켜주세요!',
     SUB_TITLE: [
