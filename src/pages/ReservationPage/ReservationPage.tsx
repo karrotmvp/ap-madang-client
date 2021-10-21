@@ -6,7 +6,6 @@ import styled from '@emotion/styled';
 import { Cookies } from 'react-cookie';
 
 import { alarmReservation, getRegionName } from '../../api/reservation';
-import { mini } from '../../App';
 import { NotificationsNone } from '../../assets/icon';
 import ReservationBtn from '../../components/Button/ReservationBtn';
 import EditableInput from '../../components/Input/EditableInput';
@@ -16,6 +15,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import RotateTitle from '../../components/Title/RotateTitle';
 import { COLOR } from '../../constant/color';
 import { RESERVATION } from '../../constant/message';
+import mini from '../../util/mini';
 import '@karrotframe/navigator/index.css';
 import { getRegionId } from '../../util/utils';
 

@@ -1,6 +1,5 @@
 import { atom, selector } from 'recoil';
 
-import { mini } from '../App';
 import { getCodefromUrl } from '../util/utils';
 
 type UserInfoType =

@@ -2,9 +2,9 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
-import { mini } from '../../App';
 import { ArrowBackAnd, ArrowBackIos } from '../../assets/icon';
 import { COLOR } from '../../constant/color';
+import mini from '../../util/mini';
 import { checkMobileType } from '../../util/utils';
 
 const NavigationBar = styled.nav`

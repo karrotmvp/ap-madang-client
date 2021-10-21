@@ -6,6 +6,7 @@ import Cookies from 'universal-cookie';
 
 import { login } from '../api/user';
 import { codeSelector, userInfoAtom } from '../store/user';
+import mini from '../util/mini';
 import { getRegionId } from '../util/utils';
 
 type TokenPayloadType = {

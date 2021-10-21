@@ -2,7 +2,6 @@ import React from 'react';
 
 import { css } from '@emotion/css';
 import { Navigator, Screen } from '@karrotframe/navigator';
-import Mini from '@karrotmarket/mini';
 
 import Auth from './hoc/Auth';
 import LandingPage from './pages/LandingPage/LandingPage';
@@ -11,8 +10,6 @@ import MeetingSuggestionPage from './pages/MeetingSuggestionPage/MeetingSuggesti
 import OnBoardingPage from './pages/OnBoardingPage/OnBoardingPage';
 import ReservationPage from './pages/ReservationPage/ReservationPage';
 import { checkMobileType } from './util/utils';
-
-export const mini = new Mini();
 
 const NavigatorStyle = css`
   --kf_navigator_navbar-height: 5.6rem;
