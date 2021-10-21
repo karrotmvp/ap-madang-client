@@ -17,6 +17,7 @@ import MeetingGuideModal from '../../components/Modal/MeetingGuideModal';
 import NewAlarmModal from '../../components/Modal/NewAlarmModal';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
+import useInterval from '../../hook/useInterval';
 import { getRemainTime, getTimeForm } from '../../util/utils';
 
 const PageWrapper = styled.div`
@@ -103,7 +104,7 @@ const NavBar = styled.div`
 `;
 
 const AlarmBtn = styled.div`
-  width: 5.2rem;
+  width: 6.8rem;
   height: 4.4rem;
   display: flex;
   justify-content: center;
@@ -111,6 +112,17 @@ const AlarmBtn = styled.div`
   margin-right: 0.6rem;
   border-radius: 0.6rem;
   border: 0.1rem solid ${COLOR.TEXTAREA_LIGHT_GRAY};
+`;
+
+const AlarmApplicant = styled.div<{ applied: number | undefined }>`
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1.9rem;
+  text-align: center;
+  letter-spacing: -0.02rem;
+  margin-left: 0.4rem;
+  color: ${({ applied }) =>
+    applied ? COLOR.LIGHT_GREEN : COLOR.FONT_BODY_GRAY};
 `;
 
 const JoinBtn = styled.a`
@@ -168,6 +180,7 @@ const defaultValue: MeetingDetailType = {
   end_time: '',
   live_status: 'tomorrow',
   alarm_id: undefined,
+  alarm_num: 0,
   description: {
     recommend_user: [{ text: '' }],
     recommend_topic: [{ text: '' }],
@@ -231,19 +244,16 @@ const MeetingDetailPage = () => {
     //eslint-disable-next-line
   }, [matchId?.params.id]);
 
+  useInterval(
+    () => {
+      setRemainTime(getRemainTime(data.start_time));
+    },
+    data.live_status === 'upcoming' ? 10000 : null,
+  );
+
   useEffect(() => {
     setRemainTime(getRemainTime(data.start_time));
-    if (data.live_status === 'upcoming') {
-      const timeCalc = setInterval(() => {
-        console.log(new Date(), getRemainTime(data.start_time));
-        setRemainTime(getRemainTime(data.start_time));
-      }, 10000);
-      return () => {
-        clearInterval(timeCalc);
-      };
-    }
-    return;
-  }, [data.live_status, data.start_time]);
+  }, [data.start_time]);
 
   return (
     <PageWrapper className="meeting-detail">
@@ -304,6 +314,11 @@ const MeetingDetailPage = () => {
               <img src={notification_fill} />
             ) : (
               <img src={notification_empty} />
+            )}
+            {data.alarm_num > 4 && (
+              <AlarmApplicant applied={data.alarm_id}>
+                {data.alarm_num}
+              </AlarmApplicant>
             )}
           </AlarmBtn>
         )}
