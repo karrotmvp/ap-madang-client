@@ -10,6 +10,7 @@ import { getMeetings } from '../../api/meeting';
 import nav_close from '../../assets/icon/nav_close.svg';
 import home_banner from '../../assets/image/home_banner.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
+import CurrMeetingList from '../../components/MeetingList/CurrMeetingList';
 import MeetingList from '../../components/MeetingList/MeetingList';
 import { COLOR } from '../../constant/color';
 import { LANDING } from '../../constant/message';
@@ -80,7 +81,7 @@ const LandingPage: React.FC = () => {
         }
       />
       <BannerImg src={home_banner} className="landing__banner-img" />
-      <MeetingList
+      <CurrMeetingList
         className="landing__current"
         title={LANDING.CURRENT_MEETING}
       />

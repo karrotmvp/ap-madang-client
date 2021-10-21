@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { useNavigator } from '@karrotframe/navigator';
@@ -8,8 +8,10 @@ import { deleteAlarm, newAlarm } from '../../api/alarm';
 import card_noti_off from '../../assets/icon/card_noti_off.svg';
 import card_noti_on from '../../assets/icon/card_noti_on.svg';
 import { COLOR } from '../../constant/color';
+import { LANDING } from '../../constant/message';
+import useInterval from '../../hook/useInterval';
 import { meetingsAtom, meetingType } from '../../store/meeting';
-import { getTimeForm } from '../../util/utils';
+import { getRemainTime, getTimeForm } from '../../util/utils';
 import DeleteAlarmModal from '../Modal/DeleteAlarmModal';
 import NewAlarmModal from '../Modal/NewAlarmModal';
 
@@ -85,15 +87,6 @@ const MeetingTitle = styled.div`
     live_status === 'live' ? '0.8rem' : '.4rem'};
 `;
 
-const LiveTag = styled.span`
-  font-weight: bold;
-  font-size: 1.5rem;
-  line-height: 2.5rem;
-  letter-spacing: -0.03rem;
-  color: ${COLOR.ORANGE};
-  margin-right: 0.5rem;
-`;
-
 const CardFooter = styled.div`
   display: flex;
   flex-direction: row;
@@ -112,6 +105,7 @@ function MeetingCard({ idx, data }: Props): ReactElement {
   const setMeetings = useSetRecoilState(meetingsAtom);
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
   const [openDeleteAlarmModal, setOpenDeleteAlarmModal] = useState(false);
+  const [remainTime, setRemainTime] = useState('');
 
   const { push } = useNavigator();
 
@@ -160,6 +154,17 @@ function MeetingCard({ idx, data }: Props): ReactElement {
     push(`/meetings/${data.id}`);
   }, [data.id, push]);
 
+  useInterval(
+    () => {
+      setRemainTime(getRemainTime(data.start_time));
+    },
+    data.live_status === 'upcoming' ? 10000 : null,
+  );
+
+  useEffect(() => {
+    setRemainTime(getRemainTime(data.start_time));
+  }, [data.start_time]);
+
   return (
     <MeetingCardWrapper
       className="meeting-card"
@@ -184,7 +189,6 @@ function MeetingCard({ idx, data }: Props): ReactElement {
         <InfoWrapper>
           <CardHeader>
             <MeetingTime className="body3 meeting-card__time">
-              {data.live_status === 'live' && <LiveTag>진행중</LiveTag>}
               {getTimeForm(
                 data.start_time,
                 data.end_time,
@@ -209,9 +213,12 @@ function MeetingCard({ idx, data }: Props): ReactElement {
           )}
         </AlarmWrapper>
       </ContentsWrapper>
-      {data.live_status !== 'tomorrow' && (
+      {data.live_status === 'upcoming' && (
         <CardFooter className="body3 meeting-card__footer">
-          <FooterText>지금 바로 이웃들과 대화를 나눠보세요</FooterText>
+          <FooterText>
+            {remainTime}
+            {LANDING.START_MEETING_LATER}
+          </FooterText>
         </CardFooter>
       )}
     </MeetingCardWrapper>
