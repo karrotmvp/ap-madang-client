@@ -30,7 +30,14 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
   overflow: hidden;
 `;
 
-const ImageWrapper = styled.img`
+const ImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+`;
+const Thumbnail = styled.img`
+  width: 100%;
   min-height: 11.9rem;
   height: 11.9rem;
   max-height: 11.9rem;
@@ -38,6 +45,25 @@ const ImageWrapper = styled.img`
   display: inline-block;
   content: '';
 `;
+
+const LiveTag = styled.div`
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  padding: 0.4rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: bold;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  letter-spacing: -0.03rem;
+  color: ${COLOR.TEXT_WHITE};
+  background-color: ${COLOR.ORANGE};
+  border-radius: 0.6rem;
+`;
+
 const ContentsWrapper = styled.div`
   flex: 1;
   padding: 1.4rem 0.9rem 1.3rem 0.9rem;
@@ -55,17 +81,8 @@ const TimeWrapper = styled.div`
   margin-bottom: 0.4rem;
 `;
 
-const LiveTag = styled.div`
-  font-weight: bold;
-  font-size: 1.5rem;
-  line-height: 2.5rem;
-  letter-spacing: -0.03rem;
-  color: ${COLOR.ORANGE};
-  margin-right: 0.4rem;
-`;
-
 const Timer = styled.div`
-  color: ${COLOR.TEXT_GRAY};
+  color: ${COLOR.ORANGE};
 `;
 
 const Title = styled.div`
@@ -119,11 +136,13 @@ function CurrMeetingCard({ idx, data, total }: Props): ReactElement {
       total={total}
       onClick={onClickCardHandler}
     >
-      <ImageWrapper src={data.image} />
+      <ImageWrapper>
+        <LiveTag>진행중</LiveTag>
+        <Thumbnail src={data.image} />
+      </ImageWrapper>
       <ContentsWrapper>
         <InfoWrapper>
           <TimeWrapper>
-            <LiveTag>진행중</LiveTag>
             <Timer className="body3">{remainTime}후에 종료돼요</Timer>
           </TimeWrapper>
           <Title className="title">{data.title}</Title>

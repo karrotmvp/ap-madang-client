@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
+import empty_current_meeting from '../../assets/image/empty_current_meeting.png';
 import { COLOR } from '../../constant/color';
 import { LANDING } from '../../constant/message';
 import { currMeetings } from '../../store/meeting';
@@ -60,6 +61,17 @@ const SwiperWrapper = styled.div`
   overflow: visible;
 `;
 
+const EmptyListWrapper = styled.div`
+  height: 14.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const EmptyListImg = styled.img`
+  height: 100%;
+`;
+
 function CurrMeetingList({ className }: Props): ReactElement {
   const meetings = useRecoilValue(currMeetings);
   return (
@@ -70,7 +82,11 @@ function CurrMeetingList({ className }: Props): ReactElement {
         <Title>{LANDING.CURRENT_MEETING}</Title>
       </TitleWrapper>
 
-      {meetings.length === 1 ? (
+      {meetings.length === 0 ? (
+        <EmptyListWrapper>
+          <EmptyListImg src={empty_current_meeting} />
+        </EmptyListWrapper>
+      ) : meetings.length === 1 ? (
         <CardWrapper>
           <CurrMeetingCard data={meetings[0]} idx={0} total={1} />
         </CardWrapper>
