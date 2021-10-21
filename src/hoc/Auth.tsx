@@ -1,11 +1,10 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import jwt_decode, { JwtPayload } from 'jwt-decode';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import Cookies from 'universal-cookie';
+import { useRecoilState } from 'recoil';
 
 import { login } from '../api/user';
-import { codeSelector, userInfoAtom } from '../store/user';
+import { userInfoAtom } from '../store/user';
 import mini from '../util/mini';
 import { getRegionId } from '../util/utils';
 
@@ -15,58 +14,78 @@ type TokenPayloadType = {
   region: string;
 } & JwtPayload;
 
-export default function Auth(Component: React.FC) {
+const Auth = (SpecialComponent: React.FC) => {
   const AuthenticateCheck = (
     props: JSX.IntrinsicAttributes & {
       children?: React.ReactNode;
     },
   ) => {
-    const cookie = new Cookies();
-    const code = useRecoilValue(codeSelector);
-    const jwtToken = cookie.get('Authorization');
-    const setUserInfo = useSetRecoilState(userInfoAtom);
+    const [code, setCode] = useState('');
+    const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
     const storage = window.localStorage;
 
-    const userInfoHandler = useCallback(
-      async code => {
-        const regionId = getRegionId(location.search);
-        if (code && regionId) {
-          const result = await login({ code, regionId });
-          if (!result.success) return;
-          if (result.data?.token) {
-            cookie.set('Authorization', result.data.token);
-            const decodeToken: TokenPayloadType = jwt_decode(result.data.token);
-            setUserInfo({
-              nickname: decodeToken.nickname,
-              region: decodeToken.region,
-            });
-          }
+    // userInfo Atom에 유저정보 store
+    const setUserNewInfoHandler = useCallback(async () => {
+      const regionId = getRegionId(location.search);
+      if (code && regionId) {
+        const result = await login({ code, regionId });
+        if (result.success && result.data?.token) {
           storage.setItem('Authorization', result.data.token);
+          const decodeToken: TokenPayloadType = jwt_decode(result.data.token);
+          setUserInfo({
+            nickname: decodeToken.nickname,
+            region: decodeToken.region,
+          });
         }
-      },
-      // eslint-disable-next-line
-      [],
-    );
+      }
+    }, [code, setUserInfo, storage]);
+
+    // url code param 가져오기 or mini로 code gererate
+    const getCodeHandler = useCallback(() => {
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const codeParams = urlSearchParams.get('code');
+      const isPreload = urlSearchParams.get('preload');
+
+      if (codeParams) setCode(codeParams);
+      else if (isPreload !== 'true') {
+        mini.startPreset({
+          preset: process.env.MINI_PRESET_URL || '',
+          params: { appId: process.env.APP_ID || '' },
+          onSuccess(result: { code: string }) {
+            if (result && result.code) {
+              setCode(result.code);
+            }
+          },
+        });
+      }
+    }, []);
+
+    // 이미 jwt가 있는 경우 해당 jwt 발급 code가 현재 코드와 일치하는지 확인
+    const checkAuth = useCallback(() => {
       const jwtToken = localStorage.getItem('Authorization');
 
-    useEffect(() => {
-      console.log('Auth UseEffect - auth');
       if (jwtToken) {
-        const decodedJwt: TokenPayloadType = jwt_decode(jwtToken);
-        if (decodedJwt.code === code) {
+        const decodeToken: TokenPayloadType = jwt_decode(jwtToken);
+        if (decodeToken.code === code) {
           setUserInfo({
-            nickname: decodedJwt.nickname,
-            region: decodedJwt.region,
+            nickname: decodeToken.nickname,
+            region: decodeToken.region,
           });
           return;
         }
       }
-      userInfoHandler(code);
-      // eslint-disable-next-line
-    }, [jwtToken, setUserInfo, userInfoHandler]);
+      setUserNewInfoHandler();
+    }, [code, setUserNewInfoHandler, setUserInfo]);
 
-    return <Component {...props} />;
+    useEffect(() => {
+      if (!code) getCodeHandler();
+      if (code && !userInfo) checkAuth();
+    }, [checkAuth, code, getCodeHandler, userInfo]);
+
+    return <SpecialComponent {...props} />;
   };
 
   return AuthenticateCheck;
-}
+};
+
+export default Auth;
