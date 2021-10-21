@@ -2,15 +2,15 @@ import React from 'react';
 
 import { Global, css } from '@emotion/react';
 
-import Pretendard_Black from '../assets/font/pretendard/pretendard-Black.woff2';
-import Pretendard_Bold from '../assets/font/pretendard/pretendard-Bold.woff2';
-import Pretendard_ExtraBold from '../assets/font/pretendard/pretendard-ExtraBold.woff2';
-import Pretendard_ExtraLight from '../assets/font/pretendard/pretendard-ExtraLight.woff2';
-import Pretendard_Light from '../assets/font/pretendard/pretendard-Light.woff2';
-import Pretendard_Medium from '../assets/font/pretendard/pretendard-Medium.woff2';
-import Pretendard_Regular from '../assets/font/pretendard/pretendard-Regular.woff2';
-import Pretendard_SemiBold from '../assets/font/pretendard/pretendard-SemiBold.woff2';
-import Pretendard_Thin from '../assets/font/pretendard/pretendard-Thin.woff2';
+import Pretendard_Black from '../assets/font/pretendard/Pretendard-Black.woff2';
+import Pretendard_Bold from '../assets/font/pretendard/Pretendard-Bold.woff2';
+import Pretendard_ExtraBold from '../assets/font/pretendard/Pretendard-ExtraBold.woff2';
+import Pretendard_ExtraLight from '../assets/font/pretendard/Pretendard-ExtraLight.woff2';
+import Pretendard_Light from '../assets/font/pretendard/Pretendard-Light.woff2';
+import Pretendard_Medium from '../assets/font/pretendard/Pretendard-Medium.woff2';
+import Pretendard_Regular from '../assets/font/pretendard/Pretendard-Regular.woff2';
+import Pretendard_SemiBold from '../assets/font/pretendard/Pretendard-SemiBold.woff2';
+import Pretendard_Thin from '../assets/font/pretendard/Pretendard-Thin.woff2';
 import './reset.css';
 
 const GlobalStyle = () => {
