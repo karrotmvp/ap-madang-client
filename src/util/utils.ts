@@ -42,6 +42,34 @@ export const getRemainTime = (start_time: string) => {
   return result;
 };
 
+export const getRemainFullTime = (end_time: string) => {
+  const today = new Date();
+
+  const currHour = today.getHours();
+  const currMin = today.getMinutes();
+  const currSec = today.getSeconds();
+  const endTimeArr = end_time.split(':');
+
+  let hourDiff = parseInt(endTimeArr[0]) - currHour;
+  let minDiff = parseInt(endTimeArr[1]) - currMin;
+  let secDiff = parseInt(endTimeArr[2]) - currSec;
+
+  let result = '';
+  if (secDiff < 0) {
+    minDiff -= 1;
+    secDiff += 60;
+  }
+  if (minDiff < 0) {
+    hourDiff -= 1;
+    minDiff += 60;
+  }
+  if (hourDiff > 0) result += `${hourDiff}:`;
+  if (minDiff > 0) result += `${minDiff.toString().padStart(2, '0')}:`;
+  if (secDiff >= 0) result += `${secDiff.toString().padStart(2, '0')} `;
+
+  return result;
+};
+
 const getTimeText = (hour: number, min: number) => {
   let tempTimeText = '';
   if (hour !== 0 && hour < 12) tempTimeText += `오전 ${hour}시`;
