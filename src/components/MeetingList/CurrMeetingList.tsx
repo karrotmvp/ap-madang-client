@@ -33,9 +33,6 @@ const CurrMeetingListWrapper = styled.div`
     width: auto;
   }
 `;
-// const EmptyBlock = styled.div`
-//   width: 0rem;
-// `;
 
 const TitleWrapper = styled.div`
   padding-left: 0.4rem;
@@ -79,31 +76,32 @@ function CurrMeetingList({ title, className }: Props): ReactElement {
         <SubTitle className="body3">{LANDING.CURR_MEETING_SUB_TITLE}</SubTitle>
       </TitleWrapper>
 
-      {meetings && meetings.length === 1 && (
+      {meetings.length === 1 ? (
         <CardWrapper>
           <CurrMeetingCard data={meetings[0]} idx={0} total={1} />
         </CardWrapper>
-      )}
-      {meetings && meetings.length > 1 && (
-        <SwiperWrapper>
-          <Swiper
-            slidesPerView={'auto'}
-            spaceBetween={16}
-            freeMode={true}
-            className="mySwiper"
-          >
-            <SwiperSlide />
-            {meetings.map((el, idx) => {
-              return (
-                <SwiperSlide key={el.id}>
-                  <CurrMeetingCard data={el} idx={idx} />
-                </SwiperSlide>
-              );
-            })}
-            <SwiperSlide />
-            <SwiperSlide />
-          </Swiper>
-        </SwiperWrapper>
+      ) : (
+        meetings.length > 1 && (
+          <SwiperWrapper>
+            <Swiper
+              slidesPerView={'auto'}
+              spaceBetween={16}
+              freeMode={true}
+              className="mySwiper"
+            >
+              <SwiperSlide />
+              {meetings.map((el, idx) => {
+                return (
+                  <SwiperSlide key={el.id}>
+                    <CurrMeetingCard data={el} idx={idx} />
+                  </SwiperSlide>
+                );
+              })}
+              <SwiperSlide />
+              <SwiperSlide />
+            </Swiper>
+          </SwiperWrapper>
+        )
       )}
     </CurrMeetingListWrapper>
   );

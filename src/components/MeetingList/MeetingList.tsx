@@ -56,7 +56,7 @@ function MeetingList({ title, className }: Props): ReactElement {
           </MeetingCounter>
         )}
       </ListTitle>
-      {meetings !== 0 ? (
+      {meetings.length !== 0 ? (
         meetings.map((el, idx) => {
           return <MeetingCard key={el.id} data={el} idx={idx} />;
         })
