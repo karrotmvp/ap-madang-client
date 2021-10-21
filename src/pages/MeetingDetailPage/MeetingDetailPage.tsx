@@ -197,13 +197,17 @@ const MeetingDetailPage = () => {
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
   const [openDeleteAlarmModal, setOpenDeleteAlarmModal] = useState(false);
 
-  const matchId = useRouteMatch<MatchParams>('/meetings/:id');
+  const matchId = useRouteMatch<MatchParams>({
+    path: '/meetings/:id',
+  }) || { params: { id: '' } };
 
+  // 모임 상세정보 fetch
   const fetchData = useCallback(async (id: string) => {
     const result = await getMeetingDetail(id);
     if (result.success && result.data) setData(result.data);
   }, []);
 
+  // 알람 신청 해제 핸들러
   const deleteAlarmHandler = useCallback(async () => {
     if (data?.alarm_id && matchId?.params.id) {
       const result = await deleteAlarm(data.alarm_id.toString());
@@ -220,9 +224,9 @@ const MeetingDetailPage = () => {
       }
     }
     return false;
-    //eslint-disable-next-line
-  }, [data, matchId?.params.id]);
+  }, [data.alarm_id, matchId.params.id]);
 
+  // 알람 신청 핸들러
   const alarmHandler = useCallback(async () => {
     if (data?.alarm_id) {
       setOpenDeleteAlarmModal(true);
@@ -236,20 +240,19 @@ const MeetingDetailPage = () => {
         setOpenNewAlarmModal(true);
       }
     }
-    //eslint-disable-next-line
-  }, [data.alarm_id, matchId?.params.id]);
+  }, [data.alarm_id, matchId.params.id]);
 
-  useEffect(() => {
-    if (matchId?.params.id) fetchData(matchId?.params.id);
-    //eslint-disable-next-line
-  }, [matchId?.params.id]);
-
+  // 하단 남은시간 타이머 업데이트
   useInterval(
     () => {
       setRemainTime(getRemainTime(data.start_time));
     },
     data.live_status === 'upcoming' ? 10000 : null,
   );
+
+  useEffect(() => {
+    if (matchId?.params.id && !data.id) fetchData(matchId.params.id);
+  }, [data.id, fetchData, matchId.params.id]);
 
   useEffect(() => {
     setRemainTime(getRemainTime(data.start_time));
