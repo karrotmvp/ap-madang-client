@@ -44,7 +44,7 @@ export interface MeetingDetailType {
   end_time: string;
   live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
   alarm_id: number | undefined;
-  alarm_num: 0;
+  alarm_num: number;
   description: MeetingDetailDescriptionType;
   meeting_url: string;
   region: string;
