@@ -7,6 +7,7 @@ import Auth from './hoc/Auth';
 import LandingPage from './pages/LandingPage/LandingPage';
 import MeetingDetailPage from './pages/MeetingDetailPage/MeetingDetailPage';
 import MeetingSuggestionPage from './pages/MeetingSuggestionPage/MeetingSuggestionPage';
+import NotFoundPage from './pages/NotFountPage/NotFoundPage';
 import OnBoardingPage from './pages/OnBoardingPage/OnBoardingPage';
 import ReservationPage from './pages/ReservationPage/ReservationPage';
 import mini from './util/mini';
@@ -31,6 +32,7 @@ const App: React.FC = () => {
         component={Auth(MeetingSuggestionPage)}
       />
       <Screen path="/reservation" component={ReservationPage} />
+      <Screen path="*" component={NotFoundPage} />
     </Navigator>
   );
 };
