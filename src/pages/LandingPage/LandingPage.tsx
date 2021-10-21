@@ -56,10 +56,10 @@ const BlockDivider = styled.div`
 `;
 
 const LandingPage: React.FC = () => {
+  const { push } = useNavigator();
+
   const setMeetings = useSetRecoilState(meetingsAtom);
   const userInfo = useRecoilValue(userInfoAtom);
-
-  const { push } = useNavigator();
 
   const meetingListHandler = useCallback(async () => {
     const result = await getMeetings();
@@ -68,7 +68,7 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     if (userInfo) meetingListHandler();
-  }, [meetingListHandler, userInfo, push]);
+  }, [meetingListHandler, userInfo]);
 
   return (
     <PageWrapper className="landing">
