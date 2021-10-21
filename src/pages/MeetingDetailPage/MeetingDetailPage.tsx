@@ -240,7 +240,7 @@ const MeetingDetailPage = () => {
         setOpenNewAlarmModal(true);
       }
     }
-  }, [data.alarm_id, matchId.params.id]);
+  }, [data, matchId.params.id]);
 
   // 하단 남은시간 타이머 업데이트
   useInterval(
