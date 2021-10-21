@@ -177,7 +177,7 @@ const GreenInfoBox = styled.div`
   line-height: 2rem;
   letter-spacing: -0.03rem;
   border-radius: 0.6rem;
-  margin: 0 1.6rem;
+  margin: 1.6rem 1.6rem 0 1.6rem;
   padding: 1rem 1.4rem;
 `;
 
