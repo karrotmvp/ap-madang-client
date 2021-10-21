@@ -25,7 +25,7 @@ export const RESERVATION = {
 
 export const LANDING = {
   NAVIGATOR_TITLE: '랜선동네모임',
-  CURRENT_MEETING: '지금 참여할 수 있는 모임',
+  CURRENT_MEETING: '지금 바로 모임에 참여해 보세요',
   UPCOMING_MEETING: '오늘 참여할 수 있는 모임',
   TOMORROW_MEETING: '미리 보는 내일 모임',
   START_MEETING_LATER: ' 후 모임이 시작돼요',

@@ -12,7 +12,6 @@ import { currMeetings } from '../../store/meeting';
 import CurrMeetingCard from '../MeetingCard/CurrMeetingCard';
 
 interface Props {
-  title: string;
   className?: string;
 }
 
@@ -49,10 +48,6 @@ const Title = styled.div`
   margin-bottom: 0.4rem;
 `;
 
-const SubTitle = styled.div`
-  color: ${COLOR.TEXT_GRAY};
-`;
-
 const CardWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -65,15 +60,14 @@ const SwiperWrapper = styled.div`
   overflow: visible;
 `;
 
-function CurrMeetingList({ title, className }: Props): ReactElement {
+function CurrMeetingList({ className }: Props): ReactElement {
   const meetings = useRecoilValue(currMeetings);
   return (
     <CurrMeetingListWrapper
       className={classnames('curr-meeting-list', className)}
     >
       <TitleWrapper>
-        <Title>{title}</Title>
-        <SubTitle className="body3">{LANDING.CURR_MEETING_SUB_TITLE}</SubTitle>
+        <Title>{LANDING.CURRENT_MEETING}</Title>
       </TitleWrapper>
 
       {meetings.length === 1 ? (

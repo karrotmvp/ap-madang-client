@@ -81,10 +81,7 @@ const LandingPage: React.FC = () => {
         }
       />
       <BannerImg src={home_banner} className="landing__banner-img" />
-      <CurrMeetingList
-        className="landing__current"
-        title={LANDING.CURRENT_MEETING}
-      />
+      <CurrMeetingList className="landing__current" />
       <BlockDivider className="landing__divider" />
       <MeetingList
         className="landing__upoming"
