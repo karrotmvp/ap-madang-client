@@ -28,12 +28,26 @@
               DEV_API_URL: ${{ secrets.DEV_API_URL }}
               DEV_MINI_PRESET_URL: ${{ secrets.DEV_MINI_PRESET_URL }}
               GA_KEY: ${{ secrets.GA_KEY }}
+              FA_KEY: ${{ secrets.FA_KEY_DEV }}
+              FA_AUTH_DOMAIN: ${{ secrets.FA_AUTH_DOMAIN_DEV }}
+              FA_PROJECT_ID: ${{ secrets.FA_PROJECT_ID_DEV }}
+              FA_STORAGE_BUCKET: ${{ secrets.FA_STORAGE_BUCKET_DEV }}
+              FA_MESSAGING_SENDER_ID: ${{ secrets.FA_MESSAGING_SENDER_ID_DEV }}
+              FA_APP_ID: ${{ secrets.FA_APP_ID_DEV }}
+              FA_MEASUREMENT_ID: ${{ secrets.FA_MEASUREMENT_ID_DEV }}
             run: |
               touch .env
               echo APP_ID="$DEV_APP_ID" >> .env
               echo API_URL="$DEV_API_URL" >> .env
               echo MINI_PRESET_URL="$DEV_MINI_PRESET_URL" >> .env
               echo GA_KEY="$GA_KEY" >> .env
+              echo FA_KEY="$FA_KEY_DEV" >> .env
+              echo FA_AUTH_DOMAIN="$FA_AUTH_DOMAIN_DEV" >> .env
+              echo FA_PROJECT_ID="$FA_PROJECT_ID_DEV" >> .env
+              echo FA_STORAGE_BUCKET="$FA_STORAGE_BUCKET_DEV" >> .env
+              echo FA_MESSAGING_SENDER_ID="$FA_MESSAGING_SENDER_ID_DEV" >> .env
+              echo FA_APP_ID="$FA_APP_ID_DEV" >> .env
+              echo FA_MEASUREMENT_ID="$FA_MEASUREMENT_ID_DEV" >> .env
               cat .env
     
           - name: Npm install
