@@ -28,6 +28,10 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+
+  @media (max-width: 300px) {
+    width: 21.8rem;
+  }
 `;
 
 const ImageWrapper = styled.div`
