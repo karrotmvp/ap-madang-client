@@ -1,10 +1,12 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 import { useSetRecoilState } from 'recoil';
 
 import { deleteAlarm, newAlarm } from '../../api/alarm';
+import { analytics } from '../../App';
 import card_noti_off from '../../assets/icon/card_noti_off.svg';
 import card_noti_on from '../../assets/icon/card_noti_on.svg';
 import tooltip_close from '../../assets/icon/tooltip_close.svg';
@@ -104,48 +106,47 @@ const FooterText = styled.div`
 
 const TooltipWrapper = styled.div`
   position: relative;
-  width: 100%;
 `;
 
 const TooltipBox = styled.div`
   box-sizing: border-box;
   padding: 1rem 1.4rem;
-  bottom: 1rem;
+  bottom: 0rem;
   right: -3rem;
   position: absolute;
-  width: 18rem;
+  width: 16.8rem;
   height: 5.8rem;
   background-color: ${COLOR.SECONDARY};
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+
+  font-size: 13px;
+  line-height: 1.9rem;
+  letter-spacing: -0.03rem;
 
   border-radius: 0.4rem;
   &:after {
     content: '';
     position: absolute;
     bottom: 0;
-    right: 0.5rem;
+    right: 1rem;
     width: 0;
     height: 0;
-    border: 1rem solid transparent;
+    border: 0.5rem solid transparent;
     border-top-color: ${COLOR.SECONDARY};
     border-bottom: 0;
-    margin-left: -1rem;
-    margin-bottom: -1rem;
+    margin-left: -0.5rem;
+    margin-bottom: -0.5rem;
   }
 `;
 
 const TooltipText = styled.div`
   position: relative;
   flex: 1;
-  font-size: 1.3rem;
-  line-height: 1.9rem;
-  letter-spacing: -0.03rem;
   word-break: none;
-
   color: ${COLOR.TEXT_BLACK};
 `;
+
 const TooltipIconWrapper = styled.div`
   line-height: 1.9rem;
 `;
@@ -166,6 +167,12 @@ function MeetingCard({ idx, data }: Props): ReactElement {
 
   const deleteAlarmHandler = useCallback(async () => {
     if (data?.alarm_id) {
+      logEvent(analytics, 'delete_alarm', {
+        location: 'meeting_card',
+        meeting_id: data.id,
+        meeting_name: data.title,
+        is_current: data.live_status,
+      });
       const result = await deleteAlarm(data.alarm_id.toString());
       if (result.success) {
         setMeetings(el =>
@@ -180,7 +187,7 @@ function MeetingCard({ idx, data }: Props): ReactElement {
       }
     }
     return false;
-  }, [data.alarm_id, data.id, setMeetings]);
+  }, [data.alarm_id, data.id, data.live_status, data.title, setMeetings]);
 
   const alarmHandler = useCallback(
     async e => {
@@ -188,6 +195,12 @@ function MeetingCard({ idx, data }: Props): ReactElement {
       if (data?.alarm_id) {
         setOpenDeleteAlarmModal(true);
       } else if (data.id) {
+        logEvent(analytics, 'add_alarm', {
+          location: 'meeting_card',
+          meeting_id: data.id,
+          meeting_name: data.title,
+          is_current: data.live_status,
+        });
         const result = await newAlarm(data.id.toString());
         if (result.success && result.data?.id) {
           setMeetings(el =>
@@ -202,7 +215,7 @@ function MeetingCard({ idx, data }: Props): ReactElement {
         }
       }
     },
-    [data.alarm_id, data.id, setMeetings],
+    [data, setMeetings],
   );
 
   const onClickCardHandler = useCallback(() => {

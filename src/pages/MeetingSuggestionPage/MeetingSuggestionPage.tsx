@@ -1,11 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
 import { IoEllipse } from 'react-icons/io5';
 import { useRecoilValue } from 'recoil';
 
 import { meetingSuggestion } from '../../api/suggestion';
+import { analytics } from '../../App';
 import bulb from '../../assets/icon/bulb.svg';
 import nav_back from '../../assets/icon/nav_back.svg';
 import { COLOR } from '../../constant/color';
@@ -70,12 +72,14 @@ const PageTitle = styled.div`
 `;
 
 const SuggestionTitle = styled.div`
+  word-break: keep-all;
+
   font-weight: 600;
   font-size: 1.8rem;
   line-height: 2.8rem;
   text-align: center;
   letter-spacing: -0.04rem;
-  margin: 0 0 2.4rem 0;
+  margin: 0 1.6rem 2.4rem 1.6rem;
   white-space: pre-line;
 `;
 
@@ -85,7 +89,6 @@ const TextArea = styled.textarea`
   padding: 1.6rem;
   border: 0.1rem solid ${COLOR.TEXTAREA_LIGHT_GRAY};
   border-radius: 0.6rem;
-
   font-size: 1.6rem;
   line-height: 2.4rem;
   letter-spacing: -0.03rem;
@@ -150,6 +153,10 @@ const MeetingSuggestionPage = () => {
     }
     return SUGGESTION.TELL_ME_NEW_MEETING;
   }, [submit, userInfo]);
+
+  useEffect(() => {
+    logEvent(analytics, 'suggestion_page');
+  }, []);
 
   return (
     <PageWrapper className="meeting-suggestion">

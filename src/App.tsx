@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { css } from '@emotion/css';
 import { Navigator, Screen } from '@karrotframe/navigator';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 
 import Auth from './hoc/Auth';
 import LandingPage from './pages/LandingPage/LandingPage';
@@ -11,6 +12,7 @@ import NotFoundPage from './pages/NotFountPage/NotFoundPage';
 import OnBoardingPage from './pages/OnBoardingPage/OnBoardingPage';
 import RedirectPage from './pages/RedirectPage/RedirectPage';
 import ReservationPage from './pages/ReservationPage/ReservationPage';
+import { app } from './util/firebase';
 import mini from './util/mini';
 import { checkMobileType } from './util/utils';
 
@@ -18,7 +20,12 @@ const NavigatorStyle = css`
   --kf_navigator_navbar-height: 5.6rem;
 `;
 
+export const analytics = getAnalytics(app);
+
 const App: React.FC = () => {
+  useEffect(() => {
+    logEvent(analytics, 'launch_app');
+  }, []);
   return (
     <Navigator
       theme={checkMobileType()}

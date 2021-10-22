@@ -1,11 +1,13 @@
 import React, { useCallback, useState, useEffect } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { ScreenHelmet } from '@karrotframe/navigator';
 import { useRouteMatch } from 'react-router-dom';
 
 import { deleteAlarm, newAlarm } from '../../api/alarm';
 import { getMeetingDetail, MeetingDetailType } from '../../api/meeting';
+import { analytics } from '../../App';
 import arrow_iOS_large from '../../assets/icon/arrow_iOS_large.svg';
 import clock from '../../assets/icon/clock.svg';
 import nav_back from '../../assets/icon/nav_back.svg';
@@ -222,6 +224,12 @@ const MeetingDetailPage = () => {
   // 알람 신청 해제 핸들러
   const deleteAlarmHandler = useCallback(async () => {
     if (data?.alarm_id && matchId?.params.id) {
+      logEvent(analytics, 'delete_alarm', {
+        location: 'detail_page',
+        meeting_id: data.id,
+        meeting_name: data.title,
+        is_current: data.live_status,
+      });
       const result = await deleteAlarm(data.alarm_id.toString());
       if (result.success) {
         setData(prevState => {
@@ -243,6 +251,12 @@ const MeetingDetailPage = () => {
     if (data?.alarm_id) {
       setOpenDeleteAlarmModal(true);
     } else if (matchId?.params.id) {
+      logEvent(analytics, 'add_alarm', {
+        location: 'detail_page',
+        meeting_id: data.id,
+        meeting_name: data.title,
+        is_current: data.live_status,
+      });
       const result = await newAlarm(matchId.params.id);
       if (result.success && result.data?.id) {
         setData(prevState => {
@@ -253,6 +267,14 @@ const MeetingDetailPage = () => {
       }
     }
   }, [data, matchId.params.id]);
+
+  const trackJoinUser = () => {
+    logEvent(analytics, 'join_meeting_btn', {
+      meeting_id: data.id,
+      meeting_name: data.title,
+      is_current: data.live_status,
+    });
+  };
 
   // 하단 남은시간 타이머 업데이트
   useInterval(
@@ -269,6 +291,15 @@ const MeetingDetailPage = () => {
   useEffect(() => {
     setRemainTime(getRemainTime(data.start_time));
   }, [data.start_time]);
+
+  useEffect(() => {
+    data.id !== 0 &&
+      logEvent(analytics, 'detail_page', {
+        meeting_id: data.id,
+        meeting_name: data.title,
+        is_current: data.live_status,
+      });
+  }, [data, data.id, data.live_status, data.title]);
 
   return (
     <PageWrapper className="meeting-detail">
@@ -312,7 +343,15 @@ const MeetingDetailPage = () => {
         <BlockDivider />
         <MannerInfoCardWrapper
           className="meeting-detail__footer-banner"
-          onClick={() => setOpenGuideModal(true)}
+          onClick={() => {
+            logEvent(analytics, 'show_guide_modal', {
+              location: 'detail_page',
+              meeting_id: data.id,
+              meeting_name: data.title,
+              is_current: data.live_status,
+            });
+            setOpenGuideModal(true);
+          }}
         >
           <InfoCardTitle className="title3">
             {MEETING_DETAIL.MANNER_INFO_CARD}
@@ -339,7 +378,11 @@ const MeetingDetailPage = () => {
           </AlarmBtn>
         )}
         {data.live_status === 'live' ? (
-          <JoinBtn href={data.meeting_url} target="_blank">
+          <JoinBtn
+            href={data.meeting_url}
+            target="_blank"
+            onClick={trackJoinUser}
+          >
             {MEETING_DETAIL.JOIN_NOW}
           </JoinBtn>
         ) : (

@@ -3,10 +3,12 @@ import React, { useCallback, useEffect } from 'react';
 
 import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
+import { logEvent, setUserId } from '@firebase/analytics';
 import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { getMeetings } from '../../api/meeting';
+import { analytics } from '../../App';
 import nav_close from '../../assets/icon/nav_close.svg';
 import home_banner from '../../assets/image/home_banner.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
@@ -67,8 +69,15 @@ const LandingPage: React.FC = () => {
   }, [setMeetings]);
 
   useEffect(() => {
-    if (userInfo) meetingListHandler();
+    if (userInfo) {
+      meetingListHandler();
+      setUserId(analytics, userInfo.nickname);
+    }
   }, [meetingListHandler, userInfo, push]);
+
+  useEffect(() => {
+    logEvent(analytics, 'first_open');
+  }, []);
 
   return (
     <PageWrapper className="landing">
