@@ -1,9 +1,14 @@
-import React, { ReactElement, useCallback } from 'react';
+import React, { ReactElement, useCallback, useEffect } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
 
+import { analytics } from '../../App';
+import btn404 from '../../assets/icon/btn404.svg';
 import nav_back from '../../assets/icon/nav_back.svg';
+import nav_close from '../../assets/icon/nav_close.svg';
+import not_fount_404 from '../../assets/image/not_found_404.png';
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -17,34 +22,34 @@ const PageWrapper = styled.div`
 const NavCustomBtn = styled.img`
   margin-left: 1.5rem;
 `;
-const NotFountNum = styled.div`
-  font-size: 3rem;
-  font-weight: 900;
+const NotFoundImg = styled.img`
+  width: auto;
+  height: 17.4rem;
   margin-bottom: 2rem;
 `;
-
-const NotFoundText = styled.div`
-  font-size: 2rem;
-  margin-bottom: 5rem;
-`;
-const BackBtn = styled.div`
-  font-weight: 600;
-  font-size: 1.5rem;
-`;
+const NotFountBtn = styled.img``;
 
 function NotFoundPage(): ReactElement {
-  const { pop } = useNavigator();
+  const { replace } = useNavigator();
 
   const onClickBackHandler = useCallback(() => {
-    pop();
-  }, [pop]);
+    replace('/');
+  }, [replace]);
+
+  useEffect(() => {
+    logEvent(analytics, 'not_found_page');
+  }, []);
 
   return (
     <PageWrapper>
-      <ScreenHelmet customBackButton={<NavCustomBtn src={nav_back} />} />
-      <NotFountNum>404</NotFountNum>
-      <NotFoundText>알 수 없는 오류가 발생했어요.</NotFoundText>
-      <BackBtn onClick={onClickBackHandler}>뒤로 돌아가기</BackBtn>
+      <ScreenHelmet
+        customCloseButton={<NavCustomBtn src={nav_close} />}
+        customBackButton={<NavCustomBtn src={nav_back} />}
+      />
+      <>
+        <NotFoundImg src={not_fount_404} />
+        <NotFountBtn src={btn404} onClick={onClickBackHandler} />
+      </>
     </PageWrapper>
   );
 }

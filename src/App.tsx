@@ -9,6 +9,7 @@ import MeetingDetailPage from './pages/MeetingDetailPage/MeetingDetailPage';
 import MeetingSuggestionPage from './pages/MeetingSuggestionPage/MeetingSuggestionPage';
 import NotFoundPage from './pages/NotFountPage/NotFoundPage';
 import OnBoardingPage from './pages/OnBoardingPage/OnBoardingPage';
+import RedirectPage from './pages/RedirectPage/RedirectPage';
 import ReservationPage from './pages/ReservationPage/ReservationPage';
 import mini from './util/mini';
 import { checkMobileType } from './util/utils';
@@ -32,6 +33,7 @@ const App: React.FC = () => {
         component={Auth(MeetingSuggestionPage)}
       />
       <Screen path="/reservation" component={ReservationPage} />
+      <Screen path="/redirect" component={RedirectPage} />
       <Screen path="*" component={NotFoundPage} />
     </Navigator>
   );
