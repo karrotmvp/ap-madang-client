@@ -68,7 +68,7 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     if (userInfo) meetingListHandler();
-  }, [meetingListHandler, userInfo]);
+  }, [meetingListHandler, userInfo, push]);
 
   return (
     <PageWrapper className="landing">

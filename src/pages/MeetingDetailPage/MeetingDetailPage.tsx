@@ -236,7 +236,7 @@ const MeetingDetailPage = () => {
       }
     }
     return false;
-  }, [data.alarm_id, matchId.params.id]);
+  }, [data, matchId.params.id]);
 
   // 알람 신청 핸들러
   const alarmHandler = useCallback(async () => {
