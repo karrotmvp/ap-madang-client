@@ -394,7 +394,7 @@ const MeetingDetailPage = () => {
             {MEETING_DETAIL.JOIN_NOW}
           </JoinBtn>
         ) : (
-          <DisableBtn onClick={onClickJoinHandler}>
+          <DisableBtn>
             {data.live_status === 'upcoming'
               ? `${remainTime} ${MEETING_DETAIL.JOIN_LATER}`
               : MEETING_DETAIL.CLOSE_MEETING}
