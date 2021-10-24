@@ -46,7 +46,7 @@ const DotIcon = styled.div`
   height: 2.3rem;
   display: flex;
   flex-direction: row;
-
+  justify-content: center;
   align-items: center;
 `;
 
@@ -59,10 +59,11 @@ const DescriptionItem = styled.div`
   word-break: keep-all;
   display: flex;
   flex-direction: row;
+  align-items: center;
 
   span {
     position: relative;
-    left: 10px;
+    left: 0.8rem;
   }
 `;
 

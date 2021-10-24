@@ -101,7 +101,7 @@ const FooterText = styled.div`
   font-size: 1.4rem;
   line-height: 1.7rem;
   letter-spacing: -0.02rem;
-  color: ${COLOR.TEXT_GRAY};
+  color: ${COLOR.FONT_BODY_GRAY};
 `;
 
 const TooltipWrapper = styled.div`

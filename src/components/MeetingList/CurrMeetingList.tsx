@@ -19,7 +19,7 @@ interface Props {
 const CurrMeetingListWrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
-  padding: 3rem 0 3rem 0;
+  padding: 2rem 0 3rem 0;
 
   .swiper {
     width: 100%;
@@ -35,17 +35,17 @@ const CurrMeetingListWrapper = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  padding-left: 0.4rem;
   margin-bottom: 2.2rem;
   padding: 0 1.6rem;
 `;
 
 const Title = styled.div`
   font-weight: bold;
+  padding-left: 0.4rem;
   font-size: 1.8rem;
   line-height: 2.8rem;
   letter-spacing: -0.04rem;
-  color: ${COLOR.TEXT_REAL_BLACK};
+  color: ${COLOR.TEXT_BLACK};
   margin-bottom: 0.4rem;
 `;
 

@@ -73,7 +73,8 @@ const TimeWrapper = styled.div`
 `;
 const Time = styled.div`
   color: ${COLOR.TEXT_GRAY};
-  margin-left: 0.8rem;
+  margin-left: 0.4rem;
+  letter-spacing: -0.03rem;
 `;
 
 const DescriptionWrapper = styled.div`
@@ -91,6 +92,7 @@ const MannerInfoCardWrapper = styled.div`
 
 const InfoCardTitle = styled.div`
   color: ${COLOR.TEXT_BLACK};
+  letter-spacing: -0.03rem;
 `;
 
 const MoreIcon = styled.div``;
@@ -121,13 +123,13 @@ const AlarmApplicant = styled.div<{ applied: number | undefined }>`
   font-size: 1.6rem;
   line-height: 1.9rem;
   text-align: center;
-  letter-spacing: -0.02rem;
+  letter-spacing: -0.03rem;
   margin-left: 0.4rem;
   color: ${({ applied }) =>
     applied ? COLOR.LIGHT_GREEN : COLOR.FONT_BODY_GRAY};
 `;
 
-const JoinBtn = styled.a`
+const JoinBtn = styled.div`
   flex: 1;
   height: 4.4rem;
 
@@ -136,11 +138,11 @@ const JoinBtn = styled.a`
   align-items: center;
   border-radius: 0.6rem;
   background-color: ${COLOR.LIGHT_GREEN};
-  font-weight: bold;
+  font-weight: 600;
   font-size: 1.6rem;
   line-height: 1.9rem;
   text-align: center;
-  letter-spacing: -0.02rem;
+  letter-spacing: -0.03rem;
 
   color: ${COLOR.TEXT_WHITE};
 
@@ -157,18 +159,17 @@ const JoinBtn = styled.a`
 const DisableBtn = styled.div`
   flex: 1;
   height: 4.4rem;
-  margin-left: 0.6rem;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 0.6rem;
   background-color: ${COLOR.TEXTAREA_LIGHT_GRAY};
   color: ${COLOR.TEXT_WHITE};
-  font-weight: bold;
+  font-weight: 600;
   font-size: 1.6rem;
   line-height: 1.9rem;
   text-align: center;
-  letter-spacing: -0.02rem;
+  letter-spacing: -0.03rem;
 `;
 
 const GreenInfoBox = styled.div`

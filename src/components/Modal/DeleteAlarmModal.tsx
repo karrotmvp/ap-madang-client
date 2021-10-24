@@ -19,6 +19,7 @@ const InnerModalStyle = css`
   margin: 0 4rem;
   height: auto;
   padding: 0;
+  letter-spacing: -0.03rem;
 `;
 
 const ContentsWrapper = styled.div`

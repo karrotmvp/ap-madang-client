@@ -19,7 +19,6 @@ const ModalStyle = styled(Modal)`
   height: 100%;
   width: 100%;
   padding: 3.7rem 2.4rem 2.6rem 2.4rem;
-  border-radius: 0.6rem;
 `;
 
 const InnerModalStyle = css`

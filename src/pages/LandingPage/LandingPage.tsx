@@ -1,7 +1,5 @@
-/** @jsx jsx */
 import React, { useCallback, useEffect } from 'react';
 
-import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import { logEvent, setUserId } from '@firebase/analytics';
 import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
@@ -16,7 +14,7 @@ import CurrMeetingList from '../../components/MeetingList/CurrMeetingList';
 import MeetingList from '../../components/MeetingList/MeetingList';
 import { COLOR } from '../../constant/color';
 import { LANDING } from '../../constant/message';
-import { meetingsAtom } from '../../store/meeting';
+import { currMeetings, meetingsAtom } from '../../store/meeting';
 import { userInfoAtom } from '../../store/user';
 
 const PageWrapper = styled.div`
@@ -33,6 +31,7 @@ const NavCustomBtn = styled.img`
 
 const PageTitle = styled.div`
   margin-left: 20px;
+  color: ${COLOR.TEXT_BLACK};
 `;
 
 const BannerImg = styled.img`
@@ -44,7 +43,7 @@ const BannerImg = styled.img`
 `;
 
 const SuggestionBannerWrapper = styled.div`
-  padding: 3rem 1.6rem 4rem 1.6rem;
+  padding: 3rem 1.6rem 3rem 1.6rem;
 `;
 
 const SuggestionImg = styled.img`
@@ -61,6 +60,7 @@ const LandingPage: React.FC = () => {
   const { push } = useNavigator();
 
   const setMeetings = useSetRecoilState(meetingsAtom);
+  const currMeetingsValue = useRecoilValue(currMeetings);
   const userInfo = useRecoilValue(userInfoAtom);
 
   const meetingListHandler = useCallback(async () => {
@@ -90,8 +90,12 @@ const LandingPage: React.FC = () => {
         }
       />
       <BannerImg src={home_banner} className="landing__banner-img" />
-      <CurrMeetingList className="landing__current" />
-      <BlockDivider className="landing__divider" />
+      {currMeetingsValue.length !== 0 && (
+        <>
+          <CurrMeetingList className="landing__current" />
+          <BlockDivider className="landing__divider" />
+        </>
+      )}
       <MeetingList
         className="landing__upoming"
         title={LANDING.UPCOMING_MEETING}

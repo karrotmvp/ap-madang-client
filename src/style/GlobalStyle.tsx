@@ -12,6 +12,7 @@ import Pretendard_Regular from '../assets/font/pretendard/Pretendard-Regular.wof
 import Pretendard_SemiBold from '../assets/font/pretendard/Pretendard-SemiBold.woff2';
 import Pretendard_Thin from '../assets/font/pretendard/Pretendard-Thin.woff2';
 import './reset.css';
+import { COLOR } from '../constant/color';
 
 const GlobalStyle = () => {
   return (
@@ -21,6 +22,7 @@ const GlobalStyle = () => {
         body,
         textarea {
           height: 100%;
+          color: ${COLOR.TEXT_BLACK};
           font-size: 62.5%;
           font-family: 'Pretendard';
           font-weight: 400;

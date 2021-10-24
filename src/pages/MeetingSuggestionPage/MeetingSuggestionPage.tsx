@@ -32,6 +32,8 @@ const PageWrapper = styled.div`
 
 const NavCustomBtn = styled.img`
   margin-left: 1.5rem;
+  width: 2.4rem;
+  height: 2.4rem;
 `;
 
 const ContentsWrapper = styled.div<ContentsWrapperProps>`
@@ -65,9 +67,9 @@ const EllipseIcon = styled.div`
 const PageTitle = styled.div`
   font-weight: 600;
   font-size: 1.6rem;
-  line-height: 1.9rem;
-  letter-spacing: -0.02em;
-  margin-left: 2rem;
+  line-height: 2.4rem;
+  letter-spacing: -0.03em;
+  margin-left: 3.2rem;
   box-sizing: border-box;
 `;
 

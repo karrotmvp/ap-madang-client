@@ -4,7 +4,7 @@ export const COLOR = {
   TEXT_GRAY: '#767676',
   TEXT_WHITE: '#ffffff',
   BACKGROUND_WHITE: '#ffffff',
-  MODAL_WRAPPER_BLACK: 'rgba(59, 62, 65, 0.7)',
+  MODAL_WRAPPER_BLACK: 'rgba(25,25,26, 0.75)',
   GRAY_000: '#FAFAFA',
   GRAY_300: '#DFE1E3',
   GRAY_400: '#DFE1E3',

@@ -20,7 +20,7 @@ interface Props {
 
 const MeetingListWrapper = styled.div`
   box-sizing: border-box;
-  padding: 3rem 1.6rem 3rem 1.6rem;
+  padding: 3rem 1.6rem 2rem 1.6rem;
 `;
 
 const MeetingCounter = styled.span`
@@ -33,7 +33,7 @@ const ListTitle = styled.div`
   font-size: 1.8rem;
   line-height: 2.8rem;
   letter-spacing: -0.04rem;
-  color: ${COLOR.TEXT_REAL_BLACK};
+  color: ${COLOR.TEXT_BLACK};
   padding-left: 0.4rem;
 `;
 

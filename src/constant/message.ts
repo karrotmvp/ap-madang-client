@@ -46,7 +46,7 @@ export const COMMON = {
 };
 
 export const SUGGESTION = {
-  NAVIGATOR_TITLE: '모임 건의하기',
+  NAVIGATOR_TITLE: '모임 의견내기',
   SUBMIT_BUTTON: '의견 전달하기',
   CONFITM_BUTTON: '확인',
   TELL_ME_NEW_MEETING: '이웃과 함께하고 싶은 모임을 말해주세요.',
