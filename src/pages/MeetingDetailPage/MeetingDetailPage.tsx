@@ -13,6 +13,7 @@ import clock from '../../assets/icon/clock.svg';
 import nav_back from '../../assets/icon/nav_back.svg';
 import notification_empty from '../../assets/icon/notification_empty.svg';
 import notification_fill from '../../assets/icon/notification_fill.svg';
+import BottomSheet from '../../components/BottomSheet/BottomSheet';
 import { DescriptionList } from '../../components/DescriptionList/DescriptionList';
 import DeleteAlarmModal from '../../components/Modal/DeleteAlarmModal';
 import MeetingGuideModal from '../../components/Modal/MeetingGuideModal';
@@ -208,6 +209,7 @@ const defaultValue: MeetingDetailType = {
 const MeetingDetailPage = () => {
   const [data, setData] = useState<MeetingDetailType>(defaultValue);
   const [remainTime, setRemainTime] = useState('');
+  const [openBottomSheet, setOpenBottomSheet] = useState(false);
   const [openGuideModal, setOpenGuideModal] = useState(false);
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
   const [openDeleteAlarmModal, setOpenDeleteAlarmModal] = useState(false);
@@ -269,7 +271,8 @@ const MeetingDetailPage = () => {
     }
   }, [data, matchId.params.id]);
 
-  const trackJoinUser = () => {
+  const onClickJoinHandler = () => {
+    setOpenBottomSheet(true);
     logEvent(analytics, 'join_meeting_btn', {
       meeting_id: data.id,
       meeting_name: data.title,
@@ -305,6 +308,14 @@ const MeetingDetailPage = () => {
   return (
     <PageWrapper className="meeting-detail">
       <ScreenHelmet customBackButton={<NavCustomBtn src={nav_back} />} />
+
+      {openBottomSheet && (
+        <BottomSheet
+          url={data.meeting_url}
+          onClose={() => setOpenBottomSheet(false)}
+        />
+      )}
+
       {openGuideModal && (
         <MeetingGuideModal closeHandler={() => setOpenGuideModal(false)} />
       )}
@@ -379,15 +390,11 @@ const MeetingDetailPage = () => {
           </AlarmBtn>
         )}
         {data.live_status === 'live' ? (
-          <JoinBtn
-            href={data.meeting_url}
-            target="_blank"
-            onClick={trackJoinUser}
-          >
+          <JoinBtn onClick={onClickJoinHandler}>
             {MEETING_DETAIL.JOIN_NOW}
           </JoinBtn>
         ) : (
-          <DisableBtn>
+          <DisableBtn onClick={onClickJoinHandler}>
             {data.live_status === 'upcoming'
               ? `${remainTime} ${MEETING_DETAIL.JOIN_LATER}`
               : MEETING_DETAIL.CLOSE_MEETING}

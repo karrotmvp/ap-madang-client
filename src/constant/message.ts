@@ -87,3 +87,11 @@ export const MEETING_DETAIL = {
     CLOSE: '닫기',
   },
 };
+
+export const BOTTOM_SHEET = {
+  TITLE: '랜선 동네모임, 이렇게 즐겨보세요',
+  SUB_TITLE1: '랜동모는 방장 없이 동네 이웃과 다 같이 모임을 만들어가요.',
+  SUB_TITLE2: '모임에 들어가면 먼저 자기소개를 간단하게 해주세요.',
+  SUB_TITLE3: '새로운 이웃이 참여하면 서로 인사를 나누고 함께 대화해요.',
+  JOIN: '모임 입장하기',
+};
