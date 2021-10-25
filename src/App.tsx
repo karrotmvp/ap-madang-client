@@ -42,7 +42,7 @@ const App: React.FC = () => {
         component={Auth(MeetingSuggestionPage)}
       />
       <Screen path="/reservation" component={ReservationPage} />
-      <Screen path="/redirect" component={RedirectPage} />
+      <Screen path="/redirect" component={Auth(RedirectPage)} />
       <Screen path="*" component={NotFoundPage} />
     </Navigator>
   );
