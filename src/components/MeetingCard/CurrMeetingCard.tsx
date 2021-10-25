@@ -24,8 +24,8 @@ interface ThumbnailProps {
 }
 
 const MeetingCardWrapper = styled.div<WrapperProps>`
-  box-sizing: border-box;
-  width: ${({ total }) => (total === 1 ? '32.6rem' : '25.8rem')};
+  margin: ${({ total }) => (total === 1 ? '0 1.6rem' : '0')};
+  width: ${({ total }) => (total === 1 ? '100%' : '25.8rem')};
   height: ${({ total }) => (total === 1 ? '28.9rem' : '28.3rem')};
   border: 1px solid ${COLOR.TEXTAREA_LIGHT_GRAY};
   border-radius: 0.6rem;

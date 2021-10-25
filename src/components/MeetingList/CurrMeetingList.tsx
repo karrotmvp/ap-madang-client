@@ -108,7 +108,6 @@ function CurrMeetingList({ className }: Props): ReactElement {
                 );
               })}
               <SwiperSlide />
-              <SwiperSlide />
             </Swiper>
           </SwiperWrapper>
         )
