@@ -26,9 +26,10 @@ const App: React.FC = () => {
   useEffect(() => {
     logEvent(analytics, 'launch_app');
   }, []);
+
   return (
     <Navigator
-      theme="Cupertino"
+      theme="Android"
       onClose={() => mini.close()}
       className={NavigatorStyle}
     >
