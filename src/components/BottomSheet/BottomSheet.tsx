@@ -158,10 +158,11 @@ const JoinBtn = styled.a`
 
 interface Props {
   onClose: () => void;
+  onClickJoin?: () => void;
   url: string;
 }
 
-function BottomSheet({ onClose, url }: Props): ReactElement {
+function BottomSheet({ onClose, onClickJoin, url }: Props): ReactElement {
   const [closeState, setCloseState] = useState(!open);
 
   const closeHandler = useCallback(() => {
@@ -214,7 +215,7 @@ function BottomSheet({ onClose, url }: Props): ReactElement {
           </DescriptionItem>
         </InfoTextWrapper>
 
-        <JoinBtn href={url} target="_blank">
+        <JoinBtn onClick={onClickJoin} href={url} target="_blank">
           {BOTTOM_SHEET.JOIN}
         </JoinBtn>
       </ContentsWrapper>

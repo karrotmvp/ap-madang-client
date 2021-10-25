@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-import { ScreenHelmet } from '@karrotframe/navigator';
+import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
 import { useRouteMatch } from 'react-router-dom';
 
 import { deleteAlarm, newAlarm } from '../../api/alarm';
@@ -223,9 +223,13 @@ const MeetingDetailPage = () => {
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
   const [openDeleteAlarmModal, setOpenDeleteAlarmModal] = useState(false);
 
+  const [joined, setJoined] = useState(false);
+
   const matchId = useRouteMatch<MatchParams>({
     path: '/meetings/:id',
   }) || { params: { id: '' } };
+
+  const { push } = useNavigator();
 
   // 모임 상세정보 fetch
   const fetchData = useCallback(async (id: string) => {
@@ -298,6 +302,17 @@ const MeetingDetailPage = () => {
   );
 
   useEffect(() => {
+    if (joined) {
+      const redirect = setTimeout(() => {
+        joined && push('/');
+        setJoined(false);
+      }, 5000);
+      return () => clearTimeout(redirect);
+    }
+    return;
+  }, [joined, push]);
+
+  useEffect(() => {
     if (matchId?.params.id && !data.id) fetchData(matchId.params.id);
   }, [data.id, fetchData, matchId.params.id]);
 
@@ -321,6 +336,7 @@ const MeetingDetailPage = () => {
       {openBottomSheet && (
         <BottomSheet
           url={data.meeting_url}
+          onClickJoin={() => setJoined(true)}
           onClose={() => setOpenBottomSheet(false)}
         />
       )}
