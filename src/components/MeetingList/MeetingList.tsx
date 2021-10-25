@@ -7,11 +7,12 @@ import { useRecoilValue } from 'recoil';
 import { COLOR } from '../../constant/color';
 import { LANDING } from '../../constant/message';
 import {
-  currMeetings,
+  meetingsAtom,
   tomorrowMeetings,
   upcomingMeetings,
 } from '../../store/meeting';
 import MeetingCard from '../MeetingCard/MeetingCard';
+import SkeletonCard from '../MeetingCard/SkeletonCard';
 
 interface Props {
   title: string;
@@ -39,12 +40,10 @@ const ListTitle = styled.div`
 
 function MeetingList({ title, className }: Props): ReactElement {
   const meetings = useRecoilValue(
-    title === LANDING.CURRENT_MEETING
-      ? currMeetings
-      : title === LANDING.UPCOMING_MEETING
-      ? upcomingMeetings
-      : tomorrowMeetings,
+    title === LANDING.UPCOMING_MEETING ? upcomingMeetings : tomorrowMeetings,
   );
+
+  const allMeeting = useRecoilValue(meetingsAtom);
 
   return (
     <MeetingListWrapper className={classnames('meeting-list', className)}>
@@ -56,13 +55,15 @@ function MeetingList({ title, className }: Props): ReactElement {
           </MeetingCounter>
         )}
       </ListTitle>
+
       {meetings.length !== 0 ? (
         meetings.map((el, idx) => {
           return <MeetingCard key={el.id} data={el} idx={idx} />;
         })
       ) : (
-        <div>loading.....</div>
+        <div></div>
       )}
+      {allMeeting.length === 0 && <SkeletonCard />}
     </MeetingListWrapper>
   );
 }
