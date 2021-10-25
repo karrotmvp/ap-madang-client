@@ -19,10 +19,14 @@ interface WrapperProps {
   total?: number;
 }
 
+interface ThumbnailProps {
+  total?: number;
+}
+
 const MeetingCardWrapper = styled.div<WrapperProps>`
   box-sizing: border-box;
   width: ${({ total }) => (total === 1 ? '32.6rem' : '25.8rem')};
-  height: 28.3rem;
+  height: ${({ total }) => (total === 1 ? '28.9rem' : '28.3rem')};
   border: 1px solid ${COLOR.TEXTAREA_LIGHT_GRAY};
   border-radius: 0.6rem;
   display: flex;
@@ -34,20 +38,20 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
   }
 `;
 
-const ImageWrapper = styled.div`
+const ImageWrapper = styled.div<ThumbnailProps>`
+  width: 100%;
+  height: ${({ total }) => (total === 1 ? '15.1rem' : '11.9rem')};
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  overflow: hidden;
 `;
 const Thumbnail = styled.img`
   width: 100%;
-  min-height: 11.9rem;
-  height: 11.9rem;
-  max-height: 11.9rem;
-  border: 0;
-  display: inline-block;
-  content: '';
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const LiveTag = styled.div`
@@ -140,7 +144,7 @@ function CurrMeetingCard({ idx, data, total }: Props): ReactElement {
       total={total}
       onClick={onClickCardHandler}
     >
-      <ImageWrapper>
+      <ImageWrapper total={total}>
         <LiveTag>진행중</LiveTag>
         <Thumbnail src={data.image} />
       </ImageWrapper>

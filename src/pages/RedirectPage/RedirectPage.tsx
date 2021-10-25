@@ -1,8 +1,8 @@
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactElement, useEffect, useMemo } from 'react';
 
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ScreenHelmet } from '@karrotframe/navigator';
+import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
 
 import nav_back from '../../assets/icon/nav_back.svg';
 import nav_close from '../../assets/icon/nav_close.svg';
@@ -98,14 +98,27 @@ const GoHomeBtn = styled.span`
 `;
 
 function RedirectPage(): ReactElement {
+  const { replace } = useNavigator();
   const params = new URLSearchParams(location.hash);
 
-  useEffect(() => {
+  const url = useMemo(() => {
     const hash = location.hash.split('?')[1].split('&');
     const hashArr = hash.filter(el => el.includes('meeting'));
     const url = hashArr[0].split('=')[1];
-    window.open('https://' + url, '', '_blank');
-  }, [params]);
+    return 'https://' + url;
+  }, []);
+
+  useEffect(() => {
+    window.open(url, '', '_blank');
+  }, [params, url]);
+
+  const redirectToMeet = () => {
+    window.open(url, '', '_blank');
+  };
+
+  const redirectToHome = () => {
+    replace('/');
+  };
 
   return (
     <PageWrapper>
@@ -116,11 +129,12 @@ function RedirectPage(): ReactElement {
       <ContentsArea>
         <RedirectHouseStyle />
         <TextArea className="body2">모임에 입장하는 중이에요</TextArea>
-        <EnterBtn>직접 입장하기</EnterBtn>
+        <EnterBtn onClick={redirectToMeet}>직접 입장하기</EnterBtn>
       </ContentsArea>
 
       <BtnWrapper className="body4">
-        모임에 입장할 수 없나요? <GoHomeBtn>홈으로 돌아가기</GoHomeBtn>
+        모임에 입장할 수 없나요?{' '}
+        <GoHomeBtn onClick={redirectToHome}>홈으로 돌아가기</GoHomeBtn>
       </BtnWrapper>
     </PageWrapper>
   );

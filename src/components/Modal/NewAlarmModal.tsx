@@ -23,6 +23,7 @@ const InnerModalStyle = css`
 const ContentsWrapper = styled.div`
   text-align: center;
   color: ${COLOR.TEXT_BLACK};
+  letter-spacing: -0.03rem;
 `;
 
 function NewAlarmModal({ closeHandler, className }: Props): ReactElement {

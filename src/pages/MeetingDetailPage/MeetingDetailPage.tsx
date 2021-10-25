@@ -36,9 +36,18 @@ const NavCustomBtn = styled.img`
   margin-left: 1.5rem;
 `;
 
+const BannerWrapper = styled.div`
+  width: 100%;
+  height: 16.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+`;
+
 const BannerImg = styled.img`
   width: 100%;
-  height: 14rem;
+  height: auto;
 `;
 
 const LineDivider = styled.div`
@@ -329,7 +338,9 @@ const MeetingDetailPage = () => {
         />
       )}
       <ContentsWrapper className="meeting-detail__contents">
-        <BannerImg src={data.image} />
+        <BannerWrapper>
+          <BannerImg src={data.image} />
+        </BannerWrapper>
         <TitleWrapper className="meeting-detail__header">
           <Title className="title1">{data?.title}</Title>
           <TimeWrapper>

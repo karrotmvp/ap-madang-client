@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useCallback, useState } from 'react';
 
 import { keyframes } from '@emotion/css';
 import styled from '@emotion/styled';
@@ -10,40 +10,36 @@ import { COLOR } from '../../constant/color';
 import { BOTTOM_SHEET } from '../../constant/message';
 
 const openSheetBackground = keyframes`
-  from, 0%, to {
+  0%{
     opacity:0;
   }
-
   100% {   
     opacity:1;
   }
 `;
 
 const closeSheetBackground = keyframes`
-  from, 0%, to {
+  0%{
     opacity:1;
   }
-
   100% {   
     opacity:0;
   }
 `;
 
 const openSheet = keyframes`
-  from, 0%, to {
+  0%{
     bottom:-20rem;
   }
-
   100% {   
     bottom:0;
   }
 `;
 
 const closeSheet = keyframes`
-  from, 0%, to {
+  0%{
     bottom:0;
   }
-
   100% {   
     bottom:-20rem;
   }
@@ -53,7 +49,6 @@ const BottomSheetWrapper = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-
   width: 100%;
   height: 100%;
   background: ${COLOR.MODAL_WRAPPER_BLACK};
@@ -62,10 +57,10 @@ const BottomSheetWrapper = styled.div`
 
   z-index: 1000;
   &.open-bottom-sheet {
-    animation: ${openSheetBackground} 500ms ease forwards;
+    animation: ${openSheetBackground} 0.5s ease forwards;
   }
   &.close-bottom-sheet {
-    animation: ${closeSheetBackground} 500ms ease forwards;
+    animation: ${closeSheetBackground} 0.5s ease forwards;
   }
 `;
 
@@ -74,16 +69,17 @@ const ContentsWrapper = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: auto;
+  /* height: auto; */
   background: ${COLOR.TEXT_WHITE};
   border-radius: 1.2rem 1.2rem 0 0;
   display: flex;
   flex-direction: column;
+
   &.open-bottom-sheet {
-    animation: ${openSheet} 500ms ease forwards;
+    animation: ${openSheet} 0.5s ease forwards;
   }
   &.close-bottom-sheet {
-    animation: ${closeSheet} 500ms ease forwards;
+    animation: ${closeSheet} 0.5s ease forwards;
   }
 `;
 
@@ -168,12 +164,12 @@ interface Props {
 function BottomSheet({ onClose, url }: Props): ReactElement {
   const [closeState, setCloseState] = useState(!open);
 
-  const closeHandler = () => {
+  const closeHandler = useCallback(() => {
     setCloseState(true);
     setTimeout(() => {
       onClose();
-    }, 500);
-  };
+    }, 400);
+  }, [onClose]);
 
   const onClickOutSide = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();

@@ -32,8 +32,6 @@ const PageWrapper = styled.div`
 
 const NavCustomBtn = styled.img`
   margin-left: 1.5rem;
-  width: 2.4rem;
-  height: 2.4rem;
 `;
 
 const ContentsWrapper = styled.div<ContentsWrapperProps>`
@@ -99,6 +97,10 @@ const TextArea = styled.textarea`
 
   &::placeholder {
     color: ${COLOR.TEXTAREA_LIGHT_GRAY};
+  }
+  &:focus {
+    outline: none !important;
+    border: 1px solid ${COLOR.LIGHT_GREEN};
   }
 `;
 

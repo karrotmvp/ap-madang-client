@@ -12,12 +12,12 @@ import NotFoundPage from './pages/NotFountPage/NotFoundPage';
 import OnBoardingPage from './pages/OnBoardingPage/OnBoardingPage';
 import RedirectPage from './pages/RedirectPage/RedirectPage';
 import ReservationPage from './pages/ReservationPage/ReservationPage';
+import ServiceGuidePage from './pages/ServiceGuidePage/ServiceGuidePage';
 import { app } from './util/firebase';
 import mini from './util/mini';
-import { checkMobileType } from './util/utils';
 
 const NavigatorStyle = css`
-  --kf_navigator_navbar-height: 5.6rem;
+  --kf_navigator_navbar-height: 5.6rem !important;
 `;
 
 export const analytics = getAnalytics(app);
@@ -28,11 +28,12 @@ const App: React.FC = () => {
   }, []);
   return (
     <Navigator
-      theme={checkMobileType()}
+      theme="Cupertino"
       onClose={() => mini.close()}
       className={NavigatorStyle}
     >
       <Screen path="/" component={Auth(LandingPage)} />
+      <Screen path="/guide" component={ServiceGuidePage} />
       <Screen path="/meetings/:id" component={Auth(MeetingDetailPage)} />
       <Screen path="/onboarding" component={Auth(OnBoardingPage)} />
       <Screen
