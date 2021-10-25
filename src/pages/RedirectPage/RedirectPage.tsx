@@ -7,13 +7,11 @@ import {
   useNavigator,
   useQueryParams,
 } from '@karrotframe/navigator';
-import { useRecoilValue } from 'recoil';
 
 import nav_back from '../../assets/icon/nav_back.svg';
 import nav_close from '../../assets/icon/nav_close.svg';
 import RedirectHouse from '../../assets/icon/RedirectHouse';
 import { COLOR } from '../../constant/color';
-import { userInfoAtom } from '../../store/user';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -129,7 +127,6 @@ type QueryParamsType = {
 
 function RedirectPage(): ReactElement {
   const { push } = useNavigator();
-  const userInfo = useRecoilValue(userInfoAtom);
   const [redirected, setRedirected] = useState(false);
   const querystring: Partial<QueryParamsType> = useQueryParams();
 
@@ -138,14 +135,22 @@ function RedirectPage(): ReactElement {
       querystring.meeting &&
         window &&
         !redirected &&
-        window.open('https://' + querystring.meeting, '', '_blank');
+        window.open(
+          'https://' + querystring.meeting.replace('%2F', '/'),
+          '',
+          '_blank',
+        );
       setRedirected(true);
     }, 500);
     return () => clearTimeout(timer);
   }, [querystring.meeting, redirected]);
 
   const redirectToMeet = () => {
-    window.open('https://' + querystring.meeting, '', '_blank');
+    window.open(
+      'https://' + querystring.meeting?.replace('%2F', '/'),
+      '',
+      '_blank',
+    );
   };
 
   const redirectToHome = () => {
@@ -162,9 +167,7 @@ function RedirectPage(): ReactElement {
       />
       <ContentsArea>
         <RedirectHouseStyle />
-        <TextArea className="body2">
-          {userInfo?.nickname}님, 모임에 입장하는 중이에요
-        </TextArea>
+        <TextArea className="body2">모임에 입장하는 중이에요</TextArea>
         <EnterBtn onClick={redirectToMeet}>직접 입장하기</EnterBtn>
       </ContentsArea>
 
