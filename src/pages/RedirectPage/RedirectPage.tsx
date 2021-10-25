@@ -1,8 +1,12 @@
-import React, { ReactElement, useEffect, useMemo } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
+import {
+  ScreenHelmet,
+  useNavigator,
+  useQueryParams,
+} from '@karrotframe/navigator';
 
 import nav_back from '../../assets/icon/nav_back.svg';
 import nav_close from '../../assets/icon/nav_close.svg';
@@ -97,23 +101,22 @@ const GoHomeBtn = styled.span`
   color: ${COLOR.LIGHT_GREEN};
 `;
 
+type QueryParamsType = {
+  meeting: string;
+  meeting_id: string;
+};
+
 function RedirectPage(): ReactElement {
   const { replace } = useNavigator();
   const params = new URLSearchParams(location.hash);
-
-  const url = useMemo(() => {
-    const hash = location.hash.split('?')[1].split('&');
-    const hashArr = hash.filter(el => el.includes('meeting'));
-    const url = hashArr[0].split('=')[1];
-    return 'https://' + url;
-  }, []);
+  const querystring: Partial<QueryParamsType> = useQueryParams();
 
   useEffect(() => {
-    window.open(url, '', '_blank');
-  }, [params, url]);
+    window.open('https://' + querystring.meeting, '', '_blank');
+  }, [params, querystring.meeting]);
 
   const redirectToMeet = () => {
-    window.open(url, '', '_blank');
+    window.open('https://' + querystring.meeting, '', '_blank');
   };
 
   const redirectToHome = () => {
