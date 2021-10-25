@@ -1,5 +1,7 @@
+/** @jsx jsx */
 import React, { useCallback, useEffect } from 'react';
 
+import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import { logEvent, setUserId } from '@firebase/analytics';
 import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
@@ -68,6 +70,10 @@ const LandingPage: React.FC = () => {
     if (result.success && result.data) setMeetings(result.data);
   }, [setMeetings]);
 
+  const onClickBannerHander = () => {
+    push('/guide');
+  };
+
   useEffect(() => {
     if (userInfo) {
       meetingListHandler();
@@ -89,12 +95,16 @@ const LandingPage: React.FC = () => {
           </PageTitle>
         }
       />
-      <BannerImg src={home_banner} className="landing__banner-img" />
+      <BannerImg
+        src={home_banner}
+        className="landing__banner-img"
+        onClick={onClickBannerHander}
+      />
       {currMeetingsValue.length !== 0 && (
-        <>
+        <div>
           <CurrMeetingList className="landing__current" />
           <BlockDivider className="landing__divider" />
-        </>
+        </div>
       )}
       <MeetingList
         className="landing__upoming"
