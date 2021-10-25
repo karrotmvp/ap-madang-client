@@ -127,12 +127,12 @@ type QueryParamsType = {
 
 function RedirectPage(): ReactElement {
   const { replace } = useNavigator();
-  const params = new URLSearchParams(location.hash);
   const querystring: Partial<QueryParamsType> = useQueryParams();
 
   useEffect(() => {
-    window.open('https://' + querystring.meeting, '', '_blank');
-  }, [params, querystring.meeting]);
+    querystring.meeting &&
+      window.open('https://' + querystring.meeting, '', '_blank');
+  }, [querystring.meeting]);
 
   const redirectToMeet = () => {
     window.open('https://' + querystring.meeting, '', '_blank');
