@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -126,20 +126,29 @@ type QueryParamsType = {
 };
 
 function RedirectPage(): ReactElement {
-  const { replace } = useNavigator();
+  const { push } = useNavigator();
+  const [redirected, setRedirected] = useState(false);
   const querystring: Partial<QueryParamsType> = useQueryParams();
 
   useEffect(() => {
-    querystring.meeting &&
-      window.open('https://' + querystring.meeting, '', '_blank');
-  }, [querystring.meeting]);
+    const timer = setTimeout(() => {
+      querystring.meeting &&
+        window &&
+        !redirected &&
+        window.open('https://' + querystring.meeting, '', '_blank');
+      setRedirected(true);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [querystring.meeting, redirected]);
 
   const redirectToMeet = () => {
     window.open('https://' + querystring.meeting, '', '_blank');
   };
 
   const redirectToHome = () => {
-    replace('/');
+    push('/', {
+      present: true,
+    });
   };
 
   return (
