@@ -51,40 +51,59 @@ const EnterBtn = styled.div`
 `;
 
 const changeHouseColor = keyframes`
-  from, 0%, to {
+  0% {
+    fill: ${COLOR.LIGHT_GREEN_000}
+  }
+
+  32% {
     fill: ${COLOR.LIGHT_GREEN_000}
   }
 
   33% {
     fill: ${COLOR.LIGHT_GREEN}
   }
+  65% {
+    fill: ${COLOR.LIGHT_GREEN}
+  }
 
   66% {   
+    fill: ${COLOR.SECONDARY};
+  }
+  100% {   
     fill: ${COLOR.SECONDARY};
   }
 `;
 
 const changeWindowColor = keyframes`
-  from, 0%, to {
+  0%{
+    fill: ${COLOR.TEXT_WHITE}
+  }
+  32%{
     fill: ${COLOR.TEXT_WHITE}
   }
 
   33% {
     fill: ${COLOR.SECONDARY}
   }
+  65% {
+    fill: ${COLOR.SECONDARY}
+  }
 
   66% {   
     fill: ${COLOR.LIGHT_GREEN}
   }
+  100% {   
+    fill: ${COLOR.LIGHT_GREEN}
   }
+  
 `;
 
 const RedirectHouseStyle = styled(RedirectHouse)`
   .house {
-    animation: ${changeHouseColor} 1s ease infinite;
+    animation: ${changeHouseColor} 2s ease infinite;
   }
   .window {
-    animation: ${changeWindowColor} 1s ease infinite;
+    animation: ${changeWindowColor} 2s ease infinite;
   }
 `;
 
