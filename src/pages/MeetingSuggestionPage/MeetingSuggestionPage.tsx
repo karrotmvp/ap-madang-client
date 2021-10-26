@@ -34,8 +34,8 @@ const PageWrapper = styled.div`
 const ContentsWrapper = styled.div<ContentsWrapperProps>`
   display: flex;
   flex-direction: column;
-  flex: ${props => (props.isSubmit ? 0.5 : 0)};
-  justify-content: ${props => (props.isSubmit ? 'center' : 'none')};
+  flex: ${props => (props.isSubmit ? 1 : 0)};
+  justify-content: ${props => (props.isSubmit ? 'flex-end' : 'none')};
 
   transition-property: flex, justify-content;
   transition-duration: 0.3s, 0.3s;
