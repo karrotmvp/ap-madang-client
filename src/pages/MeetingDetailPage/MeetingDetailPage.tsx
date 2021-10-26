@@ -131,8 +131,7 @@ const AlarmApplicant = styled.div<{ applied: number | undefined }>`
   text-align: center;
   letter-spacing: -0.03rem;
   margin-left: 0.4rem;
-  color: ${({ applied }) =>
-    applied ? COLOR.LIGHT_GREEN : COLOR.FONT_BODY_GRAY};
+  color: ${({ applied }) => (applied ? COLOR.LIGHT_GREEN : COLOR.GRAY_800)};
 `;
 
 const JoinBtn = styled.div`
