@@ -25,16 +25,18 @@ const InnerModalStyle = css`
 const ContentsWrapper = styled.div`
   overflow-y: auto;
   color: ${COLOR.TEXT_GRAY};
-  padding: 2rem;
+  padding: 2.2rem 2rem 2rem 2rem;
 `;
 
 const Title = styled.div`
   color: ${COLOR.TEXT_BLACK};
   margin-bottom: 1.2rem;
+  text-align: center;
 `;
 
-const SubTitle = styled.span`
+const SubTitle = styled.div`
   color: ${COLOR.TEXT_GRAY};
+  text-align: center;
 `;
 
 const DoneTitle = styled.div`
