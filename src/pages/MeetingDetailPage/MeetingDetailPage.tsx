@@ -229,7 +229,7 @@ const MeetingDetailPage = () => {
     path: '/meetings/:id',
   }) || { params: { id: '' } };
 
-  const { push } = useNavigator();
+  const { replace } = useNavigator();
 
   // 모임 상세정보 fetch
   const fetchData = useCallback(async (id: string) => {
@@ -304,13 +304,13 @@ const MeetingDetailPage = () => {
   useEffect(() => {
     if (joined) {
       const redirect = setTimeout(() => {
-        joined && push('/');
+        joined && replace('/');
         setJoined(false);
       }, 5000);
       return () => clearTimeout(redirect);
     }
     return;
-  }, [joined, push]);
+  }, [joined, replace]);
 
   useEffect(() => {
     if (matchId?.params.id && !data.id) fetchData(matchId.params.id);

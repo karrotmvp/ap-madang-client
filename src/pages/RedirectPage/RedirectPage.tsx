@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -126,38 +126,33 @@ type QueryParamsType = {
 };
 
 function RedirectPage(): ReactElement {
-  const { push } = useNavigator();
+  const { replace } = useNavigator();
   const [redirected, setRedirected] = useState(false);
   const querystring: Partial<QueryParamsType> = useQueryParams();
+
+  const openNewWindow = useCallback(meetingUrl => {
+    window.open('https://' + meetingUrl.replace('%2F', '/'), '', '_blank');
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       querystring.meeting &&
         window &&
         !redirected &&
-        window.open(
-          'https://' + querystring.meeting.replace('%2F', '/'),
-          '',
-          '_blank',
-        );
+        openNewWindow(querystring.meeting);
+
       setRedirected(true);
     }, 500);
     return () => clearTimeout(timer);
-  }, [querystring.meeting, redirected]);
+  }, [openNewWindow, querystring.meeting, redirected]);
 
   const redirectToMeet = () => {
-    window.open(
-      'https://' + querystring.meeting?.replace('%2F', '/'),
-      '',
-      '_blank',
-    );
+    openNewWindow(querystring.meeting);
   };
 
-  const redirectToHome = () => {
-    push('/', {
-      present: true,
-    });
-  };
+  const redirectToHome = useCallback(() => {
+    replace('/');
+  }, [replace]);
 
   return (
     <PageWrapper>
