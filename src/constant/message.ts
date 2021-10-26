@@ -34,7 +34,7 @@ export const LANDING = {
 
 export const COMMON = {
   NEW_ALARM_MODAL: {
-    TEXT: '모임 오픈 알림을 설정했어요.\n선택한 모임이 시작되면\n알림으로 바로알려드릴게요.',
+    TEXT: '모임 오픈 알림을 설정했어요.\n선택한 모임이 시작되면\n알림으로 바로 알려드릴게요.',
   },
   DELETE_ALARM_MODAL: {
     TITLE: '선택한 모임의 시작 알림을\n해제하시겠어요?',
