@@ -30,7 +30,7 @@ function NewAlarmModal({ closeHandler, className }: Props): ReactElement {
   useEffect(() => {
     const closeModal = setTimeout(() => {
       closeHandler();
-    }, 1000);
+    }, 1200);
     return () => {
       clearTimeout(closeModal);
     };
