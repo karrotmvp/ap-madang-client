@@ -27,8 +27,12 @@ const Auth = (SpecialComponent: React.FC) => {
     // userInfo Atom에 유저정보 store
     const setUserNewInfoHandler = useCallback(async () => {
       const regionId = getRegionId(location.search);
-      if (code && regionId) {
-        const result = await login({ code, regionId });
+      const regionIdHash = getRegionId(location.hash);
+      if (code && (regionId || regionIdHash)) {
+        const result = await login({
+          code,
+          regionId: regionId || regionIdHash,
+        });
         if (result.success && result.data?.token) {
           storage.setItem('Authorization', result.data.token);
           const decodeToken: TokenPayloadType = jwt_decode(result.data.token);
@@ -45,14 +49,13 @@ const Auth = (SpecialComponent: React.FC) => {
       const urlSearchParams = new URLSearchParams(window.location.search);
       const urlHashParams = new URLSearchParams(window.location.hash);
 
-      const codeParams = urlSearchParams.get('code');
-      const isPreload = urlSearchParams.get('preload');
-      const codeParamsHash = urlHashParams.get('code');
-      const isPreloadHash = urlHashParams.get('preload');
+      const codeParams =
+        urlSearchParams.get('code') || urlHashParams.get('code');
+      const isPreload =
+        urlSearchParams.get('preload') || urlHashParams.get('preload');
 
-      if (codeParams || codeParamsHash)
-        setCode(codeParams || codeParamsHash || '');
-      else if (isPreload !== 'true' || isPreloadHash !== 'true') {
+      if (codeParams) setCode(codeParams);
+      else if (isPreload !== 'true') {
         mini.startPreset({
           preset: process.env.MINI_PRESET_URL || '',
           params: { appId: process.env.APP_ID || '' },
