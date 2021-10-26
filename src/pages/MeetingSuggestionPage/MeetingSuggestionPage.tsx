@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-import { useNavigator } from '@karrotframe/navigator';
+import { useCurrentScreen, useNavigator } from '@karrotframe/navigator';
 import { IoEllipse } from 'react-icons/io5';
 import { useRecoilValue } from 'recoil';
 
@@ -13,6 +13,7 @@ import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreen
 import { COLOR } from '../../constant/color';
 import { SUGGESTION } from '../../constant/message';
 import { userInfoAtom } from '../../store/user';
+import mini from '../../util/mini';
 
 interface ButtonProps {
   inputFocus: boolean;
@@ -100,13 +101,15 @@ const TextArea = styled.textarea`
   }
 `;
 
-const Button = styled.div<ButtonProps>`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  box-sizing: border-box;
+const ButtonWrapper = styled.div`
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`;
 
+const Button = styled.div<ButtonProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -129,6 +132,7 @@ const Button = styled.div<ButtonProps>`
 `;
 
 const MeetingSuggestionPage = () => {
+  const { isRoot } = useCurrentScreen();
   const [inputFocus, setInputFocus] = useState(false);
   const [text, setText] = useState('');
   const [submit, setsubmit] = useState(false);
@@ -140,6 +144,11 @@ const MeetingSuggestionPage = () => {
   };
 
   const onSubmitHandler = async () => {
+    if (submit) {
+      if (isRoot) mini.close();
+      else pop();
+      return;
+    }
     if (text.length === 0) return;
     const result = await meetingSuggestion(text);
     if (result.success) setsubmit(true);
@@ -194,14 +203,16 @@ const MeetingSuggestionPage = () => {
         )}
       </ContentsWrapper>
 
-      <Button
-        className="meeting-suggestion__submit"
-        inputFocus={inputFocus}
-        inputLength={text.length}
-        onClick={submit ? () => pop() : onSubmitHandler}
-      >
-        {submit ? SUGGESTION.CONFITM_BUTTON : SUGGESTION.SUBMIT_BUTTON}
-      </Button>
+      <ButtonWrapper>
+        <Button
+          className="meeting-suggestion__submit"
+          inputFocus={inputFocus}
+          inputLength={text.length}
+          onClick={onSubmitHandler}
+        >
+          {submit ? SUGGESTION.CONFITM_BUTTON : SUGGESTION.SUBMIT_BUTTON}
+        </Button>
+      </ButtonWrapper>
     </PageWrapper>
   );
 };
