@@ -4,14 +4,14 @@ import React, { useCallback, useEffect } from 'react';
 import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import { logEvent, setUserId } from '@firebase/analytics';
-import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
+import { useNavigator } from '@karrotframe/navigator';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { getMeetings } from '../../api/meeting';
 import { analytics } from '../../App';
-import nav_close from '../../assets/icon/nav_close.svg';
 import home_banner from '../../assets/image/home_banner.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
+import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreenHelmet';
 import CurrMeetingList from '../../components/MeetingList/CurrMeetingList';
 import MeetingList from '../../components/MeetingList/MeetingList';
 import { COLOR } from '../../constant/color';
@@ -25,10 +25,6 @@ const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-`;
-
-const NavCustomBtn = styled.img`
-  margin-left: 1.5rem;
 `;
 
 const PageTitle = styled.div`
@@ -87,8 +83,7 @@ const LandingPage: React.FC = () => {
 
   return (
     <PageWrapper className="landing">
-      <ScreenHelmet
-        customCloseButton={<NavCustomBtn src={nav_close} />}
+      <CustomScreenHelmet
         appendLeft={
           <PageTitle className="landing__nav-title title3">
             {LANDING.NAVIGATOR_TITLE}

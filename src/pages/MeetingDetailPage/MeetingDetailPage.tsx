@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
+// import { useNavigator } from '@karrotframe/navigator';
 import { useRouteMatch } from 'react-router-dom';
 
 import { deleteAlarm, newAlarm } from '../../api/alarm';
@@ -10,10 +10,10 @@ import { getMeetingDetail, MeetingDetailType } from '../../api/meeting';
 import { analytics } from '../../App';
 import arrow_iOS_large from '../../assets/icon/arrow_iOS_large.svg';
 import clock from '../../assets/icon/clock.svg';
-import nav_back from '../../assets/icon/nav_back.svg';
 import notification_empty from '../../assets/icon/notification_empty.svg';
 import notification_fill from '../../assets/icon/notification_fill.svg';
 import BottomSheet from '../../components/BottomSheet/BottomSheet';
+import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreenHelmet';
 import { DescriptionList } from '../../components/DescriptionList/DescriptionList';
 import DeleteAlarmModal from '../../components/Modal/DeleteAlarmModal';
 import MeetingGuideModal from '../../components/Modal/MeetingGuideModal';
@@ -30,10 +30,6 @@ const PageWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   white-space: pre-line;
-`;
-
-const NavCustomBtn = styled.img`
-  margin-left: 1.5rem;
 `;
 
 const BannerWrapper = styled.div`
@@ -223,13 +219,12 @@ const MeetingDetailPage = () => {
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
   const [openDeleteAlarmModal, setOpenDeleteAlarmModal] = useState(false);
 
-  const [joined, setJoined] = useState(false);
+  /* 후기 페이지 사용시 적용할 코드 */
+  // const [joined, setJoined] = useState(false);
 
   const matchId = useRouteMatch<MatchParams>({
     path: '/meetings/:id',
   }) || { params: { id: '' } };
-
-  const { replace } = useNavigator();
 
   // 모임 상세정보 fetch
   const fetchData = useCallback(async (id: string) => {
@@ -301,16 +296,17 @@ const MeetingDetailPage = () => {
     data.live_status === 'upcoming' ? 10000 : null,
   );
 
-  useEffect(() => {
-    if (joined) {
-      const redirect = setTimeout(() => {
-        joined && replace('/');
-        setJoined(false);
-      }, 5000);
-      return () => clearTimeout(redirect);
-    }
-    return;
-  }, [joined, replace]);
+  /* 후기 페이지 사용시 적용할 코드 */
+  // useEffect(() => {
+  //   if (joined) {
+  //     const redirect = setTimeout(() => {
+  //       joined && replace('/');
+  //       setJoined(false);
+  //     }, 5000);
+  //     return () => clearTimeout(redirect);
+  //   }
+  //   return;
+  // }, [joined, replace]);
 
   useEffect(() => {
     if (matchId?.params.id && !data.id) fetchData(matchId.params.id);
@@ -331,12 +327,12 @@ const MeetingDetailPage = () => {
 
   return (
     <PageWrapper className="meeting-detail">
-      <ScreenHelmet customBackButton={<NavCustomBtn src={nav_back} />} />
+      <CustomScreenHelmet />
 
       {openBottomSheet && (
         <BottomSheet
           url={data.meeting_url}
-          onClickJoin={() => setJoined(true)}
+          // onClickJoin={() => setJoined(true)}    //후기 페이지 사용시 적용할 코드
           onClose={() => setOpenBottomSheet(false)}
         />
       )}

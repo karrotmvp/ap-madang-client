@@ -2,14 +2,14 @@ import React, { useState, useMemo, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
+import { useNavigator } from '@karrotframe/navigator';
 import { IoEllipse } from 'react-icons/io5';
 import { useRecoilValue } from 'recoil';
 
 import { meetingSuggestion } from '../../api/suggestion';
 import { analytics } from '../../App';
 import bulb from '../../assets/icon/bulb.svg';
-import nav_back from '../../assets/icon/nav_back.svg';
+import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreenHelmet';
 import { COLOR } from '../../constant/color';
 import { SUGGESTION } from '../../constant/message';
 import { userInfoAtom } from '../../store/user';
@@ -28,10 +28,6 @@ const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`;
-
-const NavCustomBtn = styled.img`
-  margin-left: 1.5rem;
 `;
 
 const ContentsWrapper = styled.div<ContentsWrapperProps>`
@@ -164,8 +160,7 @@ const MeetingSuggestionPage = () => {
 
   return (
     <PageWrapper className="meeting-suggestion">
-      <ScreenHelmet
-        customBackButton={<NavCustomBtn src={nav_back} />}
+      <CustomScreenHelmet
         appendLeft={<PageTitle>{SUGGESTION.NAVIGATOR_TITLE}</PageTitle>}
       />
       <ContentsWrapper isSubmit={submit}>

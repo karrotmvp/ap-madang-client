@@ -1,7 +1,8 @@
 import React, { ReactElement, useEffect } from 'react';
 
-import { ScreenHelmet } from '@karrotframe/navigator';
 import Cookies from 'universal-cookie';
+
+import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreenHelmet';
 
 function OnBoardingPage(): ReactElement {
   const cookie = new Cookies();
@@ -13,7 +14,7 @@ function OnBoardingPage(): ReactElement {
 
   return (
     <div className="on-board">
-      <ScreenHelmet />
+      <CustomScreenHelmet />
       <div style={{ height: '30px', border: '1px solid black' }}>
         onBoarding Page입니다.
       </div>

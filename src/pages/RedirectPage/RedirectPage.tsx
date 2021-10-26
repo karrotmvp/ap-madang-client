@@ -2,11 +2,10 @@ import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
+import { useNavigator } from '@karrotframe/navigator';
 
-import nav_back from '../../assets/icon/nav_back.svg';
-import nav_close from '../../assets/icon/nav_close.svg';
 import RedirectHouse from '../../assets/icon/RedirectHouse';
+import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreenHelmet';
 import { COLOR } from '../../constant/color';
 
 const PageWrapper = styled.div`
@@ -18,9 +17,7 @@ const PageWrapper = styled.div`
   width: 100%;
   font-size: 20px;
 `;
-const NavCustomBtn = styled.img`
-  margin-left: 1.5rem;
-`;
+
 const ContentsArea = styled.div`
   display: flex;
   flex-direction: column;
@@ -119,7 +116,6 @@ const GoHomeBtn = styled.span`
 function RedirectPage(): ReactElement {
   const { replace } = useNavigator();
   const [redirected, setRedirected] = useState(false);
-  // const querystring: Partial<QueryParamsType> = useQueryParams();
 
   const openNewWindow = useCallback(meetingUrl => {
     window.open('https://' + meetingUrl.replace('%2F', '/'), '', '_blank');
@@ -148,10 +144,7 @@ function RedirectPage(): ReactElement {
 
   return (
     <PageWrapper>
-      <ScreenHelmet
-        customCloseButton={<NavCustomBtn src={nav_close} />}
-        customBackButton={<NavCustomBtn src={nav_back} />}
-      />
+      <CustomScreenHelmet />
       <ContentsArea>
         <RedirectHouseStyle />
         <TextArea className="body2">모임에 입장하는 중이에요</TextArea>
