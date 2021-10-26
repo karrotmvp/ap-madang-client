@@ -38,7 +38,7 @@ export const COMMON = {
   },
   DELETE_ALARM_MODAL: {
     TITLE: '선택한 모임의 시작 알림을\n해제하시겠어요?',
-    SUB_TITLE: '알림받기를 해제하면 모임이 시작될 때 알림을 받을 수 없어요.',
+    SUB_TITLE: '알림받기를 해제하면 모임이\n시작될 때 알림을 받을 수 없어요.',
     DONE_DELETE: '선택한 모임의 알림이\n해제되었어요.',
     CLOSE: '닫기',
     DELETE: '해제하기',
