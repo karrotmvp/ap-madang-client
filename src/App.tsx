@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { css } from '@emotion/css';
 import { Navigator, Screen } from '@karrotframe/navigator';
 import { getAnalytics, logEvent } from 'firebase/analytics';
-import { BrowserRouter } from 'react-router-dom';
 
 import Auth from './hoc/Auth';
 import LandingPage from './pages/LandingPage/LandingPage';
@@ -29,23 +28,20 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Navigator
-        useCustomRouter
-        theme="Android"
-        onClose={() => mini.close()}
-        className={NavigatorStyle}
-      >
-        <Screen path="/" component={Auth(LandingPage)} />
-        <Screen path="/guide" component={ServiceGuidePage} />
-        <Screen path="/meetings/:id" component={MeetingDetailPage} />
-        <Screen path="/onboarding" component={Auth(OnBoardingPage)} />
-        <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
-        <Screen path="/reservation" component={ReservationPage} />
-        <Screen path="/redirect" component={Auth(RedirectPage)} />
-        <Screen path="*" component={NotFoundPage} />
-      </Navigator>
-    </BrowserRouter>
+    <Navigator
+      theme="Android"
+      onClose={() => mini.close()}
+      className={NavigatorStyle}
+    >
+      <Screen path="/" component={Auth(LandingPage)} />
+      <Screen path="/guide" component={ServiceGuidePage} />
+      <Screen path="/meetings/:id" component={MeetingDetailPage} />
+      <Screen path="/onboarding" component={Auth(OnBoardingPage)} />
+      <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
+      <Screen path="/reservation" component={ReservationPage} />
+      <Screen path="/redirect" component={Auth(RedirectPage)} />
+      <Screen path="*" component={NotFoundPage} />
+    </Navigator>
   );
 };
 
