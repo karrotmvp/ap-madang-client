@@ -2,11 +2,7 @@ import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import {
-  ScreenHelmet,
-  useNavigator,
-  useQueryParams,
-} from '@karrotframe/navigator';
+import { ScreenHelmet, useNavigator } from '@karrotframe/navigator';
 
 import nav_back from '../../assets/icon/nav_back.svg';
 import nav_close from '../../assets/icon/nav_close.svg';
@@ -120,15 +116,10 @@ const GoHomeBtn = styled.span`
   color: ${COLOR.LIGHT_GREEN};
 `;
 
-type QueryParamsType = {
-  meeting: string;
-  meeting_id: string;
-};
-
 function RedirectPage(): ReactElement {
   const { replace } = useNavigator();
   const [redirected, setRedirected] = useState(false);
-  const querystring: Partial<QueryParamsType> = useQueryParams();
+  // const querystring: Partial<QueryParamsType> = useQueryParams();
 
   const openNewWindow = useCallback(meetingUrl => {
     window.open('https://' + meetingUrl.replace('%2F', '/'), '', '_blank');
@@ -136,18 +127,19 @@ function RedirectPage(): ReactElement {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      querystring.meeting &&
-        window &&
-        !redirected &&
-        openNewWindow(querystring.meeting);
+      const urlSearchParams = new URLSearchParams(location.search);
+      if (urlSearchParams.has('meeting_url'))
+        openNewWindow(urlSearchParams.get('meeting_url'));
 
       setRedirected(true);
     }, 500);
     return () => clearTimeout(timer);
-  }, [openNewWindow, querystring.meeting, redirected]);
+  }, [openNewWindow, redirected]);
 
   const redirectToMeet = () => {
-    openNewWindow(querystring.meeting);
+    const urlSearchParams = new URLSearchParams(location.search);
+    if (urlSearchParams.has('meeting_url'))
+      openNewWindow(openNewWindow(urlSearchParams.get('meeting_url')));
   };
 
   const redirectToHome = useCallback(() => {
