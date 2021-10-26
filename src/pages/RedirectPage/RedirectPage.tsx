@@ -124,10 +124,10 @@ function RedirectPage(): ReactElement {
   useEffect(() => {
     const timer = setTimeout(() => {
       const urlSearchParams = new URLSearchParams(location.search);
-      if (urlSearchParams.has('meeting_url'))
+      if (!redirected && urlSearchParams.has('meeting_url')) {
         openNewWindow(urlSearchParams.get('meeting_url'));
-
-      setRedirected(true);
+        setRedirected(true);
+      }
     }, 500);
     return () => clearTimeout(timer);
   }, [openNewWindow, redirected]);
