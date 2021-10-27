@@ -356,10 +356,12 @@ const MeetingDetailPage = () => {
           <Title className="title1">{data?.title}</Title>
           <TimeWrapper>
             <img src={clock} />
-            <Time className="body4">
-              {getTimeForm(data.start_time, data.end_time, data.live_status)}
-              {data.live_status !== 'live' && '에 열려요.'}
-            </Time>
+            {data.start_time && (
+              <Time className="body4">
+                {getTimeForm(data.start_time, data.end_time, data.live_status)}
+                {data.live_status !== 'live' && '에 열려요.'}
+              </Time>
+            )}
           </TimeWrapper>
         </TitleWrapper>
         <LineDivider />
