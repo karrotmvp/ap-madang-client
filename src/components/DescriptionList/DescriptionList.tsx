@@ -43,7 +43,7 @@ const List = styled.div`
 `;
 
 const DotIcon = styled.div`
-  height: 2.3rem;
+  height: 2.7rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -59,7 +59,7 @@ const DescriptionItem = styled.div`
   word-break: keep-all;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
 
   span {
     position: relative;

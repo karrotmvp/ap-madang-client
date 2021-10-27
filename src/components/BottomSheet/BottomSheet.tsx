@@ -104,15 +104,14 @@ const InfoTitle = styled.div`
 `;
 
 const DotIcon = styled.div`
-  height: 2.3rem;
+  height: 2.7rem;
   display: flex;
   flex-direction: row;
-
   align-items: center;
+  justify-content: center;
 `;
 
 const IconImg = styled.img`
-  height: 2.3rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -128,7 +127,7 @@ const DescriptionItem = styled.div`
   word-break: keep-all;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 0.8rem;
 
   span {
@@ -205,7 +204,7 @@ function BottomSheet({ onClose, onClickJoin, url }: Props): ReactElement {
             <DotIcon>
               <Dot />
             </DotIcon>
-            <span>{BOTTOM_SHEET.SUB_TITLE1}</span>
+            <span>{BOTTOM_SHEET.SUB_TITLE2}</span>
           </DescriptionItem>
           <DescriptionItem className="bottom-sheet__description">
             <DotIcon>
