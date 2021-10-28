@@ -95,3 +95,5 @@ export const BOTTOM_SHEET = {
   SUB_TITLE3: '새로운 이웃이 참여하면 서로 인사를 나누고 함께 대화해요.',
   JOIN: '모임 입장하기',
 };
+
+export const GUIDE = { ENTER_BTN: '랜선동네모임 시작하기' };

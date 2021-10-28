@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 import { useRecoilState } from 'recoil';
 
 import { login } from '../api/user';
-import { userInfoAtom } from '../store/user';
+import { codeAtom, userInfoAtom } from '../store/user';
 import mini from '../util/mini';
 import { getRegionId } from '../util/utils';
 
@@ -20,7 +20,7 @@ const Auth = (SpecialComponent: React.FC) => {
       children?: React.ReactNode;
     },
   ) => {
-    const [code, setCode] = useState('');
+    const [code, setCode] = useRecoilState(codeAtom);
     const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
     const storage = window.localStorage;
 

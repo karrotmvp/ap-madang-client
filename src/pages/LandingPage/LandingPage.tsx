@@ -55,7 +55,7 @@ const BlockDivider = styled.div`
 `;
 
 const LandingPage: React.FC = () => {
-  const { push } = useNavigator();
+  const { push, replace } = useNavigator();
 
   const setMeetings = useSetRecoilState(meetingsAtom);
   const currMeetingsValue = useRecoilValue(currMeetings);
@@ -71,11 +71,16 @@ const LandingPage: React.FC = () => {
   };
 
   useEffect(() => {
+    if (!localStorage.getItem('onboard')) {
+      replace('/guide');
+      return;
+    }
     if (userInfo) {
       meetingListHandler();
       setUserId(analytics, userInfo.nickname);
     }
-  }, [meetingListHandler, userInfo, push]);
+    return;
+  }, [meetingListHandler, userInfo, push, replace]);
 
   useEffect(() => {
     logEvent(analytics, 'first_open');
