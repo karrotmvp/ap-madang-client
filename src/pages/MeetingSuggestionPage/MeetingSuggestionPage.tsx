@@ -12,8 +12,10 @@ import bulb from '../../assets/icon/bulb.svg';
 import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreenHelmet';
 import { COLOR } from '../../constant/color';
 import { SUGGESTION } from '../../constant/message';
+import useViewportSize from '../../hook/useViewportSize';
 import { userInfoAtom } from '../../store/user';
 import mini from '../../util/mini';
+import { checkMobileType } from '../../util/utils';
 
 interface ButtonProps {
   inputFocus: boolean;
@@ -23,9 +25,9 @@ interface ContentsWrapperProps {
   isSubmit: boolean;
 }
 
-const PageWrapper = styled.div`
+const PageWrapper = styled.div<{ height: number | undefined }>`
   width: 100%;
-  height: 100%;
+  height: ${({ height }) => (height ? height + 'px' : '100%')};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -138,6 +140,7 @@ const MeetingSuggestionPage = () => {
   const [submit, setsubmit] = useState(false);
   const userInfo = useRecoilValue(userInfoAtom);
   const { pop } = useNavigator();
+  const size = useViewportSize();
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
@@ -168,7 +171,14 @@ const MeetingSuggestionPage = () => {
   }, []);
 
   return (
-    <PageWrapper className="meeting-suggestion">
+    <PageWrapper
+      className="meeting-suggestion"
+      height={
+        inputFocus && checkMobileType() === 'Cupertino'
+          ? Math.floor(size[1])
+          : undefined
+      }
+    >
       <CustomScreenHelmet
         appendLeft={<PageTitle>{SUGGESTION.NAVIGATOR_TITLE}</PageTitle>}
       />
