@@ -247,6 +247,7 @@ const MeetingDetailPage = () => {
             return {
               ...prevState,
               alarm_id: undefined,
+              alarm_num: prevState.alarm_num - 1,
             };
           return prevState;
         });
@@ -270,7 +271,12 @@ const MeetingDetailPage = () => {
       const result = await newAlarm(matchId.params.id);
       if (result.success && result.data?.id) {
         setData(prevState => {
-          if (prevState) return { ...prevState, alarm_id: result.data?.id };
+          if (prevState)
+            return {
+              ...prevState,
+              alarm_id: result.data?.id,
+              alarm_num: prevState.alarm_num + 1,
+            };
           return prevState;
         });
         setOpenNewAlarmModal(true);
