@@ -63,7 +63,8 @@ export const MEETING_DETAIL = {
   CLOSE_MEETING: '오늘은 종료된 모임이에요',
   JOIN_LATER: ' 후에 만나요',
   GREEN_BOX_INFO:
-    '랜동모의 모든 모임은 화상으로 진행돼요. 카메라를 켜지 않아도 괜찮아요.',
+    '모든 모임은 줌(Zoom) 화상 회의로 진행돼요. 줌 앱을 다운로드한 후 이용해 주세요. 카메라를 켜지 않아도 괜찮아요!',
+  GREEN_BOX_BTN: '줌 이용에 문제가 있나요?',
   GUIDE: {
     TITLE: '즐거운 랜선동네모임을 위해\n함께 지켜주세요!',
     SUB_TITLE: [

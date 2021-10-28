@@ -2,13 +2,13 @@ import React, { useCallback, useState, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-// import { useNavigator } from '@karrotframe/navigator';
 import { useRouteMatch } from 'react-router-dom';
 
 import { deleteAlarm, newAlarm } from '../../api/alarm';
 import { getMeetingDetail, MeetingDetailType } from '../../api/meeting';
 import { analytics } from '../../App';
 import arrow_iOS_large from '../../assets/icon/arrow_iOS_large.svg';
+import arrow_iOS_xsmall_green from '../../assets/icon/arrow_iOS_xsmall_green.svg';
 import clock from '../../assets/icon/clock.svg';
 import notification_empty from '../../assets/icon/notification_empty.svg';
 import notification_fill from '../../assets/icon/notification_fill.svg';
@@ -181,12 +181,27 @@ const GreenInfoBox = styled.div`
   background: ${COLOR.PRIMARY_L1};
   border: 0.1rem solid ${COLOR.LIGHT_GREEN};
   color: ${COLOR.LIGHT_GREEN};
+  font-weight: 500;
   font-size: 1.3rem;
   line-height: 2rem;
   letter-spacing: -0.03rem;
   border-radius: 0.6rem;
   margin: 1.6rem 1.6rem 0 1.6rem;
   padding: 1rem 1.4rem;
+`;
+
+const GreenInfoText = styled.div`
+  margin-bottom: 0.8rem;
+`;
+
+const GreenInfoBtn = styled.div`
+  font-weight: 400;
+  color: ${COLOR.DARK_GREEN};
+  text-decoration-line: underline;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 interface MatchParams {
@@ -371,7 +386,14 @@ const MeetingDetailPage = () => {
           </TimeWrapper>
         </TitleWrapper>
         <LineDivider />
-        <GreenInfoBox>{MEETING_DETAIL.GREEN_BOX_INFO}</GreenInfoBox>
+        <GreenInfoBox
+          onClick={() => window.open(process.env.INFO_NOTION_URL || '')}
+        >
+          <GreenInfoText>{MEETING_DETAIL.GREEN_BOX_INFO}</GreenInfoText>
+          <GreenInfoBtn>
+            {MEETING_DETAIL.GREEN_BOX_BTN} <img src={arrow_iOS_xsmall_green} />
+          </GreenInfoBtn>
+        </GreenInfoBox>
         <DescriptionWrapper className="meeting-detail__body">
           <DescriptionList
             title={MEETING_DETAIL.DESCRIPTION_TITLE1}
