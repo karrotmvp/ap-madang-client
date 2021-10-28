@@ -47,15 +47,12 @@ const Auth = (SpecialComponent: React.FC) => {
     // url code param 가져오기 or mini로 code gererate
     const getCodeHandler = useCallback(() => {
       const urlSearchParams = new URLSearchParams(window.location.search);
-      const urlHashParams = new URLSearchParams(window.location.hash);
+      const onBoard = localStorage.getItem('onboard');
+      const codeParams = urlSearchParams.get('code');
+      const isPreload = urlSearchParams.get('preload');
 
-      const codeParams =
-        urlSearchParams.get('code') || urlHashParams.get('code');
-      const isPreload =
-        urlSearchParams.get('preload') || urlHashParams.get('preload');
-
-      if (codeParams) setCode(codeParams);
-      else if (isPreload !== 'true') {
+      if (codeParams && !code) setCode(codeParams);
+      else if (isPreload !== 'true' && onBoard && !code) {
         mini.startPreset({
           preset: process.env.MINI_PRESET_URL || '',
           params: { appId: process.env.APP_ID || '' },
@@ -66,8 +63,7 @@ const Auth = (SpecialComponent: React.FC) => {
           },
         });
       }
-      //eslint-disable-next-line
-    }, [window.location.search]);
+    }, [code, setCode]);
 
     // 이미 jwt가 있는 경우 해당 jwt 발급 code가 현재 코드와 일치하는지 확인
     const checkAuth = useCallback(() => {
