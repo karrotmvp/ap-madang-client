@@ -1,9 +1,11 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { useNavigator } from 'karrotframe/lib';
 import { useRecoilState } from 'recoil';
 
+import { analytics } from '../../App';
 import service_guide from '../../assets/image/service_guide.png';
 import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreenHelmet';
 import { COLOR } from '../../constant/color';
@@ -59,18 +61,19 @@ const Button = styled.div`
 `;
 
 function ServiceGuidePage(): ReactElement {
+  const startTime = new Date();
   const [code, setCode] = useRecoilState(codeAtom);
   const { replace } = useNavigator();
   const onBoard = localStorage.getItem('onboard');
 
   const btnHandler = () => {
-    localStorage.setItem('onboard', 'true');
     const urlSearchParams = new URLSearchParams(window.location.search);
     const isPreload = urlSearchParams.get('preload');
     const codeParams = urlSearchParams.get('code');
 
     if (codeParams) {
-      setCode(codeParams);
+      !code && setCode(codeParams);
+      localStorage.setItem('onboard', 'true');
       replace('/');
     } else if (!code && isPreload !== 'true') {
       mini.startPreset({
@@ -78,16 +81,24 @@ function ServiceGuidePage(): ReactElement {
         params: { appId: process.env.APP_ID || '' },
         onSuccess(result: { code: string }) {
           if (result && result.code) {
+            logEvent(analytics, 'onBoard_success_mini', {
+              start_time: startTime,
+              end_time: new Date(),
+            });
+            localStorage.setItem('onboard', 'true');
             setCode(result.code);
-            // replace('/');
+            replace('/');
           }
-        },
-        onClose() {
-          replace('/');
         },
       });
     }
   };
+
+  useEffect(() => {
+    logEvent(analytics, 'onBoard_enter', {
+      start_time: startTime,
+    });
+  }, [startTime]);
 
   return (
     <PageWrapper>
