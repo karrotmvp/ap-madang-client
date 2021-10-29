@@ -31,6 +31,8 @@ const PageWrapper = styled.div<{ height: number | undefined }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition-property: height;
+  transition-duration: 0.2s;
 `;
 
 const ContentsWrapper = styled.div<ContentsWrapperProps>`
@@ -174,9 +176,7 @@ const MeetingSuggestionPage = () => {
     <PageWrapper
       className="meeting-suggestion"
       height={
-        inputFocus && checkMobileType() === 'Cupertino'
-          ? Math.floor(size[1])
-          : undefined
+        inputFocus && checkMobileType() === 'Cupertino' ? size[1] : undefined
       }
     >
       <CustomScreenHelmet
