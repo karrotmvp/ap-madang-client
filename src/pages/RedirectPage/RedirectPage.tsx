@@ -110,6 +110,8 @@ const BtnWrapper = styled.div`
 `;
 
 const GoHomeBtn = styled.span`
+  font-weight: 500;
+  margin-left: 0.5rem;
   color: ${COLOR.LIGHT_GREEN};
 `;
 
