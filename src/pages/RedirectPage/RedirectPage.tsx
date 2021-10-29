@@ -117,15 +117,22 @@ function RedirectPage(): ReactElement {
   const { replace } = useNavigator();
   const [redirected, setRedirected] = useState(false);
 
-  const openNewWindow = useCallback(meetingUrl => {
-    window.open('https://' + meetingUrl.replace('%2F', '/'), '', '_blank');
+  const openNewWindow = useCallback((meetingUrl, pwd) => {
+    window.open(
+      'https://' + meetingUrl.replace('%2F', '/') + '?pwd=' + pwd,
+      '',
+      '_blank',
+    );
   }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       const urlSearchParams = new URLSearchParams(location.search);
       if (!redirected && urlSearchParams.has('meeting_url')) {
-        openNewWindow(urlSearchParams.get('meeting_url'));
+        openNewWindow(
+          urlSearchParams.get('meeting_url'),
+          urlSearchParams.get('pwd'),
+        );
         setRedirected(true);
       }
     }, 500);
@@ -135,7 +142,10 @@ function RedirectPage(): ReactElement {
   const redirectToMeet = () => {
     const urlSearchParams = new URLSearchParams(location.search);
     if (urlSearchParams.has('meeting_url'))
-      openNewWindow(openNewWindow(urlSearchParams.get('meeting_url')));
+      openNewWindow(
+        urlSearchParams.get('meeting_url'),
+        urlSearchParams.get('pwd'),
+      );
   };
 
   const redirectToHome = useCallback(() => {
