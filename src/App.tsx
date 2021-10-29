@@ -9,6 +9,7 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import MeetingDetailPage from './pages/MeetingDetailPage/MeetingDetailPage';
 import MeetingSuggestionPage from './pages/MeetingSuggestionPage/MeetingSuggestionPage';
 import NotFoundPage from './pages/NotFountPage/NotFoundPage';
+import NotServiceRegionPage from './pages/NotServiceRegionPage/NotServiceRegionPage';
 import OnBoardingPage from './pages/OnBoardingPage/OnBoardingPage';
 import RedirectPage from './pages/RedirectPage/RedirectPage';
 import ReservationPage from './pages/ReservationPage/ReservationPage';
@@ -40,6 +41,7 @@ const App: React.FC = () => {
       <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
       <Screen path="/reservation" component={ReservationPage} />
       <Screen path="/redirect" component={Auth(RedirectPage)} />
+      <Screen path="/not-service-region" component={NotServiceRegionPage} />
       <Screen path="*" component={NotFoundPage} />
     </Navigator>
   );
