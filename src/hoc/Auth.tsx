@@ -84,7 +84,7 @@ const Auth = (SpecialComponent: React.FC) => {
 
     useEffect(() => {
       if (!code) getCodeHandler();
-      if (code && !userInfo) checkAuth();
+      if (code && !userInfo?.nickname && !userInfo?.region) checkAuth();
     }, [checkAuth, code, getCodeHandler, userInfo]);
 
     return <SpecialComponent {...props} />;

@@ -1,9 +1,9 @@
 import { atom } from 'recoil';
 
-type UserInfoType =
+export type UserInfoType =
   | {
-      nickname: string;
-      region: string;
+      nickname: string | undefined;
+      region: string | undefined;
     }
   | undefined;
 

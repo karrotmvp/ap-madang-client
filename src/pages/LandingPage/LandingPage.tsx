@@ -5,9 +5,10 @@ import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import { logEvent, setUserId } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { getMeetings } from '../../api/meeting';
+import { getRegionName } from '../../api/reservation';
 import { analytics } from '../../App';
 import home_banner from '../../assets/image/home_banner.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
@@ -17,7 +18,8 @@ import MeetingList from '../../components/MeetingList/MeetingList';
 import { COLOR } from '../../constant/color';
 import { LANDING } from '../../constant/message';
 import { currMeetings, meetingsAtom } from '../../store/meeting';
-import { userInfoAtom } from '../../store/user';
+import { userInfoAtom, UserInfoType } from '../../store/user';
+import { getRegionId } from '../../util/utils';
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -59,7 +61,7 @@ const LandingPage: React.FC = () => {
 
   const setMeetings = useSetRecoilState(meetingsAtom);
   const currMeetingsValue = useRecoilValue(currMeetings);
-  const userInfo = useRecoilValue(userInfoAtom);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
 
   const meetingListHandler = useCallback(async () => {
     const result = await getMeetings();
@@ -70,12 +72,32 @@ const LandingPage: React.FC = () => {
     push('/guide');
   };
 
-  useEffect(() => {
+  const redirectHandler = useCallback(async () => {
+    const regionId = getRegionId(location.search);
+    if (!regionId) return;
+
+    const result = await getRegionName({
+      region_id: regionId,
+    });
+
+    if (result.success && result.data) {
+      setUserInfo((prevState): UserInfoType => {
+        return { nickname: prevState?.nickname, region: result.data?.region };
+      });
+      if (result.data.region !== '서초구' && result.data.region !== '관악구') {
+        replace('/not-service-region');
+        return;
+      }
+    }
+
     if (!localStorage.getItem('onboard')) {
       replace('/guide');
       return;
     }
-    if (userInfo) {
+  }, [replace, setUserInfo]);
+
+  useEffect(() => {
+    if (userInfo?.nickname && userInfo?.region) {
       meetingListHandler();
       setUserId(analytics, userInfo.nickname);
     }
@@ -84,7 +106,8 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     logEvent(analytics, 'first_open');
-  }, []);
+    redirectHandler();
+  }, [redirectHandler]);
 
   return (
     <PageWrapper className="landing">
