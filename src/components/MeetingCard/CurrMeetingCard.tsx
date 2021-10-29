@@ -95,7 +95,7 @@ const Timer = styled.div`
 
 const Title = styled.div`
   font-weight: 600;
-  height: 5.2rem;
+  max-height: 5.2rem;
   font-size: 1.7rem;
   line-height: 2.6rem;
   letter-spacing: -0.04rem;
@@ -105,6 +105,10 @@ const Title = styled.div`
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  vertical-align: top;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: box;
 `;
 const Button = styled.div`
   width: 100%;
