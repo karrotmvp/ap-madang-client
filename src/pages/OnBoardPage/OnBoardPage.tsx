@@ -60,11 +60,11 @@ const Button = styled.div`
   align-items: center;
 `;
 
-function ServiceGuidePage(): ReactElement {
-  const startTime = new Date();
+function OnBoardPage(): ReactElement {
   const [code, setCode] = useRecoilState(codeAtom);
-  const { replace } = useNavigator();
   const onBoard = localStorage.getItem('onboard');
+  const { replace } = useNavigator();
+  const startTime = new Date();
 
   const btnHandler = () => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -115,4 +115,4 @@ function ServiceGuidePage(): ReactElement {
   );
 }
 
-export default ServiceGuidePage;
+export default OnBoardPage;

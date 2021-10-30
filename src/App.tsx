@@ -10,10 +10,9 @@ import MeetingDetailPage from './pages/MeetingDetailPage/MeetingDetailPage';
 import MeetingSuggestionPage from './pages/MeetingSuggestionPage/MeetingSuggestionPage';
 import NotFoundPage from './pages/NotFountPage/NotFoundPage';
 import NotServiceRegionPage from './pages/NotServiceRegionPage/NotServiceRegionPage';
-import OnBoardingPage from './pages/OnBoardingPage/OnBoardingPage';
+import OnBoardPage from './pages/OnBoardPage/OnBoardPage';
 import RedirectPage from './pages/RedirectPage/RedirectPage';
 import ReservationPage from './pages/ReservationPage/ReservationPage';
-import ServiceGuidePage from './pages/ServiceGuidePage/ServiceGuidePage';
 import { app } from './util/firebase';
 import mini from './util/mini';
 
@@ -35,9 +34,8 @@ const App: React.FC = () => {
       className={NavigatorStyle}
     >
       <Screen path="/" component={Auth(LandingPage)} />
-      <Screen path="/guide" component={ServiceGuidePage} />
+      <Screen path="/guide" component={OnBoardPage} />
       <Screen path="/meetings/:id" component={MeetingDetailPage} />
-      <Screen path="/onboarding" component={Auth(OnBoardingPage)} />
       <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
       <Screen path="/reservation" component={ReservationPage} />
       <Screen path="/redirect" component={Auth(RedirectPage)} />
