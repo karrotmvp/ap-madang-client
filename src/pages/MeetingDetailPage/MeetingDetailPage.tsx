@@ -16,7 +16,7 @@ import BottomSheet from '../../components/BottomSheet/BottomSheet';
 import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreenHelmet';
 import { DescriptionList } from '../../components/Description/DescriptionList';
 import DeleteAlarmModal from '../../components/Modal/DeleteAlarmModal';
-import MeetingGuideModal from '../../components/Modal/MeetingGuideModal';
+import MeetingMannerModal from '../../components/Modal/MeetingMannerModal';
 import NewAlarmModal from '../../components/Modal/NewAlarmModal';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
@@ -87,7 +87,7 @@ const DescriptionWrapper = styled.div`
   padding: 2.2rem 1.6rem 0 1.6rem;
 `;
 
-const MannerInfoCardWrapper = styled.div`
+const MeetingMannerCardWrapper = styled.div`
   display: flex;
   flex-direction: row;
   padding: 2.4rem 3.1rem 2.4rem 2.4rem;
@@ -228,13 +228,11 @@ const defaultValue: MeetingDetailType = {
 const MeetingDetailPage = () => {
   const [data, setData] = useState<MeetingDetailType>(defaultValue);
   const [remainTime, setRemainTime] = useState('');
-  const [openBottomSheet, setOpenBottomSheet] = useState(false);
-  const [openGuideModal, setOpenGuideModal] = useState(false);
-  const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
-  const [openDeleteAlarmModal, setOpenDeleteAlarmModal] = useState(false);
+  const [modal, setModal] = useState<React.ReactElement | undefined>();
 
-  /* 후기 페이지 사용시 적용할 코드 */
-  // const [joined, setJoined] = useState(false);
+  const hideModal = () => {
+    setModal(undefined);
+  };
 
   const matchId = useRouteMatch<MatchParams>({
     path: '/meetings/:id',
@@ -245,6 +243,29 @@ const MeetingDetailPage = () => {
     const result = await getMeetingDetail(id);
     if (result.success && result.data) setData(result.data);
   }, []);
+
+  // 알람 신청 핸들러
+  const addAlarmHandler = useCallback(async () => {
+    logEvent(analytics, 'add_alarm', {
+      location: 'detail_page',
+      meeting_id: data.id,
+      meeting_name: data.title,
+      is_current: data.live_status,
+    });
+    const result = await newAlarm(matchId.params.id);
+    if (result.success && result.data?.id) {
+      setData(prevState => {
+        if (prevState)
+          return {
+            ...prevState,
+            alarm_id: result.data?.id,
+            alarm_num: prevState.alarm_num + 1,
+          };
+        return prevState;
+      });
+      setModal(<NewAlarmModal closeHandler={hideModal} />);
+    }
+  }, [data.id, data.live_status, data.title, matchId.params.id]);
 
   // 알람 신청 해제 핸들러
   const deleteAlarmHandler = useCallback(async () => {
@@ -275,33 +296,20 @@ const MeetingDetailPage = () => {
   // 알람 신청 핸들러
   const alarmHandler = useCallback(async () => {
     if (data?.alarm_id) {
-      setOpenDeleteAlarmModal(true);
+      setModal(
+        <DeleteAlarmModal
+          closeHandler={hideModal}
+          deleteAlarmHandler={deleteAlarmHandler}
+        />,
+      );
     } else if (matchId?.params.id) {
-      logEvent(analytics, 'add_alarm', {
-        location: 'detail_page',
-        meeting_id: data.id,
-        meeting_name: data.title,
-        is_current: data.live_status,
-      });
-      const result = await newAlarm(matchId.params.id);
-      if (result.success && result.data?.id) {
-        setData(prevState => {
-          if (prevState)
-            return {
-              ...prevState,
-              alarm_id: result.data?.id,
-              alarm_num: prevState.alarm_num + 1,
-            };
-          return prevState;
-        });
-        setOpenNewAlarmModal(true);
-      }
+      addAlarmHandler();
     }
-  }, [data, matchId.params.id]);
+  }, [addAlarmHandler, data.alarm_id, deleteAlarmHandler, matchId.params.id]);
 
+  // 모임 참여 버튼 핸들러
   const onClickJoinHandler = () => {
-    console.log('join');
-    setOpenBottomSheet(true);
+    setModal(<BottomSheet url={data.meeting_url} onClose={hideModal} />);
     logEvent(analytics, 'join_meeting_btn', {
       meeting_id: data.id,
       meeting_name: data.title,
@@ -309,6 +317,18 @@ const MeetingDetailPage = () => {
     });
   };
 
+  // 모임 매너 카드 핸들러
+  const onClickMannerCardHandler = () => {
+    setModal(<MeetingMannerModal closeHandler={hideModal} />);
+    logEvent(analytics, 'show_guide_modal', {
+      location: 'detail_page',
+      meeting_id: data.id,
+      meeting_name: data.title,
+      is_current: data.live_status,
+    });
+  };
+
+  // 줌 사용 설명 핸들러
   const onClickGreenInfoBoxHandler = () => {
     window.open(process.env.INFO_NOTION_URL || '', '', '_blank');
   };
@@ -320,18 +340,6 @@ const MeetingDetailPage = () => {
     },
     data.live_status === 'upcoming' ? 10000 : null,
   );
-
-  /* 후기 페이지 사용시 적용할 코드 */
-  // useEffect(() => {
-  //   if (joined) {
-  //     const redirect = setTimeout(() => {
-  //       joined && replace('/');
-  //       setJoined(false);
-  //     }, 5000);
-  //     return () => clearTimeout(redirect);
-  //   }
-  //   return;
-  // }, [joined, replace]);
 
   useEffect(() => {
     if (matchId?.params.id && !data.id) fetchData(matchId.params.id);
@@ -353,27 +361,7 @@ const MeetingDetailPage = () => {
   return (
     <PageWrapper className="meeting-detail">
       <CustomScreenHelmet />
-
-      {openBottomSheet && (
-        <BottomSheet
-          url={data.meeting_url}
-          // onClickJoin={() => setJoined(true)}    //후기 페이지 사용시 적용할 코드
-          onClose={() => setOpenBottomSheet(false)}
-        />
-      )}
-
-      {openGuideModal && (
-        <MeetingGuideModal closeHandler={() => setOpenGuideModal(false)} />
-      )}
-      {openNewAlarmModal && (
-        <NewAlarmModal closeHandler={() => setOpenNewAlarmModal(false)} />
-      )}
-      {openDeleteAlarmModal && (
-        <DeleteAlarmModal
-          closeHandler={() => setOpenDeleteAlarmModal(false)}
-          deleteAlarmHandler={deleteAlarmHandler}
-        />
-      )}
+      {modal}
       <ContentsWrapper className="meeting-detail__contents">
         <BannerWrapper>
           <BannerImg src={data.image} />
@@ -408,17 +396,9 @@ const MeetingDetailPage = () => {
           />
         </DescriptionWrapper>
         <BlockDivider />
-        <MannerInfoCardWrapper
+        <MeetingMannerCardWrapper
           className="meeting-detail__footer-banner"
-          onClick={() => {
-            logEvent(analytics, 'show_guide_modal', {
-              location: 'detail_page',
-              meeting_id: data.id,
-              meeting_name: data.title,
-              is_current: data.live_status,
-            });
-            setOpenGuideModal(true);
-          }}
+          onClick={onClickMannerCardHandler}
         >
           <InfoCardTitle className="title3">
             {MEETING_DETAIL.MANNER_INFO_CARD}
@@ -426,7 +406,7 @@ const MeetingDetailPage = () => {
           <MoreIcon>
             <img src={arrow_iOS_large} />
           </MoreIcon>
-        </MannerInfoCardWrapper>
+        </MeetingMannerCardWrapper>
         <BlockDivider />
       </ContentsWrapper>
       <NavBar className="meeting-detail__footer-nav-bar">
