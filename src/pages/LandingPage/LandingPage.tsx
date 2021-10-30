@@ -5,10 +5,9 @@ import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import { logEvent, setUserId } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { getMeetings } from '../../api/meeting';
-import { getRegionName } from '../../api/reservation';
 import { analytics } from '../../App';
 import home_banner from '../../assets/image/home_banner.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
@@ -18,8 +17,8 @@ import MeetingList from '../../components/MeetingList/MeetingList';
 import { COLOR } from '../../constant/color';
 import { LANDING } from '../../constant/message';
 import { currMeetings, meetingsAtom } from '../../store/meeting';
-import { userInfoAtom, UserInfoType } from '../../store/user';
-import { getRegionId } from '../../util/utils';
+import { userInfoAtom } from '../../store/user';
+import { useRedirect } from './useRedirect';
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -61,53 +60,28 @@ const LandingPage: React.FC = () => {
 
   const setMeetings = useSetRecoilState(meetingsAtom);
   const currMeetingsValue = useRecoilValue(currMeetings);
-  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
+  const userInfo = useRecoilValue(userInfoAtom);
+  const redirectUrl = useRedirect();
 
   const meetingListHandler = useCallback(async () => {
     const result = await getMeetings();
     if (result.success && result.data) setMeetings(result.data);
   }, [setMeetings]);
 
-  const onClickBannerHander = () => {
-    push('/guide');
-  };
-
-  const redirectHandler = useCallback(async () => {
-    const regionId = getRegionId(location.search);
-    if (!regionId) return;
-
-    const result = await getRegionName({
-      region_id: regionId,
-    });
-
-    if (result.success && result.data) {
-      setUserInfo((prevState): UserInfoType => {
-        return { nickname: prevState?.nickname, region: result.data?.region };
-      });
-      if (result.data.region !== '서초구' && result.data.region !== '관악구') {
-        replace('/not-service-region');
-        return;
-      }
-    }
-
-    if (!localStorage.getItem('onboard')) {
-      replace('/guide');
-      return;
-    }
-  }, [replace, setUserInfo]);
+  useEffect(() => {
+    if (redirectUrl) replace(redirectUrl);
+  }, [redirectUrl, replace]);
 
   useEffect(() => {
     if (userInfo?.nickname && userInfo?.region) {
       meetingListHandler();
       setUserId(analytics, userInfo.nickname);
     }
-    return;
   }, [meetingListHandler, userInfo, push, replace]);
 
   useEffect(() => {
     logEvent(analytics, 'first_open');
-    redirectHandler();
-  }, [redirectHandler]);
+  }, []);
 
   return (
     <PageWrapper className="landing">
@@ -121,7 +95,7 @@ const LandingPage: React.FC = () => {
       <BannerImg
         src={home_banner}
         className="landing__banner-img"
-        onClick={onClickBannerHander}
+        onClick={() => push('/guide')}
       />
       {currMeetingsValue.length !== 0 && (
         <div>
