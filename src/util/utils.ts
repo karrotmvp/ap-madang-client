@@ -1,4 +1,5 @@
 import { INavigatorTheme } from '@karrotframe/navigator';
+import moment from 'moment';
 
 export const checkMobileType = (): INavigatorTheme => {
   const UA = navigator.userAgent.toLowerCase(); // userAgent 값 얻기
@@ -42,32 +43,16 @@ export const getRemainTime = (start_time: string) => {
   return result;
 };
 
-export const getRemainFullTime = (end_time: string) => {
-  const today = new Date();
-
-  const currHour = today.getHours();
-  const currMin = today.getMinutes();
-  const currSec = today.getSeconds();
-  const endTimeArr = end_time.split(':');
-
-  let hourDiff = parseInt(endTimeArr[0]) - currHour;
-  let minDiff = parseInt(endTimeArr[1]) - currMin;
-  let secDiff = parseInt(endTimeArr[2]) - currSec;
-
-  let result = '';
-  if (secDiff < 0) {
-    minDiff -= 1;
-    secDiff += 60;
-  }
-  if (minDiff < 0) {
-    hourDiff -= 1;
-    minDiff += 60;
-  }
-  if (hourDiff > 0) result += `${hourDiff}:`;
-  if (minDiff > 0) result += `${minDiff.toString().padStart(2, '0')}:`;
-  if (secDiff >= 0) result += `${secDiff.toString().padStart(2, '0')} `;
-
-  return result;
+export const getRemainMilliSec = (
+  start_time: string,
+  end_time: string,
+  date: string,
+) => {
+  const endDate = moment(`${date} ${end_time}`, 'YYYY-MM-DD HH:mm:ss');
+  const now = moment();
+  if (start_time >= end_time) endDate.add(1, 'day');
+  const timeDiff = moment.duration(endDate.diff(now)).asMilliseconds();
+  return timeDiff;
 };
 
 const getTimeText = (hour: number, min: number) => {
