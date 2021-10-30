@@ -8,6 +8,7 @@ import { analytics } from '../../App';
 import scratching from '../../assets/image/scratching.png';
 import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreenHelmet';
 import { COLOR } from '../../constant/color';
+import { NOT_SERVICE_REGION } from '../../constant/message';
 import { userInfoAtom } from '../../store/user';
 
 const PageWrapper = styled.div`
@@ -51,9 +52,8 @@ function NotServiceRegionPage(): ReactElement {
       <CustomScreenHelmet />
       <NotServiceImg src={scratching} />
       <Text>
-        <BoldText>{userInfo?.region}</BoldText>의 랜선동네모임은
-        <br />
-        오픈 준비 중이에요.
+        <BoldText>{userInfo?.region}</BoldText>
+        {NOT_SERVICE_REGION.TITLE}
       </Text>
     </PageWrapper>
   );

@@ -7,6 +7,7 @@ import { useNavigator } from '@karrotframe/navigator';
 import RedirectHouse from '../../assets/icon/RedirectHouse';
 import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreenHelmet';
 import { COLOR } from '../../constant/color';
+import { REDIRECT } from '../../constant/message';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -119,36 +120,32 @@ function RedirectPage(): ReactElement {
   const { replace } = useNavigator();
   const [redirected, setRedirected] = useState(false);
 
-  const openNewWindow = useCallback((meetingUrl, pwd) => {
+  const openNewWindow = (meetingUrl: string, pwd: string) => {
     window.open(
       'https://' + meetingUrl.replace('%2F', '/') + '?pwd=' + pwd,
       '',
       '_blank',
     );
+  };
+
+  const redirectToMeet = useCallback(() => {
+    const urlSearchParams = new URLSearchParams(location.search);
+    const url = urlSearchParams.get('meeting_url');
+    const pwd = urlSearchParams.get('pwd');
+    if (url && pwd) {
+      openNewWindow(url, pwd);
+    }
   }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const urlSearchParams = new URLSearchParams(location.search);
-      if (!redirected && urlSearchParams.has('meeting_url')) {
-        openNewWindow(
-          urlSearchParams.get('meeting_url'),
-          urlSearchParams.get('pwd'),
-        );
+      if (!redirected) {
+        redirectToMeet();
         setRedirected(true);
       }
     }, 500);
     return () => clearTimeout(timer);
-  }, [openNewWindow, redirected]);
-
-  const redirectToMeet = () => {
-    const urlSearchParams = new URLSearchParams(location.search);
-    if (urlSearchParams.has('meeting_url'))
-      openNewWindow(
-        urlSearchParams.get('meeting_url'),
-        urlSearchParams.get('pwd'),
-      );
-  };
+  }, [redirectToMeet, redirected]);
 
   const redirectToHome = useCallback(() => {
     replace('/');
@@ -159,13 +156,13 @@ function RedirectPage(): ReactElement {
       <CustomScreenHelmet />
       <ContentsArea>
         <RedirectHouseStyle />
-        <TextArea className="body2">모임에 입장하는 중이에요</TextArea>
-        <EnterBtn onClick={redirectToMeet}>직접 입장하기</EnterBtn>
+        <TextArea className="body2">{REDIRECT.TITLE}</TextArea>
+        <EnterBtn onClick={redirectToMeet}>{REDIRECT.BTN_TEXT}</EnterBtn>
       </ContentsArea>
 
       <BtnWrapper className="body4">
-        모임에 입장할 수 없나요?{' '}
-        <GoHomeBtn onClick={redirectToHome}>홈으로 돌아가기</GoHomeBtn>
+        {REDIRECT.CANT_JOIN}
+        <GoHomeBtn onClick={redirectToHome}>{REDIRECT.GO_HOME}</GoHomeBtn>
       </BtnWrapper>
     </PageWrapper>
   );

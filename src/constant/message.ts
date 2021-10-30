@@ -98,3 +98,14 @@ export const BOTTOM_SHEET = {
 };
 
 export const GUIDE = { ENTER_BTN: '랜선동네모임 시작하기' };
+
+export const NOT_SERVICE_REGION = {
+  TITLE: '의 랜선동네모임은\n오픈 준비 중이에요.',
+};
+
+export const REDIRECT = {
+  TITLE: '모임에 입장하는 중이에요',
+  BTN_TEXT: '직접 입장하기',
+  CANT_JOIN: '모임에 입장할 수 없나요? ',
+  GO_HOME: '홈으로 돌아가기',
+};
