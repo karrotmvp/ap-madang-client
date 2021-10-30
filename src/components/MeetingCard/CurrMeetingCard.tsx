@@ -1,12 +1,11 @@
-import React, { ReactElement, useCallback, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback } from 'react';
 
 import styled from '@emotion/styled';
 import { useNavigator } from '@karrotframe/navigator';
 
 import { COLOR } from '../../constant/color';
-import useInterval from '../../hook/useInterval';
 import { meetingType } from '../../store/meeting';
-import { getRemainFullTime } from '../../util/utils';
+import CurrMeetingTimer from '../Timer/CurrMeetingTimer';
 interface Props {
   data: meetingType;
   idx: number;
@@ -83,16 +82,6 @@ const InfoWrapper = styled.div`
   padding: 0 0.4rem;
 `;
 
-const TimeWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 0.4rem;
-`;
-
-const Timer = styled.div`
-  color: ${COLOR.ORANGE};
-`;
-
 const Title = styled.div`
   font-weight: 600;
   max-height: 5.2rem;
@@ -126,19 +115,10 @@ const Button = styled.div`
 
 function CurrMeetingCard({ idx, data, total }: Props): ReactElement {
   const { push } = useNavigator();
-  const [remainTime, setRemainTime] = useState('');
 
   const onClickCardHandler = useCallback(() => {
     push(`/meetings/${data.id}`);
   }, [data.id, push]);
-
-  useInterval(() => {
-    setRemainTime(getRemainFullTime(data.end_time));
-  }, 1000);
-
-  useEffect(() => {
-    setRemainTime(getRemainFullTime(data.end_time));
-  }, [data.date, data.end_time, data.start_time]);
 
   return (
     <MeetingCardWrapper
@@ -154,9 +134,11 @@ function CurrMeetingCard({ idx, data, total }: Props): ReactElement {
       </ImageWrapper>
       <ContentsWrapper>
         <InfoWrapper>
-          <TimeWrapper>
-            <Timer className="body3">{remainTime}후에 종료돼요</Timer>
-          </TimeWrapper>
+          <CurrMeetingTimer
+            date={data.date}
+            start_time={data.start_time}
+            end_time={data.end_time}
+          />
           <Title className="title">{data.title}</Title>
         </InfoWrapper>
         <Button>모임 정보 보러가기</Button>
