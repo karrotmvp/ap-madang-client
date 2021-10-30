@@ -172,18 +172,13 @@ function BottomSheet({ onClose, onClickJoin, url }: Props): ReactElement {
             <InfoTitle> {BOTTOM_SHEET.TITLE}</InfoTitle>
             <IconImg src={closeBtn} onClick={closeHandler} />
           </TitleWrapper>
-          <DescriptionItem
-            className="bottom-sheet__description"
-            text={BOTTOM_SHEET.SUB_TITLE1}
-          />
-          <DescriptionItem
-            className="bottom-sheet__description"
-            text={BOTTOM_SHEET.SUB_TITLE2}
-          />
-          <DescriptionItem
-            className="bottom-sheet__description"
-            text={BOTTOM_SHEET.SUB_TITLE3}
-          />
+          {BOTTOM_SHEET.SUB_TITLE.map((el, idx) => (
+            <DescriptionItem
+              className="bottom-sheet__description"
+              key={idx.toString()}
+              text={el}
+            />
+          ))}
         </InfoTextWrapper>
 
         <JoinBtn onClick={onClickJoinHandler}>{BOTTOM_SHEET.JOIN}</JoinBtn>
