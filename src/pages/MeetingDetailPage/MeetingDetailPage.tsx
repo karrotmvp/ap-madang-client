@@ -300,12 +300,17 @@ const MeetingDetailPage = () => {
   }, [data, matchId.params.id]);
 
   const onClickJoinHandler = () => {
+    console.log('join');
     setOpenBottomSheet(true);
     logEvent(analytics, 'join_meeting_btn', {
       meeting_id: data.id,
       meeting_name: data.title,
       is_current: data.live_status,
     });
+  };
+
+  const onClickGreenInfoBoxHandler = () => {
+    window.open(process.env.INFO_NOTION_URL || '', '', '_blank');
   };
 
   // 하단 남은시간 타이머 업데이트
@@ -386,9 +391,7 @@ const MeetingDetailPage = () => {
           </TimeWrapper>
         </TitleWrapper>
         <LineDivider />
-        <GreenInfoBox
-          onClick={() => window.open(process.env.INFO_NOTION_URL || '')}
-        >
+        <GreenInfoBox onClick={onClickGreenInfoBoxHandler}>
           <GreenInfoText>{MEETING_DETAIL.GREEN_BOX_INFO}</GreenInfoText>
           <GreenInfoBtn>
             {MEETING_DETAIL.GREEN_BOX_BTN} <img src={arrow_iOS_xsmall_green} />

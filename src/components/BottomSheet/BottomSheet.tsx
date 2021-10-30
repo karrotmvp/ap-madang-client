@@ -176,6 +176,11 @@ function BottomSheet({ onClose, onClickJoin, url }: Props): ReactElement {
     closeHandler();
   };
 
+  const onClickJoinHandler = () => {
+    window.open(url, '', '_blank');
+    onClickJoin && onClickJoin();
+  };
+
   return (
     <BottomSheetWrapper
       className={classnamse(
@@ -214,9 +219,7 @@ function BottomSheet({ onClose, onClickJoin, url }: Props): ReactElement {
           </DescriptionItem>
         </InfoTextWrapper>
 
-        <JoinBtn onClick={onClickJoin} href={url} target="_blank">
-          {BOTTOM_SHEET.JOIN}
-        </JoinBtn>
+        <JoinBtn onClick={onClickJoinHandler}>{BOTTOM_SHEET.JOIN}</JoinBtn>
       </ContentsWrapper>
     </BottomSheetWrapper>
   );
