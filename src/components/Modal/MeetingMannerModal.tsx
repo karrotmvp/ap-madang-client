@@ -86,7 +86,7 @@ const ConfirmBtn = styled.div`
   color: ${COLOR.TEXT_BLACK};
 `;
 
-function MeetingGuideModal({ closeHandler, className }: Props): ReactElement {
+function MeetingMannerModal({ closeHandler, className }: Props): ReactElement {
   return (
     <ModalStyle
       className={classnames('meeting-guide-modal', className)}
@@ -95,9 +95,9 @@ function MeetingGuideModal({ closeHandler, className }: Props): ReactElement {
     >
       <ContentsWrapper>
         <Title className="meeting-guide-modal__title">
-          {MEETING_DETAIL.GUIDE.TITLE}
+          {MEETING_DETAIL.MANNER.TITLE}
         </Title>
-        {MEETING_DETAIL.GUIDE.SUB_TITLE.map((el, idx) => {
+        {MEETING_DETAIL.MANNER.SUB_TITLE.map((el, idx) => {
           return (
             <GuideWrapper
               className="meeting-guide-modal__text"
@@ -115,10 +115,10 @@ function MeetingGuideModal({ closeHandler, className }: Props): ReactElement {
         className="meeting-guide-modal__confirm-btn"
         onClick={closeHandler}
       >
-        {MEETING_DETAIL.GUIDE.CLOSE}
+        {MEETING_DETAIL.MANNER.CLOSE}
       </ConfirmBtn>
     </ModalStyle>
   );
 }
 
-export default MeetingGuideModal;
+export default MeetingMannerModal;

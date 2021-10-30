@@ -65,7 +65,7 @@ export const MEETING_DETAIL = {
   GREEN_BOX_INFO:
     '모든 모임은 줌(Zoom) 화상 회의로 진행돼요. 줌 앱을 다운로드한 후 이용해 주세요. 카메라를 켜지 않아도 괜찮아요!',
   GREEN_BOX_BTN: '줌 사용방법 보러가기',
-  GUIDE: {
+  MANNER: {
     TITLE: '즐거운 랜선동네모임을 위해\n함께 지켜주세요!',
     SUB_TITLE: [
       {
