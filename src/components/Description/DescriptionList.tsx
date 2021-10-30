@@ -3,8 +3,8 @@ import React from 'react';
 import styled from '@emotion/styled';
 import classnames from 'classnames';
 
-import { Dot } from '../../assets/icon';
 import { COLOR } from '../../constant/color';
+import DescriptionItem from './DescriptionItem';
 
 interface DescriptionProp {
   text: string;
@@ -42,31 +42,6 @@ const List = styled.div`
   }
 `;
 
-const DotIcon = styled.div`
-  height: 2.7rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
-const DescriptionItem = styled.div`
-  font-size: 1.5rem;
-  line-height: 2.5rem;
-  letter-spacing: -0.03rem;
-  color: ${COLOR.TEXT_GRAY};
-  margin-bottom: 0.5rem;
-  word-break: keep-all;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-
-  span {
-    position: relative;
-    left: 0.8rem;
-  }
-`;
-
 export const DescriptionList = (props: Props) => {
   return (
     <Wrapper className={classnames('description-list', props.className)}>
@@ -79,12 +54,8 @@ export const DescriptionList = (props: Props) => {
             <DescriptionItem
               className="description-list__contents"
               key={idx.toString()}
-            >
-              <DotIcon>
-                <Dot />
-              </DotIcon>
-              <span>{el.text}</span>
-            </DescriptionItem>
+              text={el.text}
+            />
           ))}
       </List>
     </Wrapper>

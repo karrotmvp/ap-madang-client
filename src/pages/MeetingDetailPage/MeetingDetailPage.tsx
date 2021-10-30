@@ -14,7 +14,7 @@ import notification_empty from '../../assets/icon/notification_empty.svg';
 import notification_fill from '../../assets/icon/notification_fill.svg';
 import BottomSheet from '../../components/BottomSheet/BottomSheet';
 import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreenHelmet';
-import { DescriptionList } from '../../components/DescriptionList/DescriptionList';
+import { DescriptionList } from '../../components/Description/DescriptionList';
 import DeleteAlarmModal from '../../components/Modal/DeleteAlarmModal';
 import MeetingGuideModal from '../../components/Modal/MeetingGuideModal';
 import NewAlarmModal from '../../components/Modal/NewAlarmModal';
