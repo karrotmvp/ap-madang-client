@@ -1,15 +1,13 @@
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-import { useRecoilValue } from 'recoil';
 
 import { analytics } from '../../App';
 import scratching from '../../assets/image/scratching.png';
 import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreenHelmet';
 import { COLOR } from '../../constant/color';
 import { NOT_SERVICE_REGION } from '../../constant/message';
-import { userInfoAtom } from '../../store/user';
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -39,20 +37,25 @@ const BoldText = styled(Text)`
 `;
 
 function NotServiceRegionPage(): ReactElement {
-  const userInfo = useRecoilValue(userInfoAtom);
+  const [region, setRegion] = useState('');
 
   useEffect(() => {
+    const urlHashParams = new URLSearchParams(
+      window.location.hash.substr(window.location.hash.indexOf('?')),
+    );
+    const decoded = decodeURIComponent(urlHashParams.get('region') || '');
+    setRegion(decoded || '');
     logEvent(analytics, 'not_service_region_page', {
-      region: userInfo?.region,
+      region: decoded,
     });
-  }, [userInfo]);
+  }, []);
 
   return (
     <PageWrapper>
       <CustomScreenHelmet />
       <NotServiceImg src={scratching} />
       <Text>
-        <BoldText>{userInfo?.region}</BoldText>
+        <BoldText>{region}</BoldText>
         {NOT_SERVICE_REGION.TITLE}
       </Text>
     </PageWrapper>
