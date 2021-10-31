@@ -2,12 +2,13 @@ import React, { ReactElement, useCallback } from 'react';
 
 import styled from '@emotion/styled';
 import { useNavigator } from '@karrotframe/navigator';
+import { MeetingList } from 'meeting';
 
 import { COLOR } from '../../constant/color';
-import { meetingType } from '../../store/meeting';
 import CurrMeetingTimer from '../Timer/CurrMeetingTimer';
+
 interface Props {
-  data: meetingType;
+  data: MeetingList;
   idx: number;
   total?: number;
 }

@@ -1,8 +1,9 @@
+import { MeetingList } from 'meeting';
 import { atom, selector } from 'recoil';
 
 export const meetingsAtom = atom({
   key: 'Meetings',
-  default: [] as meetingType[],
+  default: [] as MeetingList[],
 });
 
 export const currMeetings = selector({
@@ -31,14 +32,3 @@ export const tomorrowMeetings = selector({
     return meetings.filter(el => el.live_status === 'tomorrow');
   },
 });
-
-export interface meetingType {
-  id: number;
-  title: string;
-  image: string;
-  start_time: string;
-  end_time: string;
-  date: string;
-  alarm_id: number | undefined;
-  live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
-}

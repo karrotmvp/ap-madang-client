@@ -3,6 +3,7 @@ import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
+import { MeetingList } from 'meeting';
 import { useSetRecoilState } from 'recoil';
 
 import { deleteAlarm, newAlarm } from '../../api/alarm';
@@ -12,13 +13,13 @@ import card_noti_on from '../../assets/icon/card_noti_on.svg';
 import { COLOR } from '../../constant/color';
 import { LANDING } from '../../constant/message';
 import useInterval from '../../hook/useInterval';
-import { meetingsAtom, meetingType } from '../../store/meeting';
+import { meetingsAtom } from '../../store/meeting';
 import { getRemainTime, getTimeForm } from '../../util/utils';
 import DeleteAlarmModal from '../Modal/DeleteAlarmModal';
 import NewAlarmModal from '../Modal/NewAlarmModal';
 
 interface Props {
-  data: meetingType;
+  data: MeetingList;
   idx: number;
 }
 
@@ -170,14 +171,15 @@ function MeetingCard({ idx, data }: Props): ReactElement {
 
   useInterval(
     () => {
-      setRemainTime(getRemainTime(data.start_time));
+      setRemainTime(getRemainTime(data.start_time, data.date));
     },
     data.live_status === 'upcoming' ? 10000 : null,
   );
 
   useEffect(() => {
-    setRemainTime(getRemainTime(data.start_time));
-  }, [data.start_time]);
+    if (data.date && data.start_time)
+      setRemainTime(getRemainTime(data.start_time, data.date));
+  }, [data.date, data.start_time]);
 
   return (
     <MeetingCardWrapper

@@ -2,10 +2,11 @@ import React, { useCallback, useState, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
+import { MeetingDetail } from 'meeting';
 import { useRouteMatch } from 'react-router-dom';
 
 import { deleteAlarm, newAlarm } from '../../api/alarm';
-import { getMeetingDetail, MeetingDetailType } from '../../api/meeting';
+import { getMeetingDetail } from '../../api/meeting';
 import { analytics } from '../../App';
 import arrow_iOS_large from '../../assets/icon/arrow_iOS_large.svg';
 import arrow_iOS_xsmall_green from '../../assets/icon/arrow_iOS_xsmall_green.svg';
@@ -208,7 +209,7 @@ interface MatchParams {
   id: string;
 }
 
-const defaultValue: MeetingDetailType = {
+const defaultValue: MeetingDetail = {
   id: 0,
   title: '',
   start_time: '',
@@ -223,10 +224,11 @@ const defaultValue: MeetingDetailType = {
   meeting_url: '',
   region: '',
   image: '',
+  date: '',
 };
 
 const MeetingDetailPage = () => {
-  const [data, setData] = useState<MeetingDetailType>(defaultValue);
+  const [data, setData] = useState<MeetingDetail>(defaultValue);
   const [remainTime, setRemainTime] = useState('');
   const [modal, setModal] = useState<React.ReactElement | undefined>();
 
@@ -254,7 +256,7 @@ const MeetingDetailPage = () => {
     });
     const result = await newAlarm(matchId.params.id);
     if (result.success && result.data?.id) {
-      setData(prevState => {
+      setData((prevState: MeetingDetail) => {
         if (prevState)
           return {
             ...prevState,
@@ -278,7 +280,7 @@ const MeetingDetailPage = () => {
       });
       const result = await deleteAlarm(data.alarm_id.toString());
       if (result.success) {
-        setData(prevState => {
+        setData((prevState: MeetingDetail) => {
           if (prevState)
             return {
               ...prevState,
@@ -336,7 +338,7 @@ const MeetingDetailPage = () => {
   // 하단 남은시간 타이머 업데이트
   useInterval(
     () => {
-      setRemainTime(getRemainTime(data.start_time));
+      setRemainTime(getRemainTime(data.start_time, data.date));
     },
     data.live_status === 'upcoming' ? 10000 : null,
   );
@@ -346,8 +348,9 @@ const MeetingDetailPage = () => {
   }, [data.id, fetchData, matchId.params.id]);
 
   useEffect(() => {
-    setRemainTime(getRemainTime(data.start_time));
-  }, [data.start_time]);
+    if (data.start_time && data.date)
+      setRemainTime(getRemainTime(data.start_time, data.date));
+  }, [data, data.date, data.start_time]);
 
   useEffect(() => {
     data.id !== 0 &&

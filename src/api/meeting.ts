@@ -1,4 +1,5 @@
-import { meetingType } from '../store/meeting';
+import { MeetingList, MeetingDetail } from 'meeting';
+
 import customAxios from '../util/request';
 
 export const getMeetings = async () => {
@@ -23,30 +24,10 @@ export const getMeetingDetail = async (
 
 interface getMeetingsRes {
   success: boolean;
-  data?: meetingType[];
+  data?: MeetingList[];
 }
 
 interface getMeetingDetailRes {
   success: boolean;
-  data?: MeetingDetailType;
-}
-
-interface MeetingDetailDescriptionType {
-  text?: string;
-  recommend_user: { text: string }[];
-  recommend_topic: { text: string }[];
-}
-
-export interface MeetingDetailType {
-  id: number;
-  title: string;
-  start_time: string;
-  end_time: string;
-  live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
-  alarm_id: number | undefined;
-  alarm_num: number;
-  description: MeetingDetailDescriptionType;
-  meeting_url: string;
-  region: string;
-  image: string;
+  data?: MeetingDetail;
 }
