@@ -160,11 +160,9 @@ const MeetingSuggestionPage = () => {
   };
 
   const Title = useMemo(() => {
-    if (submit) {
-      if (userInfo && userInfo.nickname)
-        return `${userInfo.nickname}의 ${SUGGESTION.DONE_SUBMIT_TITLE}`;
-      return SUGGESTION.DONE_SUBMIT_TITLE;
-    }
+    if (submit && userInfo)
+      return `${userInfo.nickname}의 ${SUGGESTION.DONE_SUBMIT_TITLE}`;
+    if (submit) return SUGGESTION.DONE_SUBMIT_TITLE;
     return SUGGESTION.TELL_ME_NEW_MEETING;
   }, [submit, userInfo]);
 

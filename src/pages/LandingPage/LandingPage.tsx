@@ -73,7 +73,7 @@ const LandingPage: React.FC = () => {
   }, [redirectUrl, replace]);
 
   useEffect(() => {
-    if (userInfo?.nickname && userInfo?.region) {
+    if (userInfo) {
       meetingListHandler();
       setUserId(analytics, userInfo.nickname);
     }

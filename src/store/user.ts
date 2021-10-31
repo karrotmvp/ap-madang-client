@@ -2,8 +2,8 @@ import { atom } from 'recoil';
 
 export type UserInfoType =
   | {
-      nickname: string | undefined;
-      region: string | undefined;
+      nickname: string;
+      region: string;
     }
   | undefined;
 
