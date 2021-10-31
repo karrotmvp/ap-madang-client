@@ -23,24 +23,14 @@ export const getCodefromUrl = (search: string) => {
   return urlSearchParams.get('code');
 };
 
-export const getRemainTime = (start_time: string) => {
-  const today = new Date();
-  const currHour = today.getHours();
-  const currMin = today.getMinutes();
-  const startTimeArr = start_time.split(':');
-
-  let hourDiff = parseInt(startTimeArr[0]) - currHour;
-  let minDiff = parseInt(startTimeArr[1]) - currMin;
-
-  let result = '';
-  if (minDiff < 0) {
-    hourDiff -= 1;
-    minDiff += 60;
-  }
-  if (hourDiff > 0) result += `${hourDiff}시간 `;
-  if (minDiff > 0) result += `${minDiff}분 `;
-
-  return result;
+export const getRemainTime = (start_time: string, date: string) => {
+  const startDate = moment(`${date} ${start_time}`, 'YYYY-MM-DD HH:mm:ss');
+  const now = moment();
+  const hoursDiff = moment.duration(startDate.diff(now)).hours();
+  const minutesDiff = moment.duration(startDate.diff(now)).minutes();
+  return hoursDiff > 0
+    ? `${hoursDiff}시간 ${minutesDiff}분 `
+    : `${minutesDiff}분 `;
 };
 
 export const getRemainMilliSec = (
