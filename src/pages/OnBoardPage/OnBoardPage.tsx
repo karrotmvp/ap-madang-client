@@ -66,29 +66,29 @@ function OnBoardPage(): ReactElement {
   const { replace } = useNavigator();
   const startTime = new Date();
 
+  const successGetCodeCB = (code: string) => {
+    logEvent(analytics, 'onBoard_success', {
+      start_time: startTime,
+      end_time: new Date(),
+    });
+    localStorage.setItem('onboard', 'true');
+    setCode(code);
+    replace('/');
+  };
+
   const btnHandler = () => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const isPreload = urlSearchParams.get('preload');
     const codeParams = urlSearchParams.get('code');
 
     if (codeParams) {
-      !code && setCode(codeParams);
-      localStorage.setItem('onboard', 'true');
-      replace('/');
+      successGetCodeCB(codeParams);
     } else if (!code && isPreload !== 'true') {
       mini.startPreset({
         preset: process.env.MINI_PRESET_URL || '',
         params: { appId: process.env.APP_ID || '' },
         onSuccess(result: { code: string }) {
-          if (result && result.code) {
-            logEvent(analytics, 'onBoard_success_mini', {
-              start_time: startTime,
-              end_time: new Date(),
-            });
-            localStorage.setItem('onboard', 'true');
-            setCode(result.code);
-            replace('/');
-          }
+          if (result && result.code) successGetCodeCB(result.code);
         },
       });
     }
