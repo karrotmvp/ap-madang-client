@@ -1,29 +1,15 @@
 import React, { ReactElement } from 'react';
+
 import styled from '@emotion/styled';
+import classnames from 'classnames';
+
 import { COLOR } from '../../constant/color';
-
-function EditableInput({
-  contentEditable,
-  placeholder,
-  formHandler,
-}: Props): ReactElement {
-  return (
-    <EditableArea
-      contentEditable={contentEditable}
-      placeholder={placeholder}
-      onInput={(e: React.ChangeEvent<HTMLDivElement>) =>
-        formHandler && formHandler(e.target.innerText)
-      }
-    />
-  );
-}
-
-export default EditableInput;
 
 interface Props {
   contentEditable?: boolean;
   placeholder?: string;
   formHandler?: React.Dispatch<React.SetStateAction<string>>;
+  className?: string;
 }
 
 const EditableArea = styled.div`
@@ -53,3 +39,23 @@ const EditableArea = styled.div`
     color: ${COLOR.PLACEHOLDER_GRAY};
   }
 `;
+
+function EditableInput({
+  contentEditable,
+  placeholder,
+  formHandler,
+  className,
+}: Props): ReactElement {
+  return (
+    <EditableArea
+      className={classnames('editable-input', className)}
+      contentEditable={contentEditable}
+      placeholder={placeholder}
+      onInput={(e: React.ChangeEvent<HTMLDivElement>) =>
+        formHandler && formHandler(e.target.innerText)
+      }
+    />
+  );
+}
+
+export default EditableInput;

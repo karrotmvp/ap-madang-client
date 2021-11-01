@@ -2,13 +2,13 @@ import customAxios from '../util/request';
 
 export const alarmReservation = async ({
   code,
-  region_id,
+  regionId,
   suggestion,
-}: alarmReservationReq) => {
+}: alarmReservationReq): Promise<alarmReservationRes> => {
   try {
-    await customAxios.post('/reservation/', {
+    await customAxios().post('/reservation/', {
       code,
-      region_id,
+      region_id: regionId,
       suggestion,
     });
     return { success: true };
@@ -17,11 +17,16 @@ export const alarmReservation = async ({
   }
 };
 
-export const getRegionName = async ({ region_id }: regionNameReq) => {
+export const getRegionName = async ({
+  region_id,
+}: getRegionNameReq): Promise<getRegionNameRes> => {
   try {
-    let result = await customAxios.get<regionNameRes>('/reservation/region', {
-      params: { region_id: region_id },
-    });
+    const result = await customAxios().get<regionNameFetchRes>(
+      '/reservation/region',
+      {
+        params: { region_id },
+      },
+    );
     return { success: true, data: result.data };
   } catch (e) {
     return { success: false };
@@ -30,14 +35,23 @@ export const getRegionName = async ({ region_id }: regionNameReq) => {
 
 interface alarmReservationReq {
   code: string;
-  region_id: string;
+  regionId: string;
   suggestion: string;
 }
 
-interface regionNameReq {
+interface alarmReservationRes {
+  success: boolean;
+}
+
+interface getRegionNameReq {
   region_id: string;
 }
 
-interface regionNameRes {
+interface regionNameFetchRes {
   region: string;
+}
+
+interface getRegionNameRes {
+  success: boolean;
+  data?: regionNameFetchRes;
 }

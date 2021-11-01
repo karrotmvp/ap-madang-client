@@ -1,19 +1,10 @@
-import styled from '@emotion/styled';
 import React, { ReactElement } from 'react';
 
-import { COLOR } from '../../constant/color';
-import { ImSpinner2 } from 'react-icons/im';
 import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
+import { ImSpinner2 } from 'react-icons/im';
 
-function Spinner(): ReactElement {
-  return (
-    <SpinnerWrapper>
-      <SpinnerIcon />
-    </SpinnerWrapper>
-  );
-}
-
-export default Spinner;
+import { COLOR } from '../../constant/color';
 
 const spinAnimation = keyframes` 
     from {
@@ -43,3 +34,13 @@ const SpinnerIcon = styled(ImSpinner2)`
   animation-duration: 0.8s;
   animation-iteration-count: infinite;
 `;
+
+function Spinner(): ReactElement {
+  return (
+    <SpinnerWrapper className="spinner">
+      <SpinnerIcon />
+    </SpinnerWrapper>
+  );
+}
+
+export default Spinner;

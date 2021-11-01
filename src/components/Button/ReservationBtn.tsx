@@ -1,24 +1,11 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/react';
 import React, { ReactElement } from 'react';
 
+import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
+import classnames from 'classnames';
+
 import { COLOR } from '../../constant/color';
-
-function ReservationBtn({
-  onClick,
-  text,
-  disabled,
-  className,
-}: Props): ReactElement {
-  return (
-    <BtnStyle className={className} onClick={onClick} disabled={disabled}>
-      {text}
-    </BtnStyle>
-  );
-}
-
-export default ReservationBtn;
 
 interface Props {
   disabled?: boolean;
@@ -49,3 +36,22 @@ const BtnStyle = styled.div`
   background: ${({ disabled }: BtnStyleType) =>
     disabled ? COLOR.DISABLE_BTN : COLOR.LIGHT_GREEN};
 `;
+
+function ReservationBtn({
+  className,
+  onClick,
+  disabled,
+  text,
+}: Props): ReactElement {
+  return (
+    <BtnStyle
+      className={classnames('reservation-btn', className)}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {text}
+    </BtnStyle>
+  );
+}
+
+export default ReservationBtn;

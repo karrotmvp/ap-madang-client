@@ -1,23 +1,17 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/react';
 import React, { ReactElement } from 'react';
 
+import { jsx, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
+import classnames from 'classnames';
+
 import { COLOR } from '../../constant/color';
 
-function Modal({ onClose, children }: Props): ReactElement {
-  return (
-    <ModalWrapper onClick={onClose}>
-      <ModalInner onClick={e => e.stopPropagation()}>{children}</ModalInner>
-    </ModalWrapper>
-  );
-}
-
-export default Modal;
-
 interface Props {
-  onClose: () => void;
+  onClose?: React.MouseEventHandler<HTMLDivElement>;
   children: React.ReactNode;
+  className?: string;
+  innerModalStyle?: SerializedStyles;
 }
 
 const ModalWrapper = styled.div`
@@ -33,6 +27,7 @@ const ModalWrapper = styled.div`
   height: 100%;
   background: ${COLOR.MODAL_WRAPPER_BLACK};
   box-sizing: border-box;
+  border-radius: 0;
 
   z-index: 1000;
 `;
@@ -50,3 +45,27 @@ const ModalInner = styled.div`
   border-radius: 0.8rem;
   box-sizing: border-box;
 `;
+
+function Modal({
+  onClose,
+  children,
+  className,
+  innerModalStyle,
+}: Props): ReactElement {
+  const onCloseHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    onClose && onClose(e);
+  };
+  return (
+    <ModalWrapper
+      onClick={onCloseHandler}
+      className={classnames('modal', className)}
+    >
+      <ModalInner onClick={e => e.stopPropagation()} css={innerModalStyle}>
+        {children}
+      </ModalInner>
+    </ModalWrapper>
+  );
+}
+
+export default Modal;
