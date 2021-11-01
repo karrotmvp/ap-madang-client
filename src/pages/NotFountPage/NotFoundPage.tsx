@@ -33,7 +33,7 @@ function NotFoundPage(): ReactElement {
   }, [replace]);
 
   useEffect(() => {
-    logEvent(analytics, 'not_found_page');
+    logEvent(analytics, 'not_found_page__show');
   }, []);
 
   return (

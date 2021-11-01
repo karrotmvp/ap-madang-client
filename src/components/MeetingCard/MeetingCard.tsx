@@ -114,7 +114,7 @@ function MeetingCard({ idx, data }: Props): ReactElement {
 
   const deleteAlarmHandler = useCallback(async () => {
     if (data?.alarm_id) {
-      logEvent(analytics, 'delete_alarm', {
+      logEvent(analytics, 'delete_alarm__click', {
         location: 'meeting_card',
         meeting_id: data.id,
         meeting_name: data.title,
@@ -142,7 +142,7 @@ function MeetingCard({ idx, data }: Props): ReactElement {
       if (data?.alarm_id) {
         setOpenDeleteAlarmModal(true);
       } else if (data.id) {
-        logEvent(analytics, 'add_alarm', {
+        logEvent(analytics, 'add_alarm__click', {
           location: 'meeting_card',
           meeting_id: data.id,
           meeting_name: data.title,

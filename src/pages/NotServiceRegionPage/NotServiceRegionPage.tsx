@@ -45,7 +45,7 @@ function NotServiceRegionPage(): ReactElement {
     );
     const decoded = decodeURIComponent(urlHashParams.get('region') || '');
     setRegion(decoded || '');
-    logEvent(analytics, 'not_service_region_page', {
+    logEvent(analytics, 'not_service_region_page__show', {
       region: decoded,
     });
   }, []);

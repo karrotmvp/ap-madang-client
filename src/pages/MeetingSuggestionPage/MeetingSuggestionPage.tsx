@@ -167,7 +167,7 @@ const MeetingSuggestionPage = () => {
   }, [submit, userInfo]);
 
   useEffect(() => {
-    logEvent(analytics, 'suggestion_page');
+    logEvent(analytics, 'suggestion_page__show');
   }, []);
 
   return (

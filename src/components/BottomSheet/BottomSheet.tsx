@@ -160,7 +160,7 @@ function BottomSheet({
   };
 
   const onClickJoinHandler = () => {
-    logEvent(analytics, 'bottom_sheet_join_btn', {
+    logEvent(analytics, 'bottom_sheet_join__click', {
       location: 'bottom_sheet',
       meeting_id: meetingId,
       meeting_name: meetingTitle,

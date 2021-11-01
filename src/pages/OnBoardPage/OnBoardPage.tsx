@@ -67,7 +67,7 @@ function OnBoardPage(): ReactElement {
   const startTime = new Date();
 
   const successGetCodeCB = (code: string) => {
-    logEvent(analytics, 'onBoard_success', {
+    logEvent(analytics, 'onBoard__success', {
       start_time: startTime,
       end_time: new Date(),
     });
@@ -95,7 +95,7 @@ function OnBoardPage(): ReactElement {
   };
 
   useEffect(() => {
-    logEvent(analytics, 'onBoard_enter', {
+    logEvent(analytics, 'onBoard__show', {
       start_time: startTime,
     });
   }, [startTime]);

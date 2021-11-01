@@ -248,7 +248,7 @@ const MeetingDetailPage = () => {
 
   // 알람 신청 핸들러
   const addAlarmHandler = useCallback(async () => {
-    logEvent(analytics, 'add_alarm', {
+    logEvent(analytics, 'add_alarm__click', {
       location: 'detail_page',
       meeting_id: data.id,
       meeting_name: data.title,
@@ -272,7 +272,7 @@ const MeetingDetailPage = () => {
   // 알람 신청 해제 핸들러
   const deleteAlarmHandler = useCallback(async () => {
     if (data?.alarm_id && matchId?.params.id) {
-      logEvent(analytics, 'delete_alarm', {
+      logEvent(analytics, 'delete_alarm__click', {
         location: 'detail_page',
         meeting_id: data.id,
         meeting_name: data.title,
@@ -319,7 +319,7 @@ const MeetingDetailPage = () => {
         meetingTitle={data.title}
       />,
     );
-    logEvent(analytics, 'join_meeting_btn', {
+    logEvent(analytics, 'join__click', {
       meeting_id: data.id,
       meeting_name: data.title,
       is_current: data.live_status,
@@ -329,7 +329,7 @@ const MeetingDetailPage = () => {
   // 모임 매너 카드 핸들러
   const onClickMannerCardHandler = () => {
     setModal(<MeetingMannerModal closeHandler={hideModal} />);
-    logEvent(analytics, 'show_guide_modal', {
+    logEvent(analytics, 'guide_modal__show', {
       location: 'detail_page',
       meeting_id: data.id,
       meeting_name: data.title,
@@ -361,7 +361,7 @@ const MeetingDetailPage = () => {
 
   useEffect(() => {
     data.id !== 0 &&
-      logEvent(analytics, 'detail_page', {
+      logEvent(analytics, 'detail_page__show', {
         meeting_id: data.id,
         meeting_name: data.title,
         is_current: data.live_status,
