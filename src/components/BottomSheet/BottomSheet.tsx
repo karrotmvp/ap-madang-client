@@ -2,8 +2,10 @@ import React, { ReactElement, useCallback, useState } from 'react';
 
 import { keyframes } from '@emotion/css';
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import classnamse from 'classnames';
 
+import { analytics } from '../../App';
 import closeBtn from '../../assets/icon/nav_close.svg';
 import { COLOR } from '../../constant/color';
 import { BOTTOM_SHEET } from '../../constant/message';
@@ -131,10 +133,18 @@ const JoinBtn = styled.a`
 interface Props {
   onClose: () => void;
   onClickJoin?: () => void;
+  meetingId: string;
+  meetingTitle: string;
   url: string;
 }
 
-function BottomSheet({ onClose, onClickJoin, url }: Props): ReactElement {
+function BottomSheet({
+  onClose,
+  onClickJoin,
+  url,
+  meetingId,
+  meetingTitle,
+}: Props): ReactElement {
   const [closeState, setCloseState] = useState(!open);
 
   const closeHandler = useCallback(() => {
@@ -150,6 +160,11 @@ function BottomSheet({ onClose, onClickJoin, url }: Props): ReactElement {
   };
 
   const onClickJoinHandler = () => {
+    logEvent(analytics, 'bottom_sheet_join_btn', {
+      location: 'bottom_sheet',
+      meeting_id: meetingId,
+      meeting_name: meetingTitle,
+    });
     window.open(url, '', '_blank');
     onClickJoin && onClickJoin();
   };

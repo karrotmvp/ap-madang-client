@@ -311,7 +311,14 @@ const MeetingDetailPage = () => {
 
   // 모임 참여 버튼 핸들러
   const onClickJoinHandler = () => {
-    setModal(<BottomSheet url={data.meeting_url} onClose={hideModal} />);
+    setModal(
+      <BottomSheet
+        url={data.meeting_url}
+        onClose={hideModal}
+        meetingId={data.id}
+        meetingTitle={data.title}
+      />,
+    );
     logEvent(analytics, 'join_meeting_btn', {
       meeting_id: data.id,
       meeting_name: data.title,

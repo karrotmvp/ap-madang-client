@@ -80,7 +80,7 @@ const LandingPage: React.FC = () => {
   }, [meetingListHandler, userInfo, push, replace]);
 
   useEffect(() => {
-    logEvent(analytics, 'first_open');
+    logEvent(analytics, 'landing_page_enter');
   }, []);
 
   return (
