@@ -2,12 +2,16 @@ import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
+import { useRecoilValue } from 'recoil';
 
+import { analytics } from '../../App';
 import RedirectHouse from '../../assets/icon/RedirectHouse';
 import CustomScreenHelmet from '../../components/CustomScreenHelmet/CustomScreenHelmet';
 import { COLOR } from '../../constant/color';
 import { REDIRECT } from '../../constant/message';
+import { userInfoAtom } from '../../store/user';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -119,6 +123,7 @@ const GoHomeBtn = styled.span`
 function RedirectPage(): ReactElement {
   const { replace } = useNavigator();
   const [redirected, setRedirected] = useState(false);
+  const userInfo = useRecoilValue(userInfoAtom);
 
   const openNewWindow = (meetingUrl: string, pwd: string) => {
     window.open(
@@ -150,6 +155,14 @@ function RedirectPage(): ReactElement {
   const redirectToHome = useCallback(() => {
     replace('/');
   }, [replace]);
+
+  useEffect(() => {
+    if (userInfo) {
+      logEvent(analytics, 'redirect_page__show', {
+        nickname: userInfo?.nickname,
+      });
+    }
+  }, [userInfo]);
 
   return (
     <PageWrapper>
