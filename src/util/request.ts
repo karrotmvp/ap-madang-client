@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 
 const baseURL: string = process.env.API_URL || '';
 
-const customAxios = (): AxiosInstance => {
+const createAxios = (baseURL: string): AxiosInstance => {
   const jwtToken = window.localStorage.getItem('Authorization');
   const options = {
     withCredentials: process.env.NODE_ENV !== 'development',
@@ -17,4 +17,6 @@ const customAxios = (): AxiosInstance => {
   });
 };
 
-export default customAxios;
+const landongmoAPI = () => createAxios(baseURL);
+
+export default landongmoAPI;
