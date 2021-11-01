@@ -35,7 +35,7 @@
               FA_MESSAGING_SENDER_ID: ${{ secrets.FA_MESSAGING_SENDER_ID_PROD }}
               FA_APP_ID: ${{ secrets.FA_APP_ID_PROD }}
               FA_MEASUREMENT_ID: ${{ secrets.FA_MEASUREMENT_ID_PROD }}
-              INFO_NOTION_URL: ${{secrets.INFO_NOTION_URL}}
+              INFO_NOTION_URL: ${{secrets.INFO_NOTION_URL_PROD}}
             run: |
               touch .env
               echo APP_ID="$PROD_APP_ID" >> .env
