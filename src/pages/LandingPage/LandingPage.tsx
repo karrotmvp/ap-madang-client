@@ -80,8 +80,12 @@ const LandingPage: React.FC = () => {
   }, [meetingListHandler, userInfo, push, replace]);
 
   useEffect(() => {
-    logEvent(analytics, 'landing_page__show');
-  }, []);
+    if (userInfo)
+      logEvent(analytics, 'landing_page__show', {
+        userRegion: userInfo?.region,
+        userNickname: userInfo?.nickname,
+      });
+  }, [userInfo]);
 
   return (
     <PageWrapper className="landing">
