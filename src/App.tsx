@@ -35,7 +35,7 @@ const App: React.FC = () => {
     >
       <Screen path="/" component={Auth(LandingPage)} />
       <Screen path="/guide" component={OnBoardPage} />
-      <Screen path="/meetings/:id" component={MeetingDetailPage} />
+      <Screen path="/meetings/:id" component={Auth(MeetingDetailPage)} />
       <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
       <Screen path="/reservation" component={ReservationPage} />
       <Screen path="/redirect" component={Auth(RedirectPage)} />

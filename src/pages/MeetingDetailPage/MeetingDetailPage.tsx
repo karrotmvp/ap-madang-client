@@ -2,6 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
+import { useCurrentScreen } from '@karrotframe/navigator';
 import { MeetingDetail } from 'meeting';
 import { useRouteMatch } from 'react-router-dom';
 
@@ -231,6 +232,8 @@ const MeetingDetailPage = () => {
   const [data, setData] = useState<MeetingDetail>(defaultValue);
   const [remainTime, setRemainTime] = useState('');
   const [modal, setModal] = useState<React.ReactElement | undefined>();
+  const [sendLogEvent, setSendLogEvent] = useState(false);
+  const { isRoot } = useCurrentScreen();
 
   const hideModal = () => {
     setModal(undefined);
@@ -367,6 +370,18 @@ const MeetingDetailPage = () => {
         is_current: data.live_status,
       });
   }, [data, data.id, data.live_status, data.title]);
+
+  useEffect(() => {
+    if (isRoot && data && !sendLogEvent) {
+      logEvent(analytics, 'user_from_alarm__show', {
+        location: 'detail_page',
+        meeting_id: data.id,
+        meeting_name: data.title,
+        is_current: data.live_status,
+      });
+      setSendLogEvent(true);
+    }
+  }, [data, data.id, data.live_status, data.title, isRoot, sendLogEvent]);
 
   return (
     <PageWrapper className="meeting-detail">
