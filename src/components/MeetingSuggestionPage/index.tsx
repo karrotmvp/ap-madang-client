@@ -57,8 +57,12 @@ const MeetingSuggestionPage = () => {
   }, [submit, userInfo]);
 
   useEffect(() => {
-    logEvent(analytics, 'suggestion_page__show');
-  }, []);
+    if (userInfo)
+      logEvent(analytics, 'suggestion_page__show', {
+        userNickname: userInfo?.nickname,
+        userRegion: userInfo?.region,
+      });
+  }, [userInfo]);
 
   return (
     <PageWrapper

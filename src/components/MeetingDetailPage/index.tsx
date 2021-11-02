@@ -5,6 +5,7 @@ import { logEvent } from '@firebase/analytics';
 import { useCurrentScreen } from '@karrotframe/navigator';
 import { MeetingDetail } from 'meeting';
 import { useRouteMatch } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
 import { deleteAlarm, newAlarm } from '../../api/alarm';
 import { getMeetingDetail } from '../../api/meeting';
@@ -17,6 +18,7 @@ import notification_fill from '../../assets/icon/notification_fill.svg';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
 import useInterval from '../../hook/useInterval';
+import { userInfoAtom } from '../../store/user';
 import { getRemainTime, getTimeForm } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
@@ -53,6 +55,7 @@ const MeetingDetailPage = () => {
   const [modal, setModal] = useState<React.ReactElement | undefined>();
   const [sendLogEvent, setSendLogEvent] = useState(false);
   const { isRoot } = useCurrentScreen();
+  const userInfo = useRecoilValue(userInfoAtom);
 
   const hideModal = () => {
     setModal(undefined);
@@ -70,11 +73,14 @@ const MeetingDetailPage = () => {
 
   // 알람 신청 핸들러
   const addAlarmHandler = useCallback(async () => {
+    if (!userInfo) return;
     logEvent(analytics, 'add_alarm__click', {
       location: 'detail_page',
       meeting_id: data.id,
       meeting_name: data.title,
       is_current: data.live_status,
+      userNickname: userInfo.nickname,
+      userRegion: userInfo.region,
     });
     const result = await newAlarm(matchId.params.id);
     if (result.success && result.data?.id) {
@@ -89,16 +95,18 @@ const MeetingDetailPage = () => {
       });
       setModal(<NewAlarmModal closeHandler={hideModal} />);
     }
-  }, [data.id, data.live_status, data.title, matchId.params.id]);
+  }, [data.id, data.live_status, data.title, matchId.params.id, userInfo]);
 
   // 알람 신청 해제 핸들러
   const deleteAlarmHandler = useCallback(async () => {
-    if (data?.alarm_id && matchId?.params.id) {
+    if (data?.alarm_id && matchId?.params.id && userInfo) {
       logEvent(analytics, 'delete_alarm__click', {
         location: 'detail_page',
         meeting_id: data.id,
         meeting_name: data.title,
         is_current: data.live_status,
+        userNickname: userInfo.nickname,
+        userRegion: userInfo.region,
       });
       const result = await deleteAlarm(data.alarm_id.toString());
       if (result.success) {
@@ -115,7 +123,14 @@ const MeetingDetailPage = () => {
       }
     }
     return false;
-  }, [data, matchId.params.id]);
+  }, [
+    data.alarm_id,
+    data.id,
+    data.live_status,
+    data.title,
+    matchId.params.id,
+    userInfo,
+  ]);
 
   // 알람 신청 핸들러
   const alarmHandler = useCallback(async () => {
@@ -145,6 +160,8 @@ const MeetingDetailPage = () => {
       meeting_id: data.id,
       meeting_name: data.title,
       is_current: data.live_status,
+      userNickname: userInfo?.nickname,
+      userRegion: userInfo?.region,
     });
   };
 
@@ -156,6 +173,8 @@ const MeetingDetailPage = () => {
       meeting_id: data.id,
       meeting_name: data.title,
       is_current: data.live_status,
+      userNickname: userInfo?.nickname,
+      userRegion: userInfo?.region,
     });
   };
 
@@ -187,20 +206,32 @@ const MeetingDetailPage = () => {
         meeting_id: data.id,
         meeting_name: data.title,
         is_current: data.live_status,
+        userNickname: userInfo?.nickname,
+        userRegion: userInfo?.region,
       });
-  }, [data, data.id, data.live_status, data.title]);
+  }, [data, data.id, data.live_status, data.title, userInfo]);
 
   useEffect(() => {
-    if (isRoot && data && !sendLogEvent) {
+    if (isRoot && data && !sendLogEvent && userInfo) {
       logEvent(analytics, 'user_from_alarm__show', {
         location: 'detail_page',
         meeting_id: data.id,
         meeting_name: data.title,
         is_current: data.live_status,
+        userNickname: userInfo.nickname,
+        userRegion: userInfo.region,
       });
       setSendLogEvent(true);
     }
-  }, [data, data.id, data.live_status, data.title, isRoot, sendLogEvent]);
+  }, [
+    data,
+    data.id,
+    data.live_status,
+    data.title,
+    isRoot,
+    sendLogEvent,
+    userInfo,
+  ]);
 
   return (
     <PageWrapper className="meeting-detail">

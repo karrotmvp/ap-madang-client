@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 import { MeetingList } from 'meeting';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { deleteAlarm, newAlarm } from '../../../../api/alarm';
 import { analytics } from '../../../../App';
@@ -14,6 +14,7 @@ import { COLOR } from '../../../../constant/color';
 import { LANDING } from '../../../../constant/message';
 import useInterval from '../../../../hook/useInterval';
 import { meetingsAtom } from '../../../../store/meeting';
+import { userInfoAtom } from '../../../../store/user';
 import { getRemainTime, getTimeForm } from '../../../../util/utils';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../../../common/Modal/NewAlarmModal';
@@ -33,16 +34,19 @@ function MeetingCard({ idx, data }: Props): ReactElement {
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
   const [openDeleteAlarmModal, setOpenDeleteAlarmModal] = useState(false);
   const [remainTime, setRemainTime] = useState('');
+  const userInfo = useRecoilValue(userInfoAtom);
 
   const { push } = useNavigator();
 
   const deleteAlarmHandler = useCallback(async () => {
-    if (data?.alarm_id) {
+    if (data?.alarm_id && userInfo) {
       logEvent(analytics, 'delete_alarm__click', {
         location: 'meeting_card',
         meeting_id: data.id,
         meeting_name: data.title,
         is_current: data.live_status,
+        userNickname: userInfo.nickname,
+        userRegion: userInfo.region,
       });
       const result = await deleteAlarm(data.alarm_id.toString());
       if (result.success) {
@@ -58,19 +62,28 @@ function MeetingCard({ idx, data }: Props): ReactElement {
       }
     }
     return false;
-  }, [data.alarm_id, data.id, data.live_status, data.title, setMeetings]);
+  }, [
+    data.alarm_id,
+    data.id,
+    data.live_status,
+    data.title,
+    setMeetings,
+    userInfo,
+  ]);
 
   const alarmHandler = useCallback(
     async e => {
       e.stopPropagation();
       if (data?.alarm_id) {
         setOpenDeleteAlarmModal(true);
-      } else if (data.id) {
+      } else if (data.id && userInfo) {
         logEvent(analytics, 'add_alarm__click', {
           location: 'meeting_card',
           meeting_id: data.id,
           meeting_name: data.title,
           is_current: data.live_status,
+          userNickname: userInfo.nickname,
+          userRegion: userInfo.region,
         });
         const result = await newAlarm(data.id.toString());
         if (result.success && result.data?.id) {
@@ -86,7 +99,14 @@ function MeetingCard({ idx, data }: Props): ReactElement {
         }
       }
     },
-    [data, setMeetings],
+    [
+      data.alarm_id,
+      data.id,
+      data.live_status,
+      data.title,
+      setMeetings,
+      userInfo,
+    ],
   );
 
   const onClickCardHandler = useCallback(() => {
