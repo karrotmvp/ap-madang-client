@@ -4,15 +4,15 @@ import { css } from '@emotion/css';
 import { Navigator, Screen } from '@karrotframe/navigator';
 import { getAnalytics, logEvent } from 'firebase/analytics';
 
+import LandingPage from './components/LandingPage';
+import MeetingDetailPage from './components/MeetingDetailPage';
+import MeetingSuggestionPage from './components/MeetingSuggestionPage';
+import NotFoundPage from './components/NotFountPage';
+import NotServiceRegionPage from './components/NotServiceRegionPage';
+import OnBoardPage from './components/OnBoardPage';
+import RedirectPage from './components/RedirectPage';
+import ReservationPage from './components/ReservationPage';
 import Auth from './hoc/Auth';
-import LandingPage from './pages/LandingPage/LandingPage';
-import MeetingDetailPage from './pages/MeetingDetailPage/MeetingDetailPage';
-import MeetingSuggestionPage from './pages/MeetingSuggestionPage/MeetingSuggestionPage';
-import NotFoundPage from './pages/NotFountPage/NotFoundPage';
-import NotServiceRegionPage from './pages/NotServiceRegionPage/NotServiceRegionPage';
-import OnBoardPage from './pages/OnBoardPage/OnBoardPage';
-import RedirectPage from './pages/RedirectPage/RedirectPage';
-import ReservationPage from './pages/ReservationPage/ReservationPage';
 import { app } from './util/firebase';
 import mini from './util/mini';
 
