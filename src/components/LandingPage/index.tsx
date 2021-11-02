@@ -20,41 +20,6 @@ import CurrMeetingList from './components/MeetingList/CurrMeetingList';
 import MeetingList from './components/MeetingList/MeetingList';
 import { useRedirect } from './useRedirect';
 
-const PageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-`;
-
-const PageTitle = styled.div`
-  margin-left: 20px;
-  color: ${COLOR.TEXT_BLACK};
-`;
-
-const BannerImg = styled.img`
-  box-sizing: border-box;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const SuggestionBannerWrapper = styled.div`
-  padding: 3rem 1.6rem 3rem 1.6rem;
-`;
-
-const SuggestionImg = styled.img`
-  width: 100%;
-  height: 100%;
-`;
-
-const BlockDivider = styled.div`
-  min-height: 1rem;
-  background-color: ${COLOR.BLOCK_DIVIDER_GRAY};
-`;
-
 const LandingPage: React.FC = () => {
   const { push, replace } = useNavigator();
 
@@ -126,5 +91,40 @@ const LandingPage: React.FC = () => {
     </PageWrapper>
   );
 };
+
+const PageWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+`;
+
+const PageTitle = styled.div`
+  margin-left: 20px;
+  color: ${COLOR.TEXT_BLACK};
+`;
+
+const BannerImg = styled.img`
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SuggestionBannerWrapper = styled.div`
+  padding: 3rem 1.6rem 3rem 1.6rem;
+`;
+
+const SuggestionImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+
+const BlockDivider = styled.div`
+  min-height: 1rem;
+  background-color: ${COLOR.BLOCK_DIVIDER_GRAY};
+`;
 
 export default LandingPage;

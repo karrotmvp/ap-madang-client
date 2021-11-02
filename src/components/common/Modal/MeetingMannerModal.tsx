@@ -14,6 +14,41 @@ interface Props {
   className?: string;
 }
 
+function MeetingMannerModal({ closeHandler, className }: Props): ReactElement {
+  return (
+    <ModalStyle
+      className={classnames('meeting-guide-modal', className)}
+      onClose={closeHandler}
+      innerModalStyle={InnerModalStyle}
+    >
+      <ContentsWrapper>
+        <Title className="meeting-guide-modal__title">
+          {MEETING_DETAIL.MANNER.TITLE}
+        </Title>
+        {MEETING_DETAIL.MANNER.SUB_TITLE.map((el, idx) => {
+          return (
+            <GuideWrapper
+              className="meeting-guide-modal__text"
+              key={idx.toString()}
+            >
+              <SubTitle>
+                <BoldText>{el.BOLD}</BoldText>
+                {el.TEXT}
+              </SubTitle>
+            </GuideWrapper>
+          );
+        })}
+      </ContentsWrapper>
+      <ConfirmBtn
+        className="meeting-guide-modal__confirm-btn"
+        onClick={closeHandler}
+      >
+        {MEETING_DETAIL.MANNER.CLOSE}
+      </ConfirmBtn>
+    </ModalStyle>
+  );
+}
+
 const ModalStyle = styled(Modal)`
   box-sizing: border-box;
   height: 100%;
@@ -85,40 +120,5 @@ const ConfirmBtn = styled.div`
   letter-spacing: -0.03rem;
   color: ${COLOR.TEXT_BLACK};
 `;
-
-function MeetingMannerModal({ closeHandler, className }: Props): ReactElement {
-  return (
-    <ModalStyle
-      className={classnames('meeting-guide-modal', className)}
-      onClose={closeHandler}
-      innerModalStyle={InnerModalStyle}
-    >
-      <ContentsWrapper>
-        <Title className="meeting-guide-modal__title">
-          {MEETING_DETAIL.MANNER.TITLE}
-        </Title>
-        {MEETING_DETAIL.MANNER.SUB_TITLE.map((el, idx) => {
-          return (
-            <GuideWrapper
-              className="meeting-guide-modal__text"
-              key={idx.toString()}
-            >
-              <SubTitle>
-                <BoldText>{el.BOLD}</BoldText>
-                {el.TEXT}
-              </SubTitle>
-            </GuideWrapper>
-          );
-        })}
-      </ContentsWrapper>
-      <ConfirmBtn
-        className="meeting-guide-modal__confirm-btn"
-        onClick={closeHandler}
-      >
-        {MEETING_DETAIL.MANNER.CLOSE}
-      </ConfirmBtn>
-    </ModalStyle>
-  );
-}
 
 export default MeetingMannerModal;

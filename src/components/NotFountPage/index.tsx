@@ -9,22 +9,6 @@ import btn404 from '../../assets/icon/btn404.svg';
 import not_fount_404 from '../../assets/image/not_found_404.png';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
-const PageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const NotFoundImg = styled.img`
-  width: auto;
-  height: 17.4rem;
-  margin-bottom: 2rem;
-`;
-const NotFountBtn = styled.img``;
-
 function NotFoundPage(): ReactElement {
   const { replace } = useNavigator();
 
@@ -46,5 +30,21 @@ function NotFoundPage(): ReactElement {
     </PageWrapper>
   );
 }
+
+const PageWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const NotFoundImg = styled.img`
+  width: auto;
+  height: 17.4rem;
+  margin-bottom: 2rem;
+`;
+const NotFountBtn = styled.img``;
 
 export default NotFoundPage;

@@ -28,82 +28,6 @@ interface WrapperProps {
   live_status: 'live' | 'upcoming' | 'tomorrow' | 'finish';
 }
 
-const MeetingCardWrapper = styled.div<WrapperProps>`
-  box-sizing: border-box;
-  margin: 0 0 1.6rem 0;
-  height: auto;
-  padding: 1.6rem 1.6rem 1.7rem 1.6rem;
-  display: flex;
-  flex-direction: column;
-  word-break: keep-all;
-  background-color: ${props =>
-    props.live_status === 'tomorrow' ? COLOR.GRAY_000 : COLOR.TEXT_WHITE};
-  border-radius: 0.6rem;
-  border: 1px solid
-    ${props =>
-      props.live_status === 'tomorrow'
-        ? COLOR.GRAY_000
-        : COLOR.TEXTAREA_LIGHT_GRAY};
-  box-sizing: border-box;
-  margin-top: ${props => (props.idx === 0 ? '1.8rem' : 0)};
-`;
-
-const ContentsWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const InfoWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const AlarmWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-`;
-const CardHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const MeetingTime = styled.div`
-  color: ${COLOR.LIGHT_GREEN};
-`;
-
-interface MeetingTitleType {
-  live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
-}
-
-const MeetingTitle = styled.div`
-  color: ${COLOR.TEXT_BLACK};
-  margin-bottom: ${({ live_status }: MeetingTitleType) =>
-    live_status === 'live'
-      ? '0.8rem'
-      : live_status === 'upcoming'
-      ? '1rem'
-      : '0'};
-  margin-top: ${({ live_status }: MeetingTitleType) =>
-    live_status === 'live' ? '0.8rem' : '.4rem'};
-`;
-
-const CardFooter = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const FooterText = styled.div`
-  font-size: 1.4rem;
-  line-height: 1.7rem;
-  letter-spacing: -0.02rem;
-  color: ${COLOR.FONT_BODY_GRAY};
-`;
-
 function MeetingCard({ idx, data }: Props): ReactElement {
   const setMeetings = useSetRecoilState(meetingsAtom);
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
@@ -240,5 +164,81 @@ function MeetingCard({ idx, data }: Props): ReactElement {
     </MeetingCardWrapper>
   );
 }
+
+const MeetingCardWrapper = styled.div<WrapperProps>`
+  box-sizing: border-box;
+  margin: 0 0 1.6rem 0;
+  height: auto;
+  padding: 1.6rem 1.6rem 1.7rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  word-break: keep-all;
+  background-color: ${props =>
+    props.live_status === 'tomorrow' ? COLOR.GRAY_000 : COLOR.TEXT_WHITE};
+  border-radius: 0.6rem;
+  border: 1px solid
+    ${props =>
+      props.live_status === 'tomorrow'
+        ? COLOR.GRAY_000
+        : COLOR.TEXTAREA_LIGHT_GRAY};
+  box-sizing: border-box;
+  margin-top: ${props => (props.idx === 0 ? '1.8rem' : 0)};
+`;
+
+const ContentsWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const InfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const AlarmWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+`;
+const CardHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const MeetingTime = styled.div`
+  color: ${COLOR.LIGHT_GREEN};
+`;
+
+interface MeetingTitleType {
+  live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
+}
+
+const MeetingTitle = styled.div`
+  color: ${COLOR.TEXT_BLACK};
+  margin-bottom: ${({ live_status }: MeetingTitleType) =>
+    live_status === 'live'
+      ? '0.8rem'
+      : live_status === 'upcoming'
+      ? '1rem'
+      : '0'};
+  margin-top: ${({ live_status }: MeetingTitleType) =>
+    live_status === 'live' ? '0.8rem' : '.4rem'};
+`;
+
+const CardFooter = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const FooterText = styled.div`
+  font-size: 1.4rem;
+  line-height: 1.7rem;
+  letter-spacing: -0.02rem;
+  color: ${COLOR.FONT_BODY_GRAY};
+`;
 
 export default MeetingCard;

@@ -6,6 +6,24 @@ import classnames from 'classnames';
 import { Dot } from '../../assets/icon';
 import { COLOR } from '../../constant/color';
 
+interface Props {
+  text: string;
+  className?: string;
+}
+
+function DescriptionItem({ text, className }: Props): ReactElement {
+  return (
+    <DescriptionWrapper
+      className={classnames(className, 'description-list__contents')}
+    >
+      <DotIcon>
+        <Dot />
+      </DotIcon>
+      <span>{text}</span>
+    </DescriptionWrapper>
+  );
+}
+
 const DescriptionWrapper = styled.div`
   font-size: 1.5rem;
   line-height: 2.5rem;
@@ -30,23 +48,5 @@ const DotIcon = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-interface Props {
-  text: string;
-  className?: string;
-}
-
-function DescriptionItem({ text, className }: Props): ReactElement {
-  return (
-    <DescriptionWrapper
-      className={classnames(className, 'description-list__contents')}
-    >
-      <DotIcon>
-        <Dot />
-      </DotIcon>
-      <span>{text}</span>
-    </DescriptionWrapper>
-  );
-}
 
 export default DescriptionItem;

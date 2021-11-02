@@ -18,6 +18,23 @@ type BtnStyleType = {
   disabled?: boolean;
 };
 
+function ReservationBtn({
+  className,
+  onClick,
+  disabled,
+  text,
+}: Props): ReactElement {
+  return (
+    <BtnStyle
+      className={classnames('reservation-btn', className)}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {text}
+    </BtnStyle>
+  );
+}
+
 const BtnStyle = styled.div`
   display: flex;
   flex-direction: row;
@@ -36,22 +53,5 @@ const BtnStyle = styled.div`
   background: ${({ disabled }: BtnStyleType) =>
     disabled ? COLOR.DISABLE_BTN : COLOR.LIGHT_GREEN};
 `;
-
-function ReservationBtn({
-  className,
-  onClick,
-  disabled,
-  text,
-}: Props): ReactElement {
-  return (
-    <BtnStyle
-      className={classnames('reservation-btn', className)}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {text}
-    </BtnStyle>
-  );
-}
 
 export default ReservationBtn;

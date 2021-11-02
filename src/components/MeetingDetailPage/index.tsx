@@ -25,187 +25,6 @@ import NewAlarmModal from '../common/Modal/NewAlarmModal';
 import BottomSheet from './components/BottomSheet';
 import DescriptionList from './components/DescriptionList';
 
-const PageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  white-space: pre-line;
-`;
-
-const BannerWrapper = styled.div`
-  width: 100%;
-  height: 16.6rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
-
-const BannerImg = styled.img`
-  width: 100%;
-  height: auto;
-`;
-
-const LineDivider = styled.div`
-  margin: 0 0.8rem;
-  border-bottom: 1px solid ${COLOR.LINE_DIVIDER_GRAY};
-`;
-
-const BlockDivider = styled.div`
-  height: 1rem;
-  background-color: ${COLOR.BLOCK_DIVIDER_GRAY};
-`;
-
-const ContentsWrapper = styled.div`
-  flex: 1;
-  overflow-y: auto;
-`;
-
-const TitleWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 2.4rem 1.6rem 1.8rem 1.6rem;
-`;
-
-const Title = styled.div`
-  color: ${COLOR.TEXT_BLACK};
-  margin-bottom: 0.9rem;
-`;
-
-const TimeWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-const Time = styled.div`
-  color: ${COLOR.TEXT_GRAY};
-  margin-left: 0.4rem;
-  letter-spacing: -0.03rem;
-`;
-
-const DescriptionWrapper = styled.div`
-  padding: 2.2rem 1.6rem 0 1.6rem;
-`;
-
-const MeetingMannerCardWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 2.4rem 3.1rem 2.4rem 2.4rem;
-  justify-content: space-between;
-  align-items: center;
-  white-space: pre-line;
-`;
-
-const InfoCardTitle = styled.div`
-  color: ${COLOR.TEXT_BLACK};
-  letter-spacing: -0.03rem;
-`;
-
-const MoreIcon = styled.div``;
-
-const NavBar = styled.div`
-  max-height: 6.4rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.6rem;
-  border-top: 1px solid ${COLOR.NAVBAR_TOP_BORDER};
-`;
-
-const AlarmBtn = styled.div`
-  width: 6.8rem;
-  height: 4.4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 0.6rem;
-  border-radius: 0.6rem;
-  border: 0.1rem solid ${COLOR.TEXTAREA_LIGHT_GRAY};
-`;
-
-const AlarmApplicant = styled.div<{ applied: number | undefined }>`
-  font-weight: 600;
-  font-size: 1.6rem;
-  line-height: 1.9rem;
-  text-align: center;
-  letter-spacing: -0.03rem;
-  margin-left: 0.4rem;
-  color: ${({ applied }) => (applied ? COLOR.LIGHT_GREEN : COLOR.GRAY_800)};
-`;
-
-const JoinBtn = styled.div`
-  flex: 1;
-  height: 4.4rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0.6rem;
-  background-color: ${COLOR.LIGHT_GREEN};
-  font-weight: 600;
-  font-size: 1.6rem;
-  line-height: 1.9rem;
-  text-align: center;
-  letter-spacing: -0.03rem;
-
-  color: ${COLOR.TEXT_WHITE};
-
-  text-decoration: none;
-  outline: none;
-
-  &:hover,
-  &:active {
-    text-decoration: none;
-    color: ${COLOR.TEXT_WHITE};
-  }
-`;
-
-const DisableBtn = styled.div`
-  flex: 1;
-  height: 4.4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0.6rem;
-  background-color: ${COLOR.TEXTAREA_LIGHT_GRAY};
-  color: ${COLOR.TEXT_WHITE};
-  font-weight: 600;
-  font-size: 1.6rem;
-  line-height: 1.9rem;
-  text-align: center;
-  letter-spacing: -0.03rem;
-`;
-
-const GreenInfoBox = styled.div`
-  background: ${COLOR.PRIMARY_L1};
-  border: 0.1rem solid ${COLOR.LIGHT_GREEN};
-  color: ${COLOR.LIGHT_GREEN};
-  font-weight: 500;
-  font-size: 1.3rem;
-  line-height: 2rem;
-  letter-spacing: -0.03rem;
-  border-radius: 0.6rem;
-  margin: 1.6rem 1.6rem 0 1.6rem;
-  padding: 1rem 1.4rem;
-`;
-
-const GreenInfoText = styled.div`
-  margin-bottom: 0.8rem;
-`;
-
-const GreenInfoBtn = styled.div`
-  font-weight: 400;
-  color: ${COLOR.DARK_GREEN};
-  text-decoration-line: underline;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
 interface MatchParams {
   id: string;
 }
@@ -464,5 +283,186 @@ const MeetingDetailPage = () => {
     </PageWrapper>
   );
 };
+
+const PageWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  white-space: pre-line;
+`;
+
+const BannerWrapper = styled.div`
+  width: 100%;
+  height: 16.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+`;
+
+const BannerImg = styled.img`
+  width: 100%;
+  height: auto;
+`;
+
+const LineDivider = styled.div`
+  margin: 0 0.8rem;
+  border-bottom: 1px solid ${COLOR.LINE_DIVIDER_GRAY};
+`;
+
+const BlockDivider = styled.div`
+  height: 1rem;
+  background-color: ${COLOR.BLOCK_DIVIDER_GRAY};
+`;
+
+const ContentsWrapper = styled.div`
+  flex: 1;
+  overflow-y: auto;
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 2.4rem 1.6rem 1.8rem 1.6rem;
+`;
+
+const Title = styled.div`
+  color: ${COLOR.TEXT_BLACK};
+  margin-bottom: 0.9rem;
+`;
+
+const TimeWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+const Time = styled.div`
+  color: ${COLOR.TEXT_GRAY};
+  margin-left: 0.4rem;
+  letter-spacing: -0.03rem;
+`;
+
+const DescriptionWrapper = styled.div`
+  padding: 2.2rem 1.6rem 0 1.6rem;
+`;
+
+const MeetingMannerCardWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 2.4rem 3.1rem 2.4rem 2.4rem;
+  justify-content: space-between;
+  align-items: center;
+  white-space: pre-line;
+`;
+
+const InfoCardTitle = styled.div`
+  color: ${COLOR.TEXT_BLACK};
+  letter-spacing: -0.03rem;
+`;
+
+const MoreIcon = styled.div``;
+
+const NavBar = styled.div`
+  max-height: 6.4rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.6rem;
+  border-top: 1px solid ${COLOR.NAVBAR_TOP_BORDER};
+`;
+
+const AlarmBtn = styled.div`
+  width: 6.8rem;
+  height: 4.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.6rem;
+  border-radius: 0.6rem;
+  border: 0.1rem solid ${COLOR.TEXTAREA_LIGHT_GRAY};
+`;
+
+const AlarmApplicant = styled.div<{ applied: number | undefined }>`
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1.9rem;
+  text-align: center;
+  letter-spacing: -0.03rem;
+  margin-left: 0.4rem;
+  color: ${({ applied }) => (applied ? COLOR.LIGHT_GREEN : COLOR.GRAY_800)};
+`;
+
+const JoinBtn = styled.div`
+  flex: 1;
+  height: 4.4rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.6rem;
+  background-color: ${COLOR.LIGHT_GREEN};
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1.9rem;
+  text-align: center;
+  letter-spacing: -0.03rem;
+
+  color: ${COLOR.TEXT_WHITE};
+
+  text-decoration: none;
+  outline: none;
+
+  &:hover,
+  &:active {
+    text-decoration: none;
+    color: ${COLOR.TEXT_WHITE};
+  }
+`;
+
+const DisableBtn = styled.div`
+  flex: 1;
+  height: 4.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.6rem;
+  background-color: ${COLOR.TEXTAREA_LIGHT_GRAY};
+  color: ${COLOR.TEXT_WHITE};
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1.9rem;
+  text-align: center;
+  letter-spacing: -0.03rem;
+`;
+
+const GreenInfoBox = styled.div`
+  background: ${COLOR.PRIMARY_L1};
+  border: 0.1rem solid ${COLOR.LIGHT_GREEN};
+  color: ${COLOR.LIGHT_GREEN};
+  font-weight: 500;
+  font-size: 1.3rem;
+  line-height: 2rem;
+  letter-spacing: -0.03rem;
+  border-radius: 0.6rem;
+  margin: 1.6rem 1.6rem 0 1.6rem;
+  padding: 1rem 1.4rem;
+`;
+
+const GreenInfoText = styled.div`
+  margin-bottom: 0.8rem;
+`;
+
+const GreenInfoBtn = styled.div`
+  font-weight: 400;
+  color: ${COLOR.DARK_GREEN};
+  text-decoration-line: underline;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
 
 export default MeetingDetailPage;

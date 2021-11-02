@@ -7,6 +7,20 @@ import { COLOR } from '../../../constant/color';
 import mini from '../../../util/mini';
 import { checkMobileType } from '../../../util/utils';
 
+function NavBar(): ReactElement {
+  return (
+    <NavigationBar className="navigation-bar">
+      <CloseBtn onClick={() => mini.close()}>
+        {checkMobileType() === 'Android' ? (
+          <ArrowBackAnd fill={COLOR.ICON_GRAY} />
+        ) : (
+          <ArrowBackIos fill={COLOR.ICON_GRAY} width="20" />
+        )}
+      </CloseBtn>
+    </NavigationBar>
+  );
+}
+
 const NavigationBar = styled.nav`
   width: 100%;
   height: 5rem;
@@ -24,19 +38,5 @@ const CloseBtn = styled.div`
   width: 1.5rem;
   padding: 2.4rem 2.442rem;
 `;
-
-function NavBar(): ReactElement {
-  return (
-    <NavigationBar className="navigation-bar">
-      <CloseBtn onClick={() => mini.close()}>
-        {checkMobileType() === 'Android' ? (
-          <ArrowBackAnd fill={COLOR.ICON_GRAY} />
-        ) : (
-          <ArrowBackIos fill={COLOR.ICON_GRAY} width="20" />
-        )}
-      </CloseBtn>
-    </NavigationBar>
-  );
-}
 
 export default NavBar;

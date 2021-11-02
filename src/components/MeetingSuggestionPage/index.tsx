@@ -25,6 +25,96 @@ interface ContentsWrapperProps {
   isSubmit: boolean;
 }
 
+const MeetingSuggestionPage = () => {
+  const { isRoot } = useCurrentScreen();
+  const [inputFocus, setInputFocus] = useState(false);
+  const [text, setText] = useState('');
+  const [submit, setsubmit] = useState(false);
+  const userInfo = useRecoilValue(userInfoAtom);
+  const { pop } = useNavigator();
+  const size = useViewportSize();
+
+  const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value);
+  };
+
+  const onSubmitHandler = async () => {
+    if (submit) {
+      if (isRoot) mini.close();
+      else pop();
+      return;
+    }
+    if (text.length === 0) return;
+    const result = await meetingSuggestion(text);
+    if (result.success) setsubmit(true);
+  };
+
+  const Title = useMemo(() => {
+    if (submit && userInfo)
+      return `${userInfo.nickname}의 ${SUGGESTION.DONE_SUBMIT_TITLE}`;
+    if (submit) return SUGGESTION.DONE_SUBMIT_TITLE;
+    return SUGGESTION.TELL_ME_NEW_MEETING;
+  }, [submit, userInfo]);
+
+  useEffect(() => {
+    logEvent(analytics, 'suggestion_page__show');
+  }, []);
+
+  return (
+    <PageWrapper
+      className="meeting-suggestion"
+      height={
+        inputFocus && checkMobileType() === 'Cupertino' ? size[1] : undefined
+      }
+    >
+      <CustomScreenHelmet
+        appendLeft={<PageTitle>{SUGGESTION.NAVIGATOR_TITLE}</PageTitle>}
+      />
+      <ContentsWrapper isSubmit={submit}>
+        <IconWrapper>
+          <BulbIcon>
+            <img src={bulb} />
+          </BulbIcon>
+          {submit && (
+            <EllipseIcon>
+              <IoEllipse size="3.5rem" fill={COLOR.SECONDARY_YELLOW} />
+            </EllipseIcon>
+          )}
+        </IconWrapper>
+
+        <SuggestionTitle className="meeting-suggestion__title">
+          {Title}
+        </SuggestionTitle>
+        {!submit && (
+          <TextArea
+            className="meeting-suggestion__textarea"
+            onFocus={() => setInputFocus(true)}
+            onBlur={() => setInputFocus(false)}
+            onChange={onChangeHandler}
+            value={text}
+            placeholder={
+              userInfo?.region
+                ? `${userInfo.region} ${SUGGESTION.NEW_MEETING_INPUT_PLACEHOLDER}`
+                : SUGGESTION.NEW_MEETING_INPUT_PLACEHOLDER
+            }
+          />
+        )}
+      </ContentsWrapper>
+
+      <ButtonWrapper>
+        <Button
+          className="meeting-suggestion__submit"
+          inputFocus={inputFocus}
+          inputLength={text.length}
+          onClick={onSubmitHandler}
+        >
+          {submit ? SUGGESTION.CONFITM_BUTTON : SUGGESTION.SUBMIT_BUTTON}
+        </Button>
+      </ButtonWrapper>
+    </PageWrapper>
+  );
+};
+
 const PageWrapper = styled.div<{ height: number | undefined }>`
   width: 100%;
   height: ${({ height }) => (height ? height + 'px' : '100%')};
@@ -134,95 +224,5 @@ const Button = styled.div<ButtonProps>`
   transition-property: margin, border-radius;
   transition-duration: 0.5s, 0.5s;
 `;
-
-const MeetingSuggestionPage = () => {
-  const { isRoot } = useCurrentScreen();
-  const [inputFocus, setInputFocus] = useState(false);
-  const [text, setText] = useState('');
-  const [submit, setsubmit] = useState(false);
-  const userInfo = useRecoilValue(userInfoAtom);
-  const { pop } = useNavigator();
-  const size = useViewportSize();
-
-  const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
-  };
-
-  const onSubmitHandler = async () => {
-    if (submit) {
-      if (isRoot) mini.close();
-      else pop();
-      return;
-    }
-    if (text.length === 0) return;
-    const result = await meetingSuggestion(text);
-    if (result.success) setsubmit(true);
-  };
-
-  const Title = useMemo(() => {
-    if (submit && userInfo)
-      return `${userInfo.nickname}의 ${SUGGESTION.DONE_SUBMIT_TITLE}`;
-    if (submit) return SUGGESTION.DONE_SUBMIT_TITLE;
-    return SUGGESTION.TELL_ME_NEW_MEETING;
-  }, [submit, userInfo]);
-
-  useEffect(() => {
-    logEvent(analytics, 'suggestion_page__show');
-  }, []);
-
-  return (
-    <PageWrapper
-      className="meeting-suggestion"
-      height={
-        inputFocus && checkMobileType() === 'Cupertino' ? size[1] : undefined
-      }
-    >
-      <CustomScreenHelmet
-        appendLeft={<PageTitle>{SUGGESTION.NAVIGATOR_TITLE}</PageTitle>}
-      />
-      <ContentsWrapper isSubmit={submit}>
-        <IconWrapper>
-          <BulbIcon>
-            <img src={bulb} />
-          </BulbIcon>
-          {submit && (
-            <EllipseIcon>
-              <IoEllipse size="3.5rem" fill={COLOR.SECONDARY_YELLOW} />
-            </EllipseIcon>
-          )}
-        </IconWrapper>
-
-        <SuggestionTitle className="meeting-suggestion__title">
-          {Title}
-        </SuggestionTitle>
-        {!submit && (
-          <TextArea
-            className="meeting-suggestion__textarea"
-            onFocus={() => setInputFocus(true)}
-            onBlur={() => setInputFocus(false)}
-            onChange={onChangeHandler}
-            value={text}
-            placeholder={
-              userInfo?.region
-                ? `${userInfo.region} ${SUGGESTION.NEW_MEETING_INPUT_PLACEHOLDER}`
-                : SUGGESTION.NEW_MEETING_INPUT_PLACEHOLDER
-            }
-          />
-        )}
-      </ContentsWrapper>
-
-      <ButtonWrapper>
-        <Button
-          className="meeting-suggestion__submit"
-          inputFocus={inputFocus}
-          inputLength={text.length}
-          onClick={onSubmitHandler}
-        >
-          {submit ? SUGGESTION.CONFITM_BUTTON : SUGGESTION.SUBMIT_BUTTON}
-        </Button>
-      </ButtonWrapper>
-    </PageWrapper>
-  );
-};
 
 export default MeetingSuggestionPage;

@@ -6,6 +6,14 @@ import { ImSpinner2 } from 'react-icons/im';
 
 import { COLOR } from '../../constant/color';
 
+function Spinner(): ReactElement {
+  return (
+    <SpinnerWrapper className="spinner">
+      <SpinnerIcon />
+    </SpinnerWrapper>
+  );
+}
+
 const spinAnimation = keyframes` 
     from {
         transform:translate(-50%, -50%) rotate(0);
@@ -34,13 +42,5 @@ const SpinnerIcon = styled(ImSpinner2)`
   animation-duration: 0.8s;
   animation-iteration-count: infinite;
 `;
-
-function Spinner(): ReactElement {
-  return (
-    <SpinnerWrapper className="spinner">
-      <SpinnerIcon />
-    </SpinnerWrapper>
-  );
-}
 
 export default Spinner;

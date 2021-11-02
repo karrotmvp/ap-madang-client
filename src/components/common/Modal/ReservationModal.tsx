@@ -16,6 +16,24 @@ interface Props {
   className?: string;
 }
 
+function ReservationModal({
+  openHandler,
+  title,
+  contents,
+  className,
+}: Props): ReactElement {
+  return (
+    <Modal
+      className={classnames('reservation-modal', className)}
+      onClose={() => openHandler(undefined)}
+    >
+      <Title>{title}</Title>
+      <Contents>{contents}</Contents>
+      <ReservationBtnStyle text="확인" onClick={() => openHandler(undefined)} />
+    </Modal>
+  );
+}
+
 const Title = styled.div`
   color: ${COLOR.TEXT_BLACK};
   font-size: 1.8rem;
@@ -38,23 +56,5 @@ const ReservationBtnStyle = styled(ReservationBtn)`
   height: 44px;
   font-size: 1.6rem;
 `;
-
-function ReservationModal({
-  openHandler,
-  title,
-  contents,
-  className,
-}: Props): ReactElement {
-  return (
-    <Modal
-      className={classnames('reservation-modal', className)}
-      onClose={() => openHandler(undefined)}
-    >
-      <Title>{title}</Title>
-      <Contents>{contents}</Contents>
-      <ReservationBtnStyle text="확인" onClick={() => openHandler(undefined)} />
-    </Modal>
-  );
-}
 
 export default ReservationModal;

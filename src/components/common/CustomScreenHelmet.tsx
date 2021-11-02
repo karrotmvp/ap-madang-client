@@ -6,10 +6,6 @@ import { ScreenHelmet } from '@karrotframe/navigator';
 import nav_back from '../../assets/icon/nav_back.svg';
 import nav_close from '../../assets/icon/nav_close.svg';
 
-const NavCustomBtn = styled.img`
-  margin-left: 1.5rem;
-`;
-
 type Props = {
   appendLeft?: React.ReactNode;
 };
@@ -23,5 +19,9 @@ function CustomScreenHelmet({ appendLeft }: Props): ReactElement {
     />
   );
 }
+
+const NavCustomBtn = styled.img`
+  margin-left: 1.5rem;
+`;
 
 export default CustomScreenHelmet;

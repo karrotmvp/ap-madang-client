@@ -14,18 +14,6 @@ interface Props {
   className?: string;
 }
 
-const InnerModalStyle = css`
-  width: 100%;
-  height: auto;
-  padding: 2rem 0;
-`;
-
-const ContentsWrapper = styled.div`
-  text-align: center;
-  color: ${COLOR.TEXT_BLACK};
-  letter-spacing: -0.03rem;
-`;
-
 function NewAlarmModal({ closeHandler, className }: Props): ReactElement {
   useEffect(() => {
     const closeModal = setTimeout(() => {
@@ -47,5 +35,17 @@ function NewAlarmModal({ closeHandler, className }: Props): ReactElement {
     </Modal>
   );
 }
+
+const InnerModalStyle = css`
+  width: 100%;
+  height: auto;
+  padding: 2rem 0;
+`;
+
+const ContentsWrapper = styled.div`
+  text-align: center;
+  color: ${COLOR.TEXT_BLACK};
+  letter-spacing: -0.03rem;
+`;
 
 export default NewAlarmModal;

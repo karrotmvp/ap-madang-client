@@ -13,6 +13,67 @@ import { REDIRECT } from '../../constant/message';
 import { userInfoAtom } from '../../store/user';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
+function RedirectPage(): ReactElement {
+  const { replace } = useNavigator();
+  const [redirected, setRedirected] = useState(false);
+  const userInfo = useRecoilValue(userInfoAtom);
+
+  const openNewWindow = (meetingUrl: string, pwd: string) => {
+    window.open(
+      'https://' + meetingUrl.replace('%2F', '/') + '?pwd=' + pwd,
+      '',
+      '_blank',
+    );
+  };
+
+  const redirectToMeet = useCallback(() => {
+    const urlSearchParams = new URLSearchParams(location.search);
+    const url = urlSearchParams.get('meeting_url');
+    const pwd = urlSearchParams.get('pwd');
+    if (url && pwd) {
+      openNewWindow(url, pwd);
+    }
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!redirected) {
+        redirectToMeet();
+        setRedirected(true);
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [redirectToMeet, redirected]);
+
+  const redirectToHome = useCallback(() => {
+    replace('/');
+  }, [replace]);
+
+  useEffect(() => {
+    if (userInfo) {
+      logEvent(analytics, 'redirect_page__show', {
+        nickname: userInfo?.nickname,
+      });
+    }
+  }, [userInfo]);
+
+  return (
+    <PageWrapper>
+      <CustomScreenHelmet />
+      <ContentsArea>
+        <RedirectHouseStyle />
+        <TextArea className="body2">{REDIRECT.TITLE}</TextArea>
+        <EnterBtn onClick={redirectToMeet}>{REDIRECT.BTN_TEXT}</EnterBtn>
+      </ContentsArea>
+
+      <BtnWrapper className="body4">
+        {REDIRECT.CANT_JOIN}
+        <GoHomeBtn onClick={redirectToHome}>{REDIRECT.GO_HOME}</GoHomeBtn>
+      </BtnWrapper>
+    </PageWrapper>
+  );
+}
+
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -119,66 +180,5 @@ const GoHomeBtn = styled.span`
   margin-left: 0.5rem;
   color: ${COLOR.LIGHT_GREEN};
 `;
-
-function RedirectPage(): ReactElement {
-  const { replace } = useNavigator();
-  const [redirected, setRedirected] = useState(false);
-  const userInfo = useRecoilValue(userInfoAtom);
-
-  const openNewWindow = (meetingUrl: string, pwd: string) => {
-    window.open(
-      'https://' + meetingUrl.replace('%2F', '/') + '?pwd=' + pwd,
-      '',
-      '_blank',
-    );
-  };
-
-  const redirectToMeet = useCallback(() => {
-    const urlSearchParams = new URLSearchParams(location.search);
-    const url = urlSearchParams.get('meeting_url');
-    const pwd = urlSearchParams.get('pwd');
-    if (url && pwd) {
-      openNewWindow(url, pwd);
-    }
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!redirected) {
-        redirectToMeet();
-        setRedirected(true);
-      }
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [redirectToMeet, redirected]);
-
-  const redirectToHome = useCallback(() => {
-    replace('/');
-  }, [replace]);
-
-  useEffect(() => {
-    if (userInfo) {
-      logEvent(analytics, 'redirect_page__show', {
-        nickname: userInfo?.nickname,
-      });
-    }
-  }, [userInfo]);
-
-  return (
-    <PageWrapper>
-      <CustomScreenHelmet />
-      <ContentsArea>
-        <RedirectHouseStyle />
-        <TextArea className="body2">{REDIRECT.TITLE}</TextArea>
-        <EnterBtn onClick={redirectToMeet}>{REDIRECT.BTN_TEXT}</EnterBtn>
-      </ContentsArea>
-
-      <BtnWrapper className="body4">
-        {REDIRECT.CANT_JOIN}
-        <GoHomeBtn onClick={redirectToHome}>{REDIRECT.GO_HOME}</GoHomeBtn>
-      </BtnWrapper>
-    </PageWrapper>
-  );
-}
 
 export default RedirectPage;

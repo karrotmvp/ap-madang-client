@@ -13,53 +13,6 @@ import { codeAtom } from '../../store/user';
 import mini from '../../util/mini';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
-const PageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  white-space: pre-line;
-  box-sizing: border-box;
-`;
-
-const ContentsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: auto;
-`;
-
-const ButtonWrapper = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  padding: 1.2rem 1.6rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-top: 1px solid ${COLOR.NAVBAR_TOP_BORDER};
-`;
-
-const Button = styled.div`
-  flex: 1;
-  font-weight: 600;
-  font-size: 1.7rem;
-  line-height: 2.8rem;
-  text-align: center;
-  letter-spacing: -0.04rem;
-  color: ${COLOR.TEXT_WHITE};
-  background: ${COLOR.LIGHT_GREEN};
-  border-radius: 0.6rem;
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 function OnBoardPage(): ReactElement {
   const [code, setCode] = useRecoilState(codeAtom);
   const onBoard = localStorage.getItem('onboard');
@@ -114,5 +67,52 @@ function OnBoardPage(): ReactElement {
     </PageWrapper>
   );
 }
+
+const PageWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  white-space: pre-line;
+  box-sizing: border-box;
+`;
+
+const ContentsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: auto;
+`;
+
+const ButtonWrapper = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1.2rem 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid ${COLOR.NAVBAR_TOP_BORDER};
+`;
+
+const Button = styled.div`
+  flex: 1;
+  font-weight: 600;
+  font-size: 1.7rem;
+  line-height: 2.8rem;
+  text-align: center;
+  letter-spacing: -0.04rem;
+  color: ${COLOR.TEXT_WHITE};
+  background: ${COLOR.LIGHT_GREEN};
+  border-radius: 0.6rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default OnBoardPage;

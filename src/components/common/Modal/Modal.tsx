@@ -14,6 +14,28 @@ interface Props {
   innerModalStyle?: SerializedStyles;
 }
 
+function Modal({
+  onClose,
+  children,
+  className,
+  innerModalStyle,
+}: Props): ReactElement {
+  const onCloseHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    onClose && onClose(e);
+  };
+  return (
+    <ModalWrapper
+      onClick={onCloseHandler}
+      className={classnames('modal', className)}
+    >
+      <ModalInner onClick={e => e.stopPropagation()} css={innerModalStyle}>
+        {children}
+      </ModalInner>
+    </ModalWrapper>
+  );
+}
+
 const ModalWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -45,27 +67,5 @@ const ModalInner = styled.div`
   border-radius: 0.8rem;
   box-sizing: border-box;
 `;
-
-function Modal({
-  onClose,
-  children,
-  className,
-  innerModalStyle,
-}: Props): ReactElement {
-  const onCloseHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
-    onClose && onClose(e);
-  };
-  return (
-    <ModalWrapper
-      onClick={onCloseHandler}
-      className={classnames('modal', className)}
-    >
-      <ModalInner onClick={e => e.stopPropagation()} css={innerModalStyle}>
-        {children}
-      </ModalInner>
-    </ModalWrapper>
-  );
-}
 
 export default Modal;

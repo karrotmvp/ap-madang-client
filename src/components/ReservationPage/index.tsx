@@ -19,72 +19,6 @@ import ReservationBtn from './components/ReservationBtn';
 import RotateTitle from './components/RotateTitle';
 import '@karrotframe/navigator/index.css';
 
-const PageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-`;
-
-const ReservationStyle = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-
-  height: 100%;
-  padding: 2.4rem 2.4rem 1.6rem 2.4rem;
-  box-sizing: border-box;
-`;
-
-const Title = styled.div`
-  font-size: 2.8rem;
-  font-weight: 700;
-  line-height: 3.36rem;
-  letter-spacing: -0.06rem;
-  word-break: keep-all;
-`;
-
-const SubTitle = styled.div`
-  color: ${COLOR.TEXT_GRAY};
-  font-size: 1.6rem;
-  line-height: 2.4rem;
-  letter-spacing: -0.03rem;
-  margin-top: 2.4rem;
-  word-break: keep-all;
-`;
-
-const ContentsArea = styled.div`
-  flex: 1;
-  align-content: stretch;
-`;
-
-const Footer = styled.footer`
-  width: 100%;
-  box-sizing: border-box;
-`;
-
-const Message = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 1rem;
-`;
-
-const NotiIcon = styled(NotificationsNone)`
-  margin-right: 0.2rem;
-`;
-
-const InfoText = styled.div`
-  color: ${COLOR.TEXT_GRAY};
-  font-style: normal;
-  font-weight: 400;
-  font-size: 1.6rem;
-  line-height: 2.4rem;
-  letter-spacing: -0.03rem;
-  margin-left: 0.4rem;
-  word-break: keep-all;
-`;
 const ReservationPage: React.FC = () => {
   const [openModal, setOpenModal] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -204,5 +138,72 @@ const ReservationPage: React.FC = () => {
     </PageWrapper>
   );
 };
+
+const PageWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+`;
+
+const ReservationStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+
+  height: 100%;
+  padding: 2.4rem 2.4rem 1.6rem 2.4rem;
+  box-sizing: border-box;
+`;
+
+const Title = styled.div`
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 3.36rem;
+  letter-spacing: -0.06rem;
+  word-break: keep-all;
+`;
+
+const SubTitle = styled.div`
+  color: ${COLOR.TEXT_GRAY};
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  letter-spacing: -0.03rem;
+  margin-top: 2.4rem;
+  word-break: keep-all;
+`;
+
+const ContentsArea = styled.div`
+  flex: 1;
+  align-content: stretch;
+`;
+
+const Footer = styled.footer`
+  width: 100%;
+  box-sizing: border-box;
+`;
+
+const Message = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+`;
+
+const NotiIcon = styled(NotificationsNone)`
+  margin-right: 0.2rem;
+`;
+
+const InfoText = styled.div`
+  color: ${COLOR.TEXT_GRAY};
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  letter-spacing: -0.03rem;
+  margin-left: 0.4rem;
+  word-break: keep-all;
+`;
 
 export default ReservationPage;

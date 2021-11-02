@@ -23,6 +23,40 @@ interface ThumbnailProps {
   total?: number;
 }
 
+function CurrMeetingCard({ idx, data, total }: Props): ReactElement {
+  const { push } = useNavigator();
+
+  const onClickCardHandler = useCallback(() => {
+    push(`/meetings/${data.id}`);
+  }, [data.id, push]);
+
+  return (
+    <MeetingCardWrapper
+      className="meeting-card"
+      live_status={data.live_status}
+      idx={idx}
+      total={total}
+      onClick={onClickCardHandler}
+    >
+      <ImageWrapper total={total}>
+        <LiveTag>진행중</LiveTag>
+        <Thumbnail src={data.image} />
+      </ImageWrapper>
+      <ContentsWrapper>
+        <InfoWrapper>
+          <CurrMeetingTimer
+            date={data.date}
+            start_time={data.start_time}
+            end_time={data.end_time}
+          />
+          <Title className="title">{data.title}</Title>
+        </InfoWrapper>
+        <Button>모임 정보 보러가기</Button>
+      </ContentsWrapper>
+    </MeetingCardWrapper>
+  );
+}
+
 const MeetingCardWrapper = styled.div<WrapperProps>`
   margin: ${({ total }) => (total === 1 ? '0 1.6rem' : '0')};
   width: ${({ total }) => (total === 1 ? '100%' : '25.8rem')};
@@ -113,39 +147,5 @@ const Button = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-function CurrMeetingCard({ idx, data, total }: Props): ReactElement {
-  const { push } = useNavigator();
-
-  const onClickCardHandler = useCallback(() => {
-    push(`/meetings/${data.id}`);
-  }, [data.id, push]);
-
-  return (
-    <MeetingCardWrapper
-      className="meeting-card"
-      live_status={data.live_status}
-      idx={idx}
-      total={total}
-      onClick={onClickCardHandler}
-    >
-      <ImageWrapper total={total}>
-        <LiveTag>진행중</LiveTag>
-        <Thumbnail src={data.image} />
-      </ImageWrapper>
-      <ContentsWrapper>
-        <InfoWrapper>
-          <CurrMeetingTimer
-            date={data.date}
-            start_time={data.start_time}
-            end_time={data.end_time}
-          />
-          <Title className="title">{data.title}</Title>
-        </InfoWrapper>
-        <Button>모임 정보 보러가기</Button>
-      </ContentsWrapper>
-    </MeetingCardWrapper>
-  );
-}
 
 export default CurrMeetingCard;

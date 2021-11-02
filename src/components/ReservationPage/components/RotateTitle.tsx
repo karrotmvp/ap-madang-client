@@ -4,14 +4,10 @@ import styled from '@emotion/styled';
 
 import { COLOR } from '../../../constant/color';
 
-const RotateItem = styled('div')`
-  font-weight: 800;
-  font-size: 4.8rem;
-  line-height: 5.76rem;
-  letter-spacing: -0.08rem;
-  padding: 0.7rem 0;
-  color: ${COLOR.LIGHT_GREEN};
-`;
+interface Props {
+  intervalTime?: number;
+  items: string[];
+}
 
 const RotateTitle = ({ intervalTime = 1500, items }: Props): ReactElement => {
   const [idx, setIdx] = useState(0);
@@ -26,9 +22,13 @@ const RotateTitle = ({ intervalTime = 1500, items }: Props): ReactElement => {
   return <RotateItem className="rotate-title">{items[idx]}</RotateItem>;
 };
 
-export default RotateTitle;
+const RotateItem = styled('div')`
+  font-weight: 800;
+  font-size: 4.8rem;
+  line-height: 5.76rem;
+  letter-spacing: -0.08rem;
+  padding: 0.7rem 0;
+  color: ${COLOR.LIGHT_GREEN};
+`;
 
-interface Props {
-  intervalTime?: number;
-  items: string[];
-}
+export default RotateTitle;

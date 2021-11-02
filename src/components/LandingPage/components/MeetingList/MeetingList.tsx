@@ -19,25 +19,6 @@ interface Props {
   className?: string;
 }
 
-const MeetingListWrapper = styled.div`
-  box-sizing: border-box;
-  padding: 3rem 1.6rem 2rem 1.6rem;
-`;
-
-const MeetingCounter = styled.span`
-  color: ${COLOR.LIGHT_GREEN};
-  margin-left: 0.6rem;
-`;
-
-const ListTitle = styled.div`
-  font-weight: bold;
-  font-size: 1.8rem;
-  line-height: 2.8rem;
-  letter-spacing: -0.04rem;
-  color: ${COLOR.TEXT_BLACK};
-  padding-left: 0.4rem;
-`;
-
 function MeetingList({ title, className }: Props): ReactElement {
   const meetings = useRecoilValue(
     title === LANDING.UPCOMING_MEETING ? upcomingMeetings : tomorrowMeetings,
@@ -67,5 +48,24 @@ function MeetingList({ title, className }: Props): ReactElement {
     </MeetingListWrapper>
   );
 }
+
+const MeetingListWrapper = styled.div`
+  box-sizing: border-box;
+  padding: 3rem 1.6rem 2rem 1.6rem;
+`;
+
+const MeetingCounter = styled.span`
+  color: ${COLOR.LIGHT_GREEN};
+  margin-left: 0.6rem;
+`;
+
+const ListTitle = styled.div`
+  font-weight: bold;
+  font-size: 1.8rem;
+  line-height: 2.8rem;
+  letter-spacing: -0.04rem;
+  color: ${COLOR.TEXT_BLACK};
+  padding-left: 0.4rem;
+`;
 
 export default MeetingList;

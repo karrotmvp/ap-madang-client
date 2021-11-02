@@ -12,6 +12,24 @@ interface Props {
   className?: string;
 }
 
+function EditableInput({
+  contentEditable,
+  placeholder,
+  formHandler,
+  className,
+}: Props): ReactElement {
+  return (
+    <EditableArea
+      className={classnames('editable-input', className)}
+      contentEditable={contentEditable}
+      placeholder={placeholder}
+      onInput={(e: React.ChangeEvent<HTMLDivElement>) =>
+        formHandler && formHandler(e.target.innerText)
+      }
+    />
+  );
+}
+
 const EditableArea = styled.div`
   width: 100%;
   min-height: 1.5rem;
@@ -39,23 +57,5 @@ const EditableArea = styled.div`
     color: ${COLOR.PLACEHOLDER_GRAY};
   }
 `;
-
-function EditableInput({
-  contentEditable,
-  placeholder,
-  formHandler,
-  className,
-}: Props): ReactElement {
-  return (
-    <EditableArea
-      className={classnames('editable-input', className)}
-      contentEditable={contentEditable}
-      placeholder={placeholder}
-      onInput={(e: React.ChangeEvent<HTMLDivElement>) =>
-        formHandler && formHandler(e.target.innerText)
-      }
-    />
-  );
-}
 
 export default EditableInput;

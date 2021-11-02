@@ -11,6 +11,78 @@ import { COLOR } from '../../../constant/color';
 import { BOTTOM_SHEET } from '../../../constant/message';
 import DescriptionItem from '../../common/DescriptionItem';
 
+interface Props {
+  onClose: () => void;
+  onClickJoin?: () => void;
+  meetingId: string;
+  meetingTitle: string;
+  url: string;
+}
+
+function BottomSheet({
+  onClose,
+  onClickJoin,
+  url,
+  meetingId,
+  meetingTitle,
+}: Props): ReactElement {
+  const [closeState, setCloseState] = useState(!open);
+
+  const closeHandler = useCallback(() => {
+    setCloseState(true);
+    setTimeout(() => {
+      onClose();
+    }, 400);
+  }, [onClose]);
+
+  const onClickOutSide = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    closeHandler();
+  };
+
+  const onClickJoinHandler = () => {
+    logEvent(analytics, 'bottom_sheet_join__click', {
+      location: 'bottom_sheet',
+      meeting_id: meetingId,
+      meeting_name: meetingTitle,
+    });
+    window.open(url, '', '_blank');
+    onClickJoin && onClickJoin();
+  };
+
+  return (
+    <BottomSheetWrapper
+      className={classnamse(
+        closeState ? 'close-bottom-sheet' : 'open-bottom-sheet',
+      )}
+      onClick={onClickOutSide}
+    >
+      <ContentsWrapper
+        className={classnamse(
+          closeState ? 'close-bottom-sheet' : 'open-bottom-sheet',
+        )}
+        onClick={e => e.stopPropagation()}
+      >
+        <InfoTextWrapper>
+          <TitleWrapper>
+            <InfoTitle> {BOTTOM_SHEET.TITLE}</InfoTitle>
+            <IconImg src={closeBtn} onClick={closeHandler} />
+          </TitleWrapper>
+          {BOTTOM_SHEET.SUB_TITLE.map((el, idx) => (
+            <DescriptionItem
+              className="bottom-sheet__description"
+              key={idx.toString()}
+              text={el}
+            />
+          ))}
+        </InfoTextWrapper>
+
+        <JoinBtn onClick={onClickJoinHandler}>{BOTTOM_SHEET.JOIN}</JoinBtn>
+      </ContentsWrapper>
+    </BottomSheetWrapper>
+  );
+}
+
 const openSheetBackground = keyframes`
   0%{
     opacity:0;
@@ -129,77 +201,5 @@ const JoinBtn = styled.a`
   text-decoration: none;
   outline: none;
 `;
-
-interface Props {
-  onClose: () => void;
-  onClickJoin?: () => void;
-  meetingId: string;
-  meetingTitle: string;
-  url: string;
-}
-
-function BottomSheet({
-  onClose,
-  onClickJoin,
-  url,
-  meetingId,
-  meetingTitle,
-}: Props): ReactElement {
-  const [closeState, setCloseState] = useState(!open);
-
-  const closeHandler = useCallback(() => {
-    setCloseState(true);
-    setTimeout(() => {
-      onClose();
-    }, 400);
-  }, [onClose]);
-
-  const onClickOutSide = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
-    closeHandler();
-  };
-
-  const onClickJoinHandler = () => {
-    logEvent(analytics, 'bottom_sheet_join__click', {
-      location: 'bottom_sheet',
-      meeting_id: meetingId,
-      meeting_name: meetingTitle,
-    });
-    window.open(url, '', '_blank');
-    onClickJoin && onClickJoin();
-  };
-
-  return (
-    <BottomSheetWrapper
-      className={classnamse(
-        closeState ? 'close-bottom-sheet' : 'open-bottom-sheet',
-      )}
-      onClick={onClickOutSide}
-    >
-      <ContentsWrapper
-        className={classnamse(
-          closeState ? 'close-bottom-sheet' : 'open-bottom-sheet',
-        )}
-        onClick={e => e.stopPropagation()}
-      >
-        <InfoTextWrapper>
-          <TitleWrapper>
-            <InfoTitle> {BOTTOM_SHEET.TITLE}</InfoTitle>
-            <IconImg src={closeBtn} onClick={closeHandler} />
-          </TitleWrapper>
-          {BOTTOM_SHEET.SUB_TITLE.map((el, idx) => (
-            <DescriptionItem
-              className="bottom-sheet__description"
-              key={idx.toString()}
-              text={el}
-            />
-          ))}
-        </InfoTextWrapper>
-
-        <JoinBtn onClick={onClickJoinHandler}>{BOTTOM_SHEET.JOIN}</JoinBtn>
-      </ContentsWrapper>
-    </BottomSheetWrapper>
-  );
-}
 
 export default BottomSheet;

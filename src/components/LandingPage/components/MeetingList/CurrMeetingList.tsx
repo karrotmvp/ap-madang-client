@@ -16,6 +16,50 @@ interface Props {
   className?: string;
 }
 
+function CurrMeetingList({ className }: Props): ReactElement {
+  const meetings = useRecoilValue(currMeetings);
+  return (
+    <CurrMeetingListWrapper
+      className={classnames('curr-meeting-list', className)}
+    >
+      <TitleWrapper>
+        <Title>{LANDING.CURRENT_MEETING}</Title>
+      </TitleWrapper>
+
+      {meetings.length === 0 ? (
+        <EmptyListWrapper>
+          <EmptyListImg src={empty_current_meeting} />
+        </EmptyListWrapper>
+      ) : meetings.length === 1 ? (
+        <CardWrapper>
+          <CurrMeetingCard data={meetings[0]} idx={0} total={1} />
+        </CardWrapper>
+      ) : (
+        meetings.length > 1 && (
+          <SwiperWrapper>
+            <Swiper
+              slidesPerView={'auto'}
+              spaceBetween={16}
+              freeMode={true}
+              className="mySwiper"
+            >
+              <SwiperSlide />
+              {meetings.map((el, idx) => {
+                return (
+                  <SwiperSlide key={el.id}>
+                    <CurrMeetingCard data={el} idx={idx} />
+                  </SwiperSlide>
+                );
+              })}
+              <SwiperSlide />
+            </Swiper>
+          </SwiperWrapper>
+        )
+      )}
+    </CurrMeetingListWrapper>
+  );
+}
+
 const CurrMeetingListWrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
@@ -70,49 +114,5 @@ const EmptyListWrapper = styled.div`
 const EmptyListImg = styled.img`
   height: 100%;
 `;
-
-function CurrMeetingList({ className }: Props): ReactElement {
-  const meetings = useRecoilValue(currMeetings);
-  return (
-    <CurrMeetingListWrapper
-      className={classnames('curr-meeting-list', className)}
-    >
-      <TitleWrapper>
-        <Title>{LANDING.CURRENT_MEETING}</Title>
-      </TitleWrapper>
-
-      {meetings.length === 0 ? (
-        <EmptyListWrapper>
-          <EmptyListImg src={empty_current_meeting} />
-        </EmptyListWrapper>
-      ) : meetings.length === 1 ? (
-        <CardWrapper>
-          <CurrMeetingCard data={meetings[0]} idx={0} total={1} />
-        </CardWrapper>
-      ) : (
-        meetings.length > 1 && (
-          <SwiperWrapper>
-            <Swiper
-              slidesPerView={'auto'}
-              spaceBetween={16}
-              freeMode={true}
-              className="mySwiper"
-            >
-              <SwiperSlide />
-              {meetings.map((el, idx) => {
-                return (
-                  <SwiperSlide key={el.id}>
-                    <CurrMeetingCard data={el} idx={idx} />
-                  </SwiperSlide>
-                );
-              })}
-              <SwiperSlide />
-            </Swiper>
-          </SwiperWrapper>
-        )
-      )}
-    </CurrMeetingListWrapper>
-  );
-}
 
 export default CurrMeetingList;

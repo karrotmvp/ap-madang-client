@@ -16,6 +16,26 @@ interface Props {
   className?: string;
 }
 
+const DescriptionList = (props: Props) => {
+  return (
+    <Wrapper className={classnames('description-list', props.className)}>
+      <DescriptionTitle className="description-list__title">
+        {props.title}
+      </DescriptionTitle>
+      <List>
+        {props.data &&
+          props.data.map((el, idx) => (
+            <DescriptionItem
+              className="description-list__contents"
+              key={idx.toString()}
+              text={el.text}
+            />
+          ))}
+      </List>
+    </Wrapper>
+  );
+};
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,25 +61,5 @@ const List = styled.div`
     margin-bottom: 0;
   }
 `;
-
-const DescriptionList = (props: Props) => {
-  return (
-    <Wrapper className={classnames('description-list', props.className)}>
-      <DescriptionTitle className="description-list__title">
-        {props.title}
-      </DescriptionTitle>
-      <List>
-        {props.data &&
-          props.data.map((el, idx) => (
-            <DescriptionItem
-              className="description-list__contents"
-              key={idx.toString()}
-              text={el.text}
-            />
-          ))}
-      </List>
-    </Wrapper>
-  );
-};
 
 export default DescriptionList;

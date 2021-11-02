@@ -9,6 +9,32 @@ import { COLOR } from '../../constant/color';
 import { NOT_SERVICE_REGION } from '../../constant/message';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
+function NotServiceRegionPage(): ReactElement {
+  const [region, setRegion] = useState('');
+
+  useEffect(() => {
+    const urlHashParams = new URLSearchParams(
+      window.location.hash.substr(window.location.hash.indexOf('?')),
+    );
+    const decoded = decodeURIComponent(urlHashParams.get('region') || '');
+    setRegion(decoded || '');
+    logEvent(analytics, 'not_service_region_page__show', {
+      region: decoded,
+    });
+  }, []);
+
+  return (
+    <PageWrapper>
+      <CustomScreenHelmet />
+      <NotServiceImg src={scratching} />
+      <Text>
+        <BoldText>{region}</BoldText>
+        {NOT_SERVICE_REGION.TITLE}
+      </Text>
+    </PageWrapper>
+  );
+}
+
 const PageWrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -35,31 +61,5 @@ const Text = styled.span`
 const BoldText = styled(Text)`
   color: ${COLOR.LIGHT_GREEN};
 `;
-
-function NotServiceRegionPage(): ReactElement {
-  const [region, setRegion] = useState('');
-
-  useEffect(() => {
-    const urlHashParams = new URLSearchParams(
-      window.location.hash.substr(window.location.hash.indexOf('?')),
-    );
-    const decoded = decodeURIComponent(urlHashParams.get('region') || '');
-    setRegion(decoded || '');
-    logEvent(analytics, 'not_service_region_page__show', {
-      region: decoded,
-    });
-  }, []);
-
-  return (
-    <PageWrapper>
-      <CustomScreenHelmet />
-      <NotServiceImg src={scratching} />
-      <Text>
-        <BoldText>{region}</BoldText>
-        {NOT_SERVICE_REGION.TITLE}
-      </Text>
-    </PageWrapper>
-  );
-}
 
 export default NotServiceRegionPage;

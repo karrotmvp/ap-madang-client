@@ -15,62 +15,6 @@ interface Props {
   className?: string;
 }
 
-const InnerModalStyle = css`
-  margin: 0 4rem;
-  height: auto;
-  padding: 0;
-  letter-spacing: -0.03rem;
-`;
-
-const ContentsWrapper = styled.div`
-  overflow-y: auto;
-  color: ${COLOR.TEXT_GRAY};
-  padding: 2.2rem 2rem 2rem 2rem;
-`;
-
-const Title = styled.div`
-  color: ${COLOR.TEXT_BLACK};
-  margin-bottom: 1.2rem;
-  text-align: center;
-`;
-
-const SubTitle = styled.div`
-  color: ${COLOR.TEXT_GRAY};
-  text-align: center;
-`;
-
-const DoneTitle = styled.div`
-  text-align: center;
-  color: ${COLOR.TEXT_BLACK};
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  height: 4.3rem;
-
-  border-top: 0.1rem solid rgba(0, 0, 0, 0.07);
-  div:first-of-type {
-    border-right: 0.1rem solid rgba(0, 0, 0, 0.07);
-  }
-`;
-
-const Btn = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
-  height: 100%;
-  color: ${COLOR.LIGHT_GREEN};
-`;
-
-const CloseBtn = styled(Btn)`
-  font-weight: 500;
-`;
-
 function DeleteAlarmModal({
   closeHandler,
   deleteAlarmHandler,
@@ -142,5 +86,61 @@ function DeleteAlarmModal({
     </Modal>
   );
 }
+
+const InnerModalStyle = css`
+  margin: 0 4rem;
+  height: auto;
+  padding: 0;
+  letter-spacing: -0.03rem;
+`;
+
+const ContentsWrapper = styled.div`
+  overflow-y: auto;
+  color: ${COLOR.TEXT_GRAY};
+  padding: 2.2rem 2rem 2rem 2rem;
+`;
+
+const Title = styled.div`
+  color: ${COLOR.TEXT_BLACK};
+  margin-bottom: 1.2rem;
+  text-align: center;
+`;
+
+const SubTitle = styled.div`
+  color: ${COLOR.TEXT_GRAY};
+  text-align: center;
+`;
+
+const DoneTitle = styled.div`
+  text-align: center;
+  color: ${COLOR.TEXT_BLACK};
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 4.3rem;
+
+  border-top: 0.1rem solid rgba(0, 0, 0, 0.07);
+  div:first-of-type {
+    border-right: 0.1rem solid rgba(0, 0, 0, 0.07);
+  }
+`;
+
+const Btn = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+  color: ${COLOR.LIGHT_GREEN};
+`;
+
+const CloseBtn = styled(Btn)`
+  font-weight: 500;
+`;
 
 export default DeleteAlarmModal;

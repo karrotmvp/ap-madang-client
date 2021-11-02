@@ -7,12 +7,6 @@ import { COLOR } from '../../../constant/color';
 import useInterval from '../../../hook/useInterval';
 import { getRemainMilliSec } from '../../../util/utils';
 
-const TimerStyle = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 0.4rem;
-  color: ${COLOR.ORANGE};
-`;
 interface Props {
   start_time: string;
   end_time: string;
@@ -70,5 +64,12 @@ function CurrMeetingTimer({ start_time, end_time, date }: Props): ReactElement {
     <div />
   );
 }
+
+const TimerStyle = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.4rem;
+  color: ${COLOR.ORANGE};
+`;
 
 export default CurrMeetingTimer;
