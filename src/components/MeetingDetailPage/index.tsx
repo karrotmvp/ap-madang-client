@@ -217,7 +217,6 @@ const MeetingDetailPage = () => {
             {data.start_time && (
               <Time className="body4">
                 {getTimeForm(data.start_time, data.end_time, data.live_status)}
-                {data.live_status !== 'live' && '에 열려요.'}
               </Time>
             )}
           </TimeWrapper>
