@@ -20,6 +20,7 @@ function OnBoardPage(): ReactElement {
   const startTime = new Date();
 
   const successGetCodeCB = (code: string) => {
+    logEvent(analytics, 'sub_onboard__success');
     logEvent(analytics, 'onBoard__success', {
       start_time: startTime,
       end_time: new Date(),
@@ -48,6 +49,7 @@ function OnBoardPage(): ReactElement {
   };
 
   useEffect(() => {
+    logEvent(analytics, 'sub_onboard__show');
     logEvent(analytics, 'onBoard__show', {
       start_time: startTime,
     });
