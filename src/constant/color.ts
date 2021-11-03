@@ -6,6 +6,7 @@ export const COLOR = {
   BACKGROUND_WHITE: '#ffffff',
   MODAL_WRAPPER_BLACK: 'rgba(25,25,26, 0.75)',
   GRAY_000: '#FAFAFA',
+  GRAY_200: '#EDEDED',
   GRAY_300: '#DFE1E3',
   GRAY_400: '#DFE1E3',
   GRAY_500: '#A6AAAE',
