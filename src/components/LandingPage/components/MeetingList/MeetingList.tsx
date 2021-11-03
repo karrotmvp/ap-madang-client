@@ -29,11 +29,21 @@ function MeetingList({ title, className }: Props): ReactElement {
   return (
     <MeetingListWrapper className={classnames('meeting-list', className)}>
       <ListTitle>
-        {title}
-        {title !== LANDING.CURRENT_MEETING && (
-          <MeetingCounter className="title2 meeting-list__counter">
-            {meetings && meetings.length.toString()}
-          </MeetingCounter>
+        {title === LANDING.UPCOMING_MEETING ? (
+          <span>
+            {LANDING.UPCOMING_MEETING_01}
+            <MeetingCounter className="title2 meeting-list__counter">
+              {meetings && meetings.length.toString()}
+            </MeetingCounter>
+            {LANDING.UPCOMING_MEETING_02}
+          </span>
+        ) : (
+          <span>
+            {title}
+            <MeetingCounter className="title2 meeting-list__counter">
+              {meetings && meetings.length.toString()}
+            </MeetingCounter>
+          </span>
         )}
       </ListTitle>
 
