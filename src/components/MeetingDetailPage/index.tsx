@@ -13,7 +13,7 @@ import { analytics } from '../../App';
 import arrow_iOS_large from '../../assets/icon/arrow_iOS_large.svg';
 import arrow_iOS_xsmall_green from '../../assets/icon/arrow_iOS_xsmall_green.svg';
 import clock from '../../assets/icon/clock.svg';
-import notification_empty from '../../assets/icon/notification_empty.svg';
+import notification_empty_detail from '../../assets/icon/notification_empty_detail.svg';
 import notification_fill from '../../assets/icon/notification_fill.svg';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
@@ -289,7 +289,7 @@ const MeetingDetailPage = () => {
             {data.alarm_id ? (
               <img src={notification_fill} />
             ) : (
-              <img src={notification_empty} />
+              <img src={notification_empty_detail} />
             )}
             {data.alarm_num > 4 && (
               <AlarmApplicant applied={data.alarm_id}>
