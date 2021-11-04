@@ -2,24 +2,24 @@ import React, { ReactElement } from 'react';
 
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ImSpinner2 } from 'react-icons/im';
 
+import landongmo_logo from '../../assets/icon/landongmo_logo.svg';
 import { COLOR } from '../../constant/color';
 
 function Spinner(): ReactElement {
   return (
     <SpinnerWrapper className="spinner">
-      <SpinnerIcon />
+      <SpinnerIcon src={landongmo_logo} />
     </SpinnerWrapper>
   );
 }
 
 const spinAnimation = keyframes` 
     from {
-        transform:translate(-50%, -50%) rotate(0);
+      transform: rotate(0);
     }
     to {
-        transform:translate(-50%, -50%) rotate(360deg);
+      transform: rotate(360deg);
     }
 `;
 
@@ -34,9 +34,9 @@ const SpinnerWrapper = styled.div`
   align-items: center;
 `;
 
-const SpinnerIcon = styled(ImSpinner2)`
-  width: 40px;
-  height: 40px;
+const SpinnerIcon = styled.img`
+  width: 4rem;
+  height: 4rem;
   color: ${COLOR.LIGHT_GREEN};
   animation-name: ${spinAnimation};
   animation-duration: 0.8s;
