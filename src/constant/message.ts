@@ -27,6 +27,8 @@ export const LANDING = {
   NAVIGATOR_TITLE: '랜선동네모임',
   CURRENT_MEETING: '지금 바로 모임에 참여해 보세요',
   UPCOMING_MEETING: '오늘 참여할 수 있는 모임',
+  UPCOMING_MEETING_01: '오늘',
+  UPCOMING_MEETING_02: '개 모임이 남아있어요.',
   TOMORROW_MEETING: '미리 보는 내일 모임',
   START_MEETING_LATER: ' 후 모임이 시작돼요',
   CURR_MEETING_SUB_TITLE: '지금 바로 모임에서 동네 이웃들과 대화를 나눠보세요!',
@@ -60,7 +62,7 @@ export const MEETING_DETAIL = {
   DESCRIPTION_TITLE1: '이런 분이면 참여해보세요!',
   DESCRIPTION_TITLE2: '이런 주제로 대화를 나눠보세요!',
   JOIN_NOW: '지금 참여하기',
-  CLOSE_MEETING: '오늘은 종료된 모임이에요',
+  CLOSE_MEETING: '내일 열리는 모임이에요',
   JOIN_LATER: ' 후에 만나요',
   GREEN_BOX_INFO:
     '모든 모임은 줌(Zoom) 화상 회의로 진행돼요. 줌 앱을 다운로드한 후 이용해 주세요. 카메라를 켜지 않아도 괜찮아요!',

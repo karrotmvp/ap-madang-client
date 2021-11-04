@@ -13,7 +13,11 @@ import home_banner from '../../assets/image/home_banner.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
 import { COLOR } from '../../constant/color';
 import { LANDING } from '../../constant/message';
-import { currMeetings, meetingsAtom } from '../../store/meeting';
+import {
+  currMeetings,
+  meetingsAtom,
+  upcomingMeetings,
+} from '../../store/meeting';
 import { userInfoAtom } from '../../store/user';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import CurrMeetingList from './components/MeetingList/CurrMeetingList';
@@ -25,6 +29,7 @@ const LandingPage: React.FC = () => {
 
   const setMeetings = useSetRecoilState(meetingsAtom);
   const currMeetingsValue = useRecoilValue(currMeetings);
+  const upcomingMeetingsValue = useRecoilValue(upcomingMeetings);
   const userInfo = useRecoilValue(userInfoAtom);
   const redirectUrl = useRedirect();
 
@@ -72,11 +77,15 @@ const LandingPage: React.FC = () => {
           <BlockDivider className="landing__divider" />
         </div>
       )}
-      <MeetingList
-        className="landing__upoming"
-        title={LANDING.UPCOMING_MEETING}
-      />
-      <BlockDivider className="landing__divider" />
+      {upcomingMeetingsValue.length !== 0 && (
+        <div>
+          <MeetingList
+            className="landing__upoming"
+            title={LANDING.UPCOMING_MEETING}
+          />
+          <BlockDivider className="landing__divider" />
+        </div>
+      )}
       <MeetingList
         className="landing__tomorrow"
         title={LANDING.TOMORROW_MEETING}

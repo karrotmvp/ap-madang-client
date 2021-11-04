@@ -199,7 +199,7 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
   border: 1px solid
     ${props =>
       props.live_status === 'tomorrow'
-        ? COLOR.GRAY_000
+        ? COLOR.GRAY_200
         : COLOR.TEXTAREA_LIGHT_GRAY};
   box-sizing: border-box;
   margin-top: ${props => (props.idx === 0 ? '1.8rem' : 0)};
