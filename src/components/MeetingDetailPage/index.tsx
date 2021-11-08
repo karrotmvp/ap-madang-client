@@ -24,8 +24,8 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
 import MeetingMannerModal from '../common/Modal/MeetingMannerModal';
 import NewAlarmModal from '../common/Modal/NewAlarmModal';
-import BottomSheet from './components/BottomSheet';
 import DescriptionList from './components/DescriptionList';
+import JoinBottomSheet from './components/JoinBottomSheet';
 
 interface MatchParams {
   id: string;
@@ -149,7 +149,7 @@ const MeetingDetailPage = () => {
   // 모임 참여 버튼 핸들러
   const onClickJoinHandler = () => {
     setModal(
-      <BottomSheet
+      <JoinBottomSheet
         url={data.meeting_url}
         onClose={hideModal}
         meetingId={data.id}

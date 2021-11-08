@@ -3,10 +3,7 @@ import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 import classnames from 'classnames';
 import { useRecoilValue } from 'recoil';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
 
-import empty_current_meeting from '../../../../assets/image/empty_current_meeting.png';
 import { COLOR } from '../../../../constant/color';
 import { LANDING } from '../../../../constant/message';
 import { currMeetings } from '../../../../store/meeting';
@@ -25,37 +22,11 @@ function CurrMeetingList({ className }: Props): ReactElement {
       <TitleWrapper>
         <Title>{LANDING.CURRENT_MEETING}</Title>
       </TitleWrapper>
-
-      {meetings.length === 0 ? (
-        <EmptyListWrapper>
-          <EmptyListImg src={empty_current_meeting} />
-        </EmptyListWrapper>
-      ) : meetings.length === 1 ? (
-        <CardWrapper>
-          <CurrMeetingCard data={meetings[0]} idx={0} total={1} />
-        </CardWrapper>
-      ) : (
-        meetings.length > 1 && (
-          <SwiperWrapper>
-            <Swiper
-              slidesPerView={'auto'}
-              spaceBetween={16}
-              freeMode={true}
-              className="mySwiper"
-            >
-              <SwiperSlide />
-              {meetings.map((el, idx) => {
-                return (
-                  <SwiperSlide key={el.id}>
-                    <CurrMeetingCard data={el} idx={idx} />
-                  </SwiperSlide>
-                );
-              })}
-              <SwiperSlide />
-            </Swiper>
-          </SwiperWrapper>
-        )
-      )}
+      <CardWrapper>
+        {meetings.map((el, idx) => {
+          return <CurrMeetingCard data={el} idx={idx} key={el.id} />;
+        })}
+      </CardWrapper>
     </CurrMeetingListWrapper>
   );
 }
@@ -93,26 +64,15 @@ const Title = styled.div`
 `;
 
 const CardWrapper = styled.div`
-  width: 100%;
   display: flex;
+  padding: 0 1.6rem;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
 
-const SwiperWrapper = styled.div`
-  box-sizing: border-box;
-  overflow: visible;
-`;
-
-const EmptyListWrapper = styled.div`
-  height: 14.7rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const EmptyListImg = styled.img`
-  height: 100%;
+  .meeting-card:last-child {
+    margin-bottom: 0;
+  }
 `;
 
 export default CurrMeetingList;
