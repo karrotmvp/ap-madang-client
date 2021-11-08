@@ -102,8 +102,6 @@ export const BOTTOM_SHEET = {
   JOIN: '모임 입장하기',
 };
 
-export const GUIDE = { ENTER_BTN: '랜선동네모임 시작하기' };
-
 export const NOT_SERVICE_REGION = {
   TITLE: '의 랜선동네모임은\n오픈 준비 중이에요.',
 };

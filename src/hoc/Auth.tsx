@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 import { useRecoilState } from 'recoil';
@@ -21,6 +21,7 @@ const Auth = (SpecialComponent: React.FC) => {
     },
   ) => {
     const [code, setCode] = useRecoilState(codeAtom);
+    const [presetClosed, setPresetClosed] = useState(false);
     const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
     const storage = window.localStorage;
 
@@ -47,12 +48,11 @@ const Auth = (SpecialComponent: React.FC) => {
     // url code param 가져오기 or mini로 code gererate
     const getCodeHandler = useCallback(() => {
       const urlSearchParams = new URLSearchParams(window.location.search);
-      const onBoard = localStorage.getItem('onboard');
       const codeParams = urlSearchParams.get('code');
       const isPreload = urlSearchParams.get('preload');
 
       if (codeParams && !code) setCode(codeParams);
-      else if (isPreload !== 'true' && onBoard && !code) {
+      else if (isPreload !== 'true' && !code) {
         mini.startPreset({
           preset: process.env.MINI_PRESET_URL || '',
           params: { appId: process.env.APP_ID || '' },
@@ -60,6 +60,9 @@ const Auth = (SpecialComponent: React.FC) => {
             if (result && result.code) {
               setCode(result.code);
             }
+          },
+          onClose() {
+            setPresetClosed(true);
           },
         });
       }
@@ -86,6 +89,10 @@ const Auth = (SpecialComponent: React.FC) => {
       if (!code) getCodeHandler();
       if (code && !userInfo) checkAuth();
     }, [checkAuth, code, getCodeHandler, userInfo]);
+
+    useEffect(() => {
+      if (presetClosed && !code) mini.close();
+    }, [code, presetClosed]);
 
     return <SpecialComponent {...props} />;
   };
