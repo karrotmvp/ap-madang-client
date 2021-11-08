@@ -13,7 +13,7 @@ import { analytics } from '../../App';
 import arrow_iOS_large from '../../assets/icon/arrow_iOS_large.svg';
 import arrow_iOS_xsmall_green from '../../assets/icon/arrow_iOS_xsmall_green.svg';
 import clock from '../../assets/icon/clock.svg';
-import notification_empty from '../../assets/icon/notification_empty.svg';
+import notification_empty_detail from '../../assets/icon/notification_empty_detail.svg';
 import notification_fill from '../../assets/icon/notification_fill.svg';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
@@ -24,8 +24,8 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
 import MeetingMannerModal from '../common/Modal/MeetingMannerModal';
 import NewAlarmModal from '../common/Modal/NewAlarmModal';
-import BottomSheet from './components/BottomSheet';
 import DescriptionList from './components/DescriptionList';
+import JoinBottomSheet from './components/JoinBottomSheet';
 
 interface MatchParams {
   id: string;
@@ -149,7 +149,7 @@ const MeetingDetailPage = () => {
   // 모임 참여 버튼 핸들러
   const onClickJoinHandler = () => {
     setModal(
-      <BottomSheet
+      <JoinBottomSheet
         url={data.meeting_url}
         onClose={hideModal}
         meetingId={data.id}
@@ -289,7 +289,7 @@ const MeetingDetailPage = () => {
             {data.alarm_id ? (
               <img src={notification_fill} />
             ) : (
-              <img src={notification_empty} />
+              <img src={notification_empty_detail} />
             )}
             {data.alarm_num > 4 && (
               <AlarmApplicant applied={data.alarm_id}>
@@ -466,6 +466,7 @@ const DisableBtn = styled.div`
   line-height: 1.9rem;
   text-align: center;
   letter-spacing: -0.03rem;
+  white-space: normal;
 `;
 
 const GreenInfoBox = styled.div`

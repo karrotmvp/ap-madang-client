@@ -10,6 +10,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { getMeetings } from '../../api/meeting';
 import { analytics } from '../../App';
 import home_banner from '../../assets/image/home_banner.png';
+import nav_logo from '../../assets/image/nav_logo.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
 import { COLOR } from '../../constant/color';
 import { LANDING } from '../../constant/message';
@@ -47,7 +48,7 @@ const LandingPage: React.FC = () => {
       meetingListHandler();
       setUserId(analytics, userInfo.nickname);
     }
-  }, [meetingListHandler, userInfo, push, replace]);
+  }, [meetingListHandler, userInfo, push]);
 
   useEffect(() => {
     if (userInfo)
@@ -59,13 +60,7 @@ const LandingPage: React.FC = () => {
 
   return (
     <PageWrapper className="landing">
-      <CustomScreenHelmet
-        appendLeft={
-          <PageTitle className="landing__nav-title title3">
-            {LANDING.NAVIGATOR_TITLE}
-          </PageTitle>
-        }
-      />
+      <CustomScreenHelmet appendLeft={<PageTitle src={nav_logo} />} />
       <BannerImg
         src={home_banner}
         className="landing__banner-img"
@@ -109,9 +104,10 @@ const PageWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const PageTitle = styled.div`
-  margin-left: 20px;
-  color: ${COLOR.TEXT_BLACK};
+const PageTitle = styled.img`
+  margin-left: 3.2rem;
+  height: 33%;
+  width: auto;
 `;
 
 const BannerImg = styled.img`

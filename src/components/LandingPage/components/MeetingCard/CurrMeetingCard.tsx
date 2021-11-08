@@ -10,20 +10,14 @@ import CurrMeetingTimer from '../CurrMeetingTimer';
 interface Props {
   data: MeetingList;
   idx: number;
-  total?: number;
 }
 
 interface WrapperProps {
   idx: number;
   live_status: 'live' | 'upcoming' | 'tomorrow' | 'finish';
-  total?: number;
 }
 
-interface ThumbnailProps {
-  total?: number;
-}
-
-function CurrMeetingCard({ idx, data, total }: Props): ReactElement {
+function CurrMeetingCard({ idx, data }: Props): ReactElement {
   const { push } = useNavigator();
 
   const onClickCardHandler = useCallback(() => {
@@ -35,10 +29,9 @@ function CurrMeetingCard({ idx, data, total }: Props): ReactElement {
       className="meeting-card"
       live_status={data.live_status}
       idx={idx}
-      total={total}
       onClick={onClickCardHandler}
     >
-      <ImageWrapper total={total}>
+      <ImageWrapper>
         <LiveTag>진행중</LiveTag>
         <Thumbnail src={data.image} />
       </ImageWrapper>
@@ -58,9 +51,9 @@ function CurrMeetingCard({ idx, data, total }: Props): ReactElement {
 }
 
 const MeetingCardWrapper = styled.div<WrapperProps>`
-  margin: ${({ total }) => (total === 1 ? '0 1.6rem' : '0')};
-  width: ${({ total }) => (total === 1 ? '100%' : '25.8rem')};
-  height: ${({ total }) => (total === 1 ? '28.9rem' : '28.3rem')};
+  margin: 0 1.6rem 1.6rem 1.6rem;
+  width: 100%;
+  height: 28.9rem;
   border: 1px solid ${COLOR.TEXTAREA_LIGHT_GRAY};
   border-radius: 0.6rem;
   display: flex;
@@ -72,9 +65,9 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
   }
 `;
 
-const ImageWrapper = styled.div<ThumbnailProps>`
+const ImageWrapper = styled.div`
   width: 100%;
-  height: ${({ total }) => (total === 1 ? '15.1rem' : '11.9rem')};
+  height: 15.1rem;
   display: flex;
   justify-content: center;
   align-items: center;

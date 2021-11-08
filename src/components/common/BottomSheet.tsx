@@ -1,12 +1,12 @@
 /** @jsx jsx */
 import React, { useMemo } from 'react';
 
-import { jsx, SerializedStyles } from '@emotion/react';
+import { jsx, keyframes, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
-import classnames from 'classnames';
+import classnamse from 'classnames';
 import { createPortal } from 'react-dom';
 
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../constant/color';
 
 export type Confirm = {
   text: React.ReactNode;
@@ -28,14 +28,16 @@ export type innerModeType = 'list' | 'confirm';
 
 type ModalProps = {
   onClose?: React.MouseEventHandler<HTMLDivElement>;
+  open: boolean;
   children: React.ReactNode;
   className?: string;
   innerModalStyle?: SerializedStyles;
 };
 
-export default function Modal({
+export default function BottomSheet({
   onClose,
   children,
+  open,
   className,
   innerModalStyle,
 }: ModalProps) {
@@ -46,20 +48,66 @@ export default function Modal({
 
   return (
     <Portal>
-      <ModalOverlay
+      <BottomSheetOverlay
         onClick={onMaskClick}
         onDragStart={onMaskClick}
-        className={classnames('modal', className)}
+        className={classnamse(
+          open ? 'close-bottom-sheet' : 'open-bottom-sheet',
+          className,
+        )}
       >
-        <ModalInner onClick={e => e.stopPropagation()} css={innerModalStyle}>
+        <BottomSheetInner
+          className={classnamse(
+            open ? 'close-bottom-sheet' : 'open-bottom-sheet',
+            className,
+          )}
+          onClick={e => e.stopPropagation()}
+          css={innerModalStyle}
+        >
           {children}
-        </ModalInner>
-      </ModalOverlay>
+        </BottomSheetInner>
+      </BottomSheetOverlay>
     </Portal>
   );
 }
 
-const ModalOverlay = styled.div`
+const openSheetBackground = keyframes`
+  0%{
+    opacity:0;
+  }
+  100% {   
+    opacity:1;
+  }
+`;
+
+const closeSheetBackground = keyframes`
+  0%{
+    opacity:1;
+  }
+  100% {   
+    opacity:0;
+  }
+`;
+
+const openSheet = keyframes`
+  0%{
+    bottom:-20rem;
+  }
+  100% {   
+    bottom:0;
+  }
+`;
+
+const closeSheet = keyframes`
+  0%{
+    bottom:0;
+  }
+  100% {   
+    bottom:-20rem;
+  }
+`;
+
+const BottomSheetOverlay = styled.div`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -77,19 +125,31 @@ const ModalOverlay = styled.div`
   padding: 0 4rem;
   box-sizing: border-box;
   white-space: pre-line;
+
+  &.open-bottom-sheet {
+    animation: ${openSheetBackground} 0.5s ease forwards;
+  }
+  &.close-bottom-sheet {
+    animation: ${closeSheetBackground} 0.5s ease forwards;
+  }
 `;
 
-const ModalInner = styled.div`
+const BottomSheetInner = styled.div`
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: ${COLOR.TEXT_WHITE};
+  border-radius: 1.2rem 1.2rem 0 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  height: 219px;
-  padding: 2.4rem 2rem;
-  margin: 0 4rem;
-  background-color: ${COLOR.BACKGROUND_WHITE};
-  border-radius: 0.8rem;
-  box-sizing: border-box;
+
+  &.open-bottom-sheet {
+    animation: ${openSheet} 0.5s ease forwards;
+  }
+  &.close-bottom-sheet {
+    animation: ${closeSheet} 0.5s ease forwards;
+  }
 `;
 
 type PortalProps = {

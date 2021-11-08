@@ -19,7 +19,7 @@ function DescriptionItem({ text, className }: Props): ReactElement {
       <DotIcon>
         <Dot />
       </DotIcon>
-      <span>{text}</span>
+      <DescriptionText>{text}</DescriptionText>
     </DescriptionWrapper>
   );
 }
@@ -34,11 +34,6 @@ const DescriptionWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-
-  span {
-    position: relative;
-    left: 0.8rem;
-  }
 `;
 
 const DotIcon = styled.div`
@@ -47,6 +42,12 @@ const DotIcon = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+`;
+
+const DescriptionText = styled.span`
+  white-space: normal;
+  position: relative;
+  left: 0.8rem;
 `;
 
 export default DescriptionItem;
