@@ -1,64 +1,88 @@
 /** @jsx jsx */
-import React, { ReactElement } from 'react';
+import React, { useMemo } from 'react';
 
 import { jsx, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import classnames from 'classnames';
+import { createPortal } from 'react-dom';
 
 import { COLOR } from '../../../constant/color';
 
-interface Props {
+export type Confirm = {
+  text: React.ReactNode;
+  no: React.ReactNode;
+  yes: React.ReactNode;
+};
+
+export type Content = {
+  text: React.ReactNode;
+  confirm?: Confirm;
+};
+
+export type ModalInfoType = {
+  list?: Content[];
+  confirm?: Confirm;
+};
+
+export type innerModeType = 'list' | 'confirm';
+
+type ModalProps = {
   onClose?: React.MouseEventHandler<HTMLDivElement>;
   children: React.ReactNode;
   className?: string;
   innerModalStyle?: SerializedStyles;
-}
+};
 
-function Modal({
+export default function Modal({
   onClose,
   children,
   className,
   innerModalStyle,
-}: Props): ReactElement {
-  const onCloseHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+}: ModalProps) {
+  const onMaskClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     onClose && onClose(e);
   };
+
   return (
-    <ModalWrapper
-      onClick={onCloseHandler}
-      className={classnames('modal', className)}
-    >
-      <ModalInner onClick={e => e.stopPropagation()} css={innerModalStyle}>
-        {children}
-      </ModalInner>
-    </ModalWrapper>
+    <Portal>
+      <ModalOverlay
+        onClick={onMaskClick}
+        onDragStart={onMaskClick}
+        className={classnames('modal', className)}
+      >
+        <ModalInner onClick={e => e.stopPropagation()} css={innerModalStyle}>
+          {children}
+        </ModalInner>
+      </ModalOverlay>
+    </Portal>
   );
 }
 
-const ModalWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-
+const ModalOverlay = styled.div`
   width: 100%;
   height: 100%;
-  background: ${COLOR.MODAL_WRAPPER_BLACK};
   box-sizing: border-box;
-  border-radius: 0;
-
-  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: ${COLOR.MODAL_WRAPPER_BLACK};
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 4rem;
+  box-sizing: border-box;
+  white-space: pre-line;
 `;
 
 const ModalInner = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   width: 100%;
   height: 219px;
   padding: 2.4rem 2rem;
@@ -68,4 +92,16 @@ const ModalInner = styled.div`
   box-sizing: border-box;
 `;
 
-export default Modal;
+type PortalProps = {
+  children: React.ReactNode;
+};
+
+const Portal = ({ children }: PortalProps) => {
+  const rootElement = useMemo(() => document.getElementById('modal-root'), []);
+
+  if (!rootElement) {
+    throw new Error('없음');
+  }
+
+  return createPortal(children, rootElement);
+};

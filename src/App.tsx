@@ -15,6 +15,7 @@ import ReservationPage from './components/ReservationPage';
 import Auth from './hoc/Auth';
 import { app } from './util/firebase';
 import mini from './util/mini';
+import { checkMobileType } from './util/utils';
 
 const NavigatorStyle = css`
   --kf_navigator_navbar-height: 5.6rem !important;
@@ -29,7 +30,7 @@ const App: React.FC = () => {
 
   return (
     <Navigator
-      theme="Android"
+      theme={checkMobileType()}
       onClose={() => mini.close()}
       className={NavigatorStyle}
     >
