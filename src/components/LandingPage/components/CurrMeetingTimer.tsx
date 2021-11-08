@@ -1,7 +1,7 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { COLOR } from '../../../constant/color';
 import useInterval from '../../../hook/useInterval';
@@ -23,7 +23,8 @@ function CurrMeetingTimer({ start_time, end_time, date }: Props): ReactElement {
   const [time, setTime] = useState<TimeType>();
 
   const decreaseTime = useCallback(() => {
-    const duration = moment.duration(milliSec, 'milliseconds');
+    // TODO: dayjs 적용 확인
+    const duration = dayjs.duration(milliSec);
     setTime({
       hours: duration.hours(),
       minutes: duration.minutes(),
@@ -42,7 +43,8 @@ function CurrMeetingTimer({ start_time, end_time, date }: Props): ReactElement {
   useEffect(() => {
     if (start_time && !milliSec) {
       const result = getRemainMilliSec(start_time, end_time, date);
-      const duration = moment.duration(result, 'milliseconds');
+      // TODO: dayjs 적용 확인
+      const duration = dayjs.duration(result);
       setTime({
         hours: duration.hours(),
         minutes: duration.minutes(),
