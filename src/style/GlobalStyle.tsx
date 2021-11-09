@@ -2,15 +2,11 @@ import React from 'react';
 
 import { Global, css } from '@emotion/react';
 
-import Pretendard_Black from '../assets/font/pretendard/Pretendard-Black.woff2';
 import Pretendard_Bold from '../assets/font/pretendard/Pretendard-Bold.woff2';
 import Pretendard_ExtraBold from '../assets/font/pretendard/Pretendard-ExtraBold.woff2';
-import Pretendard_ExtraLight from '../assets/font/pretendard/Pretendard-ExtraLight.woff2';
-import Pretendard_Light from '../assets/font/pretendard/Pretendard-Light.woff2';
 import Pretendard_Medium from '../assets/font/pretendard/Pretendard-Medium.woff2';
 import Pretendard_Regular from '../assets/font/pretendard/Pretendard-Regular.woff2';
 import Pretendard_SemiBold from '../assets/font/pretendard/Pretendard-SemiBold.woff2';
-import Pretendard_Thin from '../assets/font/pretendard/Pretendard-Thin.woff2';
 import './reset.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { COLOR } from '../constant/color';
@@ -73,13 +69,6 @@ const GlobalStyle = () => {
 
         @font-face {
           font-family: 'Pretendard';
-          font-weight: 900;
-          font-display: swap;
-          src: url(${Pretendard_Black}) format('woff2');
-        }
-
-        @font-face {
-          font-family: 'Pretendard';
           font-weight: 800;
           font-display: swap;
           src: url(${Pretendard_ExtraBold}) format('woff2');
@@ -111,27 +100,6 @@ const GlobalStyle = () => {
           font-weight: 400;
           font-display: swap;
           src: url(${Pretendard_Regular}) format('woff2');
-        }
-
-        @font-face {
-          font-family: 'Pretendard';
-          font-weight: 300;
-          font-display: swap;
-          src: url(${Pretendard_Light}) format('woff2');
-        }
-
-        @font-face {
-          font-family: 'Pretendard';
-          font-weight: 200;
-          font-display: swap;
-          src: url(${Pretendard_ExtraLight}) format('woff2');
-        }
-
-        @font-face {
-          font-family: 'Pretendard';
-          font-weight: 100;
-          font-display: swap;
-          src: url(${Pretendard_Thin}) format('woff2');
         }
       `}
     />
