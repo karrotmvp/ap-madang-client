@@ -102,6 +102,13 @@ export const BOTTOM_SHEET = {
   JOIN: '모임 입장하기',
 };
 
+export const ZOOM_BOTTOM_SHEET = {
+  TITLE: '이렇게 참여해요!',
+  SUB_TITLE_01: '카메라를 켜지 않아도 괜찮아요!',
+  SUB_TITLE_02: '목소리만으로 모임을 즐길 수 있어요.',
+  ZOOM_GUIDE: '줌 사용방법 보러가기',
+};
+
 export const NOT_SERVICE_REGION = {
   TITLE: '의 랜선동네모임은\n오픈 준비 중이에요.',
 };
