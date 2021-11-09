@@ -119,7 +119,7 @@ const BannerImg = styled.img`
 `;
 
 const SuggestionBannerWrapper = styled.div`
-  padding: 3rem 1.6rem 3rem 1.6rem;
+  padding: 3rem 1.6rem 5rem 1.6rem;
 `;
 
 const SuggestionImg = styled.img`
