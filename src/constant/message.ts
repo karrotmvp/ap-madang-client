@@ -28,7 +28,7 @@ export const LANDING = {
   CURRENT_MEETING: '지금 바로 모임에 참여해 보세요',
   UPCOMING_MEETING: '오늘 참여할 수 있는 모임',
   UPCOMING_MEETING_01: '오늘',
-  UPCOMING_MEETING_02: '개 모임이 남아있어요.',
+  UPCOMING_MEETING_02: '개 모임이 남아있어요',
   TOMORROW_MEETING: '미리 보는 내일 모임',
   START_MEETING_LATER: ' 후 모임이 시작돼요',
   CURR_MEETING_SUB_TITLE: '지금 바로 모임에서 동네 이웃들과 대화를 나눠보세요!',
