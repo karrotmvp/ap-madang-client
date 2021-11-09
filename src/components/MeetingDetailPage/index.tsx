@@ -54,7 +54,7 @@ const MeetingDetailPage = () => {
   const [remainTime, setRemainTime] = useState('');
   const [modal, setModal] = useState<React.ReactElement | undefined>();
   const [sendLogEvent, setSendLogEvent] = useState(false);
-  const { isRoot } = useCurrentScreen();
+  const { isRoot, isTop } = useCurrentScreen();
   const userInfo = useRecoilValue(userInfoAtom);
 
   const hideModal = () => {
@@ -233,6 +233,10 @@ const MeetingDetailPage = () => {
     sendLogEvent,
     userInfo,
   ]);
+
+  useEffect(() => {
+    hideModal();
+  }, [isTop]);
 
   return (
     <PageWrapper className="meeting-detail">
