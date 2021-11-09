@@ -28,7 +28,7 @@ export const LANDING = {
   CURRENT_MEETING: '지금 바로 모임에 참여해 보세요',
   UPCOMING_MEETING: '오늘 참여할 수 있는 모임',
   UPCOMING_MEETING_01: '오늘',
-  UPCOMING_MEETING_02: '개 모임이 남아있어요.',
+  UPCOMING_MEETING_02: '개 모임이 남아있어요',
   TOMORROW_MEETING: '미리 보는 내일 모임',
   START_MEETING_LATER: ' 후 모임이 시작돼요',
   CURR_MEETING_SUB_TITLE: '지금 바로 모임에서 동네 이웃들과 대화를 나눠보세요!',
@@ -51,7 +51,7 @@ export const SUGGESTION = {
   NAVIGATOR_TITLE: '모임 의견내기',
   SUBMIT_BUTTON: '의견 전달하기',
   CONFITM_BUTTON: '확인',
-  TELL_ME_NEW_MEETING: '이웃과 함께하고 싶은 모임을 말해주세요.',
+  TELL_ME_NEW_MEETING: '개설하고 싶은 모임을 말해주세요.',
   NEW_MEETING_INPUT_PLACEHOLDER:
     '근처 주민들과 함께하고 싶은 모임이나 나누고 싶은 이야기를 적어주세요.',
   DONE_SUBMIT_TITLE: `소중한 이야기가\n잘 전달되었어요.`,
@@ -100,6 +100,13 @@ export const BOTTOM_SHEET = {
   ],
 
   JOIN: '모임 입장하기',
+};
+
+export const ZOOM_BOTTOM_SHEET = {
+  TITLE: '이렇게 참여해요!',
+  SUB_TITLE_01: '카메라를 켜지 않아도 괜찮아요!',
+  SUB_TITLE_02: '목소리만으로 모임을 즐길 수 있어요.',
+  ZOOM_GUIDE: '줌 사용방법 보러가기',
 };
 
 export const NOT_SERVICE_REGION = {

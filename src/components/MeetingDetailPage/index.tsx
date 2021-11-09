@@ -25,7 +25,7 @@ import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
 import MeetingMannerModal from '../common/Modal/MeetingMannerModal';
 import NewAlarmModal from '../common/Modal/NewAlarmModal';
 import DescriptionList from './components/DescriptionList';
-import JoinBottomSheet from './components/JoinBottomSheet';
+import ZoomBottomSheet from './components/ZoomBottomSheet';
 
 interface MatchParams {
   id: string;
@@ -54,7 +54,7 @@ const MeetingDetailPage = () => {
   const [remainTime, setRemainTime] = useState('');
   const [modal, setModal] = useState<React.ReactElement | undefined>();
   const [sendLogEvent, setSendLogEvent] = useState(false);
-  const { isRoot } = useCurrentScreen();
+  const { isRoot, isTop } = useCurrentScreen();
   const userInfo = useRecoilValue(userInfoAtom);
 
   const hideModal = () => {
@@ -64,6 +64,11 @@ const MeetingDetailPage = () => {
   const matchId = useRouteMatch<MatchParams>({
     path: '/meetings/:id',
   }) || { params: { id: '' } };
+
+  // 줌 사용 설명 핸들러
+  const onClickGreenInfoBoxHandler = () => {
+    window.open(process.env.INFO_NOTION_URL || '', '', '_blank');
+  };
 
   // 모임 상세정보 fetch
   const fetchData = useCallback(async (id: string) => {
@@ -149,11 +154,12 @@ const MeetingDetailPage = () => {
   // 모임 참여 버튼 핸들러
   const onClickJoinHandler = () => {
     setModal(
-      <JoinBottomSheet
+      <ZoomBottomSheet
         url={data.meeting_url}
         onClose={hideModal}
         meetingId={data.id}
         meetingTitle={data.title}
+        zoomGuideHandler={onClickGreenInfoBoxHandler}
       />,
     );
     logEvent(analytics, 'join__click', {
@@ -176,11 +182,6 @@ const MeetingDetailPage = () => {
       userNickname: userInfo?.nickname,
       userRegion: userInfo?.region,
     });
-  };
-
-  // 줌 사용 설명 핸들러
-  const onClickGreenInfoBoxHandler = () => {
-    window.open(process.env.INFO_NOTION_URL || '', '', '_blank');
   };
 
   // 하단 남은시간 타이머 업데이트
@@ -232,6 +233,11 @@ const MeetingDetailPage = () => {
     sendLogEvent,
     userInfo,
   ]);
+
+  // 페이지 트랜지션이 있을때 떠있는 모달 제거
+  useEffect(() => {
+    hideModal();
+  }, [isTop]);
 
   return (
     <PageWrapper className="meeting-detail">

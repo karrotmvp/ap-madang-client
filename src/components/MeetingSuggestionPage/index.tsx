@@ -179,6 +179,7 @@ const SuggestionTitle = styled.div`
 `;
 
 const TextArea = styled.textarea`
+  -webkit-appearance: none;
   height: 16.7rem;
   margin: 0 1.6rem;
   padding: 1.6rem;
