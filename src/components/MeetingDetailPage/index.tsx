@@ -234,6 +234,7 @@ const MeetingDetailPage = () => {
     userInfo,
   ]);
 
+  // 페이지 트랜지션이 있을때 떠있는 모달 제거
   useEffect(() => {
     hideModal();
   }, [isTop]);
