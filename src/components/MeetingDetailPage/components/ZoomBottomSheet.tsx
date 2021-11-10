@@ -178,6 +178,7 @@ const ZoomGuide = styled.div`
 
 const JoinBtnBlue = styled.img`
   width: auto;
+  height: 4.4rem;
   text-decoration: none;
   outline: none;
   margin: 0 2rem 1.8rem 2rem;
