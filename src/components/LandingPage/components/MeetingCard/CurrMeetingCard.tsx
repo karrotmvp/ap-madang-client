@@ -6,6 +6,7 @@ import { MeetingList } from 'meeting';
 
 import { COLOR } from '../../../../constant/color';
 import CurrMeetingTimer from '../CurrMeetingTimer';
+import ParticipantNum from '../ParticipantNum';
 
 interface Props {
   data: MeetingList;
@@ -43,6 +44,9 @@ function CurrMeetingCard({ idx, data }: Props): ReactElement {
             end_time={data.end_time}
           />
           <Title className="title">{data.title}</Title>
+          {data.user_enter_cnt !== 0 && (
+            <ParticipantNum userMeetingNum={data.user_enter_cnt} />
+          )}
         </InfoWrapper>
         <Button>모임 정보 보러가기</Button>
       </ContentsWrapper>
@@ -117,7 +121,7 @@ const Title = styled.div`
   line-height: 2.6rem;
   letter-spacing: -0.04rem;
   color: ${COLOR.TEXT_BLACK};
-  margin-bottom: 1.4rem;
+  margin-bottom: 0.4rem;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
@@ -127,6 +131,7 @@ const Title = styled.div`
   display: -ms-flexbox;
   display: box;
 `;
+
 const Button = styled.div`
   width: 100%;
   height: 4rem;
