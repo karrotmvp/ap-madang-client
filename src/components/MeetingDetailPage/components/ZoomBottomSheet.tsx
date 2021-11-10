@@ -22,8 +22,8 @@ interface Props {
   onClickJoin?: () => void;
   zoomGuideHandler?: () => void;
   meetingId: string;
-  meetingTitle?: string;
-  url?: string;
+  meetingTitle: string;
+  url: string;
 }
 
 function ZoomBottomSheet({
@@ -50,7 +50,9 @@ function ZoomBottomSheet({
   };
 
   const onClickJoinHandler = async () => {
+    const redirectWindow = window.open(url, '_blank');
     await increaseMeetingEnterUserCount(meetingId);
+    redirectWindow && redirectWindow.location;
     logEvent(analytics, 'zoom_bottom_sheet_join__click', {
       location: 'zoom_bottom_sheet',
       meeting_id: meetingId,
@@ -58,7 +60,6 @@ function ZoomBottomSheet({
       userNickname: userInfo?.nickname,
       userRegion: userInfo?.region,
     });
-    window.open(url, '', '_blank');
     onClickJoin && onClickJoin();
   };
 
@@ -97,7 +98,6 @@ function ZoomBottomSheet({
           </DescriptionWrapper>
         </ContentsWrapper>
       </InfoTextWrapper>
-
       <JoinBtnBlue src={bottom_sheet_btn} onClick={onClickJoinHandler} />
     </BottomSheet>
   );
@@ -181,9 +181,10 @@ const ZoomGuide = styled.div`
 const JoinBtnBlue = styled.img`
   width: auto;
   height: 4.4rem;
+  margin: 0 2rem 1.8rem 2rem;
   text-decoration: none;
   outline: none;
-  margin: 0 2rem 1.8rem 2rem;
+  box-sizing: border-box;
 `;
 
 export default ZoomBottomSheet;
