@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useRecoilValue } from 'recoil';
 
+import { increaseMeetingEnterUserCount } from '../../../api/meeting';
 import { analytics } from '../../../App';
 import arrow_iOS_xsmall_green from '../../../assets/icon/arrow_iOS_xsmall_green.svg';
 import cam from '../../../assets/icon/cam.svg';
@@ -20,7 +21,7 @@ interface Props {
   onClose: () => void;
   onClickJoin?: () => void;
   zoomGuideHandler?: () => void;
-  meetingId?: string;
+  meetingId: string;
   meetingTitle?: string;
   url?: string;
 }
@@ -48,7 +49,8 @@ function ZoomBottomSheet({
     closeHandler();
   };
 
-  const onClickJoinHandler = () => {
+  const onClickJoinHandler = async () => {
+    await increaseMeetingEnterUserCount(meetingId);
     logEvent(analytics, 'zoom_bottom_sheet_join__click', {
       location: 'zoom_bottom_sheet',
       meeting_id: meetingId,
