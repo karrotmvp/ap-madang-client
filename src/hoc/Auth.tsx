@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { logEvent } from '@firebase/analytics';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 import { useRecoilState } from 'recoil';
 
 import { login } from '../api/user';
+import { analytics } from '../App';
 import { codeAtom, userInfoAtom } from '../store/user';
 import mini from '../util/mini';
 import { getRegionId } from '../util/utils';
@@ -86,12 +88,18 @@ const Auth = (SpecialComponent: React.FC) => {
     }, [code, setUserNewInfoHandler, setUserInfo]);
 
     useEffect(() => {
-      if (!code) getCodeHandler();
+      if (!code) {
+        logEvent(analytics, 'new_user_enter');
+        getCodeHandler();
+      }
       if (code && !userInfo) checkAuth();
     }, [checkAuth, code, getCodeHandler, userInfo]);
 
     useEffect(() => {
-      if (presetClosed && !code) mini.close();
+      if (presetClosed && !code) {
+        logEvent(analytics, 'close_preset');
+        mini.close();
+      }
     }, [code, presetClosed]);
 
     return <SpecialComponent {...props} />;
