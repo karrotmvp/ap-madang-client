@@ -22,6 +22,17 @@ export const getMeetingDetail = async (
   }
 };
 
+export const increaseMeetingEnterUserCount = async (
+  id: string,
+): Promise<increaseMeetingEnterUserCountRes> => {
+  try {
+    await customAxios().post(`/meetings/${id}/enter`);
+    return { success: true };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
 interface getMeetingsRes {
   success: boolean;
   data?: MeetingList[];
@@ -30,4 +41,8 @@ interface getMeetingsRes {
 interface getMeetingDetailRes {
   success: boolean;
   data?: MeetingDetail;
+}
+
+interface increaseMeetingEnterUserCountRes {
+  success: boolean;
 }
