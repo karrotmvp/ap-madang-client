@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useRecoilValue } from 'recoil';
 
+import { increaseMeetingEnterUserCount } from '../../../api/meeting';
 import { analytics } from '../../../App';
 import arrow_iOS_xsmall_green from '../../../assets/icon/arrow_iOS_xsmall_green.svg';
 import cam from '../../../assets/icon/cam.svg';
@@ -20,9 +21,9 @@ interface Props {
   onClose: () => void;
   onClickJoin?: () => void;
   zoomGuideHandler?: () => void;
-  meetingId?: string;
-  meetingTitle?: string;
-  url?: string;
+  meetingId: string;
+  meetingTitle: string;
+  url: string;
 }
 
 function ZoomBottomSheet({
@@ -48,7 +49,10 @@ function ZoomBottomSheet({
     closeHandler();
   };
 
-  const onClickJoinHandler = () => {
+  const onClickJoinHandler = async () => {
+    const redirectWindow = window.open(url, '_blank');
+    await increaseMeetingEnterUserCount(meetingId);
+    redirectWindow && redirectWindow.location;
     logEvent(analytics, 'zoom_bottom_sheet_join__click', {
       location: 'zoom_bottom_sheet',
       meeting_id: meetingId,
@@ -56,7 +60,6 @@ function ZoomBottomSheet({
       userNickname: userInfo?.nickname,
       userRegion: userInfo?.region,
     });
-    window.open(url, '', '_blank');
     onClickJoin && onClickJoin();
   };
 
@@ -95,7 +98,6 @@ function ZoomBottomSheet({
           </DescriptionWrapper>
         </ContentsWrapper>
       </InfoTextWrapper>
-
       <JoinBtnBlue src={bottom_sheet_btn} onClick={onClickJoinHandler} />
     </BottomSheet>
   );
@@ -179,9 +181,10 @@ const ZoomGuide = styled.div`
 const JoinBtnBlue = styled.img`
   width: auto;
   height: 4.4rem;
+  margin: 0 2rem 1.8rem 2rem;
   text-decoration: none;
   outline: none;
-  margin: 0 2rem 1.8rem 2rem;
+  box-sizing: border-box;
 `;
 
 export default ZoomBottomSheet;

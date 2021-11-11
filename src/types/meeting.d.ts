@@ -7,6 +7,7 @@ declare module 'meeting' {
     end_time: string;
     date: string;
     alarm_id: number | undefined;
+    user_enter_cnt: number;
     live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
   };
 
