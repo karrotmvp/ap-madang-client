@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useCallback, useEffect } from 'react';
+import React, { lazy, useCallback, useEffect } from 'react';
 
 import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -7,6 +7,11 @@ import { logEvent, setUserId } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
+const CustomScreenHelmet = lazy(() => import('../common/CustomScreenHelmet'));
+const CurrMeetingList = lazy(
+  () => import('./components/MeetingList/CurrMeetingList'),
+);
+const MeetingList = lazy(() => import('./components/MeetingList/MeetingList'));
 import { getMeetings } from '../../api/meeting';
 import { analytics } from '../../App';
 import home_banner from '../../assets/image/home_banner.png';
@@ -20,9 +25,6 @@ import {
   upcomingMeetings,
 } from '../../store/meeting';
 import { userInfoAtom } from '../../store/user';
-import CustomScreenHelmet from '../common/CustomScreenHelmet';
-import CurrMeetingList from './components/MeetingList/CurrMeetingList';
-import MeetingList from './components/MeetingList/MeetingList';
 import { useRedirect } from './useRedirect';
 
 const LandingPage: React.FC = () => {

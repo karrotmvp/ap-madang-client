@@ -1,17 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { lazy, useEffect } from 'react';
 
 import { css } from '@emotion/css';
 import { Navigator, Screen } from '@karrotframe/navigator';
 import { getAnalytics, logEvent } from 'firebase/analytics';
 
-import LandingPage from './components/LandingPage';
-import MeetingDetailPage from './components/MeetingDetailPage';
-import MeetingSuggestionPage from './components/MeetingSuggestionPage';
-import NotFoundPage from './components/NotFountPage';
-import NotServiceRegionPage from './components/NotServiceRegionPage';
-import OnBoardPage from './components/OnBoardPage';
-import RedirectPage from './components/RedirectPage';
-import ReservationPage from './components/ReservationPage';
+const LandingPage = lazy(() => import('./components/LandingPage'));
+const MeetingDetailPage = lazy(() => import('./components/MeetingDetailPage'));
+const MeetingSuggestionPage = lazy(
+  () => import('./components/MeetingSuggestionPage'),
+);
+const NotFoundPage = lazy(() => import('./components/NotFoundPage'));
+const NotServiceRegionPage = lazy(
+  () => import('./components/NotServiceRegionPage'),
+);
+
+const OnBoardPage = lazy(() => import('./components/OnBoardPage'));
+const RedirectPage = lazy(() => import('./components/RedirectPage'));
+const ReservationPage = lazy(() => import('./components/ReservationPage'));
+
 import Auth from './hoc/Auth';
 import { app } from './util/firebase';
 import mini from './util/mini';
