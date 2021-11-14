@@ -15,8 +15,16 @@ module.exports = {
     app: path.join(__dirname, 'src', 'index.tsx'),
   },
 
-  output: { filename: 'main.js', path: path.resolve(__dirname, 'dist') },
-
+  output: {
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   // 번들링 될 파일 확장자 등록
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.svg'],
