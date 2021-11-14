@@ -13,6 +13,7 @@ import closeBtn from '../../../assets/icon/nav_close.svg';
 import bottom_sheet_btn from '../../../assets/image/bottom_sheet_btn.png';
 import zoom_view from '../../../assets/image/zoom_view.png';
 import BottomSheet from '../../../components/common/BottomSheet';
+
 import { COLOR } from '../../../constant/color';
 import { ZOOM_BOTTOM_SHEET } from '../../../constant/message';
 import { userInfoAtom } from '../../../store/user';

@@ -1,12 +1,12 @@
 # dependencies
-/node_modules
+**/node_modules
 
 # testing
 /coverage
 
 # production
-/build
-/dist
+**/build
+**/dist
 
 # misc
 .DS_Store
@@ -17,10 +17,10 @@ yarn-error.log*
 
 
 # config
-/src/config/env.dev.ts
-/src/config/env.prod.ts
+**/src/config/env.dev.ts
+**/src/config/env.prod.ts
 
-.env*
+**/.env*
 
 deploy.zip
 
