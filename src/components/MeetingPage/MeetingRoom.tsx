@@ -14,7 +14,6 @@ import { getMeetingUsersInfo } from '../../api/user';
 import { uidToNum } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 // import AudioList from './components/AudioList';
-import BubbleUIComponent from './components/BubbleUI';
 import Controls from './components/Controls';
 import MeetingNotice from './components/MeetingNotice';
 import MeetingTitle from './components/MeetingTitle';
@@ -141,7 +140,6 @@ const MeetingRoom = ({
       <CustomScreenHelmet />
       <MeetingTitle title={info.meeting.title} />
       <MeetingNotice subTopic={info.meeting.sub_topics} />
-      <BubbleUIComponent />
       {ready && track && (
         <Controls
           track={track}
