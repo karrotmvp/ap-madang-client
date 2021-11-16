@@ -21,6 +21,8 @@ interface Props {
   onClose: () => void;
   onClickJoin?: () => void;
   zoomGuideHandler?: () => void;
+  isVideo: boolean;
+  code: string;
   meetingId: string;
   meetingTitle: string;
   url: string;
@@ -30,6 +32,8 @@ function ZoomBottomSheet({
   onClose,
   onClickJoin,
   zoomGuideHandler,
+  isVideo,
+  code,
   url,
   meetingId,
   meetingTitle,
@@ -49,19 +53,28 @@ function ZoomBottomSheet({
     closeHandler();
   };
 
-  const onClickJoinHandler = async () => {
-    const redirectWindow = window.open(url, '_blank');
+  const onClickJoinHandler = useCallback(async () => {
+    console.log('url', url);
+    // TODO: url change
+    const windowReference =
+      window.open(
+        isVideo
+          ? `http://localhost:3000/#/agora?meeting_code=${code}`
+          : `http://localhost:3000/#/agora?meeting_code=${code}`,
+        '_blank',
+      ) || window;
+
     await increaseMeetingEnterUserCount(meetingId);
-    redirectWindow && redirectWindow.location;
     logEvent(analytics, 'zoom_bottom_sheet_join__click', {
       location: 'zoom_bottom_sheet',
       meeting_id: meetingId,
       meeting_name: meetingTitle,
-      userNickname: userInfo?.nickname,
-      userRegion: userInfo?.region,
+      userNickname: userInfo ? userInfo.nickname : '',
+      userRegion: userInfo ? userInfo.region : '',
     });
+    windowReference;
     onClickJoin && onClickJoin();
-  };
+  }, [code, isVideo, meetingId, meetingTitle, onClickJoin, url, userInfo]);
 
   return (
     <BottomSheet
