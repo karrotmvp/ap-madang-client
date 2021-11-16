@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 import {
@@ -13,7 +13,7 @@ import { InfoType } from '../../api/agora';
 import { getMeetingUsersInfo } from '../../api/user';
 import { uidToNum } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
-// import AudioList from './components/AudioList';
+import AudioList from './components/AudioList';
 import Controls from './components/Controls';
 import MeetingNotice from './components/MeetingNotice';
 import MeetingTitle from './components/MeetingTitle';
@@ -36,7 +36,9 @@ const MeetingRoom = ({
   const [users, setUsers] = useState<AgoraRTCUsers[]>([]);
   const [start, setStart] = useState<boolean>(false);
   const [trackState, setTrackState] = useState({ audioStreamValue: true });
-  const [volumeState, setVolumeState] = useState<Map<number, number>>();
+  const [volumeState, setVolumeState] = useState<Map<number, number>>(
+    new Map(),
+  );
   const { ready, track } = useMicrophoneAudioTrack();
   const client = useClient();
 
@@ -130,16 +132,26 @@ const MeetingRoom = ({
     track,
   ]);
 
-  // useEffect(() => {
-  //   if (ready && track) init();
-  //   console.log(volumeState, users);
-  // }, [client, init, ready, track, users, volumeState]);
+  useEffect(() => {
+    if (ready && track) init();
+  }, [init, ready, track]);
 
   return (
     <MeetingRoomWrapper className="meeting-room">
       <CustomScreenHelmet />
       <MeetingTitle title={info.meeting.title} />
       <MeetingNotice subTopic={info.meeting.sub_topics} />
+      {start && track && info && (
+        <AudioList
+          users={users}
+          localUser={{
+            ...info.user,
+            audioStreamValue: trackState.audioStreamValue,
+          }}
+          volumeState={volumeState}
+        />
+      )}
+
       {ready && track && (
         <Controls
           track={track}
