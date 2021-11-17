@@ -15,7 +15,6 @@ import { uidToNum } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import AudioList from './components/AudioList';
 import Controls from './components/Controls';
-import MeetingNotice from './components/MeetingNotice';
 import MeetingTitle from './components/MeetingTitle';
 
 const agoraConfig: ClientConfig = {
@@ -70,6 +69,7 @@ const MeetingRoom = ({
     client.on('user-published', async (user, mediaType) => {
       await client.subscribe(user, mediaType);
       if (mediaType === 'audio') {
+        user.audioTrack?.play();
         setUsers(prevUsers => {
           return prevUsers.map(User => {
             if (User.id == user.uid)
@@ -77,7 +77,6 @@ const MeetingRoom = ({
             return User;
           });
         });
-        user.audioTrack?.play();
       }
     });
 
@@ -140,10 +139,10 @@ const MeetingRoom = ({
     <MeetingRoomWrapper className="meeting-room">
       <CustomScreenHelmet />
       <MeetingTitle title={info.meeting.title} />
-      <MeetingNotice subTopic={info.meeting.sub_topics} />
       {start && track && info && (
         <AudioList
           users={users}
+          subTopic={info.meeting.sub_topics}
           localUser={{
             ...info.user,
             audioStreamValue: trackState.audioStreamValue,

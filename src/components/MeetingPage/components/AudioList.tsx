@@ -10,12 +10,14 @@ import styled from '@emotion/styled';
 
 import { AgoraRTCUsers, User } from '..';
 import { uidToNum } from '../../../util/utils';
+import MeetingNotice from './MeetingNotice';
 import UserAudioCard from './UserAudioCard';
 
 interface Props {
   users: AgoraRTCUsers[];
   localUser: User & { audioStreamValue: boolean };
   volumeState: Map<number, number>;
+  subTopic: string[];
 }
 export type OptionType = {
   size: number;
@@ -101,7 +103,8 @@ function AudioList({ users, localUser, volumeState }: Props): ReactElement {
   );
 
   return (
-    <AudioListWrapper ref={rootRef}>
+    <AudioListWrapper ref={rootRef} userNum={users.length}>
+      <MeetingNotice subTopic={subTopic} userNum={users.length} />
       <ChildrenWrapper>{children}</ChildrenWrapper>
     </AudioListWrapper>
   );
