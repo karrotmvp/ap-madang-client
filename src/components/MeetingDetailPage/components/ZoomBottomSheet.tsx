@@ -55,10 +55,8 @@ function ZoomBottomSheet({
 
   const onClickJoinHandler = useCallback(async () => {
     const windowReference =
-      window.open(
-        isVideo ? url : `http://localhost:3000/#/agora?meeting_code=${code}`,
-        '_blank',
-      ) || window;
+      window.open(isVideo ? url : `/agora?meeting_code=${code}`, '_blank') ||
+      window;
 
     await increaseMeetingEnterUserCount(meetingId);
     logEvent(analytics, 'zoom_bottom_sheet_join__click', {
