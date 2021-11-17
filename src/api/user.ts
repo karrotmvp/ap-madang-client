@@ -14,8 +14,8 @@ export const login = async ({ code, regionId }: loginReq) => {
 
 export const getMeetingUsersInfo = async (users: number): Promise<usersRes> => {
   try {
-    const result = await customAxios().get(`/users?ids=${users}`);
-    return { success: true, data: result.data[0] };
+    const result = await customAxios().get(`/users/${users}`);
+    return { success: true, data: result.data };
   } catch (e) {
     return { success: false };
   }
@@ -38,5 +38,6 @@ interface usersRes {
     nickname: string;
     profile_image_url: string;
     manner_temperature: number;
+    region_name: string;
   };
 }
