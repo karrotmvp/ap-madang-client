@@ -131,6 +131,12 @@ const AudioListWrapper = styled.div<{ userNum: number }>`
   overflow-x: hidden;
   transition-property: all;
   transition-duration: 1s;
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 const ChildrenWrapper = styled.div`
