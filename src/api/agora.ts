@@ -37,8 +37,10 @@ export type InfoType = {
     nickname: string;
     profile_image_url: string;
     manner_temperature: number;
+    region_name: string;
   };
   agora_token: string;
+  token: string;
 };
 
 interface validAgoraCodeRes {
