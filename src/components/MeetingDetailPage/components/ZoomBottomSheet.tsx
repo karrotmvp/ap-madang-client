@@ -54,13 +54,9 @@ function ZoomBottomSheet({
   };
 
   const onClickJoinHandler = useCallback(async () => {
-    console.log('url', url);
-    // TODO: url change
     const windowReference =
       window.open(
-        isVideo
-          ? `http://localhost:3000/#/agora?meeting_code=${code}`
-          : `http://localhost:3000/#/agora?meeting_code=${code}`,
+        isVideo ? url : `http://localhost:3000/#/agora?meeting_code=${code}`,
         '_blank',
       ) || window;
 
