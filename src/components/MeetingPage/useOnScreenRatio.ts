@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-const thresholdArr = Array.from({ length: 20 }, (_, idx) => {
+const thresholdArr = Array.from({ length: 100 }, (_, idx) => {
   return parseFloat((1 / (idx + 1)).toFixed(3));
-});
+}).reverse();
 
 function useOnScreenRatio(
   rootRef: React.RefObject<HTMLDivElement>,
@@ -11,9 +11,10 @@ function useOnScreenRatio(
   const [intersectingRatio, setIntersectingRatio] = useState(0);
   const intersectionOptions = {
     root: rootRef.current,
-    rootMargin: '-80px 0px -80px 0px',
+    rootMargin: '-67px 0px -120px 0px',
     threshold: thresholdArr,
   };
+
   const observer = new IntersectionObserver(
     ([entry]) =>
       setIntersectingRatio(parseFloat(entry.intersectionRatio.toFixed(2))),
