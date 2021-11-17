@@ -13,6 +13,7 @@ export type User = {
   manner_temperature: number;
   nickname: string;
   profile_image_url: string;
+  region_name: string;
 };
 
 type audioStreamState = { audioStreamValue: boolean };
@@ -23,7 +24,10 @@ const AgoraMeetingPage = () => {
 
   const fetchMeetingData = async (code: string) => {
     const result = await validateMeetingCode(code);
-    if (result.success && result.data) setInfo(result.data);
+    if (result.success && result.data) {
+      sessionStorage.setItem('Authorization', result.data.token);
+      setInfo(result.data);
+    }
   };
 
   useEffect(() => {
@@ -36,6 +40,9 @@ const AgoraMeetingPage = () => {
     } else if (info) {
       setInCall(true);
     }
+    return () => {
+      sessionStorage.removeItem('Authorization');
+    };
   }, [info]);
 
   return inCall && info ? (
