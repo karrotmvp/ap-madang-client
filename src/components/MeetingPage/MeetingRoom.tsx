@@ -15,6 +15,8 @@ import { uidToNum } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import AudioList from './components/AudioList';
 import Controls from './components/Controls';
+import GuideBottomSheet from './components/GuideBottomSheet/GuideBottomSheet';
+import MannerGuideBtn from './components/MannerGuideBtn';
 import MeetingTitle from './components/MeetingTitle';
 
 const agoraConfig: ClientConfig = {
@@ -34,6 +36,7 @@ const MeetingRoom = ({
 }) => {
   const [users, setUsers] = useState<AgoraRTCUsers[]>([]);
   const [start, setStart] = useState<boolean>(false);
+  const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false);
   const [trackState, setTrackState] = useState({ audioStreamValue: true });
   const [volumeState, setVolumeState] = useState<Map<number, number>>(
     new Map(),
@@ -137,7 +140,14 @@ const MeetingRoom = ({
 
   return (
     <MeetingRoomWrapper className="meeting-room">
-      <CustomScreenHelmet />
+      <CustomScreenHelmet
+        appendRight={
+          <MannerGuideBtn onClickHandler={() => setOpenBottomSheet(true)} />
+        }
+      />
+      {openBottomSheet && (
+        <GuideBottomSheet onClose={() => setOpenBottomSheet(false)} />
+      )}
       <MeetingTitle title={info.meeting.title} />
       {start && track && info && (
         <AudioList
