@@ -22,18 +22,25 @@ interface Props {
 export type OptionType = {
   size: number;
   minSize: number;
-  gutter: number;
+  verticalGutter: number;
+  horizonGutter: number;
   showAreaBorder: boolean;
 };
 
 const defaultOptions = {
   size: 84,
-  minSize: 30,
-  gutter: 32,
+  minSize: 42,
+  verticalGutter: 70,
+  horizonGutter: 30,
   showAreaBorder: false,
 };
 
-function AudioList({ users, localUser, volumeState }: Props): ReactElement {
+function AudioList({
+  users,
+  localUser,
+  volumeState,
+  subTopic,
+}: Props): ReactElement {
   const rootRef = useRef<HTMLDivElement>(null);
 
   const [options, setOptions] = useState<OptionType>(defaultOptions);
@@ -41,7 +48,7 @@ function AudioList({ users, localUser, volumeState }: Props): ReactElement {
   useEffect(() => {
     setOptions(state => {
       if (rootRef.current) {
-        const calcSize = rootRef.current.clientWidth / 3 - state.gutter;
+        const calcSize = rootRef.current.clientWidth / 3 - state.horizonGutter;
         return {
           ...state,
           size: calcSize < state.size ? calcSize : state.size,
@@ -58,19 +65,19 @@ function AudioList({ users, localUser, volumeState }: Props): ReactElement {
   );
 
   const horizonPaddingSize = useMemo(() => {
-    return cDistance - options.size > options.gutter
+    return cDistance - options.size > options.horizonGutter
       ? cDistance - options.size
-      : options.gutter;
-  }, [cDistance, options.gutter, options.size]);
+      : options.horizonGutter;
+  }, [cDistance, options.horizonGutter, options.size]);
 
   const verticalPaddingSize = useMemo(() => {
     const calc =
       Math.sqrt(
-        Math.pow(options.gutter + options.size, 2) -
-          Math.pow(options.size / 2 + options.gutter / 2, 2),
+        Math.pow(options.verticalGutter + options.size, 2) -
+          Math.pow(options.size / 2 + options.verticalGutter / 2, 2),
       ) - options.size;
     return calc < 0 ? 0 : calc;
-  }, [options.gutter, options.size]);
+  }, [options.verticalGutter, options.size]);
 
   const children = useMemo(
     () =>
@@ -78,8 +85,9 @@ function AudioList({ users, localUser, volumeState }: Props): ReactElement {
         return (
           <BubbleWrapper
             idx={idx}
+            userLen={users.length + 1}
             options={options}
-            key={idx}
+            key={user.id}
             horizonPaddingSize={horizonPaddingSize}
             verticalPaddingSize={verticalPaddingSize}
           >
@@ -110,26 +118,29 @@ function AudioList({ users, localUser, volumeState }: Props): ReactElement {
   );
 }
 
-const AudioListWrapper = styled.div`
+const AudioListWrapper = styled.div<{ userNum: number }>`
   flex: 1;
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: ${({ userNum }) => (userNum < 5 ? 'center' : 'flex-start')};
+  position: relative;
 
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 10rem;
+  transition-property: all;
+  transition-duration: 1s;
 `;
 
 const ChildrenWrapper = styled.div`
-  padding: 80px 0 80px 0;
-  /* max-width: 50rem; */
+  padding: 50px 0 180px 0;
+  height: auto;
 `;
 
 const BubbleWrapper = styled.div<{
   idx: number;
+  userLen: number;
   options: OptionType;
   horizonPaddingSize: number;
   verticalPaddingSize: number;
@@ -137,18 +148,51 @@ const BubbleWrapper = styled.div<{
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  width: ${({ idx, options, horizonPaddingSize }) => {
+  width: ${({ userLen, idx, options, horizonPaddingSize }) => {
+    if (
+      (userLen - Math.floor(userLen / 5) * 5) % 5 === 1 &&
+      idx - Math.floor(userLen / 5) * 5 === 0
+    )
+      return '100%';
+    if (
+      (userLen - Math.floor(userLen / 5) * 5) % 5 === 3 &&
+      idx - Math.floor(userLen / 5) * 5 === 2
+    )
+      return '100%';
+
     if (idx % 5 < 2) return '50%';
     if (idx % 5 === 3) return options.size + horizonPaddingSize + 'px';
     else return `calc(50% - ${(options.size + horizonPaddingSize) / 2}px)`;
   }};
-  justify-content: ${({ idx }) => {
+  justify-content: ${({ userLen, idx }) => {
+    if (
+      (userLen - Math.floor(userLen / 5) * 5) % 5 === 1 &&
+      idx - Math.floor(userLen / 5) * 5 === 0
+    )
+      return 'center';
+    if (
+      (userLen - Math.floor(userLen / 5) * 5) % 5 === 3 &&
+      idx - Math.floor(userLen / 5) * 5 === 2
+    )
+      return 'center';
+
     if (idx % 5 === 0 || idx % 5 === 2) return 'flex-end';
     if (idx % 5 === 1 || idx % 5 === 4) return 'flex-start';
     if (idx % 5 === 3) return 'center';
     return 'none';
   }};
-  padding: ${({ idx, horizonPaddingSize, verticalPaddingSize }) => {
+  padding: ${({ userLen, idx, horizonPaddingSize, verticalPaddingSize }) => {
+    if (
+      (userLen - Math.floor(userLen / 5) * 5) % 5 === 1 &&
+      idx - Math.floor(userLen / 5) * 5 === 0
+    )
+      return `${verticalPaddingSize / 2}px 0 ${verticalPaddingSize / 2}px 0`;
+    if (
+      (userLen - Math.floor(userLen / 5) * 5) % 5 === 3 &&
+      idx - Math.floor(userLen / 5) * 5 === 2
+    )
+      return `${verticalPaddingSize / 2}px 0 ${verticalPaddingSize / 2}px 0`;
+
     if (idx % 5 === 0 || idx % 5 === 2)
       return `${verticalPaddingSize / 2}px ${horizonPaddingSize / 2}px ${
         verticalPaddingSize / 2
