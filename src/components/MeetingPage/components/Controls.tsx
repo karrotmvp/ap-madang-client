@@ -3,14 +3,9 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { IMicrophoneAudioTrack } from 'agora-rtc-react';
 
-import exit_default from '../../../assets/icon/agora/exit_default.svg';
-import exit_pressed from '../../../assets/icon/agora/exit_pressed.svg';
-import micOff_default from '../../../assets/icon/agora/micOff_default.svg';
-import micOff_pressed from '../../../assets/icon/agora/micOff_pressed.svg';
-import micOn_default from '../../../assets/icon/agora/micOn_default.svg';
-import micOn_pressed from '../../../assets/icon/agora/micOn_pressed.svg';
-import userList_default from '../../../assets/icon/agora/userList_default.svg';
-import userList_pressed from '../../../assets/icon/agora/userList_pressed.svg';
+import micOff from '../../../assets/icon/agora/micOff.svg';
+import micOn from '../../../assets/icon/agora/micOn.svg';
+import { COLOR } from '../../../constant/color';
 import { useClient } from '../MeetingRoom';
 
 const Controls = (props: {
@@ -27,7 +22,6 @@ const Controls = (props: {
 
   const [leaveBtnState, setLeaveBtnState] = useState(false);
   const [micBtnState, setMicBtnState] = useState(false);
-  const [userListBtnState, setUserListBtnState] = useState(false);
 
   const mute = async (type: 'audio') => {
     if (type === 'audio') {
@@ -50,23 +44,29 @@ const Controls = (props: {
   return (
     <Controller>
       <LeaveBtn
-        onClick={leaveChannel}
         btnState={leaveBtnState}
+        onClick={leaveChannel}
         onTouchStart={() => setLeaveBtnState(true)}
         onTouchEnd={() => setLeaveBtnState(false)}
-      />
+      >
+        나가기
+      </LeaveBtn>
       <MicBtn
         onClick={() => mute('audio')}
         btnState={micBtnState}
         micOn={trackState.audioStreamValue}
         onTouchStart={() => setMicBtnState(true)}
         onTouchEnd={() => setMicBtnState(false)}
-      />
-      <UserListBtn
-        btnState={userListBtnState}
-        onTouchStart={() => setUserListBtnState(true)}
-        onTouchEnd={() => setUserListBtnState(false)}
-      />
+      >
+        {trackState.audioStreamValue ? (
+          <Icon src={micOn} />
+        ) : (
+          <Icon src={micOff} />
+        )}
+        {trackState.audioStreamValue
+          ? '마이크가 켜져 있어요'
+          : '마이크가 꺼져 있어요'}
+      </MicBtn>
     </Controller>
   );
 };
@@ -75,9 +75,9 @@ const Controller = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-  width: calc(100% - 6rem);
-  padding: 0 3rem;
-  height: 10rem;
+  width: calc(100% - 4rem);
+  padding: 0 2rem;
+  height: 8rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -85,40 +85,46 @@ const Controller = styled.div`
 
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(10px);
+  font-size: 1.4rem;
+`;
+
+const Icon = styled.img`
+  margin-right: 0.6rem;
 `;
 
 const LeaveBtn = styled.div<{ btnState: boolean }>`
-  width: 5.2rem;
-  height: 5.2rem;
-  border-radius: 50%;
-  background-size: 5.2rem 5.2rem;
-  background-image: ${({ btnState }) =>
-    btnState ? `url(${exit_pressed})` : `url(${exit_default})`};
+  width: 8.4rem;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: ${({ btnState }) =>
+    btnState ? COLOR.TEXT_WHITE : COLOR.TEXT_WHITE};
+  box-shadow: 0 2px 9px rgba(17, 17, 17, 0.1),
+    0px 1px 5px rgba(17, 17, 17, 0.02);
+  border-radius: 10rem;
+
+  color: #f65b55;
+
+  line-height: 1.7rem;
 `;
 
 const MicBtn = styled.div<{ btnState: boolean; micOn: boolean }>`
-  width: 6.2rem;
-  height: 6.2rem;
-  border-radius: 50%;
-  background-size: 6.2rem 6.2rem;
-  box-shadow: 0 0.2rem 0.88rem rgba(17, 17, 17, 0.1);
-  background-image: ${({ btnState, micOn }) => {
-    if (micOn) {
-      if (btnState) return `url(${micOn_pressed})`;
-      return `url(${micOn_default})`;
-    }
-    if (btnState) return `url(${micOff_pressed})`;
-    return `url(${micOff_default})`;
-  }};
-`;
+  width: 17.5rem;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-const UserListBtn = styled.div<{ btnState: boolean }>`
-  width: 5.2rem;
-  height: 5.2rem;
-  border-radius: 50%;
-  background-size: 5.2rem 5.2rem;
-  background-image: ${({ btnState }) =>
-    btnState ? `url(${userList_pressed})` : `url(${userList_default})`};
+  background: ${({ micOn }) => (micOn ? '#2EB86A' : '#F5F5F5')};
+  box-shadow: ${({ micOn }) =>
+    micOn
+      ? '0px 2px 9px rgba(17, 17, 17, 0.22), 0px 1px 5px rgba(17, 17, 17, 0.06)'
+      : '0px 2px 9px rgba(17, 17, 17, 0.11), 0px 1px 5px rgba(17, 17, 17, 0.05)'};
+  border-radius: 10rem;
+  color: ${({ micOn }) => (micOn ? '#FFFFFF' : '#5F6263')};
+  line-height: 2.2rem;
 `;
 
 export default Controls;
