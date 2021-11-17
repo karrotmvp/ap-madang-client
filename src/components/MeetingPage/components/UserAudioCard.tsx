@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import styled from '@emotion/styled';
+import Reward, { RewardElement } from 'react-rewards';
 
 import { User } from '..';
 import userMicOff from '../../../assets/icon/agora/user_micOff.svg';
@@ -24,7 +25,14 @@ export default function UserAudioCard({
   rootRef,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
+  const rewardRef = useRef<RewardElement>(null);
   const onScreenRatio = useOnScreenRatio(rootRef, ref);
+
+  useEffect(() => {
+    if (rewardRef.current) {
+      rewardRef.current.rewardMe();
+    }
+  }, []);
 
   return (
     <CardOuterWrapper options={options} ratio={onScreenRatio}>
@@ -34,12 +42,14 @@ export default function UserAudioCard({
         ref={ref}
         ratio={onScreenRatio}
       >
-        <ProfileImg
-          src={user.profile_image_url}
-          options={options}
-          ratio={onScreenRatio}
-          volumeState={volumeState}
-        />
+        <Reward ref={rewardRef} type="confetti">
+          <ProfileImg
+            src={user.profile_image_url}
+            options={options}
+            ratio={onScreenRatio}
+            volumeState={volumeState}
+          />
+        </Reward>
         <InfoArea>
           <NickNameInfo>
             <NickName>{user.nickname}</NickName>
