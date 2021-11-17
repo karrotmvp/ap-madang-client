@@ -7,6 +7,7 @@ import { MeetingDetail } from 'meeting';
 import { useRouteMatch } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
+import { getAgoraCode } from '../../api/agora';
 import { deleteAlarm, newAlarm } from '../../api/alarm';
 import { getMeetingDetail } from '../../api/meeting';
 import { analytics } from '../../App';
@@ -152,16 +153,7 @@ const MeetingDetailPage = () => {
   }, [addAlarmHandler, data.alarm_id, deleteAlarmHandler, matchId.params.id]);
 
   // 모임 참여 버튼 핸들러
-  const onClickJoinHandler = () => {
-    setModal(
-      <ZoomBottomSheet
-        url={data.meeting_url}
-        onClose={hideModal}
-        meetingId={data.id}
-        meetingTitle={data.title}
-        zoomGuideHandler={onClickGreenInfoBoxHandler}
-      />,
-    );
+  const onClickJoinHandler = async () => {
     logEvent(analytics, 'join__click', {
       meeting_id: data.id,
       meeting_name: data.title,
@@ -169,6 +161,19 @@ const MeetingDetailPage = () => {
       userNickname: userInfo?.nickname,
       userRegion: userInfo?.region,
     });
+    const result = await getAgoraCode(data.id);
+    if (result.success && result.data)
+      setModal(
+        <ZoomBottomSheet
+          code={result.data.code}
+          url={data.meeting_url}
+          onClose={hideModal}
+          isVideo={data.is_video}
+          meetingId={data.id}
+          meetingTitle={data.title}
+          zoomGuideHandler={onClickGreenInfoBoxHandler}
+        />,
+      );
   };
 
   // 모임 매너 카드 핸들러

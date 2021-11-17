@@ -1,4 +1,5 @@
 import { INavigatorTheme } from '@karrotframe/navigator';
+import { UID } from 'agora-rtc-sdk-ng';
 import moment from 'moment';
 
 export const checkMobileType = (): INavigatorTheme => {
@@ -21,6 +22,11 @@ export const getRegionId = (search: string): string => {
 export const getCodefromUrl = (search: string) => {
   const urlSearchParams = new URLSearchParams(search);
   return urlSearchParams.get('code');
+};
+
+export const uidToNum = (uid: UID | string | number) => {
+  if (typeof uid === 'string') return parseInt(uid);
+  return uid;
 };
 
 export const getRemainTime = (start_time: string, date: string) => {

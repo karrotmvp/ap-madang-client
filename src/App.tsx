@@ -6,6 +6,7 @@ import { getAnalytics, logEvent } from 'firebase/analytics';
 
 import LandingPage from './components/LandingPage';
 import MeetingDetailPage from './components/MeetingDetailPage';
+import AgoraPage from './components/MeetingPage';
 import MeetingSuggestionPage from './components/MeetingSuggestionPage';
 import NotFoundPage from './components/NotFountPage';
 import NotServiceRegionPage from './components/NotServiceRegionPage';
@@ -41,6 +42,7 @@ const App: React.FC = () => {
       <Screen path="/reservation" component={ReservationPage} />
       <Screen path="/redirect" component={Auth(RedirectPage)} />
       <Screen path="/not-service-region" component={NotServiceRegionPage} />
+      <Screen path="/agora" component={AgoraPage} />
       <Screen path="*" component={NotFoundPage} />
     </Navigator>
   );
