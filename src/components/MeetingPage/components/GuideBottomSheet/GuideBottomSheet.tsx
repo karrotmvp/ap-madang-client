@@ -22,8 +22,8 @@ function GuideBottomSheet({ onClose }: Props): ReactElement {
     }, 300);
   }, [onClose]);
 
-  const onClickOutSide = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
+  const onClickOutSide = (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e?.stopPropagation();
     closeHandler();
   };
 

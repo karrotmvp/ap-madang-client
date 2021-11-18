@@ -10,6 +10,7 @@ import ReservationBtn from '../../ReservationPage/components/ReservationBtn';
 import Modal from './Modal';
 
 interface Props {
+  open: boolean;
   openHandler: React.Dispatch<React.SetStateAction<string | undefined>>;
   title: string;
   contents: string;
@@ -21,9 +22,11 @@ function ReservationModal({
   title,
   contents,
   className,
+  open,
 }: Props): ReactElement {
   return (
     <Modal
+      open={open}
       className={classnames('reservation-modal', className)}
       onClose={() => openHandler(undefined)}
     >

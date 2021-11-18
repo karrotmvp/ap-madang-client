@@ -20,9 +20,6 @@ import { userInfoAtom } from '../../../store/user';
 interface Props {
   onClose: () => void;
   onClickJoin?: () => void;
-  zoomGuideHandler?: () => void;
-  isVideo: boolean;
-  code: string;
   meetingId: string;
   meetingTitle: string;
   url: string;
@@ -31,9 +28,6 @@ interface Props {
 function ZoomBottomSheet({
   onClose,
   onClickJoin,
-  zoomGuideHandler,
-  isVideo,
-  code,
   url,
   meetingId,
   meetingTitle,
@@ -48,16 +42,13 @@ function ZoomBottomSheet({
     }, 400);
   }, [onClose]);
 
-  const onClickOutSide = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
+  const onClickOutSide = (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e?.stopPropagation();
     closeHandler();
   };
 
   const onClickJoinHandler = useCallback(async () => {
-    const windowReference = window.open(
-      isVideo ? url : `/#/agora?meeting_code=${code}`,
-      '_blank',
-    );
+    const windowReference = window.open(url, '_blank');
 
     await increaseMeetingEnterUserCount(meetingId);
     logEvent(analytics, 'zoom_bottom_sheet_join__click', {
@@ -69,7 +60,7 @@ function ZoomBottomSheet({
     });
     windowReference;
     onClickJoin && onClickJoin();
-  }, [code, isVideo, meetingId, meetingTitle, onClickJoin, url, userInfo]);
+  }, [meetingId, meetingTitle, onClickJoin, url, userInfo]);
 
   return (
     <BottomSheet
@@ -99,7 +90,11 @@ function ZoomBottomSheet({
                 {ZOOM_BOTTOM_SHEET.SUB_TITLE_02}
               </DescriptionText>
             </DescriptionItem>
-            <ZoomGuide onClick={zoomGuideHandler}>
+            <ZoomGuide
+              onClick={() =>
+                window.open(process.env.INFO_NOTION_URL || '', '', '_blank')
+              }
+            >
               {ZOOM_BOTTOM_SHEET.ZOOM_GUIDE}{' '}
               <img src={arrow_iOS_xsmall_green} />
             </ZoomGuide>

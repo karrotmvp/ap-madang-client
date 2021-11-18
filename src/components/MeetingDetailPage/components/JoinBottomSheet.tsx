@@ -36,8 +36,8 @@ function JoinBottomSheet({
     }, 400);
   }, [onClose]);
 
-  const onClickOutSide = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
+  const onClickOutSide = (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e?.stopPropagation();
     closeHandler();
   };
 

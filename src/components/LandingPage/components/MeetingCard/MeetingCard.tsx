@@ -134,12 +134,14 @@ function MeetingCard({ idx, data }: Props): ReactElement {
     >
       {openNewAlarmModal && (
         <NewAlarmModal
+          open={openNewAlarmModal}
           className="meeting-card__new-alarm-modal"
           closeHandler={() => setOpenNewAlarmModal(false)}
         />
       )}
       {openDeleteAlarmModal && (
         <DeleteAlarmModal
+          open={openDeleteAlarmModal}
           className="meeting-card__delete-alarm-modal"
           closeHandler={() => setOpenDeleteAlarmModal(false)}
           deleteAlarmHandler={deleteAlarmHandler}

@@ -10,6 +10,7 @@ import { COMMON } from '../../../constant/message';
 import Modal from './Modal';
 
 interface Props {
+  open: boolean;
   closeHandler: () => void;
   deleteAlarmHandler: () => Promise<boolean>;
   className?: string;
@@ -19,6 +20,7 @@ function DeleteAlarmModal({
   closeHandler,
   deleteAlarmHandler,
   className,
+  open,
 }: Props): ReactElement {
   const [deleted, setDeleted] = useState(false);
 
@@ -41,14 +43,17 @@ function DeleteAlarmModal({
     return;
   }, [closeHandler, deleted]);
 
-  const onClickOutsideHandler: React.MouseEventHandler<HTMLDivElement> =
-    event => {
-      event.stopPropagation();
-      !deleted && closeHandler();
-    };
+  const onClickOutsideHandler = (
+    e?: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    console.log('onClickDeletealarm outside handler', deleted);
+    e?.stopPropagation();
+    closeHandler();
+  };
 
   return (
     <Modal
+      open={open}
       className={classnames('delete-alarm-modal', className)}
       onClose={onClickOutsideHandler}
       innerModalStyle={InnerModalStyle}

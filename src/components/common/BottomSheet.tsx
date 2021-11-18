@@ -7,6 +7,7 @@ import classnamse from 'classnames';
 import { createPortal } from 'react-dom';
 
 import { COLOR } from '../../constant/color';
+import useBlockBack from '../../hook/useBlockBack';
 
 export type Confirm = {
   text: React.ReactNode;
@@ -27,7 +28,7 @@ export type ModalInfoType = {
 export type innerModeType = 'list' | 'confirm';
 
 type ModalProps = {
-  onClose?: React.MouseEventHandler<HTMLDivElement>;
+  onClose?: (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   open: boolean;
   children: React.ReactNode;
   className?: string;
@@ -41,10 +42,11 @@ export default function BottomSheet({
   className,
   innerModalStyle,
 }: ModalProps) {
-  const onMaskClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
+  const onMaskClick = (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e?.stopPropagation();
     onClose && onClose(e);
   };
+  useBlockBack(onMaskClick);
 
   return (
     <Portal>
