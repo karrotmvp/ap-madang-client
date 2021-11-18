@@ -25,6 +25,7 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
 import MeetingMannerModal from '../common/Modal/MeetingMannerModal';
 import NewAlarmModal from '../common/Modal/NewAlarmModal';
+import AudioMeetBottomSheet from './components/AudioMeetBottomSheet';
 import DescriptionList from './components/DescriptionList';
 import ZoomBottomSheet from './components/ZoomBottomSheet';
 
@@ -53,9 +54,10 @@ const defaultValue: MeetingDetail = {
 const MeetingDetailPage = () => {
   const [data, setData] = useState<MeetingDetail>(defaultValue);
   const [remainTime, setRemainTime] = useState('');
-  const [modal, setModal] = useState<React.ReactElement | undefined>();
+  const [modal, setModal] = useState<React.ReactElement | undefined>(undefined);
   const [sendLogEvent, setSendLogEvent] = useState(false);
   const { isRoot, isTop } = useCurrentScreen();
+
   const userInfo = useRecoilValue(userInfoAtom);
 
   const hideModal = () => {
@@ -99,7 +101,7 @@ const MeetingDetailPage = () => {
           };
         return prevState;
       });
-      setModal(<NewAlarmModal closeHandler={hideModal} />);
+      setModal(<NewAlarmModal open={true} closeHandler={hideModal} />);
     }
   }, [data.id, data.live_status, data.title, matchId.params.id, userInfo]);
 
@@ -143,6 +145,7 @@ const MeetingDetailPage = () => {
     if (data?.alarm_id) {
       setModal(
         <DeleteAlarmModal
+          open={true}
           closeHandler={hideModal}
           deleteAlarmHandler={deleteAlarmHandler}
         />,
@@ -164,21 +167,28 @@ const MeetingDetailPage = () => {
     const result = await getAgoraCode(data.id);
     if (result.success && result.data)
       setModal(
-        <ZoomBottomSheet
-          code={result.data.code}
-          url={data.meeting_url}
-          onClose={hideModal}
-          isVideo={data.is_video}
-          meetingId={data.id}
-          meetingTitle={data.title}
-          zoomGuideHandler={onClickGreenInfoBoxHandler}
-        />,
+        data.is_video ? (
+          <ZoomBottomSheet
+            url={data.meeting_url}
+            onClose={hideModal}
+            meetingId={data.id}
+            meetingTitle={data.title}
+          />
+        ) : (
+          <AudioMeetBottomSheet
+            code={result.data.code}
+            url={data.meeting_url}
+            onClose={hideModal}
+            meetingId={data.id}
+            meetingTitle={data.title}
+          />
+        ),
       );
   };
 
   // 모임 매너 카드 핸들러
   const onClickMannerCardHandler = () => {
-    setModal(<MeetingMannerModal closeHandler={hideModal} />);
+    setModal(<MeetingMannerModal open={true} closeHandler={hideModal} />);
     logEvent(analytics, 'guide_modal__show', {
       location: 'detail_page',
       meeting_id: data.id,
