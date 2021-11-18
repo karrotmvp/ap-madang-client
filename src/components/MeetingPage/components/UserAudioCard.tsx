@@ -67,6 +67,7 @@ export default function UserAudioCard({
 const CardOuterWrapper = styled.div<{ options: OptionType; ratio: number }>`
   width: ${({ options }) => options.size.toFixed(0) + 'px'};
   height: ${({ options }) => options.size.toFixed(0) + 'px'};
+
   //TODO: 입체감 요소
   /* height: ${({ options, ratio }) =>
     options.size * ratio < options.minSize
@@ -101,14 +102,16 @@ const ProfileImg = styled.img<{
   ratio: number;
   volumeState: number;
 }>`
-  width: ${({ options, ratio }) =>
+  transform: ${({ options, ratio }) =>
+    options.size * ratio < options.minSize
+      ? `scale(${options.minSize / options.size})`
+      : `scale(${ratio})`};
+  width: ${({ options }) => options.size + 'px'};
+  height: ${({ options }) => options.size + 'px'};
+  /* height: ${({ options, ratio }) =>
     options.size * ratio < options.minSize
       ? options.minSize.toFixed(0) + 'px'
-      : (options.size * ratio).toFixed(0) + 'px'};
-  height: ${({ options, ratio }) =>
-    options.size * ratio < options.minSize
-      ? options.minSize.toFixed(0) + 'px'
-      : (options.size * ratio).toFixed(0) + 'px'};
+      : (options.size * ratio).toFixed(0) + 'px'}; */
   border-radius: 50%;
 
   position: relative;
@@ -121,8 +124,8 @@ const ProfileImg = styled.img<{
   box-shadow: ${({ volumeState }) =>
     volumeState > 10 ? '0px 0px 30px #41AC70' : 'none'};
 
-  transition-property: width, height, background-size, box-shadow;
-  transition-duration: 0.1s, 0.1s, 0.1s, 0.1s;
+  transition-property: width, height, background-size, box-shadow, transform;
+  transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
 
   box-sizing: border-box;
 `;
