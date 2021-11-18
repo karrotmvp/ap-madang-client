@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { UID } from 'agora-rtc-react';
 
 import { InfoType, validateMeetingCode } from '../../api/agora';
+import RedirectPage from '../RedirectPage';
 import MeetingRoom from './MeetingRoom';
 import WaitingRoom from './WaitingRoom';
 
@@ -18,8 +19,10 @@ export type User = {
 
 type audioStreamState = { audioStreamValue: boolean };
 
+export type callState = 'waiting' | 'calling' | 'quit' | 'error' | 'finish';
+
 const AgoraMeetingPage = () => {
-  const [inCall, setInCall] = useState(false);
+  const [inCall, setInCall] = useState<callState>('waiting');
   const [info, setInfo] = useState<InfoType | undefined>(undefined);
 
   const fetchMeetingData = async (code: string) => {
@@ -37,17 +40,19 @@ const AgoraMeetingPage = () => {
       const code = urlHashParams.get('meeting_code');
       if (code) fetchMeetingData(code);
     } else if (info) {
-      setInCall(true);
+      setInCall('calling');
     }
     return () => {
       sessionStorage.removeItem('Authorization');
     };
   }, [info]);
 
-  return inCall && info ? (
+  return inCall === 'calling' && info ? (
     <MeetingRoom setInCall={setInCall} info={info} />
+  ) : inCall === 'waiting' ? (
+    <RedirectPage />
   ) : (
-    <WaitingRoom setInCall={setInCall} />
+    <WaitingRoom callState={inCall} />
   );
 };
 

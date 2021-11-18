@@ -8,7 +8,7 @@ import {
   IAgoraRTCRemoteUser,
 } from 'agora-rtc-react';
 
-import { AgoraRTCUsers } from '.';
+import { AgoraRTCUsers, callState } from '.';
 import { InfoType } from '../../api/agora';
 import { getMeetingUsersInfo } from '../../api/user';
 import { uidToNum } from '../../util/utils';
@@ -31,7 +31,7 @@ const MeetingRoom = ({
   setInCall,
   info,
 }: {
-  setInCall: React.Dispatch<React.SetStateAction<boolean>>;
+  setInCall: React.Dispatch<React.SetStateAction<callState>>;
   info: InfoType;
 }) => {
   const [users, setUsers] = useState<AgoraRTCUsers[]>([]);
@@ -110,6 +110,11 @@ const MeetingRoom = ({
       );
     });
 
+    //token expired
+    client.on('token-privilege-did-expire', async () => {
+      setInCall('finish');
+    });
+
     // 로컬 유저 가입
     try {
       await client.join(
@@ -119,8 +124,7 @@ const MeetingRoom = ({
         info.user.id,
       );
     } catch (e) {
-      //TODO: 토큰 오류 페이지 이동
-      // history.back();
+      setInCall('error');
     }
 
     if (track) await client.publish(track);
@@ -131,6 +135,7 @@ const MeetingRoom = ({
     info.agora_token,
     info.meeting.channel_name,
     info.user.id,
+    setInCall,
     track,
   ]);
 

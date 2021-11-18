@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { IMicrophoneAudioTrack } from 'agora-rtc-react';
 
+import { callState } from '..';
 import micOff from '../../../assets/icon/agora/micOff.svg';
 import micOn from '../../../assets/icon/agora/micOn.svg';
 import { COLOR } from '../../../constant/color';
@@ -12,7 +13,7 @@ const Controls = (props: {
   track: IMicrophoneAudioTrack;
   trackState: { audioStreamValue: boolean };
   setStart: React.Dispatch<React.SetStateAction<boolean>>;
-  setInCall: React.Dispatch<React.SetStateAction<boolean>>;
+  setInCall: React.Dispatch<React.SetStateAction<callState>>;
   setTrackState: React.Dispatch<
     React.SetStateAction<{ audioStreamValue: boolean }>
   >;
@@ -37,7 +38,7 @@ const Controls = (props: {
     client.removeAllListeners();
     track.close();
     setStart(false);
-    setInCall(false);
+    setInCall('quit');
     window.open('karrot.alpha://minikarrot/');
   };
 
