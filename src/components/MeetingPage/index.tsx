@@ -25,7 +25,6 @@ const AgoraMeetingPage = () => {
   const fetchMeetingData = async (code: string) => {
     const result = await validateMeetingCode(code);
     if (result.success && result.data) {
-      sessionStorage.setItem('Authorization', result.data.token);
       setInfo(result.data);
     }
   };

@@ -135,8 +135,14 @@ const MeetingRoom = ({
   ]);
 
   useEffect(() => {
-    if (ready && track) init();
-  }, [init, ready, track]);
+    if (ready && track && info) {
+      sessionStorage.setItem('Authorization', info.token);
+      init();
+    }
+    return () => {
+      sessionStorage.removeItem('Authorization');
+    };
+  }, [info, init, ready, track]);
 
   return (
     <MeetingRoomWrapper className="meeting-room">
