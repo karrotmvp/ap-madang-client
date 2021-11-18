@@ -111,8 +111,8 @@ function AudioList({
   );
 
   return (
-    <AudioListWrapper ref={rootRef} userNum={users.length}>
-      <MeetingNotice subTopic={subTopic} userNum={users.length} />
+    <AudioListWrapper ref={rootRef} userNum={users.length + 1}>
+      <MeetingNotice subTopic={subTopic} userNum={users.length + 1} />
       <ChildrenWrapper>{children}</ChildrenWrapper>
     </AudioListWrapper>
   );
@@ -124,7 +124,7 @@ const AudioListWrapper = styled.div<{ userNum: number }>`
   height: auto;
   display: flex;
   justify-content: center;
-  align-items: ${({ userNum }) => (userNum < 5 ? 'center' : 'flex-start')};
+  align-items: ${({ userNum }) => (userNum < 6 ? 'center' : 'flex-start')};
   position: relative;
 
   overflow-y: auto;
@@ -140,7 +140,7 @@ const AudioListWrapper = styled.div<{ userNum: number }>`
 `;
 
 const ChildrenWrapper = styled.div`
-  padding: 50px 0 180px 0;
+  padding: 70px 0 180px 0;
   height: auto;
 `;
 
