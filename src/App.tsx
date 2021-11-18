@@ -11,7 +11,6 @@ import MeetingSuggestionPage from './components/MeetingSuggestionPage';
 import NotFoundPage from './components/NotFountPage';
 import NotServiceRegionPage from './components/NotServiceRegionPage';
 import OnBoardPage from './components/OnBoardPage';
-import RedirectPage from './components/RedirectPage';
 import ReservationPage from './components/ReservationPage';
 import Auth from './hoc/Auth';
 import { app } from './util/firebase';
@@ -40,7 +39,6 @@ const App: React.FC = () => {
       <Screen path="/meetings/:id" component={Auth(MeetingDetailPage)} />
       <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
       <Screen path="/reservation" component={ReservationPage} />
-      <Screen path="/redirect" component={Auth(RedirectPage)} />
       <Screen path="/not-service-region" component={NotServiceRegionPage} />
       <Screen path="/agora" component={AgoraPage} />
       <Screen path="*" component={NotFoundPage} />
