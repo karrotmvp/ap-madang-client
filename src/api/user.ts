@@ -14,7 +14,7 @@ export const login = async ({ code, regionId }: loginReq) => {
 
 export const getMeetingUsersInfo = async (users: number): Promise<usersRes> => {
   try {
-    const result = await customAxios().get(`/users/${users}`);
+    const result = await customAxios().get(`/users/${users}/`);
     return { success: true, data: result.data };
   } catch (e) {
     return { success: false };
