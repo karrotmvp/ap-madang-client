@@ -1,6 +1,8 @@
 import { INavigatorTheme } from '@karrotframe/navigator';
 import { UID } from 'agora-rtc-sdk-ng';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+dayjs.extend(duration);
 
 export const checkMobileType = (): INavigatorTheme => {
   const UA = navigator.userAgent.toLowerCase(); // userAgent 값 얻기
@@ -30,13 +32,12 @@ export const uidToNum = (uid: UID | string | number) => {
 };
 
 export const getRemainTime = (start_time: string, date: string) => {
-  const startDate = moment(`${date} ${start_time}`, 'YYYY-MM-DD HH:mm:ss');
-  const now = moment();
-  const hoursDiff = moment.duration(startDate.diff(now)).hours();
-  const minutesDiff = moment.duration(startDate.diff(now)).minutes();
-  return hoursDiff > 0
-    ? `${hoursDiff}시간 ${minutesDiff}분 `
-    : `${minutesDiff}분 `;
+  const startDate = dayjs(`${date} ${start_time}`, 'YYYY-MM-DD HH:mm:ss');
+  const now = dayjs();
+  const hoursDiffDuration = dayjs.duration(startDate.diff(now));
+  return parseInt(hoursDiffDuration.format('HH')) > 0
+    ? hoursDiffDuration.format('HH시간 mm분 ')
+    : hoursDiffDuration.format('m분 ');
 };
 
 export const getRemainMilliSec = (
@@ -44,10 +45,10 @@ export const getRemainMilliSec = (
   end_time: string,
   date: string,
 ) => {
-  const endDate = moment(`${date} ${end_time}`, 'YYYY-MM-DD HH:mm:ss');
-  const now = moment();
-  if (start_time >= end_time) endDate.add(1, 'day');
-  const timeDiff = moment.duration(endDate.diff(now)).asMilliseconds();
+  let endDate = dayjs(`${date} ${end_time}`, 'YYYY-MM-DD HH:mm:ss');
+  const now = dayjs();
+  if (start_time >= end_time) endDate = endDate.add(1, 'day');
+  const timeDiff = dayjs.duration(endDate.diff(now)).asMilliseconds();
   return timeDiff;
 };
 
@@ -61,6 +62,11 @@ const getTimeText = (hour: number, min: number) => {
   if (min === 0) return tempTimeText;
   else tempTimeText += ` ${min}분`;
   return tempTimeText;
+};
+
+export const getDateToText = (start_time: string) => {
+  const startTimeArr = start_time.split(':');
+  return getTimeText(parseInt(startTimeArr[0]), parseInt(startTimeArr[1]));
 };
 
 export const getTimeForm = (
