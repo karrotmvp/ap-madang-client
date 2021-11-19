@@ -11,16 +11,22 @@ import { getAgoraCode } from '../../api/agora';
 import { deleteAlarm, newAlarm } from '../../api/alarm';
 import { getMeetingDetail } from '../../api/meeting';
 import { analytics } from '../../App';
-import arrow_iOS_large from '../../assets/icon/arrow_iOS_large.svg';
-import arrow_iOS_xsmall_green from '../../assets/icon/arrow_iOS_xsmall_green.svg';
-import clock from '../../assets/icon/clock.svg';
-import notification_empty_detail from '../../assets/icon/notification_empty_detail.svg';
-import notification_fill from '../../assets/icon/notification_fill.svg';
+import heart_emoji from '../../assets/icon/agora/heart_emoji.svg';
+import mic_emoji from '../../assets/icon/agora/mic_emoji.svg';
+import talk_emoji from '../../assets/icon/agora/talk_emoji.svg';
+import x_emoji from '../../assets/icon/agora/x_emoji.svg';
+import camera_meeting_tag from '../../assets/icon/detailPage/camera_meeting_tag.svg';
+import clock from '../../assets/icon/detailPage/clock.svg';
+import info_circle from '../../assets/icon/detailPage/info_circle.svg';
+import notification_empty_detail from '../../assets/icon/detailPage/notification_empty_detail.svg';
+import notification_fill from '../../assets/icon/detailPage/notification_fill.svg';
+import voice_meeting_tag from '../../assets/icon/detailPage/voice_meeting_tag.svg';
+import person from '../../assets/icon/person.svg';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
 import useInterval from '../../hook/useInterval';
 import { userInfoAtom } from '../../store/user';
-import { getRemainTime, getTimeForm } from '../../util/utils';
+import { getDateToText, getRemainTime } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
 import MeetingMannerModal from '../common/Modal/MeetingMannerModal';
@@ -67,11 +73,6 @@ const MeetingDetailPage = () => {
   const matchId = useRouteMatch<MatchParams>({
     path: '/meetings/:id',
   }) || { params: { id: '' } };
-
-  // 줌 사용 설명 핸들러
-  const onClickGreenInfoBoxHandler = () => {
-    window.open(process.env.INFO_NOTION_URL || '', '', '_blank');
-  };
 
   // 모임 상세정보 fetch
   const fetchData = useCallback(async (id: string) => {
@@ -262,24 +263,51 @@ const MeetingDetailPage = () => {
         <BannerWrapper>
           <BannerImg src={data.image} />
         </BannerWrapper>
+        <TagWrapper>
+          {data.is_video ? (
+            <Tag src={camera_meeting_tag} />
+          ) : (
+            <Tag src={voice_meeting_tag} />
+          )}
+        </TagWrapper>
         <TitleWrapper className="meeting-detail__header">
           <Title className="title1">{data?.title}</Title>
-          <TimeWrapper>
-            <img src={clock} />
-            {data.start_time && (
-              <Time className="body4">
-                {getTimeForm(data.start_time, data.end_time, data.live_status)}
-              </Time>
-            )}
-          </TimeWrapper>
         </TitleWrapper>
-        <LineDivider />
-        <GreenInfoBox onClick={onClickGreenInfoBoxHandler}>
-          <GreenInfoText>{MEETING_DETAIL.GREEN_BOX_INFO}</GreenInfoText>
-          <GreenInfoBtn>
-            {MEETING_DETAIL.GREEN_BOX_BTN} <img src={arrow_iOS_xsmall_green} />
-          </GreenInfoBtn>
-        </GreenInfoBox>
+        <LineDivider size="0.1rem" color={COLOR.GRAY_200} />
+        <SummaryWrapper>
+          <SummaryInfo className="summary-info">
+            <SummaryIcon src={clock} />
+            <SummaryDiscription className="body4">
+              {getDateToText(data.start_time)}~{getDateToText(data.end_time)}
+            </SummaryDiscription>
+          </SummaryInfo>
+          {data.live_status === 'live' && (
+            <SummaryInfo className="summary-info">
+              <SummaryIcon src={person} />
+              <SummaryDiscription className="body4">
+                누적 참여자 {data.user_enter_cnt}명
+              </SummaryDiscription>
+            </SummaryInfo>
+          )}
+          <SummaryInfo className="summary-info">
+            <SummaryIcon src={info_circle} />
+            <SummaryDiscription className="body4">
+              {data.is_video
+                ? '이 모임은 줌(zoom)으로 진행돼요. 카메라를 켜지 않아도 괜찮아요!'
+                : '이 모임에서는 음성으로 이웃과 실시간 대화를 나눠요.'}
+            </SummaryDiscription>
+          </SummaryInfo>
+        </SummaryWrapper>
+        <LineDivider size="1.2rem" />
+
+        <UserDiscriptionWrapper>
+          <UserDiscriptionTitle>모임 상세 설명</UserDiscriptionTitle>
+
+          {data.description.text}
+        </UserDiscriptionWrapper>
+
+        <LineDivider size="0.1rem" />
+
         <DescriptionWrapper className="meeting-detail__body">
           <DescriptionList
             title={MEETING_DETAIL.DESCRIPTION_TITLE1}
@@ -290,19 +318,36 @@ const MeetingDetailPage = () => {
             data={data.description.recommend_topic}
           />
         </DescriptionWrapper>
-        <BlockDivider />
+        <LineDivider size="1.2rem" />
         <MeetingMannerCardWrapper
           className="meeting-detail__footer-banner"
           onClick={onClickMannerCardHandler}
         >
-          <InfoCardTitle className="title3">
-            {MEETING_DETAIL.MANNER_INFO_CARD}
-          </InfoCardTitle>
-          <MoreIcon>
-            <img src={arrow_iOS_large} />
-          </MoreIcon>
+          <MannerTitle>{MEETING_DETAIL.MANNER.TITLE}</MannerTitle>
+
+          <MannerItem>
+            <MannerEmoji src={heart_emoji} />
+            <MannerItemTitle>서로 배려하고 존중해요.</MannerItemTitle>
+          </MannerItem>
+          <MannerItem>
+            <MannerEmoji src={talk_emoji} />
+            <MannerItemTitle>
+              이웃 모두가 함께 나눌 수 있는 대화를 해요.
+            </MannerItemTitle>
+          </MannerItem>
+          <MannerItem>
+            <MannerEmoji src={x_emoji} />
+            <MannerItemTitle>
+              이웃을 공개적으로 비방하지 않아요.
+            </MannerItemTitle>
+          </MannerItem>
+          <MannerItem>
+            <MannerEmoji src={mic_emoji} />
+            <MannerItemTitle>
+              마이크를 켜라고 강요하지 않기로 해요.
+            </MannerItemTitle>
+          </MannerItem>
         </MeetingMannerCardWrapper>
-        <BlockDivider />
       </ContentsWrapper>
       <NavBar className="meeting-detail__footer-nav-bar">
         {data.live_status !== 'live' && (
@@ -358,62 +403,117 @@ const BannerImg = styled.img`
   height: auto;
 `;
 
-const LineDivider = styled.div`
-  margin: 0 0.8rem;
-  border-bottom: 1px solid ${COLOR.LINE_DIVIDER_GRAY};
+const TagWrapper = styled.div`
+  margin: 1.6rem 0 0.8rem 1.6rem;
 `;
 
-const BlockDivider = styled.div`
-  height: 1rem;
-  background-color: ${COLOR.BLOCK_DIVIDER_GRAY};
+const Tag = styled.img``;
+
+const LineDivider = styled.div<{ size?: string; color?: string }>`
+  border-bottom: ${({ size, color }) =>
+    size
+      ? `${size} solid ${color || COLOR.GRAY_100}`
+      : `1px solid ${color || COLOR.GRAY_100}`};
 `;
 
 const ContentsWrapper = styled.div`
   flex: 1;
   overflow-y: auto;
+  padding-bottom: 4rem;
 `;
 
 const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 2.4rem 1.6rem 1.8rem 1.6rem;
+  margin: 0.8rem 1.6rem 2.4rem 1.6rem;
 `;
 
 const Title = styled.div`
   color: ${COLOR.TEXT_BLACK};
-  margin-bottom: 0.9rem;
 `;
 
-const TimeWrapper = styled.div`
+const SummaryWrapper = styled.div`
+  margin: 2rem 1.6rem 3rem 1.6rem;
+
+  .summary-info:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+const SummaryInfo = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 1.2rem;
 `;
-const Time = styled.div`
+
+const SummaryIcon = styled.img`
+  margin: 0.25rem;
+`;
+
+const SummaryDiscription = styled.div`
   color: ${COLOR.TEXT_GRAY};
   margin-left: 0.4rem;
   letter-spacing: -0.03rem;
 `;
 
+const UserDiscriptionWrapper = styled.div`
+  margin: 3.6rem 1.6rem 2.4rem 1.6rem;
+  font-size: 1.5rem;
+  line-height: 2.3rem;
+  letter-spacing: -0.03rem;
+  color: #505050;
+`;
+
+const UserDiscriptionTitle = styled.div`
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 2.3rem;
+  margin-bottom: 1.6rem;
+  color: ${COLOR.TEXT_BLACK};
+`;
+
 const DescriptionWrapper = styled.div`
-  padding: 2.2rem 1.6rem 0 1.6rem;
+  padding: 3.2rem 1.6rem 1.4rem 1.6rem;
 `;
 
 const MeetingMannerCardWrapper = styled.div`
+  margin: 3.6rem 1.6rem 0 1.6rem;
+`;
+
+const MannerTitle = styled.div`
+  font-weight: 700;
+  font-size: 1.8rem;
+  line-height: 2.7rem;
+  letter-spacing: -0.04rem;
+  margin-bottom: 2.4rem;
+`;
+
+const MannerItemTitle = styled.div`
+  font-size: 1.5rem;
+  line-height: 2.3rem;
+  letter-spacing: -0.03rem;
+  color: #505050;
+  margin-bottom: 1rem;
+`;
+
+const MannerItem = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 2.4rem 3.1rem 2.4rem 2.4rem;
-  justify-content: space-between;
-  align-items: center;
-  white-space: pre-line;
-`;
 
-const InfoCardTitle = styled.div`
-  color: ${COLOR.TEXT_BLACK};
+  font-size: 1.5rem;
+  line-height: 2.3rem;
+
   letter-spacing: -0.03rem;
+
+  color: #505050;
 `;
 
-const MoreIcon = styled.div``;
+const MannerEmoji = styled.img`
+  margin-right: 1rem;
+  width: 2.4rem;
+  height: 2.4rem;
+`;
 
 const NavBar = styled.div`
   max-height: 6.4rem;
@@ -488,33 +588,6 @@ const DisableBtn = styled.div`
   text-align: center;
   letter-spacing: -0.03rem;
   white-space: normal;
-`;
-
-const GreenInfoBox = styled.div`
-  background: ${COLOR.PRIMARY_L1};
-  border: 0.1rem solid ${COLOR.LIGHT_GREEN};
-  color: ${COLOR.LIGHT_GREEN};
-  font-weight: 500;
-  font-size: 1.3rem;
-  line-height: 2rem;
-  letter-spacing: -0.03rem;
-  border-radius: 0.6rem;
-  margin: 1.6rem 1.6rem 0 1.6rem;
-  padding: 1rem 1.4rem;
-`;
-
-const GreenInfoText = styled.div`
-  margin-bottom: 0.8rem;
-`;
-
-const GreenInfoBtn = styled.div`
-  font-weight: 400;
-  color: ${COLOR.DARK_GREEN};
-  text-decoration-line: underline;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 `;
 
 export default MeetingDetailPage;
