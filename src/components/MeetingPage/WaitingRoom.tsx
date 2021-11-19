@@ -7,11 +7,14 @@ import happy_scratch from '../../assets/image/happy_scratch.png';
 import nav_logo from '../../assets/image/nav_logo.png';
 import un_happy_scratch from '../../assets/image/un_happy_scratch.png';
 import { COLOR } from '../../constant/color';
+import { checkMobileType } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
 function WaitingRoom({ callState }: { callState: callState }): ReactElement {
   const goBackHandler = () => {
-    window.open(process.env.KARROT_SCHEME);
+    if (checkMobileType() === 'Cupertino')
+      window.open(process.env.KARROT_SCHEME);
+    else window.close();
   };
 
   return (
