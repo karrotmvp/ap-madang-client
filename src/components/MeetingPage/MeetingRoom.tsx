@@ -112,7 +112,7 @@ const MeetingRoom = ({
 
     //token expired
     client.on('token-privilege-did-expire', async () => {
-      setInCall('finish');
+      setInCall({ state: 'finish' });
     });
 
     // 로컬 유저 가입
@@ -124,7 +124,7 @@ const MeetingRoom = ({
         info.user.id,
       );
     } catch (e) {
-      setInCall('error');
+      setInCall({ state: 'error', message: '올바르지 않은 접근이에요.' });
     }
 
     if (track) await client.publish(track);
@@ -141,7 +141,11 @@ const MeetingRoom = ({
 
   useEffect(() => {
     if (error) {
-      setInCall('error');
+      setInCall({
+        state: 'error',
+        message:
+          '마이크 권한이 없어 접속에 실패했어요.\n권한 허용 후 다시 접속해주세요',
+      });
     }
     if (ready && track && info) {
       sessionStorage.setItem('Authorization', info.token);

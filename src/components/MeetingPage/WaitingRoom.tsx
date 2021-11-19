@@ -22,15 +22,19 @@ function WaitingRoom({ callState }: { callState: callState }): ReactElement {
         onCustomCloseButton={goBackHandler}
         appendLeft={<PageTitle src={nav_logo} />}
       />
-      {callState === 'error' ? (
+      {callState.state === 'error' ? (
         <ContentsWrapper className="join WaitingRoom">
           <Image src={happy_scratch} />
           <Title>
-            {`올바르지 않은 접근이에요.\n당근마켓 앱을 통해 다시 접속해 주세요.`}
+            {`${
+              callState.message
+                ? callState.message
+                : '올바르지 않은 접근이에요.'
+            }\n당근마켓 앱을 통해 다시 접속해 주세요.`}
           </Title>
           <GreenBtn onClick={goBackHandler}>당근마켓 앱으로 돌아가기</GreenBtn>
         </ContentsWrapper>
-      ) : callState === 'finish' ? (
+      ) : callState.state === 'finish' ? (
         <ContentsWrapper className="join WaitingRoom">
           <Image src={un_happy_scratch} />
           <Title>{`모임이 종료되었어요.`}</Title>

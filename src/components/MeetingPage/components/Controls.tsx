@@ -38,7 +38,7 @@ const Controls = (props: {
     client.removeAllListeners();
     track.close();
     setStart(false);
-    setInCall('quit');
+    setInCall({ state: 'quit' });
   };
 
   return (

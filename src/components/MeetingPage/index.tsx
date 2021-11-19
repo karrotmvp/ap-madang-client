@@ -19,10 +19,13 @@ export type User = {
 
 type audioStreamState = { audioStreamValue: boolean };
 
-export type callState = 'waiting' | 'calling' | 'quit' | 'error' | 'finish';
+export type callState = {
+  state: 'waiting' | 'calling' | 'quit' | 'error' | 'finish';
+  message?: string;
+};
 
 const AgoraMeetingPage = () => {
-  const [inCall, setInCall] = useState<callState>('waiting');
+  const [inCall, setInCall] = useState<callState>({ state: 'waiting' });
   const [info, setInfo] = useState<InfoType | undefined>(undefined);
 
   const fetchMeetingData = async (code: string) => {
@@ -40,16 +43,16 @@ const AgoraMeetingPage = () => {
       const code = urlHashParams.get('meeting_code');
       if (code) fetchMeetingData(code);
     } else if (info) {
-      setInCall('calling');
+      setInCall({ state: 'calling' });
     }
     return () => {
       sessionStorage.removeItem('Authorization');
     };
   }, [info]);
 
-  return inCall === 'calling' && info ? (
+  return inCall.state === 'calling' && info ? (
     <MeetingRoom setInCall={setInCall} info={info} />
-  ) : inCall === 'waiting' ? (
+  ) : inCall.state === 'waiting' ? (
     <RedirectPage />
   ) : (
     <WaitingRoom callState={inCall} />
