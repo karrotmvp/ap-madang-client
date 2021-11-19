@@ -75,11 +75,9 @@ export default function BottomSheet({
 
 const openSheetBackground = keyframes`
   0%{
-  
     background: rgba(0,0,0,0);
   }
   100% {   
-    
     background: ${COLOR.MODAL_WRAPPER_BLACK};
   }
 `;
@@ -95,19 +93,26 @@ const closeSheetBackground = keyframes`
 
 const openSheet = keyframes`
   0%{
-    bottom:-100%;
+    opacity:0;
+    transform: translate(0, 100%);
+  }
+  10%{
+    opacity:0;
+  }
+  20%{
+    opacity:1;
   }
   100% {   
-    bottom:0;
+    transform:translate(0, 0);
   }
 `;
 
 const closeSheet = keyframes`
   0%{
-    bottom:0;
+    transform:translate(0, 0);
   }
   100% {   
-    bottom:-100%;
+    transform:translate(0, 100%);
   }
 `;
 
@@ -121,10 +126,7 @@ const BottomSheetOverlay = styled.div`
   bottom: 0;
   right: 0;
   z-index: 999;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
+
   padding: 4rem 0 0 0;
   box-sizing: border-box;
   white-space: pre-line;
@@ -139,14 +141,18 @@ const BottomSheetOverlay = styled.div`
 
 const BottomSheetInner = styled.div`
   box-sizing: border-box;
-  position: relative;
+  position: fixed;
   bottom: 0;
   width: 100%;
+  height: auto;
   max-height: 95%;
   background: ${COLOR.TEXT_WHITE};
   border-radius: 1.2rem 1.2rem 0 0;
   display: flex;
   flex-direction: column;
+  transform: translate(0, 100%);
+  -webkit-transform: translate(0, 100%);
+  -webkit-transform: -webkit-translate(0, 100%);
 
   &.open-bottom-sheet {
     animation: ${openSheet} 0.4s ease forwards;
