@@ -39,7 +39,8 @@ const Controls = (props: {
     track.close();
     setStart(false);
     setInCall('quit');
-    window.open('karrot.alpha://minikarrot/');
+    window.open(process.env.KARROT_SCHEME);
+    window.close();
   };
 
   return (
