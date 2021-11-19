@@ -41,7 +41,7 @@ const MeetingRoom = ({
   const [volumeState, setVolumeState] = useState<Map<number, number>>(
     new Map(),
   );
-  const { ready, track } = useMicrophoneAudioTrack();
+  const { ready, track, error } = useMicrophoneAudioTrack();
   const client = useClient();
 
   const fetchNewUser = useCallback(async (user: IAgoraRTCRemoteUser) => {
@@ -140,6 +140,9 @@ const MeetingRoom = ({
   ]);
 
   useEffect(() => {
+    if (error) {
+      setInCall('error');
+    }
     if (ready && track && info) {
       sessionStorage.setItem('Authorization', info.token);
       init();
@@ -147,7 +150,7 @@ const MeetingRoom = ({
     return () => {
       sessionStorage.removeItem('Authorization');
     };
-  }, [info, init, ready, track]);
+  }, [error, info, init, ready, setInCall, track]);
 
   return (
     <MeetingRoomWrapper className="meeting-room">
