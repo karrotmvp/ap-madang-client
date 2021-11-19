@@ -3,6 +3,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import classnames from 'classnames';
 
+import green_face_happy from '../../../assets/icon/detailPage/green_face_happy.svg';
 import { COLOR } from '../../../constant/color';
 import DescriptionItem from '../../common/DescriptionItem';
 
@@ -20,6 +21,7 @@ const DescriptionList = (props: Props) => {
   return (
     <Wrapper className={classnames('description-list', props.className)}>
       <DescriptionTitle className="description-list__title">
+        <Icon src={green_face_happy} />
         {props.title}
       </DescriptionTitle>
       <List>
@@ -41,6 +43,10 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
+const Icon = styled.img`
+  margin-right: 0.6rem;
+`;
+
 const DescriptionTitle = styled.div`
   font-weight: 600;
   font-size: 1.6rem;
@@ -48,6 +54,9 @@ const DescriptionTitle = styled.div`
   letter-spacing: -0.03rem;
   color: ${COLOR.TEXT_BLACK};
   margin-bottom: 1.1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const List = styled.div`
