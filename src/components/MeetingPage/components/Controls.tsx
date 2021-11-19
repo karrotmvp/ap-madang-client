@@ -39,8 +39,6 @@ const Controls = (props: {
     track.close();
     setStart(false);
     setInCall('quit');
-    window.open(process.env.KARROT_SCHEME);
-    window.close();
   };
 
   return (
