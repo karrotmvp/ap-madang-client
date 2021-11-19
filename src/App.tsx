@@ -6,7 +6,7 @@ import { getAnalytics, logEvent } from 'firebase/analytics';
 
 import LandingPage from './components/LandingPage';
 import MeetingDetailPage from './components/MeetingDetailPage';
-import AgoraPage from './components/MeetingPage';
+const AgoraPage = React.lazy(() => import('./components/MeetingPage'));
 import MeetingSuggestionPage from './components/MeetingSuggestionPage';
 import NotFoundPage from './components/NotFountPage';
 import NotServiceRegionPage from './components/NotServiceRegionPage';
