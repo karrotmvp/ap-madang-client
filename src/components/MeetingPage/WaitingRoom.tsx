@@ -7,19 +7,21 @@ import happy_scratch from '../../assets/image/happy_scratch.png';
 import nav_logo from '../../assets/image/nav_logo.png';
 import un_happy_scratch from '../../assets/image/un_happy_scratch.png';
 import { COLOR } from '../../constant/color';
-import { checkMobileType } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
 function WaitingRoom({ callState }: { callState: callState }): ReactElement {
   const goBackHandler = () => {
-    if (checkMobileType() === 'Cupertino')
-      window.open(process.env.KARROT_SCHEME);
-    else window.close();
+    window.open(process.env.KARROT_SCHEME);
+    window.close();
   };
 
   return (
     <PageWrapper>
-      <CustomScreenHelmet appendLeft={<PageTitle src={nav_logo} />} />
+      <CustomScreenHelmet
+        onCustomBackButton={goBackHandler}
+        onCustomCloseButton={goBackHandler}
+        appendLeft={<PageTitle src={nav_logo} />}
+      />
       {callState === 'error' ? (
         <ContentsWrapper className="join WaitingRoom">
           <Image src={happy_scratch} />

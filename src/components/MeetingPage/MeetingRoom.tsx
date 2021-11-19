@@ -155,6 +155,8 @@ const MeetingRoom = ({
   return (
     <MeetingRoomWrapper className="meeting-room">
       <CustomScreenHelmet
+        customCloseButton={<div />}
+        customBackButton={<div />}
         appendRight={
           <MannerGuideBtn onClickHandler={() => setOpenBottomSheet(true)} />
         }
