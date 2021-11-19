@@ -37,6 +37,7 @@
               FA_MEASUREMENT_ID: ${{ secrets.FA_MEASUREMENT_ID_DEV }}
               INFO_NOTION_URL: ${{secrets.INFO_NOTION_URL_DEV}}
               AGORA_APP_ID: ${{secrets.AGORA_APP_ID_DEV}}
+              KARROT_SCHEME: ${{secrets.KARROT_SCHEME_DEV}}
             run: |
               touch .env
               echo APP_ID="$DEV_APP_ID" >> .env
@@ -52,6 +53,7 @@
               echo FA_MEASUREMENT_ID="$FA_MEASUREMENT_ID" >> .env
               echo INFO_NOTION_URL="$INFO_NOTION_URL" >> .env
               echo AGORA_APP_ID="$AGORA_APP_ID" >> .env
+              echo KARROT_SCHEME="$KARROT_SCHEME" >> .env
               cat .env
     
           - name: Npm install
