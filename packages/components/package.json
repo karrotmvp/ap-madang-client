@@ -1,0 +1,46 @@
+{
+  "name": "landongmo-ui-components",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "keywords": [
+    "landongmo",
+    "components",
+    "component"
+  ],
+  "author": "Ryouchangyu <ycg02116@kyonggi.ac.kr>",
+  "homepage": "",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "build": "tsc -d",
+    "dev": "tsc",
+    "watch": "tsc --watch"
+  },
+  "peerDependencies": {
+    "react": ">= 16.8.0 < 17",
+    "react-dom": ">= 16.8.0 < 17"
+  },
+  "devDependencies": {
+    "@types/node": "11.13.0",
+    "@types/react": "^17.0.36",
+    "@types/react-dom": "16.8.3",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "typescript": "^3.8.0"
+  },
+  "dependencies": {
+    "landongmo-ui-box": "^0.0.0"
+  }
+}
