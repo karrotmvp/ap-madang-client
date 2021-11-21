@@ -45,7 +45,7 @@ const MeetingDetailPage = () => {
   const [modal, setModal] = useState<React.ReactElement | undefined>(undefined);
   const [sendLogEvent, setSendLogEvent] = useState(false);
   const { isRoot, isTop } = useCurrentScreen();
-  const { pop } = useNavigator();
+  const { pop, replace } = useNavigator();
 
   const userInfo = useRecoilValue(userInfoAtom);
 
@@ -64,10 +64,11 @@ const MeetingDetailPage = () => {
       if (result.success && result.data) setData(result.data);
       else {
         alert('해당 모임을 찾을 수 없습니다.\n홈에서 다시 시도해주세요');
-        pop();
+        if (isRoot) replace('/');
+        else pop();
       }
     },
-    [pop],
+    [isRoot, pop, replace],
   );
 
   // 알람 신청 핸들러
