@@ -18,8 +18,6 @@ import x_emoji from '../../assets/icon/agora/x_emoji.svg';
 import camera_meeting_tag__gray from '../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
 import clock from '../../assets/icon/detailPage/clock.svg';
 import info_circle from '../../assets/icon/detailPage/info_circle.svg';
-import notification_empty_detail from '../../assets/icon/detailPage/notification_empty_detail.svg';
-import notification_fill from '../../assets/icon/detailPage/notification_fill.svg';
 import voice_meeting_tag__gray from '../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
 import person from '../../assets/icon/person.svg';
 import { COLOR } from '../../constant/color';
@@ -33,6 +31,7 @@ import MeetingMannerModal from '../common/Modal/MeetingMannerModal';
 import NewAlarmModal from '../common/Modal/NewAlarmModal';
 import AudioMeetBottomSheet from './components/AudioMeetBottomSheet';
 import DescriptionList from './components/DescriptionList';
+import Footer from './components/Footer';
 import ZoomBottomSheet from './components/ZoomBottomSheet';
 
 interface MatchParams {
@@ -327,33 +326,12 @@ const MeetingDetailPage = () => {
           </MannerItem>
         </MeetingMannerCardWrapper>
       </ContentsWrapper>
-      <NavBar className="meeting-detail__footer-nav-bar">
-        {data?.live_status !== 'live' && (
-          <AlarmBtn onClick={alarmHandler}>
-            {data?.alarm_id ? (
-              <img src={notification_fill} />
-            ) : (
-              <img src={notification_empty_detail} />
-            )}
-            {data?.alarm_num > 4 && (
-              <AlarmApplicant applied={data?.alarm_id}>
-                {data?.alarm_num}
-              </AlarmApplicant>
-            )}
-          </AlarmBtn>
-        )}
-        {data?.live_status === 'live' ? (
-          <JoinBtn onClick={onClickJoinHandler}>
-            {MEETING_DETAIL.JOIN_NOW}
-          </JoinBtn>
-        ) : (
-          <DisableBtn>
-            {data?.live_status === 'upcoming'
-              ? `${remainTime} ${MEETING_DETAIL.JOIN_LATER}`
-              : MEETING_DETAIL.CLOSE_MEETING}
-          </DisableBtn>
-        )}
-      </NavBar>
+      <Footer
+        data={data}
+        alarmHandler={alarmHandler}
+        onClickJoinHandler={onClickJoinHandler}
+        remainTime={remainTime}
+      />
     </PageWrapper>
   );
 };
@@ -491,81 +469,6 @@ const MannerEmoji = styled.img`
   margin-right: 1rem;
   width: 2.4rem;
   height: 2.4rem;
-`;
-
-const NavBar = styled.div`
-  max-height: 6.4rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.6rem;
-  border-top: 1px solid ${COLOR.NAVBAR_TOP_BORDER};
-`;
-
-const AlarmBtn = styled.div`
-  width: 6.8rem;
-  height: 4.4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 0.6rem;
-  border-radius: 0.6rem;
-  border: 0.1rem solid ${COLOR.TEXTAREA_LIGHT_GRAY};
-`;
-
-const AlarmApplicant = styled.div<{ applied: number | undefined }>`
-  font-weight: 600;
-  font-size: 1.6rem;
-  line-height: 1.9rem;
-  text-align: center;
-  letter-spacing: -0.03rem;
-  margin-left: 0.4rem;
-  color: ${({ applied }) => (applied ? COLOR.LIGHT_GREEN : COLOR.GRAY_800)};
-`;
-
-const JoinBtn = styled.div`
-  flex: 1;
-  height: 4.4rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0.6rem;
-  background-color: ${COLOR.LIGHT_GREEN};
-  font-weight: 600;
-  font-size: 1.6rem;
-  line-height: 1.9rem;
-  text-align: center;
-  letter-spacing: -0.03rem;
-
-  color: ${COLOR.TEXT_WHITE};
-
-  text-decoration: none;
-  outline: none;
-
-  &:hover,
-  &:active {
-    text-decoration: none;
-    color: ${COLOR.TEXT_WHITE};
-  }
-`;
-
-const DisableBtn = styled.div`
-  flex: 1;
-  height: 4.4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 0.6rem;
-  background-color: ${COLOR.TEXTAREA_LIGHT_GRAY};
-  color: ${COLOR.TEXT_WHITE};
-  font-weight: 600;
-  font-size: 1.6rem;
-  line-height: 1.9rem;
-  text-align: center;
-  letter-spacing: -0.03rem;
-  white-space: normal;
 `;
 
 export default MeetingDetailPage;
