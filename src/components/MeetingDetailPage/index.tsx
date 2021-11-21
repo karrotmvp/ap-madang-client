@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-import { useCurrentScreen } from '@karrotframe/navigator';
+import { useCurrentScreen, useNavigator } from '@karrotframe/navigator';
 import { MeetingDetail } from 'meeting';
 import { useRouteMatch } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
@@ -15,12 +15,12 @@ import heart_emoji from '../../assets/icon/agora/heart_emoji.svg';
 import mic_emoji from '../../assets/icon/agora/mic_emoji.svg';
 import talk_emoji from '../../assets/icon/agora/talk_emoji.svg';
 import x_emoji from '../../assets/icon/agora/x_emoji.svg';
-import camera_meeting_tag from '../../assets/icon/detailPage/camera_meeting_tag.svg';
+import camera_meeting_tag__gray from '../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
 import clock from '../../assets/icon/detailPage/clock.svg';
 import info_circle from '../../assets/icon/detailPage/info_circle.svg';
 import notification_empty_detail from '../../assets/icon/detailPage/notification_empty_detail.svg';
 import notification_fill from '../../assets/icon/detailPage/notification_fill.svg';
-import voice_meeting_tag from '../../assets/icon/detailPage/voice_meeting_tag.svg';
+import voice_meeting_tag__gray from '../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
 import person from '../../assets/icon/person.svg';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
@@ -39,30 +39,13 @@ interface MatchParams {
   id: string;
 }
 
-const defaultValue: MeetingDetail = {
-  id: 0,
-  title: '',
-  start_time: '',
-  end_time: '',
-  live_status: 'tomorrow',
-  alarm_id: undefined,
-  alarm_num: 0,
-  description: {
-    recommend_user: [{ text: '' }],
-    recommend_topic: [{ text: '' }],
-  },
-  meeting_url: '',
-  region: '',
-  image: '',
-  date: '',
-};
-
 const MeetingDetailPage = () => {
-  const [data, setData] = useState<MeetingDetail>(defaultValue);
+  const [data, setData] = useState<MeetingDetail | undefined>(undefined);
   const [remainTime, setRemainTime] = useState('');
   const [modal, setModal] = useState<React.ReactElement | undefined>(undefined);
   const [sendLogEvent, setSendLogEvent] = useState(false);
   const { isRoot, isTop } = useCurrentScreen();
+  const { pop } = useNavigator();
 
   const userInfo = useRecoilValue(userInfoAtom);
 
@@ -75,19 +58,26 @@ const MeetingDetailPage = () => {
   }) || { params: { id: '' } };
 
   // 모임 상세정보 fetch
-  const fetchData = useCallback(async (id: string) => {
-    const result = await getMeetingDetail(id);
-    if (result.success && result.data) setData(result.data);
-  }, []);
+  const fetchData = useCallback(
+    async (id: string) => {
+      const result = await getMeetingDetail(id);
+      if (result.success && result.data) setData(result.data);
+      else {
+        alert('해당 모임을 찾을 수 없습니다.\n홈에서 다시 시도해주세요');
+        pop();
+      }
+    },
+    [pop],
+  );
 
   // 알람 신청 핸들러
   const addAlarmHandler = useCallback(async () => {
-    if (!userInfo) return;
+    if (!userInfo || !data) return;
     logEvent(analytics, 'add_alarm__click', {
       location: 'detail_page',
-      meeting_id: data.id,
-      meeting_name: data.title,
-      is_current: data.live_status,
+      meeting_id: data?.id,
+      meeting_name: data?.title,
+      is_current: data?.live_status,
       userNickname: userInfo.nickname,
       userRegion: userInfo.region,
     });
@@ -104,20 +94,20 @@ const MeetingDetailPage = () => {
       });
       setModal(<NewAlarmModal open={true} closeHandler={hideModal} />);
     }
-  }, [data.id, data.live_status, data.title, matchId.params.id, userInfo]);
+  }, [data, matchId.params.id, userInfo]);
 
   // 알람 신청 해제 핸들러
   const deleteAlarmHandler = useCallback(async () => {
     if (data?.alarm_id && matchId?.params.id && userInfo) {
       logEvent(analytics, 'delete_alarm__click', {
         location: 'detail_page',
-        meeting_id: data.id,
-        meeting_name: data.title,
-        is_current: data.live_status,
+        meeting_id: data?.id,
+        meeting_name: data?.title,
+        is_current: data?.live_status,
         userNickname: userInfo.nickname,
         userRegion: userInfo.region,
       });
-      const result = await deleteAlarm(data.alarm_id.toString());
+      const result = await deleteAlarm(data?.alarm_id.toString());
       if (result.success) {
         setData((prevState: MeetingDetail) => {
           if (prevState)
@@ -132,14 +122,7 @@ const MeetingDetailPage = () => {
       }
     }
     return false;
-  }, [
-    data.alarm_id,
-    data.id,
-    data.live_status,
-    data.title,
-    matchId.params.id,
-    userInfo,
-  ]);
+  }, [data, matchId.params.id, userInfo]);
 
   // 알람 신청 핸들러
   const alarmHandler = useCallback(async () => {
@@ -154,34 +137,35 @@ const MeetingDetailPage = () => {
     } else if (matchId?.params.id) {
       addAlarmHandler();
     }
-  }, [addAlarmHandler, data.alarm_id, deleteAlarmHandler, matchId.params.id]);
+  }, [addAlarmHandler, data, deleteAlarmHandler, matchId.params.id]);
 
   // 모임 참여 버튼 핸들러
   const onClickJoinHandler = async () => {
+    if (!data && !userInfo) return;
     logEvent(analytics, 'join__click', {
-      meeting_id: data.id,
-      meeting_name: data.title,
-      is_current: data.live_status,
+      meeting_id: data?.id,
+      meeting_name: data?.title,
+      is_current: data?.live_status,
       userNickname: userInfo?.nickname,
       userRegion: userInfo?.region,
     });
-    const result = await getAgoraCode(data.id);
+    const result = await getAgoraCode(data?.id);
     if (result.success && result.data)
       setModal(
-        data.is_video ? (
+        data?.is_video ? (
           <ZoomBottomSheet
-            url={data.meeting_url}
+            url={data?.meeting_url}
             onClose={hideModal}
-            meetingId={data.id}
-            meetingTitle={data.title}
+            meetingId={data?.id}
+            meetingTitle={data?.title}
           />
         ) : (
           <AudioMeetBottomSheet
-            code={result.data.code}
-            url={data.meeting_url}
+            code={result.data?.code}
+            url={data?.meeting_url}
             onClose={hideModal}
-            meetingId={data.id}
-            meetingTitle={data.title}
+            meetingId={data?.id}
+            meetingTitle={data?.title}
           />
         ),
       );
@@ -192,9 +176,9 @@ const MeetingDetailPage = () => {
     setModal(<MeetingMannerModal open={true} closeHandler={hideModal} />);
     logEvent(analytics, 'guide_modal__show', {
       location: 'detail_page',
-      meeting_id: data.id,
-      meeting_name: data.title,
-      is_current: data.live_status,
+      meeting_id: data?.id,
+      meeting_name: data?.title,
+      is_current: data?.live_status,
       userNickname: userInfo?.nickname,
       userRegion: userInfo?.region,
     });
@@ -203,30 +187,29 @@ const MeetingDetailPage = () => {
   // 하단 남은시간 타이머 업데이트
   useInterval(
     () => {
-      setRemainTime(getRemainTime(data.start_time, data.date));
+      setRemainTime(getRemainTime(data?.start_time, data?.date));
     },
-    data.live_status === 'upcoming' ? 10000 : null,
+    data?.live_status === 'upcoming' ? 10000 : null,
   );
 
   useEffect(() => {
-    if (matchId?.params.id && !data.id) fetchData(matchId.params.id);
-  }, [data.id, fetchData, matchId.params.id]);
+    if (matchId?.params.id && !data) fetchData(matchId.params.id);
+  }, [data, fetchData, matchId.params.id]);
 
   useEffect(() => {
-    if (data.start_time && data.date)
-      setRemainTime(getRemainTime(data.start_time, data.date));
-  }, [data, data.date, data.start_time]);
+    if (data) setRemainTime(getRemainTime(data.start_time, data.date));
+  }, [data]);
 
   useEffect(() => {
-    data.id !== 0 &&
+    data &&
       logEvent(analytics, 'detail_page__show', {
-        meeting_id: data.id,
-        meeting_name: data.title,
-        is_current: data.live_status,
+        meeting_id: data?.id,
+        meeting_name: data?.title,
+        is_current: data?.live_status,
         userNickname: userInfo?.nickname,
         userRegion: userInfo?.region,
       });
-  }, [data, data.id, data.live_status, data.title, userInfo]);
+  }, [data, userInfo]);
 
   useEffect(() => {
     if (isRoot && data && !sendLogEvent && userInfo) {
@@ -240,15 +223,7 @@ const MeetingDetailPage = () => {
       });
       setSendLogEvent(true);
     }
-  }, [
-    data,
-    data.id,
-    data.live_status,
-    data.title,
-    isRoot,
-    sendLogEvent,
-    userInfo,
-  ]);
+  }, [data, isRoot, sendLogEvent, userInfo]);
 
   // 페이지 트랜지션이 있을때 떠있는 모달 제거
   useEffect(() => {
@@ -261,13 +236,13 @@ const MeetingDetailPage = () => {
       {modal}
       <ContentsWrapper className="meeting-detail__contents">
         <BannerWrapper>
-          <BannerImg src={data.image} />
+          <BannerImg src={data?.image} />
         </BannerWrapper>
         <TagWrapper>
-          {data.is_video ? (
-            <Tag src={camera_meeting_tag} />
+          {data?.is_video ? (
+            <Tag src={camera_meeting_tag__gray} />
           ) : (
-            <Tag src={voice_meeting_tag} />
+            <Tag src={voice_meeting_tag__gray} />
           )}
         </TagWrapper>
         <TitleWrapper className="meeting-detail__header">
@@ -278,21 +253,24 @@ const MeetingDetailPage = () => {
           <SummaryInfo className="summary-info">
             <SummaryIcon src={clock} />
             <SummaryDiscription className="body4">
-              {getDateToText(data.start_time)}~{getDateToText(data.end_time)}
+              {data &&
+                `${getDateToText(data?.start_time)} ~ ${getDateToText(
+                  data?.end_time,
+                )}`}
             </SummaryDiscription>
           </SummaryInfo>
-          {data.live_status === 'live' && (
+          {data?.live_status === 'live' && (
             <SummaryInfo className="summary-info">
               <SummaryIcon src={person} />
               <SummaryDiscription className="body4">
-                누적 참여자 {data.user_enter_cnt}명
+                누적 참여자 {data?.user_enter_cnt}명
               </SummaryDiscription>
             </SummaryInfo>
           )}
           <SummaryInfo className="summary-info">
             <SummaryIcon src={info_circle} />
             <SummaryDiscription className="body4">
-              {data.is_video
+              {data?.is_video
                 ? '이 모임은 줌(zoom)으로 진행돼요. 카메라를 켜지 않아도 괜찮아요!'
                 : '이 모임에서는 음성으로 이웃과 실시간 대화를 나눠요.'}
             </SummaryDiscription>
@@ -302,8 +280,7 @@ const MeetingDetailPage = () => {
 
         <UserDiscriptionWrapper>
           <UserDiscriptionTitle>모임 상세 설명</UserDiscriptionTitle>
-
-          {data.description.text}
+          {data?.description.text}
         </UserDiscriptionWrapper>
 
         <LineDivider size="0.1rem" />
@@ -315,7 +292,7 @@ const MeetingDetailPage = () => {
           />
           <DescriptionList
             title={MEETING_DETAIL.DESCRIPTION_TITLE2}
-            data={data.description.recommend_topic}
+            data={data?.description.recommend_topic}
           />
         </DescriptionWrapper>
         <LineDivider size="1.2rem" />
@@ -350,27 +327,27 @@ const MeetingDetailPage = () => {
         </MeetingMannerCardWrapper>
       </ContentsWrapper>
       <NavBar className="meeting-detail__footer-nav-bar">
-        {data.live_status !== 'live' && (
+        {data?.live_status !== 'live' && (
           <AlarmBtn onClick={alarmHandler}>
-            {data.alarm_id ? (
+            {data?.alarm_id ? (
               <img src={notification_fill} />
             ) : (
               <img src={notification_empty_detail} />
             )}
-            {data.alarm_num > 4 && (
-              <AlarmApplicant applied={data.alarm_id}>
-                {data.alarm_num}
+            {data?.alarm_num > 4 && (
+              <AlarmApplicant applied={data?.alarm_id}>
+                {data?.alarm_num}
               </AlarmApplicant>
             )}
           </AlarmBtn>
         )}
-        {data.live_status === 'live' ? (
+        {data?.live_status === 'live' ? (
           <JoinBtn onClick={onClickJoinHandler}>
             {MEETING_DETAIL.JOIN_NOW}
           </JoinBtn>
         ) : (
           <DisableBtn>
-            {data.live_status === 'upcoming'
+            {data?.live_status === 'upcoming'
               ? `${remainTime} ${MEETING_DETAIL.JOIN_LATER}`
               : MEETING_DETAIL.CLOSE_MEETING}
           </DisableBtn>
