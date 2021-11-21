@@ -1,27 +1,27 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from 'react';
 
-import styled from "@emotion/styled";
-import { logEvent, setUserId } from "@firebase/analytics";
-import { useNavigator } from "@karrotframe/navigator";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import styled from '@emotion/styled';
+import { logEvent, setUserId } from '@firebase/analytics';
+import { useNavigator } from '@karrotframe/navigator';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { getMeetings } from "../../api/meeting";
-import { analytics } from "../../App";
-import home_banner from "../../assets/image/home_banner.png";
-import nav_logo from "../../assets/image/nav_logo.png";
-import suggestion_img from "../../assets/image/suggestion_img.png";
-import { COLOR } from "../../constant/color";
-import { LANDING } from "../../constant/message";
+import { getMeetings } from '../../api/meeting';
+import { analytics } from '../../App';
+import home_banner from '../../assets/image/home_banner.png';
+import nav_logo from '../../assets/image/nav_logo.png';
+import suggestion_img from '../../assets/image/suggestion_img.png';
+import { COLOR } from '../../constant/color';
+import { LANDING } from '../../constant/message';
 import {
   currMeetings,
   meetingsAtom,
   upcomingMeetings,
-} from "../../store/meeting";
-import { userInfoAtom } from "../../store/user";
-import CustomScreenHelmet from "../common/CustomScreenHelmet";
-import CurrMeetingList from "./components/MeetingList/CurrMeetingList";
-import MeetingList from "./components/MeetingList/MeetingList";
-import { useRedirect } from "./useRedirect";
+} from '../../store/meeting';
+import { userInfoAtom } from '../../store/user';
+import CustomScreenHelmet from '../common/CustomScreenHelmet';
+import CurrMeetingList from './components/MeetingList/CurrMeetingList';
+import MeetingList from './components/MeetingList/MeetingList';
+import { useRedirect } from './useRedirect';
 
 const LandingPage: React.FC = () => {
   const { push, replace } = useNavigator();
@@ -50,7 +50,7 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     if (userInfo)
-      logEvent(analytics, "landing_page__show", {
+      logEvent(analytics, 'landing_page__show', {
         userRegion: userInfo?.region,
         userNickname: userInfo?.nickname,
       });
@@ -62,7 +62,7 @@ const LandingPage: React.FC = () => {
       <BannerImg
         src={home_banner}
         className="landing__banner-img"
-        onClick={() => push("/guide")}
+        onClick={() => push('/guide')}
       />
       {currMeetingsValue.length !== 0 && (
         <div>
@@ -87,7 +87,7 @@ const LandingPage: React.FC = () => {
       <SuggestionBannerWrapper>
         <SuggestionImg
           src={suggestion_img}
-          onClick={() => push("/suggestion/meeting")}
+          onClick={() => push('/suggestion/meeting')}
         />
       </SuggestionBannerWrapper>
     </PageWrapper>

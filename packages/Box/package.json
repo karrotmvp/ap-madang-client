@@ -1,0 +1,42 @@
+{
+  "name": "landongmo-ui-box",
+  "version": "0.0.0",
+  "private": false,
+  "files": [
+    "lib"
+  ],
+  "main": "./lib/index.js",
+  "types": "./lib/types.d.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "dev": "tsc",
+    "watch": "tsc --watch"
+  },
+  "description": "> TODO: description",
+  "author": "Ryou_Changyu <ycg02116@kyonggi.ac.kr>",
+  "homepage": "https://github.com/karrotmvp/ap-madang-client#readme",
+  "license": "ISC",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karrotmvp/ap-madang-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/karrotmvp/ap-madang-client/issues"
+  },
+  "peerDependencies": {
+    "react": ">= 16.8.0 < 17",
+    "react-dom": ">= 16.8.0 < 17"
+  },
+  "devDependencies": {
+    "@types/node": "11.13.0",
+    "@types/react": "^17.0.36",
+    "@types/react-dom": "16.8.3",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "typescript": "^3.8.0"
+  }
+}

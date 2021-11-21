@@ -26,3 +26,4 @@
 **/deploy.zip
 
 **/lerna-debug.log*
+**/package-lock.json
