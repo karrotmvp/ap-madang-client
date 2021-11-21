@@ -21,6 +21,9 @@ function Gradient({ gradient, children, className }: Props): ReactElement {
 }
 
 const GradientStyle = styled.div<{ gradient: string }>`
+  width: 100%;
+  height: 100%;
+  display: flex;
   &::after {
     content: '';
     position: absolute;

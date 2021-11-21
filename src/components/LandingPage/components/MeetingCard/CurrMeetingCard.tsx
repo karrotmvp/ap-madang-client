@@ -106,14 +106,12 @@ const TagWrapper = styled.div`
 
 const Thumbnail = styled.img`
   width: 100%;
+  height: auto;
+  object-fit: cover;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(245, 246, 252, 0.52),
-    rgba(117, 19, 93, 0.73)
-  );
 `;
 
 const LiveTag = styled.div`
