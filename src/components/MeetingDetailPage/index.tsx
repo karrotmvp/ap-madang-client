@@ -11,10 +11,6 @@ import { getAgoraCode } from '../../api/agora';
 import { deleteAlarm, newAlarm } from '../../api/alarm';
 import { getMeetingDetail } from '../../api/meeting';
 import { analytics } from '../../App';
-import heart_emoji from '../../assets/icon/agora/heart_emoji.svg';
-import mic_emoji from '../../assets/icon/agora/mic_emoji.svg';
-import talk_emoji from '../../assets/icon/agora/talk_emoji.svg';
-import x_emoji from '../../assets/icon/agora/x_emoji.svg';
 import camera_meeting_tag__gray from '../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
 import clock from '../../assets/icon/detailPage/clock.svg';
 import info_circle from '../../assets/icon/detailPage/info_circle.svg';
@@ -27,11 +23,11 @@ import { userInfoAtom } from '../../store/user';
 import { getDateToText, getRemainTime } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
-import MeetingMannerModal from '../common/Modal/MeetingMannerModal';
 import NewAlarmModal from '../common/Modal/NewAlarmModal';
 import AudioMeetBottomSheet from './components/AudioMeetBottomSheet';
 import DescriptionList from './components/DescriptionList';
 import Footer from './components/Footer';
+import MeetingMannerCard from './components/MannerCard';
 import ZoomBottomSheet from './components/ZoomBottomSheet';
 
 interface MatchParams {
@@ -171,19 +167,6 @@ const MeetingDetailPage = () => {
       );
   };
 
-  // 모임 매너 카드 핸들러
-  const onClickMannerCardHandler = () => {
-    setModal(<MeetingMannerModal open={true} closeHandler={hideModal} />);
-    logEvent(analytics, 'guide_modal__show', {
-      location: 'detail_page',
-      meeting_id: data?.id,
-      meeting_name: data?.title,
-      is_current: data?.live_status,
-      userNickname: userInfo?.nickname,
-      userRegion: userInfo?.region,
-    });
-  };
-
   // 하단 남은시간 타이머 업데이트
   useInterval(
     () => {
@@ -296,35 +279,7 @@ const MeetingDetailPage = () => {
           />
         </DescriptionWrapper>
         <LineDivider size="1.2rem" />
-        <MeetingMannerCardWrapper
-          className="meeting-detail__footer-banner"
-          onClick={onClickMannerCardHandler}
-        >
-          <MannerTitle>{MEETING_DETAIL.MANNER.TITLE}</MannerTitle>
-
-          <MannerItem>
-            <MannerEmoji src={heart_emoji} />
-            <MannerItemTitle>서로 배려하고 존중해요.</MannerItemTitle>
-          </MannerItem>
-          <MannerItem>
-            <MannerEmoji src={talk_emoji} />
-            <MannerItemTitle>
-              이웃 모두가 함께 나눌 수 있는 대화를 해요.
-            </MannerItemTitle>
-          </MannerItem>
-          <MannerItem>
-            <MannerEmoji src={x_emoji} />
-            <MannerItemTitle>
-              이웃을 공개적으로 비방하지 않아요.
-            </MannerItemTitle>
-          </MannerItem>
-          <MannerItem>
-            <MannerEmoji src={mic_emoji} />
-            <MannerItemTitle>
-              마이크를 켜라고 강요하지 않기로 해요.
-            </MannerItemTitle>
-          </MannerItem>
-        </MeetingMannerCardWrapper>
+        <MeetingMannerCard className="meeting-detail__manner-card" />
       </ContentsWrapper>
       <Footer
         data={data}
@@ -431,44 +386,6 @@ const UserDiscriptionTitle = styled.div`
 
 const DescriptionWrapper = styled.div`
   padding: 3.2rem 1.6rem 1.4rem 1.6rem;
-`;
-
-const MeetingMannerCardWrapper = styled.div`
-  margin: 3.6rem 1.6rem 0 1.6rem;
-`;
-
-const MannerTitle = styled.div`
-  font-weight: 700;
-  font-size: 1.8rem;
-  line-height: 2.7rem;
-  letter-spacing: -0.04rem;
-  margin-bottom: 2.4rem;
-`;
-
-const MannerItemTitle = styled.div`
-  font-size: 1.5rem;
-  line-height: 2.3rem;
-  letter-spacing: -0.03rem;
-  color: #505050;
-  margin-bottom: 1rem;
-`;
-
-const MannerItem = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  font-size: 1.5rem;
-  line-height: 2.3rem;
-
-  letter-spacing: -0.03rem;
-
-  color: #505050;
-`;
-
-const MannerEmoji = styled.img`
-  margin-right: 1rem;
-  width: 2.4rem;
-  height: 2.4rem;
 `;
 
 export default MeetingDetailPage;
