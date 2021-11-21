@@ -1,27 +1,27 @@
-import React, { ReactElement, useCallback, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 import { MeetingList } from 'meeting';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { deleteAlarm, newAlarm } from '../../../../api/alarm';
 import { analytics } from '../../../../App';
 import card_noti_off from '../../../../assets/icon/card_noti_off.svg';
 import card_noti_on from '../../../../assets/icon/card_noti_on.svg';
+import camera_meeting_tag__gray from '../../../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
+import voice_meeting_tag__gray from '../../../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
 import { COLOR } from '../../../../constant/color';
-import { LANDING } from '../../../../constant/message';
-import useInterval from '../../../../hook/useInterval';
-import { meetingsAtom } from '../../../../store/meeting';
 import { userInfoAtom } from '../../../../store/user';
-import { getRemainTime, getTimeForm } from '../../../../util/utils';
+import { getTimeForm } from '../../../../util/utils';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../../../common/Modal/NewAlarmModal';
 
 interface Props {
   data: MeetingList;
   idx: number;
+  setMeetings: React.Dispatch<React.SetStateAction<MeetingList[]>>;
 }
 
 interface WrapperProps {
@@ -29,11 +29,9 @@ interface WrapperProps {
   live_status: 'live' | 'upcoming' | 'tomorrow' | 'finish';
 }
 
-function MeetingCard({ idx, data }: Props): ReactElement {
-  const setMeetings = useSetRecoilState(meetingsAtom);
+function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
   const [openDeleteAlarmModal, setOpenDeleteAlarmModal] = useState(false);
-  const [remainTime, setRemainTime] = useState('');
   const userInfo = useRecoilValue(userInfoAtom);
 
   const { push } = useNavigator();
@@ -113,18 +111,6 @@ function MeetingCard({ idx, data }: Props): ReactElement {
     push(`/meetings/${data.id}`);
   }, [data.id, push]);
 
-  useInterval(
-    () => {
-      setRemainTime(getRemainTime(data.start_time, data.date));
-    },
-    data.live_status === 'upcoming' ? 10000 : null,
-  );
-
-  useEffect(() => {
-    if (data.date && data.start_time)
-      setRemainTime(getRemainTime(data.start_time, data.date));
-  }, [data.date, data.start_time]);
-
   return (
     <MeetingCardWrapper
       className="meeting-card"
@@ -149,6 +135,11 @@ function MeetingCard({ idx, data }: Props): ReactElement {
       )}
       <ContentsWrapper className="meeting-card__contents">
         <InfoWrapper>
+          <MeetingTypeTag
+            src={
+              data.is_video ? camera_meeting_tag__gray : voice_meeting_tag__gray
+            }
+          />
           <CardHeader>
             <MeetingTime className="body3 meeting-card__time">
               {getTimeForm(
@@ -161,7 +152,7 @@ function MeetingCard({ idx, data }: Props): ReactElement {
           </CardHeader>
 
           <MeetingTitle
-            className="body1 meeting-card__title"
+            className="title3 meeting-card__title"
             live_status={data.live_status}
           >
             {data.title}
@@ -178,8 +169,9 @@ function MeetingCard({ idx, data }: Props): ReactElement {
       {data.live_status === 'upcoming' && (
         <CardFooter className="body3 meeting-card__footer">
           <FooterText>
-            {remainTime}
-            {LANDING.START_MEETING_LATER}
+            {/* TODO: Backend 처리 후 제거 */}
+            대학생이나 취준생분들 발등에 불 떨어진 분들 계신가요...대학생이나
+            취준생분들 발등에 불 떨어진 분들 계신가요...
           </FooterText>
         </CardFooter>
       )}
@@ -191,18 +183,13 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
   box-sizing: border-box;
   margin: 0 0 1.6rem 0;
   height: auto;
-  padding: 1.6rem 1.6rem 1.7rem 1.6rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   word-break: keep-all;
-  background-color: ${props =>
-    props.live_status === 'tomorrow' ? COLOR.GRAY_000 : COLOR.TEXT_WHITE};
+  background-color: ${COLOR.TEXT_WHITE};
   border-radius: 0.6rem;
-  border: 1px solid
-    ${props =>
-      props.live_status === 'tomorrow'
-        ? COLOR.GRAY_200
-        : COLOR.TEXTAREA_LIGHT_GRAY};
+  border: 1px solid ${COLOR.GRAY_200};
   box-sizing: border-box;
   margin-top: ${props => (props.idx === 0 ? '1.8rem' : 0)};
 `;
@@ -216,6 +203,13 @@ const ContentsWrapper = styled.div`
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-right: 1.5rem; ;
+`;
+
+const MeetingTypeTag = styled.img`
+  width: 6.8rem;
+  height: 2.4rem;
+  margin-bottom: 0.6rem;
 `;
 
 const AlarmWrapper = styled.div`
@@ -227,6 +221,7 @@ const AlarmWrapper = styled.div`
 const CardHeader = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 0.1rem;
 `;
 
 const MeetingTime = styled.div`
@@ -240,13 +235,7 @@ interface MeetingTitleType {
 const MeetingTitle = styled.div`
   color: ${COLOR.TEXT_BLACK};
   margin-bottom: ${({ live_status }: MeetingTitleType) =>
-    live_status === 'live'
-      ? '0.8rem'
-      : live_status === 'upcoming'
-      ? '1rem'
-      : '0'};
-  margin-top: ${({ live_status }: MeetingTitleType) =>
-    live_status === 'live' ? '0.8rem' : '.4rem'};
+    live_status === 'upcoming' ? '2rem' : '0'};
 `;
 
 const CardFooter = styled.div`
@@ -261,6 +250,9 @@ const FooterText = styled.div`
   line-height: 1.7rem;
   letter-spacing: -0.02rem;
   color: ${COLOR.FONT_BODY_GRAY};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export default MeetingCard;
