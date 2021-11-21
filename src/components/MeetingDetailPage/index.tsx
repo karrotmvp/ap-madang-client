@@ -71,11 +71,8 @@ const MeetingDetailPage = () => {
     if (!userInfo || !data) return;
     logEvent(analytics, 'add_alarm__click', {
       location: 'detail_page',
-      meeting_id: data?.id,
-      meeting_name: data?.title,
-      is_current: data?.live_status,
-      userNickname: userInfo.nickname,
-      userRegion: userInfo.region,
+      ...data,
+      ...userInfo,
     });
     const result = await newAlarm(matchId.params.id);
     if (result.success && result.data?.id) {
@@ -97,11 +94,8 @@ const MeetingDetailPage = () => {
     if (data?.alarm_id && matchId?.params.id && userInfo) {
       logEvent(analytics, 'delete_alarm__click', {
         location: 'detail_page',
-        meeting_id: data?.id,
-        meeting_name: data?.title,
-        is_current: data?.live_status,
-        userNickname: userInfo.nickname,
-        userRegion: userInfo.region,
+        ...data,
+        ...userInfo,
       });
       const result = await deleteAlarm(data?.alarm_id.toString());
       if (result.success) {
@@ -139,11 +133,8 @@ const MeetingDetailPage = () => {
   const onClickJoinHandler = async () => {
     if (!data && !userInfo) return;
     logEvent(analytics, 'join__click', {
-      meeting_id: data?.id,
-      meeting_name: data?.title,
-      is_current: data?.live_status,
-      userNickname: userInfo?.nickname,
-      userRegion: userInfo?.region,
+      ...data,
+      ...userInfo,
     });
     const result = await getAgoraCode(data?.id);
     if (result.success && result.data)
@@ -184,25 +175,17 @@ const MeetingDetailPage = () => {
   }, [data]);
 
   useEffect(() => {
-    data &&
-      logEvent(analytics, 'detail_page__show', {
-        meeting_id: data?.id,
-        meeting_name: data?.title,
-        is_current: data?.live_status,
-        userNickname: userInfo?.nickname,
-        userRegion: userInfo?.region,
-      });
-  }, [data, userInfo]);
-
-  useEffect(() => {
     if (isRoot && data && !sendLogEvent && userInfo) {
       logEvent(analytics, 'user_from_alarm__show', {
         location: 'detail_page',
-        meeting_id: data.id,
-        meeting_name: data.title,
-        is_current: data.live_status,
-        userNickname: userInfo.nickname,
-        userRegion: userInfo.region,
+        ...data,
+        ...userInfo,
+      });
+      setSendLogEvent(true);
+    } else if (data && !sendLogEvent && userInfo) {
+      logEvent(analytics, 'detail_page__show', {
+        ...data,
+        ...userInfo,
       });
       setSendLogEvent(true);
     }
@@ -254,15 +237,17 @@ const MeetingDetailPage = () => {
             <SummaryIcon src={info_circle} />
             <SummaryDiscription className="body4">
               {data?.is_video
-                ? '이 모임은 줌(zoom)으로 진행돼요. 카메라를 켜지 않아도 괜찮아요!'
-                : '이 모임에서는 음성으로 이웃과 실시간 대화를 나눠요.'}
+                ? MEETING_DETAIL.IS_VIDEO
+                : MEETING_DETAIL.IS_VOICE}
             </SummaryDiscription>
           </SummaryInfo>
         </SummaryWrapper>
         <LineDivider size="1.2rem" />
 
         <UserDiscriptionWrapper>
-          <UserDiscriptionTitle>모임 상세 설명</UserDiscriptionTitle>
+          <UserDiscriptionTitle>
+            {MEETING_DETAIL.MEETING_DETAIL_DESCRIPTION_TITLE}
+          </UserDiscriptionTitle>
           {data?.description.text}
         </UserDiscriptionWrapper>
 

@@ -15,23 +15,23 @@ interface Props {
 function MeetingMannerCard({ className }: Props): ReactElement {
   return (
     <MeetingMannerCardWrapper className={className}>
-      <Title>{MEETING_DETAIL.MANNER.TITLE}</Title>
+      <Title>{MEETING_DETAIL.MANNER_CARD.TITLE}</Title>
 
       <Item>
         <Emoji src={heart_emoji} />
-        <ItemTitle>서로 배려하고 존중해요.</ItemTitle>
+        <ItemTitle>{MEETING_DETAIL.MANNER_CARD.SUB_TITLE[0]}</ItemTitle>
       </Item>
       <Item>
         <Emoji src={talk_emoji} />
-        <ItemTitle>이웃 모두가 함께 나눌 수 있는 대화를 해요.</ItemTitle>
+        <ItemTitle>{MEETING_DETAIL.MANNER_CARD.SUB_TITLE[1]}</ItemTitle>
       </Item>
       <Item>
         <Emoji src={x_emoji} />
-        <ItemTitle>이웃을 공개적으로 비방하지 않아요.</ItemTitle>
+        <ItemTitle>{MEETING_DETAIL.MANNER_CARD.SUB_TITLE[2]}</ItemTitle>
       </Item>
       <Item>
         <Emoji src={mic_emoji} />
-        <ItemTitle>마이크를 켜라고 강요하지 않기로 해요.</ItemTitle>
+        <ItemTitle>{MEETING_DETAIL.MANNER_CARD.SUB_TITLE[3]}</ItemTitle>
       </Item>
     </MeetingMannerCardWrapper>
   );

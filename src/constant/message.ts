@@ -64,9 +64,22 @@ export const MEETING_DETAIL = {
   JOIN_NOW: '지금 참여하기',
   CLOSE_MEETING: '내일 열리는 모임이에요',
   JOIN_LATER: ' 후에 만나요',
+  IS_VIDEO: '이 모임은 줌(zoom)으로 진행돼요. 카메라를 켜지 않아도 괜찮아요!',
+  IS_VOICE: '이 모임에서는 음성으로 이웃과 실시간 대화를 나눠요.',
+  MEETING_DETAIL_DESCRIPTION_TITLE: '모임 상세 설명',
   GREEN_BOX_INFO:
     '모든 모임은 줌(Zoom) 화상 회의로 진행돼요. 줌 앱을 다운로드한 후 이용해 주세요. 카메라를 켜지 않아도 괜찮아요!',
   GREEN_BOX_BTN: '줌 사용방법 보러가기',
+  MANNER_CARD: {
+    TITLE: '즐거운 랜선동네모임을 위해\n함께 지켜주세요!',
+    SUB_TITLE: [
+      '서로 배려하고 존중해요.',
+      '이웃 모두가 함께 나눌 수 있는 대화를 해요.',
+      '이웃을 공개적으로 비방하지 않아요.',
+      '마이크를 켜라고 강요하지 않기로 해요.',
+    ],
+    CLOSE: '닫기',
+  },
   MANNER: {
     TITLE: '즐거운 랜선동네모임을 위해\n함께 지켜주세요!',
     SUB_TITLE: [
