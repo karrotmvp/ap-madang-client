@@ -24,7 +24,7 @@ function WaitingRoom({ callState }: { callState: callState }): ReactElement {
       />
       {callState.state === 'error' ? (
         <ContentsWrapper className="join WaitingRoom">
-          <Image src={happy_scratch} />
+          <Image src={un_happy_scratch} />
           <Title>
             {`${
               callState.message
@@ -36,13 +36,13 @@ function WaitingRoom({ callState }: { callState: callState }): ReactElement {
         </ContentsWrapper>
       ) : callState.state === 'finish' ? (
         <ContentsWrapper className="join WaitingRoom">
-          <Image src={un_happy_scratch} />
+          <Image src={happy_scratch} />
           <Title>{`모임이 종료되었어요.`}</Title>
           <GreenBtn onClick={goBackHandler}>랜선동네모임으로 돌아가기</GreenBtn>
         </ContentsWrapper>
       ) : (
         <ContentsWrapper className="join WaitingRoom">
-          <Image src={happy_scratch} />
+          <Image src={un_happy_scratch} />
           <Title>
             {`모임에서 나갔어요.\n랜선동네모임에서 다른 모임도 구경해 보세요!`}
           </Title>
