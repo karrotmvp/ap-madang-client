@@ -2,19 +2,18 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 import classnames from 'classnames';
-import { useRecoilValue } from 'recoil';
+import { MeetingList } from 'meeting';
 
 import { COLOR } from '../../../../constant/color';
 import { LANDING } from '../../../../constant/message';
-import { currMeetings } from '../../../../store/meeting';
 import CurrMeetingCard from '../MeetingCard/CurrMeetingCard';
 
 interface Props {
   className?: string;
+  meetings: MeetingList[];
 }
 
-function CurrMeetingList({ className }: Props): ReactElement {
-  const meetings = useRecoilValue(currMeetings);
+function CurrMeetingList({ className, meetings }: Props): ReactElement {
   return (
     <CurrMeetingListWrapper
       className={classnames('curr-meeting-list', className)}
@@ -55,11 +54,12 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.div`
-  font-weight: bold;
+  font-weight: 700;
   padding-left: 0.4rem;
-  font-size: 1.8rem;
+
+  font-size: 2rem;
   line-height: 2.8rem;
-  letter-spacing: -0.04rem;
+  letter-spacing: -0.05rem;
   color: ${COLOR.TEXT_BLACK};
 `;
 

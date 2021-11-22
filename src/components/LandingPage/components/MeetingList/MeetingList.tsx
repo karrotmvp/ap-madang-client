@@ -2,30 +2,28 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 import classnames from 'classnames';
-import { useRecoilValue } from 'recoil';
+import { MeetingList } from 'meeting';
 
 import { COLOR } from '../../../../constant/color';
 import { LANDING } from '../../../../constant/message';
-import {
-  meetingsAtom,
-  tomorrowMeetings,
-  upcomingMeetings,
-} from '../../../../store/meeting';
 import MeetingCard from '../MeetingCard/MeetingCard';
 import SkeletonCard from '../MeetingCard/SkeletonCard';
 
 interface Props {
   title: string;
   className?: string;
+  meetings: MeetingList[];
+  hasMeetings: boolean;
+  setMeetings: React.Dispatch<React.SetStateAction<MeetingList[]>>;
 }
 
-function MeetingList({ title, className }: Props): ReactElement {
-  const meetings = useRecoilValue(
-    title === LANDING.UPCOMING_MEETING ? upcomingMeetings : tomorrowMeetings,
-  );
-
-  const allMeeting = useRecoilValue(meetingsAtom);
-
+function MeetingList({
+  title,
+  className,
+  meetings,
+  hasMeetings,
+  setMeetings,
+}: Props): ReactElement {
   return (
     <MeetingListWrapper className={classnames('meeting-list', className)}>
       <ListTitle>
@@ -49,12 +47,19 @@ function MeetingList({ title, className }: Props): ReactElement {
 
       {meetings.length !== 0 ? (
         meetings.map((el, idx) => {
-          return <MeetingCard key={el.id} data={el} idx={idx} />;
+          return (
+            <MeetingCard
+              key={el.id}
+              data={el}
+              idx={idx}
+              setMeetings={setMeetings}
+            />
+          );
         })
       ) : (
         <div></div>
       )}
-      {allMeeting.length === 0 && <SkeletonCard />}
+      {!hasMeetings && <SkeletonCard />}
     </MeetingListWrapper>
   );
 }
