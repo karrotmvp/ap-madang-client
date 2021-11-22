@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { UID } from 'agora-rtc-react';
+import { AgoraRTCError, UID } from 'agora-rtc-react';
 
 import { InfoType, validateMeetingCode } from '../../api/agora';
 import RedirectPage from '../RedirectPage';
@@ -22,6 +22,7 @@ type audioStreamState = { audioStreamValue: boolean };
 export type callState = {
   state: 'waiting' | 'calling' | 'quit' | 'error' | 'finish';
   message?: string;
+  error?: AgoraRTCError | string;
 };
 
 const AgoraMeetingPage = () => {
