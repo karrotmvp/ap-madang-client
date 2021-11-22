@@ -29,6 +29,14 @@ function WaitingRoom({
       ...callState,
       ...userInfo,
     });
+    if (
+      callState.state === 'quit' ||
+      callState.state === 'finish' ||
+      callState.state === 'error'
+    ) {
+      sessionStorage.removeItem('info');
+      sessionStorage.removeItem('Authorization');
+    }
   }, [callState, userInfo]);
 
   return (

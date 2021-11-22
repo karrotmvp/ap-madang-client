@@ -33,9 +33,11 @@ const useMicrophoneAudioTrack = createMicrophoneAudioTrack();
 const MeetingRoom = ({
   setInCall,
   info,
+  code,
 }: {
   setInCall: React.Dispatch<React.SetStateAction<callState>>;
   info: InfoType;
+  code: string;
 }) => {
   const [users, setUsers] = useState<AgoraRTCUsers[]>([]);
   const [start, setStart] = useState<boolean>(false);
@@ -149,13 +151,15 @@ const MeetingRoom = ({
       });
     }
     if (ready && track && info) {
+      sessionStorage.setItem('info', JSON.stringify({ code, ...info }));
       sessionStorage.setItem('Authorization', info.token);
       init();
     }
     return () => {
+      sessionStorage.removeItem('info');
       sessionStorage.removeItem('Authorization');
     };
-  }, [error, info, init, ready, setInCall, track]);
+  }, [code, error, info, init, ready, setInCall, track]);
 
   return (
     <MeetingRoomWrapper className="meeting-room">

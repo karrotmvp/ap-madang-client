@@ -28,11 +28,14 @@ export type callState = {
 const AgoraMeetingPage = () => {
   const [inCall, setInCall] = useState<callState>({ state: 'waiting' });
   const [info, setInfo] = useState<InfoType | undefined>(undefined);
+  const [meetingCode, setMeetingCode] = useState<string>('');
 
   const fetchMeetingData = async (code: string) => {
     const result = await validateMeetingCode(code);
     if (result.success && result.data) {
       setInfo(result.data);
+    } else {
+      setInCall({ state: 'error', message: ' ' });
     }
   };
 
@@ -42,7 +45,14 @@ const AgoraMeetingPage = () => {
         window.location.hash.substr(window.location.hash.indexOf('?')),
       );
       const code = urlHashParams.get('meeting_code');
-      if (code) fetchMeetingData(code);
+      if (!code)
+        setInCall({ state: 'error', message: '올바르지 않은 접근이에요' });
+      code && setMeetingCode(code);
+      const sessionInfo = sessionStorage.getItem('info');
+
+      if (sessionInfo && code === JSON.parse(sessionInfo).code) {
+        setInfo(JSON.parse(sessionInfo));
+      } else if (code) fetchMeetingData(code);
     } else if (info) {
       setInCall({ state: 'calling' });
     }
@@ -52,7 +62,7 @@ const AgoraMeetingPage = () => {
   }, [info]);
 
   return inCall.state === 'calling' && info ? (
-    <MeetingRoom setInCall={setInCall} info={info} />
+    <MeetingRoom setInCall={setInCall} info={info} code={meetingCode} />
   ) : inCall.state === 'waiting' ? (
     <RedirectPage />
   ) : (
