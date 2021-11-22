@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { IMicrophoneAudioTrack } from 'agora-rtc-react';
 
 import { callState } from '..';
+import { InfoType } from '../../../api/agora';
+import { analytics } from '../../../App';
 import micOff from '../../../assets/icon/agora/micOff.svg';
 import micOn from '../../../assets/icon/agora/micOn.svg';
 import { COLOR } from '../../../constant/color';
@@ -17,6 +20,7 @@ const Controls = (props: {
   setTrackState: React.Dispatch<
     React.SetStateAction<{ audioStreamValue: boolean }>
   >;
+  info: InfoType;
 }) => {
   const client = useClient();
   const { track, trackState, setStart, setInCall, setTrackState } = props;
@@ -26,7 +30,13 @@ const Controls = (props: {
 
   const mute = async (type: 'audio') => {
     if (type === 'audio') {
+      logEvent(
+        analytics,
+        `mic_${trackState.audioStreamValue ? 'off' : 'on'}__click`,
+        { ...props.info },
+      );
       await track.setEnabled(!trackState.audioStreamValue);
+
       setTrackState(ps => {
         return { audioStreamValue: !ps.audioStreamValue };
       });

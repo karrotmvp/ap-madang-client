@@ -189,6 +189,7 @@ const MeetingRoom = ({
           setInCall={setInCall}
           trackState={trackState}
           setTrackState={setTrackState}
+          info={info}
         />
       )}
     </MeetingRoomWrapper>
