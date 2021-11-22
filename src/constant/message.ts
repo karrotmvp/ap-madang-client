@@ -25,7 +25,7 @@ export const RESERVATION = {
 
 export const LANDING = {
   NAVIGATOR_TITLE: '랜선동네모임',
-  CURRENT_MEETING: '지금 모임에 참여해\n이웃과 대화를 나눠보세요',
+  CURRENT_MEETING: '지금 바로 모임에 참여해보세요',
   UPCOMING_MEETING: '오늘 참여할 수 있는 모임',
   UPCOMING_MEETING_01: '오늘',
   UPCOMING_MEETING_02: '개 모임이 남아있어요',
@@ -116,8 +116,8 @@ export const BOTTOM_SHEET = {
 };
 
 export const ZOOM_BOTTOM_SHEET = {
-  TITLE: '이렇게 참여해요!',
-  SUB_TITLE_01: '카메라를 켜지 않아도 괜찮아요!',
+  TITLE: '이렇게 참여해요',
+  SUB_TITLE_01: '카메라를 켜지 않아도 괜찮아요.',
   SUB_TITLE_02: '목소리만으로 모임을 즐길 수 있어요.',
   ZOOM_GUIDE: '줌 사용방법 보러가기',
 };
