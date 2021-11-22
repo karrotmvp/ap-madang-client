@@ -70,7 +70,7 @@ function CurrMeetingCard({ idx, data }: Props): ReactElement {
 const MeetingCardWrapper = styled.div<WrapperProps>`
   margin: 0 1.6rem 1.6rem 1.6rem;
   width: 100%;
-  height: 28.9rem;
+  height: auto;
   border: 1px solid ${COLOR.TEXTAREA_LIGHT_GRAY};
   border-radius: 0.6rem;
   display: flex;
