@@ -10,6 +10,7 @@ declare module 'meeting' {
     user_enter_cnt: number;
     live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
     is_video: boolean;
+    description_text: string;
   };
 
   export type MeetingDetailDescription = {
