@@ -58,7 +58,7 @@ const MeetingDetailPage = () => {
       const result = await getMeetingDetail(id);
       if (result.success && result.data) setData(result.data);
       else {
-        alert('해당 모임을 찾을 수 없습니다.\n홈에서 다시 시도해주세요');
+        alert('이미 종료된 모임이에요');
         if (isRoot) replace('/');
         else pop();
       }
