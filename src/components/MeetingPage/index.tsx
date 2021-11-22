@@ -56,7 +56,7 @@ const AgoraMeetingPage = () => {
   ) : inCall.state === 'waiting' ? (
     <RedirectPage />
   ) : (
-    <WaitingRoom callState={inCall} />
+    <WaitingRoom callState={inCall} userInfo={info} />
   );
 };
 

@@ -1,19 +1,35 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 
 import { callState } from '.';
+import { InfoType } from '../../api/agora';
+import { analytics } from '../../App';
 import happy_scratch from '../../assets/image/happy_scratch.png';
 import nav_logo from '../../assets/image/nav_logo.png';
 import un_happy_scratch from '../../assets/image/un_happy_scratch.png';
 import { COLOR } from '../../constant/color';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
-function WaitingRoom({ callState }: { callState: callState }): ReactElement {
+function WaitingRoom({
+  callState,
+  userInfo,
+}: {
+  callState: callState;
+  userInfo: InfoType | undefined;
+}): ReactElement {
   const goBackHandler = () => {
     window.open(process.env.KARROT_SCHEME);
     window.close();
   };
+
+  useEffect(() => {
+    logEvent(analytics, `meeting_${callState.state}__show`, {
+      ...callState,
+      ...userInfo,
+    });
+  }, [callState, userInfo]);
 
   return (
     <PageWrapper>
