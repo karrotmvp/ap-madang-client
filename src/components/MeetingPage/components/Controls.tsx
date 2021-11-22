@@ -44,6 +44,7 @@ const Controls = (props: {
   };
 
   const leaveChannel = async () => {
+    logEvent(analytics, `quit_meeting__click`, { ...props.info });
     await client.leave();
     client.removeAllListeners();
     track.close();
