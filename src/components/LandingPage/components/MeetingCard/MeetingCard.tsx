@@ -168,11 +168,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
       </ContentsWrapper>
       {data.live_status === 'upcoming' && (
         <CardFooter className="body3 meeting-card__footer">
-          <FooterText>
-            {/* TODO: Backend 처리 후 제거 */}
-            대학생이나 취준생분들 발등에 불 떨어진 분들 계신가요...대학생이나
-            취준생분들 발등에 불 떨어진 분들 계신가요...
-          </FooterText>
+          <FooterText>{data.description_text}</FooterText>
         </CardFooter>
       )}
     </MeetingCardWrapper>
