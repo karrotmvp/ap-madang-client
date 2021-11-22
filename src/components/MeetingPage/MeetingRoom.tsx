@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import {
   createClient,
   ClientConfig,
@@ -11,6 +12,7 @@ import {
 import { AgoraRTCUsers, callState } from '.';
 import { InfoType } from '../../api/agora';
 import { getMeetingUsersInfo } from '../../api/user';
+import { analytics } from '../../App';
 import AGORA_ERROR_MSG from '../../constant/agoraErrMsg';
 import { uidToNum } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
@@ -124,6 +126,9 @@ const MeetingRoom = ({
         info.agora_token,
         info.user.id,
       );
+      logEvent(analytics, 'meeting_calling__show', {
+        ...info,
+      });
     } catch (e) {
       setInCall({
         state: 'error',
@@ -133,15 +138,7 @@ const MeetingRoom = ({
 
     if (track) await client.publish(track);
     setStart(true);
-  }, [
-    client,
-    fetchNewUser,
-    info.agora_token,
-    info.meeting.channel_name,
-    info.user.id,
-    setInCall,
-    track,
-  ]);
+  }, [client, fetchNewUser, info, setInCall, track]);
 
   useEffect(() => {
     if (error) {
