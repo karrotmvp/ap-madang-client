@@ -10,7 +10,7 @@ import arrow_iOS_xsmall_green from '../../../assets/icon/arrow_iOS_xsmall_green.
 import cam from '../../../assets/icon/cam.svg';
 import mic from '../../../assets/icon/mic.svg';
 import closeBtn from '../../../assets/icon/nav_close.svg';
-import bottom_sheet_btn from '../../../assets/image/bottom_sheet_btn.png';
+import zoom_logo__white from '../../../assets/icon/zoom_logo__white.svg';
 import zoom_view from '../../../assets/image/zoom_view.png';
 import BottomSheet from '../../../components/common/BottomSheet';
 import { COLOR } from '../../../constant/color';
@@ -101,7 +101,10 @@ function ZoomBottomSheet({
           </DescriptionWrapper>
         </ContentsWrapper>
       </InfoTextWrapper>
-      <JoinBtnBlue src={bottom_sheet_btn} onClick={onClickJoinHandler} />
+      <ZoomJoinBtn onClick={onClickJoinHandler}>
+        <ZoomIcon src={zoom_logo__white} />
+        <ZoomJoinText>으로 모임 참여하기</ZoomJoinText>
+      </ZoomJoinBtn>
     </BottomSheet>
   );
 }
@@ -181,13 +184,26 @@ const ZoomGuide = styled.div`
   align-items: center;
 `;
 
-const JoinBtnBlue = styled.img`
-  width: auto;
-  height: 4.4rem;
+const ZoomJoinBtn = styled.div`
   margin: 0 2rem 1.8rem 2rem;
-  text-decoration: none;
-  outline: none;
-  box-sizing: border-box;
+  padding: 0.95rem 0;
+  background: #0185fa;
+  border-radius: 0.6rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ZoomIcon = styled.img`
+  margin-right: 0.3rem;
+`;
+
+const ZoomJoinText = styled.div`
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  color: white;
 `;
 
 export default ZoomBottomSheet;
