@@ -315,7 +315,7 @@ const LineDivider = styled.div<{ size?: string; color?: string }>`
 const ContentsWrapper = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 4rem;
+  padding-bottom: 3rem;
 `;
 
 const TitleWrapper = styled.div`

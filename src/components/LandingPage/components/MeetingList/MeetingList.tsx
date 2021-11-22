@@ -28,20 +28,20 @@ function MeetingList({
     <MeetingListWrapper className={classnames('meeting-list', className)}>
       <ListTitle>
         {title === LANDING.UPCOMING_MEETING ? (
-          <span>
+          <Title>
             {LANDING.UPCOMING_MEETING_01}
             <MeetingCounter className="title2 meeting-list__counter">
               {meetings && meetings.length.toString()}
             </MeetingCounter>
             {LANDING.UPCOMING_MEETING_02}
-          </span>
+          </Title>
         ) : (
-          <span>
+          <Title>
             {title}
             <MeetingCounter className="title2 meeting-list__counter">
               {meetings && meetings.length.toString()}
             </MeetingCounter>
-          </span>
+          </Title>
         )}
       </ListTitle>
 
@@ -66,19 +66,29 @@ function MeetingList({
 
 const MeetingListWrapper = styled.div`
   box-sizing: border-box;
-  padding: 3rem 1.6rem 2rem 1.6rem;
+  padding: 5rem 1.6rem 5rem 1.6rem;
+  .meeting-card:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+const Title = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const MeetingCounter = styled.span`
   color: ${COLOR.LIGHT_GREEN};
-  margin-left: 0.6rem;
+  margin-left: 0.5rem;
+  margin-right: 0.2rem;
 `;
 
 const ListTitle = styled.div`
-  font-weight: bold;
-  font-size: 1.8rem;
+  font-weight: 700;
+  font-size: 2rem;
   line-height: 2.8rem;
-  letter-spacing: -0.04rem;
+  letter-spacing: -0.05rem;
   color: ${COLOR.TEXT_BLACK};
   padding-left: 0.4rem;
 `;

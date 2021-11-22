@@ -33,7 +33,7 @@ function CurrMeetingList({ className, meetings }: Props): ReactElement {
 const CurrMeetingListWrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
-  padding: 3rem 0;
+  padding: 3.2rem 1.6rem 5rem 1.6rem;
 
   .swiper {
     width: 100%;
@@ -49,8 +49,7 @@ const CurrMeetingListWrapper = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  margin-bottom: 1.8rem;
-  padding: 0 1.6rem;
+  margin-bottom: 2rem;
 `;
 
 const Title = styled.div`
@@ -65,7 +64,6 @@ const Title = styled.div`
 
 const CardWrapper = styled.div`
   display: flex;
-  padding: 0 1.6rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;

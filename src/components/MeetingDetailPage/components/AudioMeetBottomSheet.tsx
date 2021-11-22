@@ -107,7 +107,7 @@ const IconImg = styled.img`
 const AudioGuideImg = styled.img`
   width: 26.4rem;
   height: 23.7rem;
-  margin: 0.4rem 0 3.6rem 0;
+  margin: 0.4rem 0 2rem 0;
 `;
 
 const ContentsWrapper = styled.div`
@@ -126,11 +126,11 @@ const Title = styled.div`
 const SubTitle = styled.div`
   width: 100%;
   font-size: 1.5rem;
-  line-height: 2.2rem;
+  line-height: 2.3rem;
 
   text-align: center;
   letter-spacing: -0.3px;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.4rem;
   color: ${COLOR.TEXT_GRAY};
 `;
 

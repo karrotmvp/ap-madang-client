@@ -48,12 +48,12 @@ const Icon = styled.img`
 `;
 
 const DescriptionTitle = styled.div`
-  font-weight: 600;
-  font-size: 1.6rem;
-  line-height: 2.4rem;
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 2.3rem;
   letter-spacing: -0.03rem;
   color: ${COLOR.TEXT_BLACK};
-  margin-bottom: 1.1rem;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -64,7 +64,7 @@ const List = styled.div`
   line-height: 2.5rem;
   letter-spacing: -0.03rem;
   color: ${COLOR.TEXT_GRAY};
-  margin-bottom: 3.4rem;
+  margin-bottom: 3.2rem;
 
   li:last-child {
     margin-bottom: 0;

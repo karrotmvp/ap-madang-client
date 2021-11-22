@@ -16,7 +16,6 @@ function MeetingMannerCard({ className }: Props): ReactElement {
   return (
     <MeetingMannerCardWrapper className={className}>
       <Title>{MEETING_DETAIL.MANNER_CARD.TITLE}</Title>
-
       <Item>
         <Emoji src={heart_emoji} />
         <ItemTitle>{MEETING_DETAIL.MANNER_CARD.SUB_TITLE[0]}</ItemTitle>
@@ -54,7 +53,7 @@ const ItemTitle = styled.div`
   line-height: 2.3rem;
   letter-spacing: -0.03rem;
   color: #505050;
-  margin-bottom: 1rem;
+  margin-bottom: 1.3rem;
 `;
 
 const Item = styled.div`
@@ -70,7 +69,7 @@ const Item = styled.div`
 `;
 
 const Emoji = styled.img`
-  margin-right: 1rem;
+  margin-right: 0.8rem;
   width: 2.4rem;
   height: 2.4rem;
 `;

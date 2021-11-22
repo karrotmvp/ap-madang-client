@@ -160,9 +160,9 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
         </InfoWrapper>
         <AlarmWrapper className="meeting-card__alarm-icon">
           {data.alarm_id ? (
-            <img src={card_noti_on} onClick={alarmHandler} />
+            <AlarmIcon src={card_noti_on} onClick={alarmHandler} />
           ) : (
-            <img src={card_noti_off} onClick={alarmHandler} />
+            <AlarmIcon src={card_noti_off} onClick={alarmHandler} />
           )}
         </AlarmWrapper>
       </ContentsWrapper>
@@ -214,10 +214,16 @@ const AlarmWrapper = styled.div`
   align-items: flex-start;
   justify-content: center;
 `;
+
+const AlarmIcon = styled.img`
+  width: 3.6rem;
+  height: 3.6rem;
+`;
+
 const CardHeader = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.2rem;
 `;
 
 const MeetingTime = styled.div`
