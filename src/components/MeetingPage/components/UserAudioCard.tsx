@@ -18,6 +18,16 @@ interface Props {
   rootRef: React.RefObject<HTMLDivElement>;
 }
 
+const rewardConfig = {
+  lifetime: 90,
+  angle: 90,
+  decay: 0.5,
+  spread: 70,
+  startVelocity: 44,
+  elementCount: 14,
+  elemetnSize: 4,
+};
+
 export default function UserAudioCard({
   user,
   volumeState,
@@ -42,7 +52,7 @@ export default function UserAudioCard({
         ref={ref}
         ratio={onScreenRatio}
       >
-        <Reward ref={rewardRef} type="confetti">
+        <Reward ref={rewardRef} type="confetti" config={rewardConfig}>
           <ProfileImg
             src={user.profile_image_url}
             options={options}
