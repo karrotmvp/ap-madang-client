@@ -2,19 +2,18 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 import classnames from 'classnames';
-import { useRecoilValue } from 'recoil';
+import { MeetingList } from 'meeting';
 
 import { COLOR } from '../../../../constant/color';
 import { LANDING } from '../../../../constant/message';
-import { currMeetings } from '../../../../store/meeting';
 import CurrMeetingCard from '../MeetingCard/CurrMeetingCard';
 
 interface Props {
   className?: string;
+  meetings: MeetingList[];
 }
 
-function CurrMeetingList({ className }: Props): ReactElement {
-  const meetings = useRecoilValue(currMeetings);
+function CurrMeetingList({ className, meetings }: Props): ReactElement {
   return (
     <CurrMeetingListWrapper
       className={classnames('curr-meeting-list', className)}
@@ -34,7 +33,7 @@ function CurrMeetingList({ className }: Props): ReactElement {
 const CurrMeetingListWrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
-  padding: 3rem 0;
+  padding: 3.2rem 1.6rem 5rem 1.6rem;
 
   .swiper {
     width: 100%;
@@ -50,22 +49,21 @@ const CurrMeetingListWrapper = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  margin-bottom: 1.8rem;
-  padding: 0 1.6rem;
+  margin-bottom: 2rem;
 `;
 
 const Title = styled.div`
-  font-weight: bold;
+  font-weight: 700;
   padding-left: 0.4rem;
-  font-size: 1.8rem;
+
+  font-size: 2rem;
   line-height: 2.8rem;
-  letter-spacing: -0.04rem;
+  letter-spacing: -0.05rem;
   color: ${COLOR.TEXT_BLACK};
 `;
 
 const CardWrapper = styled.div`
   display: flex;
-  padding: 0 1.6rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;

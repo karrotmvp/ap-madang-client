@@ -1,12 +1,13 @@
 /** @jsx jsx */
 import React, { useMemo } from 'react';
 
-import { jsx, SerializedStyles } from '@emotion/react';
+import { jsx, keyframes, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import classnames from 'classnames';
 import { createPortal } from 'react-dom';
 
 import { COLOR } from '../../../constant/color';
+import useBlockBack from '../../../hook/useBlockBack';
 
 export type Confirm = {
   text: React.ReactNode;
@@ -27,37 +28,65 @@ export type ModalInfoType = {
 export type innerModeType = 'list' | 'confirm';
 
 type ModalProps = {
-  onClose?: React.MouseEventHandler<HTMLDivElement>;
+  open: boolean;
+  onClose?: (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   children: React.ReactNode;
   className?: string;
   innerModalStyle?: SerializedStyles;
 };
 
 export default function Modal({
+  open,
   onClose,
   children,
   className,
   innerModalStyle,
 }: ModalProps) {
-  const onMaskClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
+  const onOutsideClick = (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e?.stopPropagation();
     onClose && onClose(e);
   };
+  useBlockBack(onOutsideClick);
 
   return (
     <Portal>
       <ModalOverlay
-        onClick={onMaskClick}
-        onDragStart={onMaskClick}
-        className={classnames('modal', className)}
+        onClick={onOutsideClick}
+        onDragStart={onOutsideClick}
+        className={classnames(
+          open ? 'open-modal-animation' : 'close-modal-animation',
+          className,
+        )}
       >
-        <ModalInner onClick={e => e.stopPropagation()} css={innerModalStyle}>
+        <ModalInner
+          className={open ? 'open-modal-animation' : 'close-modal-animation'}
+          onClick={e => e.stopPropagation()}
+          css={innerModalStyle}
+        >
           {children}
         </ModalInner>
       </ModalOverlay>
     </Portal>
   );
 }
+
+const openModalBackground = keyframes`
+  0%{
+    background: rgba(0,0,0,0);
+  }
+  100% {   
+    background: ${COLOR.MODAL_WRAPPER_BLACK};
+  }
+`;
+
+const closeModalBackground = keyframes`
+  0%{
+    background: ${COLOR.MODAL_WRAPPER_BLACK};
+  }
+  100% {   
+    background: rgba(0,0,0,0);
+  }
+`;
 
 const ModalOverlay = styled.div`
   width: 100%;
@@ -68,7 +97,6 @@ const ModalOverlay = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: ${COLOR.MODAL_WRAPPER_BLACK};
   z-index: 999;
   display: flex;
   flex-direction: column;
@@ -77,6 +105,13 @@ const ModalOverlay = styled.div`
   padding: 0 4rem;
   box-sizing: border-box;
   white-space: pre-line;
+
+  &.open-modal-animation {
+    animation: ${openModalBackground} 0.4s ease forwards;
+  }
+  &.close-modal-animation {
+    animation: ${closeModalBackground} 0.4s ease forwards;
+  }
 `;
 
 const ModalInner = styled.div`
@@ -90,6 +125,7 @@ const ModalInner = styled.div`
   background-color: ${COLOR.BACKGROUND_WHITE};
   border-radius: 0.8rem;
   box-sizing: border-box;
+  z-index: 1000;
 `;
 
 type PortalProps = {

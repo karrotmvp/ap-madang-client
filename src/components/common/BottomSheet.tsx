@@ -7,6 +7,7 @@ import classnamse from 'classnames';
 import { createPortal } from 'react-dom';
 
 import { COLOR } from '../../constant/color';
+import useBlockBack from '../../hook/useBlockBack';
 
 export type Confirm = {
   text: React.ReactNode;
@@ -27,7 +28,7 @@ export type ModalInfoType = {
 export type innerModeType = 'list' | 'confirm';
 
 type ModalProps = {
-  onClose?: React.MouseEventHandler<HTMLDivElement>;
+  onClose?: (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   open: boolean;
   children: React.ReactNode;
   className?: string;
@@ -41,10 +42,11 @@ export default function BottomSheet({
   className,
   innerModalStyle,
 }: ModalProps) {
-  const onMaskClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
+  const onMaskClick = (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e?.stopPropagation();
     onClose && onClose(e);
   };
+  useBlockBack(onMaskClick);
 
   return (
     <Portal>
@@ -73,28 +75,29 @@ export default function BottomSheet({
 
 const openSheetBackground = keyframes`
   0%{
-    opacity:0;
+    background: rgba(0,0,0,0);
   }
   100% {   
-    opacity:1;
+    background: ${COLOR.MODAL_WRAPPER_BLACK};
   }
 `;
 
 const closeSheetBackground = keyframes`
   0%{
-    opacity:1;
+    background: ${COLOR.MODAL_WRAPPER_BLACK};
   }
   100% {   
-    opacity:0;
+    background: rgba(0,0,0,0);
   }
 `;
 
 const openSheet = keyframes`
   0%{
-    bottom:-20rem;
+    bottom:-100%;
   }
+  
   100% {   
-    bottom:0;
+    bottom:0; 
   }
 `;
 
@@ -103,7 +106,7 @@ const closeSheet = keyframes`
     bottom:0;
   }
   100% {   
-    bottom:-20rem;
+    bottom:-100%;
   }
 `;
 
@@ -116,39 +119,40 @@ const BottomSheetOverlay = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: ${COLOR.MODAL_WRAPPER_BLACK};
   z-index: 999;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0 4rem;
+
   box-sizing: border-box;
   white-space: pre-line;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+
   &.open-bottom-sheet {
-    animation: ${openSheetBackground} 0.5s ease forwards;
+    animation: ${openSheetBackground} 0.4s ease forwards;
   }
   &.close-bottom-sheet {
-    animation: ${closeSheetBackground} 0.5s ease forwards;
+    animation: ${closeSheetBackground} 0.4s ease forwards;
   }
 `;
 
 const BottomSheetInner = styled.div`
   box-sizing: border-box;
-  position: absolute;
+  position: relative;
   bottom: 0;
   width: 100%;
+  max-height: 95%;
   background: ${COLOR.TEXT_WHITE};
   border-radius: 1.2rem 1.2rem 0 0;
   display: flex;
   flex-direction: column;
 
   &.open-bottom-sheet {
-    animation: ${openSheet} 0.5s ease forwards;
+    animation: ${openSheet} 0.4s ease forwards;
   }
   &.close-bottom-sheet {
-    animation: ${closeSheet} 0.5s ease forwards;
+    animation: ${closeSheet} 0.4s ease forwards;
   }
 `;
 

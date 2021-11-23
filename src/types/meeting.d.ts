@@ -9,6 +9,9 @@ declare module 'meeting' {
     alarm_id: number | undefined;
     user_enter_cnt: number;
     live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
+    is_video: boolean;
+    description_text: string;
+    alarm_num: number;
   };
 
   export type MeetingDetailDescription = {

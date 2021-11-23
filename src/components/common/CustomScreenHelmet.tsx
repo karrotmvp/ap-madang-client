@@ -8,14 +8,35 @@ import nav_close from '../../assets/icon/nav_close.svg';
 
 type Props = {
   appendLeft?: React.ReactNode;
+  appendRight?: React.ReactNode;
+  customCloseButton?: React.ReactNode;
+  customBackButton?: React.ReactNode;
+  onCustomCloseButton?: () => void;
+  onCustomBackButton?: () => void;
 };
 
-function CustomScreenHelmet({ appendLeft }: Props): ReactElement {
+function CustomScreenHelmet({
+  customCloseButton,
+  customBackButton,
+  onCustomCloseButton,
+  onCustomBackButton,
+  appendLeft,
+  appendRight,
+}: Props): ReactElement {
   return (
     <ScreenHelmet
-      customCloseButton={<NavCustomBtn src={nav_close} />}
-      customBackButton={<NavCustomBtn src={nav_back} />}
+      customCloseButton={
+        customCloseButton || (
+          <NavCustomBtn src={nav_close} onClick={onCustomCloseButton} />
+        )
+      }
+      customBackButton={
+        customBackButton || (
+          <NavCustomBtn src={nav_back} onClick={onCustomBackButton} />
+        )
+      }
       appendLeft={appendLeft}
+      appendRight={appendRight}
     />
   );
 }

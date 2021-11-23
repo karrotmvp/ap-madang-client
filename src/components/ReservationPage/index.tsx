@@ -98,6 +98,7 @@ const ReservationPage: React.FC = () => {
     if (openModal === RESERVATION.SUCCESS)
       return (
         <ReservationModal
+          open={openModal !== undefined}
           openHandler={setOpenModal}
           title={RESERVATION.MODAL.SUCCESS_TITLE}
           contents={RESERVATION.MODAL.SUCCESS_TEXT}
@@ -105,6 +106,7 @@ const ReservationPage: React.FC = () => {
       );
     return (
       <ReservationModal
+        open={openModal !== undefined}
         openHandler={setOpenModal}
         title={RESERVATION.MODAL.FAIL_TITLE}
         contents={RESERVATION.MODAL.FAIL_TEXT}

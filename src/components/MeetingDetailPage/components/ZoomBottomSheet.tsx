@@ -10,7 +10,7 @@ import arrow_iOS_xsmall_green from '../../../assets/icon/arrow_iOS_xsmall_green.
 import cam from '../../../assets/icon/cam.svg';
 import mic from '../../../assets/icon/mic.svg';
 import closeBtn from '../../../assets/icon/nav_close.svg';
-import bottom_sheet_btn from '../../../assets/image/bottom_sheet_btn.png';
+import zoom_logo__white from '../../../assets/icon/zoom_logo__white.svg';
 import zoom_view from '../../../assets/image/zoom_view.png';
 import BottomSheet from '../../../components/common/BottomSheet';
 import { COLOR } from '../../../constant/color';
@@ -20,7 +20,6 @@ import { userInfoAtom } from '../../../store/user';
 interface Props {
   onClose: () => void;
   onClickJoin?: () => void;
-  zoomGuideHandler?: () => void;
   meetingId: string;
   meetingTitle: string;
   url: string;
@@ -29,7 +28,6 @@ interface Props {
 function ZoomBottomSheet({
   onClose,
   onClickJoin,
-  zoomGuideHandler,
   url,
   meetingId,
   meetingTitle,
@@ -44,24 +42,25 @@ function ZoomBottomSheet({
     }, 400);
   }, [onClose]);
 
-  const onClickOutSide = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
+  const onClickOutSide = (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e?.stopPropagation();
     closeHandler();
   };
 
-  const onClickJoinHandler = async () => {
-    const redirectWindow = window.open(url, '_blank');
+  const onClickJoinHandler = useCallback(async () => {
+    const windowReference = window.open(url, '_blank');
+
     await increaseMeetingEnterUserCount(meetingId);
-    redirectWindow && redirectWindow.location;
     logEvent(analytics, 'zoom_bottom_sheet_join__click', {
       location: 'zoom_bottom_sheet',
       meeting_id: meetingId,
       meeting_name: meetingTitle,
-      userNickname: userInfo?.nickname,
-      userRegion: userInfo?.region,
+      userNickname: userInfo ? userInfo.nickname : '',
+      userRegion: userInfo ? userInfo.region : '',
     });
+    windowReference;
     onClickJoin && onClickJoin();
-  };
+  }, [meetingId, meetingTitle, onClickJoin, url, userInfo]);
 
   return (
     <BottomSheet
@@ -91,14 +90,21 @@ function ZoomBottomSheet({
                 {ZOOM_BOTTOM_SHEET.SUB_TITLE_02}
               </DescriptionText>
             </DescriptionItem>
-            <ZoomGuide onClick={zoomGuideHandler}>
+            <ZoomGuide
+              onClick={() =>
+                window.open(process.env.INFO_NOTION_URL || '', '', '_blank')
+              }
+            >
               {ZOOM_BOTTOM_SHEET.ZOOM_GUIDE}{' '}
               <img src={arrow_iOS_xsmall_green} />
             </ZoomGuide>
           </DescriptionWrapper>
         </ContentsWrapper>
       </InfoTextWrapper>
-      <JoinBtnBlue src={bottom_sheet_btn} onClick={onClickJoinHandler} />
+      <ZoomJoinBtn onClick={onClickJoinHandler}>
+        <ZoomIcon src={zoom_logo__white} />
+        <ZoomJoinText>으로 모임 참여하기</ZoomJoinText>
+      </ZoomJoinBtn>
     </BottomSheet>
   );
 }
@@ -178,13 +184,26 @@ const ZoomGuide = styled.div`
   align-items: center;
 `;
 
-const JoinBtnBlue = styled.img`
-  width: auto;
-  height: 4.4rem;
+const ZoomJoinBtn = styled.div`
   margin: 0 2rem 1.8rem 2rem;
-  text-decoration: none;
-  outline: none;
-  box-sizing: border-box;
+  padding: 0.95rem 0;
+  background: #0185fa;
+  border-radius: 0.6rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ZoomIcon = styled.img`
+  margin-right: 0.3rem;
+`;
+
+const ZoomJoinText = styled.div`
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  color: white;
 `;
 
 export default ZoomBottomSheet;

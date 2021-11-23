@@ -4,7 +4,10 @@ import styled from '@emotion/styled';
 import { useNavigator } from '@karrotframe/navigator';
 import { MeetingList } from 'meeting';
 
+import camera_meeting_tag__gray from '../../../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
+import voice_meeting_tag__gray from '../../../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
 import { COLOR } from '../../../../constant/color';
+import Gradient from '../../../common/Gradient';
 import CurrMeetingTimer from '../CurrMeetingTimer';
 import ParticipantNum from '../ParticipantNum';
 
@@ -33,8 +36,18 @@ function CurrMeetingCard({ idx, data }: Props): ReactElement {
       onClick={onClickCardHandler}
     >
       <ImageWrapper>
-        <LiveTag>진행중</LiveTag>
-        <Thumbnail src={data.image} />
+        <TagWrapper>
+          <LiveTag>진행중</LiveTag>
+          <MeetingTypeTag
+            src={
+              data.is_video ? camera_meeting_tag__gray : voice_meeting_tag__gray
+            }
+          />
+        </TagWrapper>
+
+        <Gradient gradient="linear-gradient(180deg, rgba(17, 17, 17, 0.4) 25.52%, rgba(17, 17, 17, 0) 100%);">
+          <Thumbnail src={data.image} />
+        </Gradient>
       </ImageWrapper>
       <ContentsWrapper>
         <InfoWrapper>
@@ -55,14 +68,15 @@ function CurrMeetingCard({ idx, data }: Props): ReactElement {
 }
 
 const MeetingCardWrapper = styled.div<WrapperProps>`
-  margin: 0 1.6rem 1.6rem 1.6rem;
+  margin-bottom: 1.6rem;
   width: 100%;
-  height: 28.9rem;
+  height: auto;
   border: 1px solid ${COLOR.TEXTAREA_LIGHT_GRAY};
   border-radius: 0.6rem;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-shadow: 0px 2px 10px 0px hsla(0, 0%, 7%, 0.1);
 
   @media (max-width: 300px) {
     width: 21.8rem;
@@ -77,35 +91,53 @@ const ImageWrapper = styled.div`
   align-items: center;
   position: relative;
   overflow: hidden;
+  position: relative;
 `;
+
+const TagWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  left: 1.1rem;
+  top: 1.1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  z-index: 1;
+`;
+
 const Thumbnail = styled.img`
   width: 100%;
+  height: auto;
+  object-fit: cover;
+
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const LiveTag = styled.div`
-  position: absolute;
-  left: 1rem;
-  top: 1rem;
-  padding: 0.4rem 1rem;
+  position: relative;
+  padding: 0.5rem 0.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  font-weight: bold;
-  font-size: 1.5rem;
-  line-height: 2.5rem;
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.4rem;
   letter-spacing: -0.03rem;
   color: ${COLOR.TEXT_WHITE};
   background-color: ${COLOR.ORANGE};
-  border-radius: 0.6rem;
+  border-radius: 0.4rem;
+`;
+
+const MeetingTypeTag = styled.img`
+  margin-left: 0.6rem;
 `;
 
 const ContentsWrapper = styled.div`
   flex: 1;
-  padding: 1.4rem 0.9rem 1.3rem 0.9rem;
+  padding: 1.4rem 1.5rem;
   display: flex;
   flex-direction: column;
 `;
@@ -118,10 +150,10 @@ const Title = styled.div`
   font-weight: 600;
   max-height: 5.2rem;
   font-size: 1.7rem;
-  line-height: 2.6rem;
+  line-height: 2.5rem;
   letter-spacing: -0.04rem;
   color: ${COLOR.TEXT_BLACK};
-  margin-bottom: 0.4rem;
+  margin-bottom: 1.4rem;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
@@ -135,12 +167,13 @@ const Title = styled.div`
 const Button = styled.div`
   width: 100%;
   height: 4rem;
-  background: ${COLOR.LIGHT_GREEN_BACKGROUND};
+  background: ${COLOR.LIGHT_GREEN};
   border-radius: 0.6rem;
+  font-weight: 600;
   font-size: 1.4rem;
   line-height: 1.7rem;
   letter-spacing: -0.03rem;
-  color: ${COLOR.LIGHT_GREEN};
+  color: ${COLOR.TEXT_WHITE};
   display: flex;
   justify-content: center;
   align-items: center;

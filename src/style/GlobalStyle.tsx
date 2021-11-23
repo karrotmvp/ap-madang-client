@@ -39,7 +39,7 @@ const GlobalStyle = () => {
         }
         .title2 {
           font-size: 1.8rem;
-          line-height: 2.8rem;
+          line-height: 2.7rem;
           font-weight: 600;
           letter-spacing: -0.04rem;
         }
@@ -60,11 +60,11 @@ const GlobalStyle = () => {
         }
         .body3 {
           font-size: 1.5rem;
-          line-height: 2.5rem;
+          line-height: 2.3rem;
         }
         .body4 {
           font-size: 1.4rem;
-          line-height: 2.3rem;
+          line-height: 2.1rem;
         }
 
         @font-face {

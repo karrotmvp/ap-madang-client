@@ -10,13 +10,19 @@ import { MEETING_DETAIL } from '../../../constant/message';
 import Modal from './Modal';
 
 interface Props {
+  open: boolean;
   closeHandler: () => void;
   className?: string;
 }
 
-function MeetingMannerModal({ closeHandler, className }: Props): ReactElement {
+function MeetingMannerModal({
+  open,
+  closeHandler,
+  className,
+}: Props): ReactElement {
   return (
     <ModalStyle
+      open={open}
       className={classnames('meeting-guide-modal', className)}
       onClose={closeHandler}
       innerModalStyle={InnerModalStyle}

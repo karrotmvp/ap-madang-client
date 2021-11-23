@@ -1,27 +1,28 @@
-import React, { ReactElement, useCallback, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 import { MeetingList } from 'meeting';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { deleteAlarm, newAlarm } from '../../../../api/alarm';
 import { analytics } from '../../../../App';
 import card_noti_off from '../../../../assets/icon/card_noti_off.svg';
 import card_noti_on from '../../../../assets/icon/card_noti_on.svg';
+import camera_meeting_tag__gray from '../../../../assets/icon/home/camera_meeting_tag__gray.svg';
+import voice_meeting_tag__gray from '../../../../assets/icon/home/voice_meeting_tag__gray.svg';
 import { COLOR } from '../../../../constant/color';
-import { LANDING } from '../../../../constant/message';
-import useInterval from '../../../../hook/useInterval';
-import { meetingsAtom } from '../../../../store/meeting';
-import { userInfoAtom } from '../../../../store/user';
-import { getRemainTime, getTimeForm } from '../../../../util/utils';
+import { codeAtom, userInfoAtom, UserInfoType } from '../../../../store/user';
+import { getTimeForm } from '../../../../util/utils';
+import { authHandler } from '../../../../util/withMini';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../../../common/Modal/NewAlarmModal';
 
 interface Props {
   data: MeetingList;
   idx: number;
+  setMeetings: React.Dispatch<React.SetStateAction<MeetingList[]>>;
 }
 
 interface WrapperProps {
@@ -29,12 +30,11 @@ interface WrapperProps {
   live_status: 'live' | 'upcoming' | 'tomorrow' | 'finish';
 }
 
-function MeetingCard({ idx, data }: Props): ReactElement {
-  const setMeetings = useSetRecoilState(meetingsAtom);
+function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
   const [openDeleteAlarmModal, setOpenDeleteAlarmModal] = useState(false);
-  const [remainTime, setRemainTime] = useState('');
-  const userInfo = useRecoilValue(userInfoAtom);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
+  const setCode = useSetRecoilState(codeAtom);
 
   const { push } = useNavigator();
 
@@ -53,7 +53,11 @@ function MeetingCard({ idx, data }: Props): ReactElement {
         setMeetings(el =>
           el.map(prevState => {
             if (prevState.id === data.id) {
-              return { ...prevState, alarm_id: undefined };
+              return {
+                ...prevState,
+                alarm_id: undefined,
+                alarm_num: prevState.alarm_num - 1,
+              };
             }
             return { ...prevState };
           }),
@@ -72,9 +76,9 @@ function MeetingCard({ idx, data }: Props): ReactElement {
   ]);
 
   const alarmHandler = useCallback(
-    async e => {
-      e.stopPropagation();
-      if (data?.alarm_id) {
+    (userInfo: UserInfoType) => async (e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      if (data?.alarm_id && userInfo) {
         setOpenDeleteAlarmModal(true);
       } else if (data.id && userInfo) {
         logEvent(analytics, 'add_alarm__click', {
@@ -90,7 +94,11 @@ function MeetingCard({ idx, data }: Props): ReactElement {
           setMeetings(el =>
             el.map(prevState => {
               if (prevState.id === data.id && result.data?.id) {
-                return { ...prevState, alarm_id: result.data?.id };
+                return {
+                  ...prevState,
+                  alarm_id: result.data?.id,
+                  alarm_num: prevState.alarm_num + 1,
+                };
               }
               return prevState;
             }),
@@ -99,31 +107,12 @@ function MeetingCard({ idx, data }: Props): ReactElement {
         }
       }
     },
-    [
-      data.alarm_id,
-      data.id,
-      data.live_status,
-      data.title,
-      setMeetings,
-      userInfo,
-    ],
+    [data, setMeetings],
   );
 
   const onClickCardHandler = useCallback(() => {
     push(`/meetings/${data.id}`);
   }, [data.id, push]);
-
-  useInterval(
-    () => {
-      setRemainTime(getRemainTime(data.start_time, data.date));
-    },
-    data.live_status === 'upcoming' ? 10000 : null,
-  );
-
-  useEffect(() => {
-    if (data.date && data.start_time)
-      setRemainTime(getRemainTime(data.start_time, data.date));
-  }, [data.date, data.start_time]);
 
   return (
     <MeetingCardWrapper
@@ -134,51 +123,67 @@ function MeetingCard({ idx, data }: Props): ReactElement {
     >
       {openNewAlarmModal && (
         <NewAlarmModal
+          open={openNewAlarmModal}
           className="meeting-card__new-alarm-modal"
           closeHandler={() => setOpenNewAlarmModal(false)}
         />
       )}
       {openDeleteAlarmModal && (
         <DeleteAlarmModal
+          open={openDeleteAlarmModal}
           className="meeting-card__delete-alarm-modal"
           closeHandler={() => setOpenDeleteAlarmModal(false)}
           deleteAlarmHandler={deleteAlarmHandler}
         />
       )}
       <ContentsWrapper className="meeting-card__contents">
+        <CardHeader>
+          <MeetingTypeTag
+            src={
+              data.is_video ? camera_meeting_tag__gray : voice_meeting_tag__gray
+            }
+          />
+          <AlarmBtn
+            hasAlarm={data.alarm_id ? true : false}
+            className="meeting-card__alarm-icon"
+          >
+            <AlarmIcon
+              src={data.alarm_id ? card_noti_on : card_noti_off}
+              onClick={
+                !userInfo
+                  ? authHandler(
+                      alarmHandler,
+                      setCode,
+                      setUserInfo,
+                      'home_alaram',
+                    )
+                  : alarmHandler(userInfo)
+              }
+            />
+            {data.alarm_num}
+          </AlarmBtn>
+        </CardHeader>
         <InfoWrapper>
-          <CardHeader>
-            <MeetingTime className="body3 meeting-card__time">
-              {getTimeForm(
-                data.start_time,
-                data.end_time,
-                data.live_status,
-                true,
-              )}
-            </MeetingTime>
-          </CardHeader>
+          <MeetingTime className="body3 meeting-card__time">
+            {getTimeForm(
+              data.start_time,
+              data.end_time,
+              data.live_status,
+              true,
+            )}
+          </MeetingTime>
 
           <MeetingTitle
-            className="body1 meeting-card__title"
+            className="title3 meeting-card__title"
             live_status={data.live_status}
           >
             {data.title}
           </MeetingTitle>
         </InfoWrapper>
-        <AlarmWrapper className="meeting-card__alarm-icon">
-          {data.alarm_id ? (
-            <img src={card_noti_on} onClick={alarmHandler} />
-          ) : (
-            <img src={card_noti_off} onClick={alarmHandler} />
-          )}
-        </AlarmWrapper>
       </ContentsWrapper>
       {data.live_status === 'upcoming' && (
         <CardFooter className="body3 meeting-card__footer">
-          <FooterText>
-            {remainTime}
-            {LANDING.START_MEETING_LATER}
-          </FooterText>
+          <FooterText>{data.description_text}</FooterText>
         </CardFooter>
       )}
     </MeetingCardWrapper>
@@ -189,25 +194,20 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
   box-sizing: border-box;
   margin: 0 0 1.6rem 0;
   height: auto;
-  padding: 1.6rem 1.6rem 1.7rem 1.6rem;
+  padding: 1.1rem 1.5rem 1.7rem 1.5rem;
   display: flex;
   flex-direction: column;
   word-break: keep-all;
-  background-color: ${props =>
-    props.live_status === 'tomorrow' ? COLOR.GRAY_000 : COLOR.TEXT_WHITE};
+  background-color: ${COLOR.TEXT_WHITE};
   border-radius: 0.6rem;
-  border: 1px solid
-    ${props =>
-      props.live_status === 'tomorrow'
-        ? COLOR.GRAY_200
-        : COLOR.TEXTAREA_LIGHT_GRAY};
+  border: 1px solid ${COLOR.GRAY_200};
   box-sizing: border-box;
   margin-top: ${props => (props.idx === 0 ? '1.8rem' : 0)};
 `;
 
 const ContentsWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
 `;
 
@@ -216,15 +216,46 @@ const InfoWrapper = styled.div`
   flex-direction: column;
 `;
 
-const AlarmWrapper = styled.div`
+const MeetingTypeTag = styled.img`
+  width: 6.8rem;
+  height: 2.4rem;
+  margin-bottom: 0.6rem;
+`;
+
+const AlarmBtn = styled.div<{ hasAlarm: boolean }>`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  min-width: 6rem;
+
+  padding: 0.4rem 0.9rem 0.4rem 0.8rem;
+  border: ${({ hasAlarm }) =>
+    hasAlarm ? '1px solid #41AC70' : `1px solid #85878A`};
+  background: ${({ hasAlarm }) => (hasAlarm ? '#E0F3E9' : 'none')};
+  box-sizing: border-box;
+  border-radius: 1.8rem;
+
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.8rem;
+  letter-spacing: -0.03rem;
+  color: ${({ hasAlarm }) => (hasAlarm ? '#41AC70' : COLOR.GRAY_600)}; ;
 `;
+
+const AlarmIcon = styled.img`
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-right: 0.2rem;
+`;
+
 const CardHeader = styled.div`
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const MeetingTime = styled.div`
@@ -238,13 +269,7 @@ interface MeetingTitleType {
 const MeetingTitle = styled.div`
   color: ${COLOR.TEXT_BLACK};
   margin-bottom: ${({ live_status }: MeetingTitleType) =>
-    live_status === 'live'
-      ? '0.8rem'
-      : live_status === 'upcoming'
-      ? '1rem'
-      : '0'};
-  margin-top: ${({ live_status }: MeetingTitleType) =>
-    live_status === 'live' ? '0.8rem' : '.4rem'};
+    live_status === 'upcoming' ? '0.8rem' : '0'};
 `;
 
 const CardFooter = styled.div`
@@ -259,6 +284,9 @@ const FooterText = styled.div`
   line-height: 1.7rem;
   letter-spacing: -0.02rem;
   color: ${COLOR.FONT_BODY_GRAY};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export default MeetingCard;

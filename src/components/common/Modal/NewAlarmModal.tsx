@@ -10,11 +10,12 @@ import { COMMON } from '../../../constant/message';
 import Modal from './Modal';
 
 interface Props {
+  open: boolean;
   closeHandler: () => void;
   className?: string;
 }
 
-function NewAlarmModal({ closeHandler, className }: Props): ReactElement {
+function NewAlarmModal({ closeHandler, className, open }: Props): ReactElement {
   useEffect(() => {
     const closeModal = setTimeout(() => {
       closeHandler();
@@ -26,6 +27,7 @@ function NewAlarmModal({ closeHandler, className }: Props): ReactElement {
 
   return (
     <Modal
+      open={open}
       className={classnames('new-alarm-modal', className)}
       innerModalStyle={InnerModalStyle}
     >

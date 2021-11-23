@@ -2,78 +2,93 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 import classnames from 'classnames';
-import { useRecoilValue } from 'recoil';
+import { MeetingList } from 'meeting';
 
 import { COLOR } from '../../../../constant/color';
 import { LANDING } from '../../../../constant/message';
-import {
-  meetingsAtom,
-  tomorrowMeetings,
-  upcomingMeetings,
-} from '../../../../store/meeting';
 import MeetingCard from '../MeetingCard/MeetingCard';
 import SkeletonCard from '../MeetingCard/SkeletonCard';
 
 interface Props {
   title: string;
   className?: string;
+  meetings: MeetingList[];
+  hasMeetings: boolean;
+  setMeetings: React.Dispatch<React.SetStateAction<MeetingList[]>>;
 }
 
-function MeetingList({ title, className }: Props): ReactElement {
-  const meetings = useRecoilValue(
-    title === LANDING.UPCOMING_MEETING ? upcomingMeetings : tomorrowMeetings,
-  );
-
-  const allMeeting = useRecoilValue(meetingsAtom);
-
+function MeetingList({
+  title,
+  className,
+  meetings,
+  hasMeetings,
+  setMeetings,
+}: Props): ReactElement {
   return (
     <MeetingListWrapper className={classnames('meeting-list', className)}>
       <ListTitle>
         {title === LANDING.UPCOMING_MEETING ? (
-          <span>
+          <Title>
             {LANDING.UPCOMING_MEETING_01}
             <MeetingCounter className="title2 meeting-list__counter">
               {meetings && meetings.length.toString()}
             </MeetingCounter>
             {LANDING.UPCOMING_MEETING_02}
-          </span>
+          </Title>
         ) : (
-          <span>
+          <Title>
             {title}
             <MeetingCounter className="title2 meeting-list__counter">
               {meetings && meetings.length.toString()}
             </MeetingCounter>
-          </span>
+          </Title>
         )}
       </ListTitle>
 
       {meetings.length !== 0 ? (
         meetings.map((el, idx) => {
-          return <MeetingCard key={el.id} data={el} idx={idx} />;
+          return (
+            <MeetingCard
+              key={el.id}
+              data={el}
+              idx={idx}
+              setMeetings={setMeetings}
+            />
+          );
         })
       ) : (
         <div></div>
       )}
-      {allMeeting.length === 0 && <SkeletonCard />}
+      {!hasMeetings && <SkeletonCard />}
     </MeetingListWrapper>
   );
 }
 
 const MeetingListWrapper = styled.div`
   box-sizing: border-box;
-  padding: 3rem 1.6rem 2rem 1.6rem;
+  padding: 5rem 1.6rem 5rem 1.6rem;
+  .meeting-card:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+const Title = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const MeetingCounter = styled.span`
   color: ${COLOR.LIGHT_GREEN};
-  margin-left: 0.6rem;
+  margin-left: 0.5rem;
+  margin-right: 0.2rem;
 `;
 
 const ListTitle = styled.div`
-  font-weight: bold;
-  font-size: 1.8rem;
+  font-weight: 700;
+  font-size: 2rem;
   line-height: 2.8rem;
-  letter-spacing: -0.04rem;
+  letter-spacing: -0.05rem;
   color: ${COLOR.TEXT_BLACK};
   padding-left: 0.4rem;
 `;

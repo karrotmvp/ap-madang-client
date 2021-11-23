@@ -6,13 +6,13 @@ import { getAnalytics, logEvent } from 'firebase/analytics';
 
 import LandingPage from './components/LandingPage';
 import MeetingDetailPage from './components/MeetingDetailPage';
+const AgoraPage = React.lazy(() => import('./components/MeetingPage'));
 import MeetingSuggestionPage from './components/MeetingSuggestionPage';
 import NotFoundPage from './components/NotFountPage';
 import NotServiceRegionPage from './components/NotServiceRegionPage';
 import OnBoardPage from './components/OnBoardPage';
-import RedirectPage from './components/RedirectPage';
 import ReservationPage from './components/ReservationPage';
-import Auth from './hoc/Auth';
+import AuthWithoutMini from './hoc/AuthWithoutMini';
 import { app } from './util/firebase';
 import mini from './util/mini';
 import { checkMobileType } from './util/utils';
@@ -34,13 +34,16 @@ const App: React.FC = () => {
       onClose={() => mini.close()}
       className={NavigatorStyle}
     >
-      <Screen path="/" component={Auth(LandingPage)} />
+      <Screen path="/" component={AuthWithoutMini(LandingPage)} />
       <Screen path="/guide" component={OnBoardPage} />
-      <Screen path="/meetings/:id" component={Auth(MeetingDetailPage)} />
+      <Screen
+        path="/meetings/:id"
+        component={AuthWithoutMini(MeetingDetailPage)}
+      />
       <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
       <Screen path="/reservation" component={ReservationPage} />
-      <Screen path="/redirect" component={Auth(RedirectPage)} />
       <Screen path="/not-service-region" component={NotServiceRegionPage} />
+      <Screen path="/agora" component={AgoraPage} />
       <Screen path="*" component={NotFoundPage} />
     </Navigator>
   );

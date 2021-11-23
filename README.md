@@ -11,11 +11,25 @@
 
 ``` javascript
 // /.env
-
     APP_ID=''
     API_URL=''
     MINI_PRESET_URL=''
     GA_KEY=''
+
+    FA_KEY=""
+    FA_AUTH_DOMAIN=""
+    FA_PROJECT_ID=""
+    FA_STORAGE_BUCKET=""
+    FA_MESSAGING_SENDER_ID=""
+    FA_APP_ID=""
+    FA_MEASUREMENT_ID=""
+
+    AGORA_APP_ID=""
+    AGORA_TOKEN= ""
+
+    INFO_NOTION_URL=""
+
+    KARROT_SCHEME=""
  ```
 
 

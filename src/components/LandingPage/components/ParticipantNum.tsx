@@ -13,7 +13,7 @@ function ParticipantNum({ userMeetingNum }: Props): ReactElement {
   return (
     <ParticipantNumWrapper>
       <ParticipantIcon src={person} />
-      <Participant className="body3">
+      <Participant className="body4">
         누적 참여자 {userMeetingNum}명
       </Participant>
     </ParticipantNumWrapper>
@@ -24,7 +24,7 @@ const ParticipantNumWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1rem;
 `;
 
 const ParticipantIcon = styled.img`
