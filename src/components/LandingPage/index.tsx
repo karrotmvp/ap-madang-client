@@ -16,6 +16,7 @@ import suggestion_img from '../../assets/image/suggestion_img.png';
 import { COLOR } from '../../constant/color';
 import { LANDING } from '../../constant/message';
 import { userInfoAtom } from '../../store/user';
+import { getRegionId } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import CurrMeetingList from './components/MeetingList/CurrMeetingList';
 import MeetingList from './components/MeetingList/MeetingList';
@@ -29,7 +30,8 @@ const LandingPage: React.FC = () => {
   const redirectUrl = useRedirect();
 
   const meetingListHandler = useCallback(async () => {
-    const result = await getMeetings();
+    const region_id = getRegionId(window.location.search);
+    const result = await getMeetings(region_id);
     if (result.success && result.data) setMeetings(result.data);
   }, [setMeetings]);
 
@@ -38,18 +40,17 @@ const LandingPage: React.FC = () => {
   }, [redirectUrl, replace]);
 
   useEffect(() => {
-    if (userInfo) {
-      meetingListHandler();
-      setUserId(analytics, userInfo.nickname);
-    }
-  }, [meetingListHandler, userInfo, push]);
+    meetingListHandler();
+  }, [meetingListHandler, push]);
 
   useEffect(() => {
-    if (userInfo)
+    if (userInfo) {
       logEvent(analytics, 'landing_page__show', {
         userRegion: userInfo?.region,
         userNickname: userInfo?.nickname,
       });
+      setUserId(analytics, userInfo?.nickname || 'Guest');
+    }
   }, [userInfo]);
 
   return (

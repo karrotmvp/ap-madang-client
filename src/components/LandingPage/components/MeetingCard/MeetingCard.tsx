@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 import { MeetingList } from 'meeting';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { deleteAlarm, newAlarm } from '../../../../api/alarm';
 import { analytics } from '../../../../App';
@@ -13,8 +13,9 @@ import card_noti_on from '../../../../assets/icon/card_noti_on.svg';
 import camera_meeting_tag__gray from '../../../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
 import voice_meeting_tag__gray from '../../../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
 import { COLOR } from '../../../../constant/color';
-import { userInfoAtom } from '../../../../store/user';
+import { codeAtom, userInfoAtom, UserInfoType } from '../../../../store/user';
 import { getTimeForm } from '../../../../util/utils';
+import { authHandler } from '../../../../util/withMini';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../../../common/Modal/NewAlarmModal';
 
@@ -32,7 +33,8 @@ interface WrapperProps {
 function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
   const [openDeleteAlarmModal, setOpenDeleteAlarmModal] = useState(false);
-  const userInfo = useRecoilValue(userInfoAtom);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
+  const setCode = useSetRecoilState(codeAtom);
 
   const { push } = useNavigator();
 
@@ -70,9 +72,9 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
   ]);
 
   const alarmHandler = useCallback(
-    async e => {
-      e.stopPropagation();
-      if (data?.alarm_id) {
+    (userInfo: UserInfoType) => async (e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      if (data?.alarm_id && userInfo) {
         setOpenDeleteAlarmModal(true);
       } else if (data.id && userInfo) {
         logEvent(analytics, 'add_alarm__click', {
@@ -97,14 +99,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
         }
       }
     },
-    [
-      data.alarm_id,
-      data.id,
-      data.live_status,
-      data.title,
-      setMeetings,
-      userInfo,
-    ],
+    [data, setMeetings],
   );
 
   const onClickCardHandler = useCallback(() => {
@@ -160,9 +155,23 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
         </InfoWrapper>
         <AlarmWrapper className="meeting-card__alarm-icon">
           {data.alarm_id ? (
-            <AlarmIcon src={card_noti_on} onClick={alarmHandler} />
+            <AlarmIcon
+              src={card_noti_on}
+              onClick={
+                !userInfo
+                  ? authHandler(alarmHandler, setCode, setUserInfo)
+                  : alarmHandler(userInfo)
+              }
+            />
           ) : (
-            <AlarmIcon src={card_noti_off} onClick={alarmHandler} />
+            <AlarmIcon
+              src={card_noti_off}
+              onClick={
+                !userInfo
+                  ? authHandler(alarmHandler, setCode, setUserInfo)
+                  : alarmHandler(userInfo)
+              }
+            />
           )}
         </AlarmWrapper>
       </ContentsWrapper>

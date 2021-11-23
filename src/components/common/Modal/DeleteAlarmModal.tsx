@@ -46,7 +46,6 @@ function DeleteAlarmModal({
   const onClickOutsideHandler = (
     e?: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
-    console.log('onClickDeletealarm outside handler', deleted);
     e?.stopPropagation();
     closeHandler();
   };
