@@ -144,7 +144,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
             }
           />
           <AlarmBtn
-            hasAlarm={data.alarm_id !== null ? true : false}
+            hasAlarm={data.alarm_id ? true : false}
             className="meeting-card__alarm-icon"
             onClick={
               !userInfo
@@ -152,13 +152,8 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
                 : alarmHandler(userInfo)
             }
           >
-            {data.alarm_id !== null ? (
-              <AlarmIcon src={card_noti_on} />
-            ) : (
-              <AlarmIcon src={card_noti_off} />
-            )}
+            <AlarmIcon src={data.alarm_id ? card_noti_on : card_noti_off} />
             {data.alarm_num}
-            {console.log(data.alarm_id)}
           </AlarmBtn>
         </CardHeader>
         <InfoWrapper>
