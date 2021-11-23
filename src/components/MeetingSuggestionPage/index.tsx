@@ -2,6 +2,8 @@ import React, { useState, useMemo, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
+import { useCurrentScreen } from '@karrotframe/navigator';
+import { useNavigator } from 'karrotframe/lib';
 import { IoEllipse } from 'react-icons/io5';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
@@ -12,6 +14,7 @@ import { COLOR } from '../../constant/color';
 import { SUGGESTION } from '../../constant/message';
 import useViewportSize from '../../hook/useViewportSize';
 import { codeAtom, userInfoAtom, UserInfoType } from '../../store/user';
+import mini from '../../util/mini';
 import { checkMobileType } from '../../util/utils';
 import { authHandler } from '../../util/withMini';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
@@ -28,8 +31,9 @@ const MeetingSuggestionPage = () => {
   const [inputFocus, setInputFocus] = useState(false);
   const [text, setText] = useState('');
   const [submit, setsubmit] = useState(false);
-
   const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
+  const { pop } = useNavigator();
+  const { isRoot } = useCurrentScreen();
   const setCode = useSetRecoilState(codeAtom);
 
   const size = useViewportSize();
@@ -41,11 +45,11 @@ const MeetingSuggestionPage = () => {
   const onSubmitHandler =
     (userInfo: UserInfoType) => async (e?: React.MouseEvent) => {
       e?.stopPropagation();
-      // if (submit) {
-      //   if (isRoot) mini.close();
-      //   else pop();
-      //   return;
-      // }
+      if (submit) {
+        if (isRoot) mini.close();
+        else pop();
+        return;
+      }
       if (text.length === 0 && !userInfo) return;
       const result = await meetingSuggestion(text);
       if (result.success) setsubmit(true);
