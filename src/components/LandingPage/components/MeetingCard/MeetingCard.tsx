@@ -10,8 +10,8 @@ import { deleteAlarm, newAlarm } from '../../../../api/alarm';
 import { analytics } from '../../../../App';
 import card_noti_off from '../../../../assets/icon/card_noti_off.svg';
 import card_noti_on from '../../../../assets/icon/card_noti_on.svg';
-import camera_meeting_tag__gray from '../../../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
-import voice_meeting_tag__gray from '../../../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
+import camera_meeting_tag__gray from '../../../../assets/icon/home/camera_meeting_tag__gray.svg';
+import voice_meeting_tag__gray from '../../../../assets/icon/home/voice_meeting_tag__gray.svg';
 import { COLOR } from '../../../../constant/color';
 import { codeAtom, userInfoAtom, UserInfoType } from '../../../../store/user';
 import { getTimeForm } from '../../../../util/utils';
@@ -53,7 +53,11 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
         setMeetings(el =>
           el.map(prevState => {
             if (prevState.id === data.id) {
-              return { ...prevState, alarm_id: undefined };
+              return {
+                ...prevState,
+                alarm_id: undefined,
+                alarm_num: prevState.alarm_num - 1,
+              };
             }
             return { ...prevState };
           }),
@@ -90,7 +94,11 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
           setMeetings(el =>
             el.map(prevState => {
               if (prevState.id === data.id && result.data?.id) {
-                return { ...prevState, alarm_id: result.data?.id };
+                return {
+                  ...prevState,
+                  alarm_id: result.data?.id,
+                  alarm_num: prevState.alarm_num + 1,
+                };
               }
               return prevState;
             }),
@@ -129,34 +137,18 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
         />
       )}
       <ContentsWrapper className="meeting-card__contents">
-        <InfoWrapper>
+        <CardHeader>
           <MeetingTypeTag
             src={
               data.is_video ? camera_meeting_tag__gray : voice_meeting_tag__gray
             }
           />
-          <CardHeader>
-            <MeetingTime className="body3 meeting-card__time">
-              {getTimeForm(
-                data.start_time,
-                data.end_time,
-                data.live_status,
-                true,
-              )}
-            </MeetingTime>
-          </CardHeader>
-
-          <MeetingTitle
-            className="title3 meeting-card__title"
-            live_status={data.live_status}
+          <AlarmBtn
+            hasAlarm={data.alarm_id ? true : false}
+            className="meeting-card__alarm-icon"
           >
-            {data.title}
-          </MeetingTitle>
-        </InfoWrapper>
-        <AlarmWrapper className="meeting-card__alarm-icon">
-          {data.alarm_id ? (
             <AlarmIcon
-              src={card_noti_on}
+              src={data.alarm_id ? card_noti_on : card_noti_off}
               onClick={
                 !userInfo
                   ? authHandler(
@@ -168,10 +160,26 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
                   : alarmHandler(userInfo)
               }
             />
-          ) : (
-            <AlarmIcon src={card_noti_off} onClick={alarmHandler(userInfo)} />
-          )}
-        </AlarmWrapper>
+            {data.alarm_num}
+          </AlarmBtn>
+        </CardHeader>
+        <InfoWrapper>
+          <MeetingTime className="body3 meeting-card__time">
+            {getTimeForm(
+              data.start_time,
+              data.end_time,
+              data.live_status,
+              true,
+            )}
+          </MeetingTime>
+
+          <MeetingTitle
+            className="title3 meeting-card__title"
+            live_status={data.live_status}
+          >
+            {data.title}
+          </MeetingTitle>
+        </InfoWrapper>
       </ContentsWrapper>
       {data.live_status === 'upcoming' && (
         <CardFooter className="body3 meeting-card__footer">
@@ -186,7 +194,7 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
   box-sizing: border-box;
   margin: 0 0 1.6rem 0;
   height: auto;
-  padding: 1.5rem;
+  padding: 1.1rem 1.5rem 1.7rem 1.5rem;
   display: flex;
   flex-direction: column;
   word-break: keep-all;
@@ -199,14 +207,13 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
 
 const ContentsWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
 `;
 
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 1.5rem; ;
 `;
 
 const MeetingTypeTag = styled.img`
@@ -215,22 +222,39 @@ const MeetingTypeTag = styled.img`
   margin-bottom: 0.6rem;
 `;
 
-const AlarmWrapper = styled.div`
+const AlarmBtn = styled.div<{ hasAlarm: boolean }>`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  min-width: 6rem;
+
+  padding: 0.4rem 0.9rem 0.4rem 0.8rem;
+  border: ${({ hasAlarm }) =>
+    hasAlarm ? '1px solid #41AC70' : `1px solid #85878A`};
+  background: ${({ hasAlarm }) => (hasAlarm ? '#E0F3E9' : 'none')};
+  box-sizing: border-box;
+  border-radius: 1.8rem;
+
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.8rem;
+  letter-spacing: -0.03rem;
+  color: ${({ hasAlarm }) => (hasAlarm ? '#41AC70' : COLOR.GRAY_600)}; ;
 `;
 
 const AlarmIcon = styled.img`
-  width: 3.6rem;
-  height: 3.6rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-right: 0.2rem;
 `;
 
 const CardHeader = styled.div`
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  margin-bottom: 0.2rem;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const MeetingTime = styled.div`
@@ -244,7 +268,7 @@ interface MeetingTitleType {
 const MeetingTitle = styled.div`
   color: ${COLOR.TEXT_BLACK};
   margin-bottom: ${({ live_status }: MeetingTitleType) =>
-    live_status === 'upcoming' ? '2rem' : '0'};
+    live_status === 'upcoming' ? '0.8rem' : '0'};
 `;
 
 const CardFooter = styled.div`
