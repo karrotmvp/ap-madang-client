@@ -55,8 +55,8 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
             if (prevState.id === data.id) {
               return {
                 ...prevState,
-                alarm_id: undefined,
                 alarm_num: prevState.alarm_num - 1,
+                alarm_id: undefined,
               };
             }
             return { ...prevState };
@@ -96,8 +96,8 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
               if (prevState.id === data.id && result.data?.id) {
                 return {
                   ...prevState,
-                  alarm_id: result.data?.id,
                   alarm_num: prevState.alarm_num + 1,
+                  alarm_id: result.data?.id,
                 };
               }
               return prevState;
@@ -144,11 +144,11 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
             }
           />
           <AlarmBtn
-            hasAlarm={data.alarm_id ? true : false}
+            hasAlarm={data.alarm_id !== undefined}
             className="meeting-card__alarm-icon"
           >
             <AlarmIcon
-              src={data.alarm_id ? card_noti_on : card_noti_off}
+              src={data.alarm_id !== undefined ? card_noti_on : card_noti_off}
               onClick={
                 !userInfo
                   ? authHandler(
