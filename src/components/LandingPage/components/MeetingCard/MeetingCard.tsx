@@ -78,7 +78,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
   const alarmHandler = useCallback(
     (userInfo: UserInfoType) => async (e?: React.MouseEvent) => {
       e?.stopPropagation();
-      if (data?.alarm_id && userInfo) {
+      if (data?.alarm_id) {
         setOpenDeleteAlarmModal(true);
       } else if (data.id && userInfo) {
         logEvent(analytics, 'add_alarm__click', {
@@ -147,19 +147,23 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
             hasAlarm={data.alarm_id !== undefined}
             className="meeting-card__alarm-icon"
           >
-            <AlarmIcon
-              src={data.alarm_id !== undefined ? card_noti_on : card_noti_off}
-              onClick={
-                !userInfo
-                  ? authHandler(
-                      alarmHandler,
-                      setCode,
-                      setUserInfo,
-                      'home_alaram',
-                    )
-                  : alarmHandler(userInfo)
-              }
-            />
+            {data.alarm_id ? (
+              <AlarmIcon
+                src={card_noti_on}
+                onClick={
+                  !userInfo
+                    ? authHandler(
+                        alarmHandler,
+                        setCode,
+                        setUserInfo,
+                        'home_alaram',
+                      )
+                    : alarmHandler(userInfo)
+                }
+              />
+            ) : (
+              <AlarmIcon src={card_noti_off} onClick={alarmHandler(userInfo)} />
+            )}
             {data.alarm_num}
           </AlarmBtn>
         </CardHeader>
