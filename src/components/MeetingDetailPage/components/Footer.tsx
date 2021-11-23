@@ -35,7 +35,12 @@ function Footer({
         <AlarmBtn
           onClick={
             !userInfo
-              ? authHandler(alarmHandler, setCode, setUserInfo)
+              ? authHandler(
+                  alarmHandler,
+                  setCode,
+                  setUserInfo,
+                  'detail_page_alaram',
+                )
               : alarmHandler(userInfo)
           }
         >
@@ -55,7 +60,12 @@ function Footer({
         <JoinBtn
           onClick={
             !userInfo
-              ? authHandler(onClickJoinHandler, setCode, setUserInfo)
+              ? authHandler(
+                  onClickJoinHandler,
+                  setCode,
+                  setUserInfo,
+                  'detail_page_join',
+                )
               : onClickJoinHandler(userInfo)
           }
         >

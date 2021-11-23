@@ -159,19 +159,17 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
               src={card_noti_on}
               onClick={
                 !userInfo
-                  ? authHandler(alarmHandler, setCode, setUserInfo)
+                  ? authHandler(
+                      alarmHandler,
+                      setCode,
+                      setUserInfo,
+                      'home_alaram',
+                    )
                   : alarmHandler(userInfo)
               }
             />
           ) : (
-            <AlarmIcon
-              src={card_noti_off}
-              onClick={
-                !userInfo
-                  ? authHandler(alarmHandler, setCode, setUserInfo)
-                  : alarmHandler(userInfo)
-              }
-            />
+            <AlarmIcon src={card_noti_off} onClick={alarmHandler(userInfo)} />
           )}
         </AlarmWrapper>
       </ContentsWrapper>

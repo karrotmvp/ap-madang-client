@@ -2,9 +2,8 @@ import React, { useState, useMemo, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-import { useCurrentScreen, useNavigator } from '@karrotframe/navigator';
 import { IoEllipse } from 'react-icons/io5';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { meetingSuggestion } from '../../api/suggestion';
 import { analytics } from '../../App';
@@ -12,9 +11,9 @@ import bulb from '../../assets/icon/bulb.svg';
 import { COLOR } from '../../constant/color';
 import { SUGGESTION } from '../../constant/message';
 import useViewportSize from '../../hook/useViewportSize';
-import { userInfoAtom } from '../../store/user';
-import mini from '../../util/mini';
+import { codeAtom, userInfoAtom, UserInfoType } from '../../store/user';
 import { checkMobileType } from '../../util/utils';
+import { authHandler } from '../../util/withMini';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
 interface ButtonProps {
@@ -26,28 +25,31 @@ interface ContentsWrapperProps {
 }
 
 const MeetingSuggestionPage = () => {
-  const { isRoot } = useCurrentScreen();
   const [inputFocus, setInputFocus] = useState(false);
   const [text, setText] = useState('');
   const [submit, setsubmit] = useState(false);
-  const userInfo = useRecoilValue(userInfoAtom);
-  const { pop } = useNavigator();
+
+  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
+  const setCode = useSetRecoilState(codeAtom);
+
   const size = useViewportSize();
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
 
-  const onSubmitHandler = async () => {
-    if (submit) {
-      if (isRoot) mini.close();
-      else pop();
-      return;
-    }
-    if (text.length === 0) return;
-    const result = await meetingSuggestion(text);
-    if (result.success) setsubmit(true);
-  };
+  const onSubmitHandler =
+    (userInfo: UserInfoType) => async (e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      // if (submit) {
+      //   if (isRoot) mini.close();
+      //   else pop();
+      //   return;
+      // }
+      if (text.length === 0 && !userInfo) return;
+      const result = await meetingSuggestion(text);
+      if (result.success) setsubmit(true);
+    };
 
   const Title = useMemo(() => {
     if (submit && userInfo)
@@ -110,7 +112,16 @@ const MeetingSuggestionPage = () => {
           className="meeting-suggestion__submit"
           inputFocus={inputFocus}
           inputLength={text.length}
-          onClick={onSubmitHandler}
+          onClick={
+            !userInfo
+              ? authHandler(
+                  onSubmitHandler,
+                  setCode,
+                  setUserInfo,
+                  'meeting_suggestion_submit',
+                )
+              : onSubmitHandler(userInfo)
+          }
         >
           {submit ? SUGGESTION.CONFITM_BUTTON : SUGGESTION.SUBMIT_BUTTON}
         </Button>
