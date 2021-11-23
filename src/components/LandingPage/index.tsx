@@ -40,18 +40,17 @@ const LandingPage: React.FC = () => {
   }, [redirectUrl, replace]);
 
   useEffect(() => {
-    if (userInfo) {
-      meetingListHandler();
-      setUserId(analytics, userInfo.nickname);
-    }
-  }, [meetingListHandler, userInfo, push]);
+    meetingListHandler();
+  }, [meetingListHandler, push]);
 
   useEffect(() => {
-    if (userInfo)
+    if (userInfo) {
       logEvent(analytics, 'landing_page__show', {
         userRegion: userInfo?.region,
         userNickname: userInfo?.nickname,
       });
+      setUserId(analytics, userInfo?.nickname || 'Guest');
+    }
   }, [userInfo]);
 
   return (
