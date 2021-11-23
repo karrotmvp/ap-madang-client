@@ -6,7 +6,7 @@ declare module 'meeting' {
     start_time: string;
     end_time: string;
     date: string;
-    alarm_id: number | undefined;
+    alarm_id: number | null;
     user_enter_cnt: number;
     live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
     is_video: boolean;
