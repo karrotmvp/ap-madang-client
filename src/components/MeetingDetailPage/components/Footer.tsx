@@ -74,7 +74,7 @@ function Footer({
       ) : (
         <DisableBtn>
           {data?.live_status === 'upcoming'
-            ? `${remainTime} ${MEETING_DETAIL.JOIN_LATER}`
+            ? remainTime + ' ' + MEETING_DETAIL.JOIN_LATER
             : MEETING_DETAIL.CLOSE_MEETING}
         </DisableBtn>
       )}
@@ -142,6 +142,7 @@ const JoinBtn = styled.div`
 
 const DisableBtn = styled.div`
   flex: 1;
+  width: 100%;
   height: 4.4rem;
   display: flex;
   justify-content: center;
