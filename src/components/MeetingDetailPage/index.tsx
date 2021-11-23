@@ -19,7 +19,7 @@ import person from '../../assets/icon/person.svg';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
 import useInterval from '../../hook/useInterval';
-import { userInfoAtom } from '../../store/user';
+import { userInfoAtom, UserInfoType } from '../../store/user';
 import { getDateToText, getRemainTime } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
@@ -67,27 +67,30 @@ const MeetingDetailPage = () => {
   );
 
   // 알람 신청 핸들러
-  const addAlarmHandler = useCallback(async () => {
-    if (!userInfo || !data) return;
-    logEvent(analytics, 'add_alarm__click', {
-      location: 'detail_page',
-      ...data,
-      ...userInfo,
-    });
-    const result = await newAlarm(matchId.params.id);
-    if (result.success && result.data?.id) {
-      setData((prevState: MeetingDetail) => {
-        if (prevState)
-          return {
-            ...prevState,
-            alarm_id: result.data?.id,
-            alarm_num: prevState.alarm_num + 1,
-          };
-        return prevState;
+  const addAlarmHandler = useCallback(
+    async userInfo => {
+      if (!userInfo || !data) return;
+      logEvent(analytics, 'add_alarm__click', {
+        location: 'detail_page',
+        ...data,
+        ...userInfo,
       });
-      setModal(<NewAlarmModal open={true} closeHandler={hideModal} />);
-    }
-  }, [data, matchId.params.id, userInfo]);
+      const result = await newAlarm(matchId.params.id);
+      if (result.success && result.data?.id) {
+        setData((prevState: MeetingDetail) => {
+          if (prevState)
+            return {
+              ...prevState,
+              alarm_id: result.data?.id,
+              alarm_num: prevState.alarm_num + 1,
+            };
+          return prevState;
+        });
+        setModal(<NewAlarmModal open={true} closeHandler={hideModal} />);
+      }
+    },
+    [data, matchId.params.id],
+  );
 
   // 알람 신청 해제 핸들러
   const deleteAlarmHandler = useCallback(async () => {
@@ -115,48 +118,54 @@ const MeetingDetailPage = () => {
   }, [data, matchId.params.id, userInfo]);
 
   // 알람 신청 핸들러
-  const alarmHandler = useCallback(async () => {
-    if (data?.alarm_id) {
-      setModal(
-        <DeleteAlarmModal
-          open={true}
-          closeHandler={hideModal}
-          deleteAlarmHandler={deleteAlarmHandler}
-        />,
-      );
-    } else if (matchId?.params.id) {
-      addAlarmHandler();
-    }
-  }, [addAlarmHandler, data, deleteAlarmHandler, matchId.params.id]);
+  const alarmHandler = useCallback(
+    (userInfo: UserInfoType) => async (e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      if (data?.alarm_id) {
+        setModal(
+          <DeleteAlarmModal
+            open={true}
+            closeHandler={hideModal}
+            deleteAlarmHandler={deleteAlarmHandler}
+          />,
+        );
+      } else if (matchId?.params.id) {
+        addAlarmHandler(userInfo);
+      }
+    },
+    [addAlarmHandler, data, deleteAlarmHandler, matchId.params.id],
+  );
 
   // 모임 참여 버튼 핸들러
-  const onClickJoinHandler = async () => {
-    if (!data && !userInfo) return;
-    logEvent(analytics, 'join__click', {
-      ...data,
-      ...userInfo,
-    });
-    const result = await getAgoraCode(data?.id);
-    if (result.success && result.data)
-      setModal(
-        data?.is_video ? (
-          <ZoomBottomSheet
-            url={data?.meeting_url}
-            onClose={hideModal}
-            meetingId={data?.id}
-            meetingTitle={data?.title}
-          />
-        ) : (
-          <AudioMeetBottomSheet
-            code={result.data?.code}
-            url={data?.meeting_url}
-            onClose={hideModal}
-            meetingId={data?.id}
-            meetingTitle={data?.title}
-          />
-        ),
-      );
-  };
+  const onClickJoinHandler =
+    (userInfo: UserInfoType) => async (e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      if (!data && !userInfo) return;
+      logEvent(analytics, 'join__click', {
+        ...data,
+        ...userInfo,
+      });
+      const result = await getAgoraCode(data?.id);
+      if (result.success && result.data)
+        setModal(
+          data?.is_video ? (
+            <ZoomBottomSheet
+              url={data?.meeting_url}
+              onClose={hideModal}
+              meetingId={data?.id}
+              meetingTitle={data?.title}
+            />
+          ) : (
+            <AudioMeetBottomSheet
+              code={result.data?.code}
+              url={data?.meeting_url}
+              onClose={hideModal}
+              meetingId={data?.id}
+              meetingTitle={data?.title}
+            />
+          ),
+        );
+    };
 
   // 하단 남은시간 타이머 업데이트
   useInterval(
@@ -194,7 +203,7 @@ const MeetingDetailPage = () => {
   // 페이지 트랜지션이 있을때 떠있는 모달 제거
   useEffect(() => {
     hideModal();
-  }, [isTop]);
+  }, [isTop, userInfo]);
 
   return (
     <PageWrapper className="meeting-detail">

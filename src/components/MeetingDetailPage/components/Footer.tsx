@@ -2,16 +2,21 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 import { MeetingDetail } from 'meeting';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import notification_empty_detail from '../../../assets/icon/detailPage/notification_empty_detail.svg';
 import notification_fill from '../../../assets/icon/detailPage/notification_fill.svg';
 import { COLOR } from '../../../constant/color';
 import { MEETING_DETAIL } from '../../../constant/message';
+import { codeAtom, userInfoAtom, UserInfoType } from '../../../store/user';
+import { authHandler } from '../../../util/withMini';
 
 interface Props {
   data: MeetingDetail | undefined;
-  alarmHandler: () => void;
-  onClickJoinHandler: () => void;
+  alarmHandler: (userInfo: UserInfoType) => (e?: React.MouseEvent) => void;
+  onClickJoinHandler: (
+    userInfo: UserInfoType,
+  ) => (e?: React.MouseEvent) => void;
   remainTime: string;
 }
 
@@ -21,10 +26,19 @@ function Footer({
   onClickJoinHandler,
   remainTime,
 }: Props): ReactElement {
+  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
+  const setCode = useSetRecoilState(codeAtom);
+
   return (
     <FooterWrapper className="meeting-detail__footer-nav-bar">
       {data?.live_status !== 'live' && (
-        <AlarmBtn onClick={alarmHandler}>
+        <AlarmBtn
+          onClick={
+            !userInfo
+              ? authHandler(alarmHandler, setCode, setUserInfo)
+              : alarmHandler(userInfo)
+          }
+        >
           {data?.alarm_id ? (
             <img src={notification_fill} />
           ) : (
@@ -38,7 +52,13 @@ function Footer({
         </AlarmBtn>
       )}
       {data?.live_status === 'live' ? (
-        <JoinBtn onClick={onClickJoinHandler}>
+        <JoinBtn
+          onClick={
+            !userInfo
+              ? authHandler(onClickJoinHandler, setCode, setUserInfo)
+              : onClickJoinHandler(userInfo)
+          }
+        >
           {MEETING_DETAIL.JOIN_NOW}
         </JoinBtn>
       ) : (
