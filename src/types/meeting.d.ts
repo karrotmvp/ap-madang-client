@@ -11,6 +11,7 @@ declare module 'meeting' {
     live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
     is_video: boolean;
     description_text: string;
+    alarm_num: number;
   };
 
   export type MeetingDetailDescription = {
