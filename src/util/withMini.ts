@@ -1,7 +1,9 @@
+import { logEvent } from '@firebase/analytics';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 import { SetterOrUpdater } from 'recoil';
 
 import { login } from '../api/user';
+import { analytics } from '../App';
 import { UserInfoType } from '../store/user';
 import mini from './mini';
 import { getRegionId } from './utils';
@@ -15,6 +17,7 @@ type TokenPayloadType = {
 type Props = {
   setCode: SetterOrUpdater<string | undefined>;
   setUserInfo: SetterOrUpdater<UserInfoType>;
+  eventName: string;
 };
 
 type setUserNewInfoHandlerType = {
@@ -56,13 +59,16 @@ const setUserNewInfoHandler = async ({
 };
 
 // url code param 가져오기 or mini로 code gererate
-const getCodeHandler = (): Promise<string> => {
+const getCodeHandler = (eventName: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     mini.startPreset({
       preset: process.env.MINI_PRESET_URL || '',
       params: { appId: process.env.APP_ID || '' },
       onSuccess(result: { code: string }) {
         if (result && result.code) {
+          logEvent(analytics, 'guest_success_preset__show', {
+            event_name: eventName,
+          });
           resolve(result.code);
         }
         reject('');
@@ -94,8 +100,8 @@ const checkAuth = ({ code, setCode, setUserInfo }: checkAuthType) => {
   return setUserNewInfoHandler({ code, setUserInfo });
 };
 
-export const withMini = async ({ setCode, setUserInfo }: Props) => {
-  const newCode = await getCodeHandler();
+export const withMini = async ({ setCode, setUserInfo, eventName }: Props) => {
+  const newCode = await getCodeHandler(eventName);
   if (newCode) return checkAuth({ code: newCode, setCode, setUserInfo });
   return undefined;
 };
@@ -106,11 +112,12 @@ export const authHandler =
     callback: (userInfo: UserInfoType) => (e?: React.MouseEvent) => void,
     setCode: SetterOrUpdater<string | undefined>,
     setUserInfo: SetterOrUpdater<UserInfoType>,
+    eventName: string,
   ) =>
   async (e?: React.MouseEvent) => {
     e?.stopPropagation();
-
-    const result = await withMini({ setCode, setUserInfo });
+    logEvent(analytics, 'guest_open_preset__show', { event_name: eventName });
+    const result = await withMini({ setCode, setUserInfo, eventName });
     if (!result) return;
     else {
       await callback(result)(e);

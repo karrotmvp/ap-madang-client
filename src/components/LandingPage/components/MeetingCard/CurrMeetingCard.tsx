@@ -167,12 +167,13 @@ const Title = styled.div`
 const Button = styled.div`
   width: 100%;
   height: 4rem;
-  background: ${COLOR.LIGHT_GREEN_BACKGROUND};
+  background: ${COLOR.LIGHT_GREEN};
   border-radius: 0.6rem;
+  font-weight: 600;
   font-size: 1.4rem;
   line-height: 1.7rem;
   letter-spacing: -0.03rem;
-  color: ${COLOR.LIGHT_GREEN};
+  color: ${COLOR.TEXT_WHITE};
   display: flex;
   justify-content: center;
   align-items: center;
