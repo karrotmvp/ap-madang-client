@@ -97,7 +97,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
                 return {
                   ...prevState,
                   alarm_num: prevState.alarm_num + 1,
-                  alarm_id: result.data?.id,
+                  alarm_id: result.data.id,
                 };
               }
               return prevState;
@@ -107,7 +107,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
         }
       }
     },
-    [data, setMeetings],
+    [data.alarm_id, data.id, data.live_status, data.title, setMeetings],
   );
 
   const onClickCardHandler = useCallback(() => {
