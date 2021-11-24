@@ -41,7 +41,7 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     meetingListHandler();
-  }, [meetingListHandler, push]);
+  }, [meetingListHandler, push, userInfo]);
 
   useEffect(() => {
     if (userInfo) {
