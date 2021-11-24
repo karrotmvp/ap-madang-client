@@ -14,6 +14,7 @@ import { InfoType } from '../../api/agora';
 import { getMeetingUsersInfo } from '../../api/user';
 import { analytics } from '../../App';
 import AGORA_ERROR_MSG from '../../constant/agoraErrMsg';
+import { noSleep } from '../../util/nosleep';
 import { uidToNum } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import AudioList from './components/AudioList';
@@ -160,6 +161,11 @@ const MeetingRoom = ({
       sessionStorage.removeItem('Authorization');
     };
   }, [code, error, info, init, ready, setInCall, track]);
+
+  useEffect(() => {
+    if (!noSleep.isEnabled) noSleep.enable();
+    return () => noSleep.disable();
+  }, []);
 
   return (
     <MeetingRoomWrapper className="meeting-room">
