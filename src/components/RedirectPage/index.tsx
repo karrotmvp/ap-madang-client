@@ -119,7 +119,7 @@ const BtnWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const GoHomeBtn = styled.span`
+const GoHomeBtn = styled.div`
   font-weight: 500;
   margin-left: 0.5rem;
   color: ${COLOR.LIGHT_GREEN};

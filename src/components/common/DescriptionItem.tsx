@@ -44,7 +44,7 @@ const DotIcon = styled.div`
   align-items: center;
 `;
 
-const DescriptionText = styled.span`
+const DescriptionText = styled.div`
   white-space: normal;
   position: relative;
   left: 0.8rem;
