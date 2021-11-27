@@ -59,7 +59,8 @@ function AudioMeetBottomSheet({
     });
     windowReference;
     onClickJoin && onClickJoin();
-  }, [code, meetingId, meetingTitle, onClickJoin, userInfo]);
+    closeHandler();
+  }, [closeHandler, code, meetingId, meetingTitle, onClickJoin, userInfo]);
 
   return (
     <BottomSheet

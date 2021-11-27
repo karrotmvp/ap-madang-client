@@ -78,7 +78,7 @@ const Title = styled.div`
   align-items: center;
 `;
 
-const MeetingCounter = styled.span`
+const MeetingCounter = styled.div`
   color: ${COLOR.LIGHT_GREEN};
   margin-left: 0.5rem;
   margin-right: 0.2rem;

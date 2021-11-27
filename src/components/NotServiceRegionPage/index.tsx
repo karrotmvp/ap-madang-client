@@ -50,7 +50,7 @@ const NotServiceImg = styled.img`
   margin-bottom: 1.2rem;
 `;
 
-const Text = styled.span`
+const Text = styled.div`
   font-weight: 700;
   font-size: 2.2rem;
   line-height: 3.3rem;

@@ -96,7 +96,7 @@ const GuideWrapper = styled.div`
   margin-bottom: 0.9rem;
 `;
 
-const SubTitle = styled.span`
+const SubTitle = styled.div`
   font-style: normal;
   font-weight: 400;
   font-size: 1.5rem;
