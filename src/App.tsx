@@ -4,6 +4,7 @@ import { css } from '@emotion/css';
 import { Navigator, Screen } from '@karrotframe/navigator';
 import { getAnalytics, logEvent } from 'firebase/analytics';
 
+import CreateMeetingPage from './components/CreateMeetingPage';
 import LandingPage from './components/LandingPage';
 import MeetingDetailPage from './components/MeetingDetailPage';
 const AgoraPage = React.lazy(() => import('./components/MeetingPage'));
@@ -40,6 +41,7 @@ const App: React.FC = () => {
         path="/meetings/:id"
         component={AuthWithoutMini(MeetingDetailPage)}
       />
+      <Screen path="/new" component={AuthWithoutMini(CreateMeetingPage)} />
       <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
       <Screen path="/reservation" component={ReservationPage} />
       <Screen path="/not-service-region" component={NotServiceRegionPage} />

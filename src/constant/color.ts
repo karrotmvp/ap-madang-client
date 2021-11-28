@@ -10,7 +10,7 @@ export const COLOR = {
   GREY_200: '#EDEDED',
   GREY_300: '#DFE1E3',
   GREY_400: '#CBCCCD',
-  GREY_500: '#A6AAAE',
+  GREY_500: '#ACAEAF',
   GREY_600: '#85878A',
   GREY_800: '#3C3D3E',
   LIGHT_GREEN: '#41AC70',

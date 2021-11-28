@@ -61,6 +61,18 @@ const LandingPage: React.FC = () => {
         className="landing__banner-img"
         onClick={() => push('/guide')}
       />
+      <label>
+        Choose a browser from this list:
+        <input list="browsers" name="myBrowser" />
+      </label>
+      <datalist id="browsers">
+        <option value="Chrome" />
+        <option value="Firefox" />
+        <option value="Internet Explorer" />
+        <option value="Opera" />
+        <option value="Safari" />
+        <option value="Microsoft Edge" />
+      </datalist>
       <div
         style={{ width: '30px', height: '30px' }}
         onClick={() => {
