@@ -13,11 +13,11 @@ import { analytics } from '../../App';
 import home_banner from '../../assets/image/home_banner.png';
 import nav_logo from '../../assets/image/nav_logo.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
-import { COLOR } from '../../constant/color';
 import { LANDING } from '../../constant/message';
 import { userInfoAtom } from '../../store/user';
 import { getRegionId } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
+import Divider from '../common/Divider';
 import CurrMeetingList from './components/MeetingList/CurrMeetingList';
 import MeetingList from './components/MeetingList/MeetingList';
 import { useRedirect } from './useRedirect';
@@ -61,13 +61,21 @@ const LandingPage: React.FC = () => {
         className="landing__banner-img"
         onClick={() => push('/guide')}
       />
+      <div
+        style={{ width: '30px', height: '30px' }}
+        onClick={() => {
+          push('/new');
+        }}
+      >
+        모임 만들기
+      </div>
       {meetings.filter(el => el.live_status === 'live').length !== 0 && (
         <div>
           <CurrMeetingList
             className="landing__current"
             meetings={meetings.filter(el => el.live_status === 'live')}
           />
-          <BlockDivider className="landing__divider" />
+          <Divider className="landing__divider" size="1rem" />
         </div>
       )}
       {meetings.filter(el => el.live_status === 'upcoming').length !== 0 && (
@@ -79,7 +87,7 @@ const LandingPage: React.FC = () => {
             hasMeetings={meetings.length !== 0 ? true : false}
             setMeetings={setMeetings}
           />
-          <BlockDivider className="landing__divider" />
+          <Divider className="landing__divider" size="1rem" />
         </div>
       )}
       <MeetingList
@@ -89,7 +97,7 @@ const LandingPage: React.FC = () => {
         hasMeetings={meetings.length !== 0 ? true : false}
         setMeetings={setMeetings}
       />
-      <BlockDivider className="landing__divider" />
+      <Divider className="landing__divider" size="1rem" />
       <SuggestionBannerWrapper>
         <SuggestionImg
           src={suggestion_img}
@@ -129,11 +137,6 @@ const SuggestionBannerWrapper = styled.div`
 const SuggestionImg = styled.img`
   width: 100%;
   height: 100%;
-`;
-
-const BlockDivider = styled.div`
-  min-height: 1rem;
-  background-color: ${COLOR.BLOCK_DIVIDER_GRAY};
 `;
 
 export default LandingPage;

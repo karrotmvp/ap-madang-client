@@ -22,6 +22,7 @@ import useInterval from '../../hook/useInterval';
 import { userInfoAtom, UserInfoType } from '../../store/user';
 import { getDateToText, getRemainTime } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
+import Divider from '../common/Divider';
 import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../common/Modal/NewAlarmModal';
 import AudioMeetBottomSheet from './components/AudioMeetBottomSheet';
@@ -223,7 +224,7 @@ const MeetingDetailPage = () => {
         <TitleWrapper className="meeting-detail__header">
           <Title className="title1">{data?.title}</Title>
         </TitleWrapper>
-        <LineDivider size="0.1rem" color={COLOR.GREY_200} />
+        <Divider size="0.1rem" color={COLOR.GREY_200} />
         <SummaryWrapper>
           <SummaryInfo className="summary-info">
             <SummaryIcon src={clock} />
@@ -251,7 +252,7 @@ const MeetingDetailPage = () => {
             </SummaryDiscription>
           </SummaryInfo>
         </SummaryWrapper>
-        <LineDivider size="1.2rem" />
+        <Divider size="1.2rem" />
 
         <UserDiscriptionWrapper>
           <UserDiscriptionTitle>
@@ -259,8 +260,7 @@ const MeetingDetailPage = () => {
           </UserDiscriptionTitle>
           {data?.description.text}
         </UserDiscriptionWrapper>
-
-        <LineDivider size="0.1rem" />
+        <Divider size="0.1rem" />
 
         <DescriptionWrapper className="meeting-detail__body">
           <DescriptionList
@@ -272,7 +272,7 @@ const MeetingDetailPage = () => {
             data={data?.description.recommend_topic}
           />
         </DescriptionWrapper>
-        <LineDivider size="1.2rem" />
+        <Divider size="1.2rem" />
         <MeetingMannerCard className="meeting-detail__manner-card" />
       </ContentsWrapper>
       <Footer
@@ -313,13 +313,6 @@ const TagWrapper = styled.div`
 `;
 
 const Tag = styled.img``;
-
-const LineDivider = styled.div<{ size?: string; color?: string }>`
-  border-bottom: ${({ size, color }) =>
-    size
-      ? `${size} solid ${color || COLOR.GREY_100}`
-      : `1px solid ${color || COLOR.GREY_100}`};
-`;
 
 const ContentsWrapper = styled.div`
   flex: 1;
