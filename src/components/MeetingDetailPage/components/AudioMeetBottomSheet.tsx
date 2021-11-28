@@ -132,7 +132,7 @@ const SubTitle = styled.div`
   text-align: center;
   letter-spacing: -0.3px;
   margin-bottom: 0.4rem;
-  color: ${COLOR.TEXT_GRAY};
+  color: ${COLOR.TEXT_GREY};
 `;
 
 const JoinBtn = styled.div`

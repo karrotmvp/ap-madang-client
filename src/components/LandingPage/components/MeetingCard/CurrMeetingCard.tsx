@@ -71,7 +71,7 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
   margin-bottom: 1.6rem;
   width: 100%;
   height: auto;
-  border: 1px solid ${COLOR.TEXTAREA_LIGHT_GRAY};
+  border: 1px solid ${COLOR.TEXTAREA_LIGHT_GREY};
   border-radius: 0.6rem;
   display: flex;
   flex-direction: column;

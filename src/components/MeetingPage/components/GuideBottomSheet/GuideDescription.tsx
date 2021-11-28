@@ -55,7 +55,7 @@ const Title = styled.div`
 const Discription = styled.div`
   font-size: 1.4rem;
   line-height: 2.1rem;
-  color: ${COLOR.TEXT_GRAY};
+  color: ${COLOR.TEXT_GREY};
   margin-left: 3.4rem;
   margin-bottom: 2.6rem;
 `;

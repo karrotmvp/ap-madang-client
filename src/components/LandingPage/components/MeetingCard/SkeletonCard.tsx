@@ -9,12 +9,12 @@ function SkeletonCard(): ReactElement {
   return (
     <MeetingCardWrapper className="meeting-card">
       <Skeleton
-        baseColor={COLOR.GRAY_300}
+        baseColor={COLOR.GREY_300}
         count={1}
         style={{ marginBottom: '1rem', height: '4.8rem' }}
       />
       <Skeleton
-        baseColor={COLOR.GRAY_300}
+        baseColor={COLOR.GREY_300}
         count={1}
         style={{ marginBottom: '1rem', height: '2.3rem' }}
       />
@@ -31,7 +31,7 @@ const MeetingCardWrapper = styled.div`
   word-break: keep-all;
   background-color: ${COLOR.TEXT_WHITE};
   border-radius: 0.6rem;
-  border: 1px solid ${COLOR.GRAY_000};
+  border: 1px solid ${COLOR.GREY_000};
   box-sizing: border-box;
   margin-top: '1.8rem';
   opacity: 0.5;

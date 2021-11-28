@@ -198,7 +198,7 @@ const TextArea = styled.textarea`
   height: 16.7rem;
   margin: 0 1.6rem;
   padding: 1.6rem;
-  border: 0.1rem solid ${COLOR.TEXTAREA_LIGHT_GRAY};
+  border: 0.1rem solid ${COLOR.TEXTAREA_LIGHT_GREY};
   border-radius: 0.6rem;
   font-size: 1.6rem;
   line-height: 2.4rem;
@@ -207,7 +207,7 @@ const TextArea = styled.textarea`
   resize: none;
 
   &::placeholder {
-    color: ${COLOR.TEXTAREA_LIGHT_GRAY};
+    color: ${COLOR.TEXTAREA_LIGHT_GREY};
   }
   &:focus {
     outline: none !important;
@@ -238,7 +238,7 @@ const Button = styled.div<ButtonProps>`
 
   border-radius: ${({ inputFocus }) => (inputFocus ? 0 : '.6rem')};
   background-color: ${({ inputLength }) =>
-    inputLength > 0 ? COLOR.LIGHT_GREEN : COLOR.TEXTAREA_LIGHT_GRAY};
+    inputLength > 0 ? COLOR.LIGHT_GREEN : COLOR.TEXTAREA_LIGHT_GREY};
   margin: ${({ inputFocus }) => (inputFocus ? 0 : '1.6rem 2rem')};
 
   transition-property: margin, border-radius;

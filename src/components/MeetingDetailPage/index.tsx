@@ -223,7 +223,7 @@ const MeetingDetailPage = () => {
         <TitleWrapper className="meeting-detail__header">
           <Title className="title1">{data?.title}</Title>
         </TitleWrapper>
-        <LineDivider size="0.1rem" color={COLOR.GRAY_200} />
+        <LineDivider size="0.1rem" color={COLOR.GREY_200} />
         <SummaryWrapper>
           <SummaryInfo className="summary-info">
             <SummaryIcon src={clock} />
@@ -317,8 +317,8 @@ const Tag = styled.img``;
 const LineDivider = styled.div<{ size?: string; color?: string }>`
   border-bottom: ${({ size, color }) =>
     size
-      ? `${size} solid ${color || COLOR.GRAY_100}`
-      : `1px solid ${color || COLOR.GRAY_100}`};
+      ? `${size} solid ${color || COLOR.GREY_100}`
+      : `1px solid ${color || COLOR.GREY_100}`};
 `;
 
 const ContentsWrapper = styled.div`
@@ -357,7 +357,7 @@ const SummaryIcon = styled.img`
 `;
 
 const SummaryDiscription = styled.div`
-  color: ${COLOR.TEXT_GRAY};
+  color: ${COLOR.TEXT_GREY};
   margin-left: 0.4rem;
   letter-spacing: -0.03rem;
 `;
