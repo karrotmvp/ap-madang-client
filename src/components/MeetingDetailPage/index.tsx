@@ -211,7 +211,11 @@ const MeetingDetailPage = () => {
 
   return (
     <PageWrapper className="meeting-detail">
-      <CustomScreenHelmet />
+      <CustomScreenHelmet
+        appendLeft={
+          isRoot && <PageTitle onClick={() => replace('/')} src={nav_logo} />
+        }
+      />
       {modal}
       <ContentsWrapper className="meeting-detail__contents">
         <BannerWrapper>
@@ -274,6 +278,12 @@ const MeetingDetailPage = () => {
             title={MEETING_DETAIL.DESCRIPTION_TITLE2}
             data={data?.description.recommend_topic}
           />
+          {data?.live_status !== 'live' && isRoot && (
+            <GoHomeBtn onClick={() => replace('/')}>
+              <BackArrowIcon src={back_arrow_green} />
+              <GoHomeText>다른 모임 보러가기</GoHomeText>
+            </GoHomeBtn>
+          )}
         </DescriptionWrapper>
         <Divider size="1.2rem" />
         <MeetingMannerCard className="meeting-detail__manner-card" />
@@ -298,6 +308,12 @@ const PageWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   white-space: pre-line;
+`;
+
+const PageTitle = styled.img`
+  margin-left: 3.2rem;
+  height: 33%;
+  width: auto;
 `;
 
 const BannerWrapper = styled.div`
@@ -379,6 +395,28 @@ const UserDiscriptionTitle = styled.div`
 
 const DescriptionWrapper = styled.div`
   padding: 3.2rem 1.6rem 1.4rem 1.6rem;
+`;
+
+const GoHomeBtn = styled.div`
+  padding: 1rem;
+  border: 1px solid ${COLOR.LIGHT_GREEN};
+  border-radius: 0.6rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+const BackArrowIcon = styled.img`
+  margin-right: 0.2rem;
+`;
+
+const GoHomeText = styled.div`
+  font-size: 1.5rem;
+  line-height: 2.3rem;
+  letter-spacing: -0.03rem;
+  color: ${COLOR.LIGHT_GREEN};
 `;
 
 export default MeetingDetailPage;
