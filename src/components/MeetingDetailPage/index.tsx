@@ -11,11 +11,13 @@ import { getAgoraCode } from '../../api/agora';
 import { deleteAlarm, newAlarm } from '../../api/alarm';
 import { getMeetingDetail } from '../../api/meeting';
 import { analytics } from '../../App';
+import back_arrow_green from '../../assets/icon/detailPage/back_arrow_green.svg';
 import camera_meeting_tag__gray from '../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
 import clock from '../../assets/icon/detailPage/clock.svg';
 import info_circle from '../../assets/icon/detailPage/info_circle.svg';
 import voice_meeting_tag__gray from '../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
 import person from '../../assets/icon/person.svg';
+import nav_logo from '../../assets/image/nav_logo.png';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
 import useInterval from '../../hook/useInterval';
@@ -25,6 +27,7 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
 import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../common/Modal/NewAlarmModal';
+import AlarmFooter from './components/AlarmFooter';
 import AudioMeetBottomSheet from './components/AudioMeetBottomSheet';
 import DescriptionList from './components/DescriptionList';
 import Footer from './components/Footer';
@@ -73,8 +76,8 @@ const MeetingDetailPage = () => {
       if (!userInfo || !data) return;
       logEvent(analytics, 'add_alarm__click', {
         location: 'detail_page',
-        ...data,
-        ...userInfo,
+        userNickname: userInfo.nickname,
+        userRegion: userInfo.region,
       });
       const result = await newAlarm(matchId.params.id);
       if (result.success && result.data?.id) {
@@ -98,8 +101,8 @@ const MeetingDetailPage = () => {
     if (data?.alarm_id && matchId?.params.id && userInfo) {
       logEvent(analytics, 'delete_alarm__click', {
         location: 'detail_page',
-        ...data,
-        ...userInfo,
+        userNickname: userInfo.nickname,
+        userRegion: userInfo.region,
       });
       const result = await deleteAlarm(data?.alarm_id.toString());
       if (result.success) {
@@ -143,8 +146,8 @@ const MeetingDetailPage = () => {
       e?.stopPropagation();
       if (!data && !userInfo) return;
       logEvent(analytics, 'join__click', {
-        ...data,
-        ...userInfo,
+        userNickname: userInfo?.nickname || 'GUEST',
+        userRegion: userInfo?.region || 'GUEST',
       });
       const result = await getAgoraCode(data?.id);
       if (result.success && result.data)
@@ -188,14 +191,14 @@ const MeetingDetailPage = () => {
     if (isRoot && data && !sendLogEvent && userInfo) {
       logEvent(analytics, 'user_from_alarm__show', {
         location: 'detail_page',
-        ...data,
-        ...userInfo,
+        userNickname: userInfo?.nickname || 'GUEST',
+        userRegion: userInfo?.region || 'GUEST',
       });
       setSendLogEvent(true);
     } else if (data && !sendLogEvent && userInfo) {
       logEvent(analytics, 'detail_page__show', {
-        ...data,
-        ...userInfo,
+        userNickname: userInfo?.nickname || 'GUEST',
+        userRegion: userInfo?.region || 'GUEST',
       });
       setSendLogEvent(true);
     }

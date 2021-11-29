@@ -27,7 +27,8 @@ function WaitingRoom({
   useEffect(() => {
     logEvent(analytics, `meeting_${callState.state}__show`, {
       ...callState,
-      ...userInfo,
+      userNickname: userInfo?.user.nickname || 'GUEST',
+      userRegion: userInfo?.user.region_name || 'GUEST',
     });
     if (
       callState.state === 'quit' ||
