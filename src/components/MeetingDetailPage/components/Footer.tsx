@@ -4,8 +4,6 @@ import styled from '@emotion/styled';
 import { MeetingDetail } from 'meeting';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import notification_empty_detail from '../../../assets/icon/detailPage/notification_empty_detail.svg';
-import notification_fill from '../../../assets/icon/detailPage/notification_fill.svg';
 import { COLOR } from '../../../constant/color';
 import { MEETING_DETAIL } from '../../../constant/message';
 import { codeAtom, userInfoAtom, UserInfoType } from '../../../store/user';
@@ -13,49 +11,18 @@ import { authHandler } from '../../../util/withMini';
 
 interface Props {
   data: MeetingDetail | undefined;
-  alarmHandler: (userInfo: UserInfoType) => (e?: React.MouseEvent) => void;
   onClickJoinHandler: (
     userInfo: UserInfoType,
   ) => (e?: React.MouseEvent) => void;
   remainTime: string;
 }
 
-function Footer({
-  data,
-  alarmHandler,
-  onClickJoinHandler,
-  remainTime,
-}: Props): ReactElement {
+function Footer({ data, onClickJoinHandler, remainTime }: Props): ReactElement {
   const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
   const setCode = useSetRecoilState(codeAtom);
 
   return (
     <FooterWrapper className="meeting-detail__footer-nav-bar">
-      {data?.live_status !== 'live' && (
-        <AlarmBtn
-          onClick={
-            !userInfo
-              ? authHandler(
-                  alarmHandler,
-                  setCode,
-                  setUserInfo,
-                  'detail_page_alaram',
-                )
-              : alarmHandler(userInfo)
-          }
-        >
-          {data?.alarm_id ? (
-            <img src={notification_fill} />
-          ) : (
-            <img src={notification_empty_detail} />
-          )}
-          {data?.alarm_num > 4 && (
-            <AlarmApplicant applied={data?.alarm_id}>
-              {data?.alarm_num}
-            </AlarmApplicant>
-          )}
-        </AlarmBtn>
-      )}
       {data?.live_status === 'live' ? (
         <JoinBtn
           onClick={
@@ -90,27 +57,6 @@ const FooterWrapper = styled.div`
   justify-content: space-between;
   padding: 1rem 1.6rem;
   border-top: 1px solid ${COLOR.NAVBAR_TOP_BORDER};
-`;
-
-const AlarmBtn = styled.div`
-  width: 6.8rem;
-  height: 4.4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 0.6rem;
-  border-radius: 0.6rem;
-  border: 0.1rem solid ${COLOR.TEXTAREA_LIGHT_GREY};
-`;
-
-const AlarmApplicant = styled.div<{ applied: number | undefined }>`
-  font-weight: 600;
-  font-size: 1.6rem;
-  line-height: 1.9rem;
-  text-align: center;
-  letter-spacing: -0.03rem;
-  margin-left: 0.4rem;
-  color: ${({ applied }) => (applied ? COLOR.LIGHT_GREEN : COLOR.GREY_800)};
 `;
 
 const JoinBtn = styled.div`

@@ -278,12 +278,15 @@ const MeetingDetailPage = () => {
         <Divider size="1.2rem" />
         <MeetingMannerCard className="meeting-detail__manner-card" />
       </ContentsWrapper>
-      <Footer
-        data={data}
-        alarmHandler={alarmHandler}
-        onClickJoinHandler={onClickJoinHandler}
-        remainTime={remainTime}
-      />
+      {data?.live_status !== 'live' ? (
+        <AlarmFooter data={data} alarmHandler={alarmHandler} />
+      ) : (
+        <Footer
+          data={data}
+          onClickJoinHandler={onClickJoinHandler}
+          remainTime={remainTime}
+        />
+      )}
     </PageWrapper>
   );
 };
