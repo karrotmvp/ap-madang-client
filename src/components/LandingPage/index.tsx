@@ -46,8 +46,8 @@ const LandingPage: React.FC = () => {
   useEffect(() => {
     if (userInfo) {
       logEvent(analytics, 'landing_page__show', {
-        userRegion: userInfo?.region,
-        userNickname: userInfo?.nickname,
+        userRegion: userInfo?.region || 'GUEST',
+        userNickname: userInfo?.nickname || 'GUEST',
       });
       setUserId(analytics, userInfo?.nickname || 'Guest');
     }

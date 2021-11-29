@@ -46,8 +46,8 @@ function JoinBottomSheet({
       location: 'bottom_sheet',
       meeting_id: meetingId,
       meeting_name: meetingTitle,
-      userNickname: userInfo?.nickname,
-      userRegion: userInfo?.region,
+      userNickname: userInfo?.nickname || 'GUEST',
+      userRegion: userInfo?.region || 'GUEST',
     });
     window.open(url, '', '_blank');
     onClickJoin && onClickJoin();
