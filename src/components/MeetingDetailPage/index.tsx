@@ -145,10 +145,7 @@ const MeetingDetailPage = () => {
     (userInfo: UserInfoType) => async (e?: React.MouseEvent) => {
       e?.stopPropagation();
       if (!data && !userInfo) return;
-      logEvent(analytics, 'join__click', {
-        userNickname: userInfo?.nickname || 'GUEST',
-        userRegion: userInfo?.region || 'GUEST',
-      });
+      logEvent(analytics, 'join__click');
       const result = await getAgoraCode(data?.id);
       if (result.success && result.data)
         setModal(
@@ -191,15 +188,10 @@ const MeetingDetailPage = () => {
     if (isRoot && data && !sendLogEvent && userInfo) {
       logEvent(analytics, 'user_from_alarm__show', {
         location: 'detail_page',
-        userNickname: userInfo?.nickname || 'GUEST',
-        userRegion: userInfo?.region || 'GUEST',
       });
       setSendLogEvent(true);
     } else if (data && !sendLogEvent && userInfo) {
-      logEvent(analytics, 'detail_page__show', {
-        userNickname: userInfo?.nickname || 'GUEST',
-        userRegion: userInfo?.region || 'GUEST',
-      });
+      logEvent(analytics, 'detail_page__show');
       setSendLogEvent(true);
     }
   }, [data, isRoot, sendLogEvent, userInfo]);

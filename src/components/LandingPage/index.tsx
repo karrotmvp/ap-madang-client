@@ -45,10 +45,7 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     if (userInfo) {
-      logEvent(analytics, 'landing_page__show', {
-        userRegion: userInfo?.region || 'GUEST',
-        userNickname: userInfo?.nickname || 'GUEST',
-      });
+      logEvent(analytics, 'landing_page__show');
     }
   }, [userInfo]);
 
