@@ -36,7 +36,7 @@ const EditableArea = styled.div`
   max-height: 7.5rem;
   border-width: 0 0 1px 0;
   border-style: solid;
-  border-color: ${COLOR.INPUT_BORDER_GRAY};
+  border-color: ${COLOR.INPUT_BORDER_GREY};
   color: ${COLOR.TEXT_BLACK};
   caret-color: ${COLOR.LIGHT_GREEN};
   overflow-y: auto;
@@ -54,7 +54,7 @@ const EditableArea = styled.div`
   }
   &[placeholder]:empty::before {
     content: attr(placeholder);
-    color: ${COLOR.PLACEHOLDER_GRAY};
+    color: ${COLOR.PLACEHOLDER_GREY};
   }
 `;
 

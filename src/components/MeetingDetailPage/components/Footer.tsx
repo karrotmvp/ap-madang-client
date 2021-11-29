@@ -100,7 +100,7 @@ const AlarmBtn = styled.div`
   align-items: center;
   margin-right: 0.6rem;
   border-radius: 0.6rem;
-  border: 0.1rem solid ${COLOR.TEXTAREA_LIGHT_GRAY};
+  border: 0.1rem solid ${COLOR.TEXTAREA_LIGHT_GREY};
 `;
 
 const AlarmApplicant = styled.div<{ applied: number | undefined }>`
@@ -110,7 +110,7 @@ const AlarmApplicant = styled.div<{ applied: number | undefined }>`
   text-align: center;
   letter-spacing: -0.03rem;
   margin-left: 0.4rem;
-  color: ${({ applied }) => (applied ? COLOR.LIGHT_GREEN : COLOR.GRAY_800)};
+  color: ${({ applied }) => (applied ? COLOR.LIGHT_GREEN : COLOR.GREY_800)};
 `;
 
 const JoinBtn = styled.div`
@@ -148,7 +148,7 @@ const DisableBtn = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 0.6rem;
-  background-color: ${COLOR.TEXTAREA_LIGHT_GRAY};
+  background-color: ${COLOR.TEXTAREA_LIGHT_GREY};
   color: ${COLOR.TEXT_WHITE};
   font-weight: 600;
   font-size: 1.6rem;

@@ -12,9 +12,9 @@ function NavBar(): ReactElement {
     <NavigationBar className="navigation-bar">
       <CloseBtn onClick={() => mini.close()}>
         {checkMobileType() === 'Android' ? (
-          <ArrowBackAnd fill={COLOR.ICON_GRAY} />
+          <ArrowBackAnd fill={COLOR.ICON_GREY} />
         ) : (
-          <ArrowBackIos fill={COLOR.ICON_GRAY} width="20" />
+          <ArrowBackIos fill={COLOR.ICON_GREY} width="20" />
         )}
       </CloseBtn>
     </NavigationBar>
@@ -31,7 +31,7 @@ const NavigationBar = styled.nav`
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-bottom: 1px solid ${COLOR.NAV_BORDER_GRAY};
+  border-bottom: 1px solid ${COLOR.NAV_BORDER_GREY};
 `;
 
 const CloseBtn = styled.div`

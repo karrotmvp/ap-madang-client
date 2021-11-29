@@ -72,7 +72,7 @@ const InnerModalStyle = css`
 
 const ContentsWrapper = styled.div`
   overflow-y: auto;
-  color: ${COLOR.TEXT_GRAY};
+  color: ${COLOR.TEXT_GREY};
   font-size: 1.6rem;
   font-style: normal;
   font-weight: 400;

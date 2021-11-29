@@ -63,7 +63,7 @@ const List = styled.div`
   font-size: 1.5rem;
   line-height: 2.5rem;
   letter-spacing: -0.03rem;
-  color: ${COLOR.TEXT_GRAY};
+  color: ${COLOR.TEXT_GREY};
   margin-bottom: 3.2rem;
 
   li:last-child {

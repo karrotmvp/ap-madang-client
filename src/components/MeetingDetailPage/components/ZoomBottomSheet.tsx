@@ -55,8 +55,8 @@ function ZoomBottomSheet({
       location: 'zoom_bottom_sheet',
       meeting_id: meetingId,
       meeting_name: meetingTitle,
-      userNickname: userInfo ? userInfo.nickname : '',
-      userRegion: userInfo ? userInfo.region : '',
+      userNickname: userInfo?.nickname || 'GUEST',
+      userRegion: userInfo?.region || 'GUEST',
     });
     windowReference;
     onClickJoin && onClickJoin();

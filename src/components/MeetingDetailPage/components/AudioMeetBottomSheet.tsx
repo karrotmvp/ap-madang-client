@@ -54,8 +54,8 @@ function AudioMeetBottomSheet({
       location: 'audio_bottom_sheet',
       meeting_id: meetingId,
       meeting_name: meetingTitle,
-      userNickname: userInfo ? userInfo.nickname : '',
-      userRegion: userInfo ? userInfo.region : '',
+      userNickname: userInfo?.nickname || 'GUEST',
+      userRegion: userInfo?.region || 'GUEST',
     });
     windowReference;
     onClickJoin && onClickJoin();
@@ -132,7 +132,7 @@ const SubTitle = styled.div`
   text-align: center;
   letter-spacing: -0.3px;
   margin-bottom: 0.4rem;
-  color: ${COLOR.TEXT_GRAY};
+  color: ${COLOR.TEXT_GREY};
 `;
 
 const JoinBtn = styled.div`

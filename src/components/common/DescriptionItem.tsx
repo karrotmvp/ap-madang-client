@@ -28,7 +28,7 @@ const DescriptionWrapper = styled.div`
   font-size: 1.5rem;
   line-height: 2.5rem;
   letter-spacing: -0.03rem;
-  color: ${COLOR.TEXT_GRAY};
+  color: ${COLOR.TEXT_GREY};
   margin-bottom: 0.5rem;
   word-break: keep-all;
   display: flex;

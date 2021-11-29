@@ -193,7 +193,7 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
   word-break: keep-all;
   background-color: ${COLOR.TEXT_WHITE};
   border-radius: 0.6rem;
-  border: 1px solid ${COLOR.GRAY_200};
+  border: 1px solid ${COLOR.GREY_200};
   box-sizing: border-box;
   margin-top: ${props => (props.idx === 0 ? '1.8rem' : 0)};
 `;
@@ -234,7 +234,7 @@ const AlarmBtn = styled.div<{ hasAlarm: boolean }>`
   font-size: 1.5rem;
   line-height: 1.8rem;
   letter-spacing: -0.03rem;
-  color: ${({ hasAlarm }) => (hasAlarm ? '#41AC70' : COLOR.GRAY_600)}; ;
+  color: ${({ hasAlarm }) => (hasAlarm ? '#41AC70' : COLOR.GREY_600)}; ;
 `;
 
 const AlarmIcon = styled.img`
@@ -276,7 +276,7 @@ const FooterText = styled.div`
   font-size: 1.4rem;
   line-height: 1.7rem;
   letter-spacing: -0.02rem;
-  color: ${COLOR.FONT_BODY_GRAY};
+  color: ${COLOR.FONT_BODY_GREY};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

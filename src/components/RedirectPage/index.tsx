@@ -48,7 +48,7 @@ const ContentsArea = styled.div`
 `;
 
 const TextArea = styled.div`
-  color: ${COLOR.LIGHT_GRAY};
+  color: ${COLOR.LIGHT_GREY};
   margin-top: 1.8rem;
   margin-bottom: 4.8rem;
 `;
@@ -111,7 +111,7 @@ const RedirectHouseStyle = styled(RedirectHouse)`
 `;
 
 const BtnWrapper = styled.div`
-  color: ${COLOR.TEXT_GRAY};
+  color: ${COLOR.TEXT_GREY};
   margin-bottom: 9rem;
   display: flex;
   flex-direction: row;

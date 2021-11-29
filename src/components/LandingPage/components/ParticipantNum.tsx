@@ -32,7 +32,7 @@ const ParticipantIcon = styled.img`
 `;
 
 const Participant = styled.div`
-  color: ${COLOR.TEXT_GRAY};
+  color: ${COLOR.TEXT_GREY};
 `;
 
 export default ParticipantNum;
