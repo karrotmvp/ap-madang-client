@@ -60,9 +60,9 @@ const FooterWrapper = styled.div`
 `;
 
 const AlarmBtn = styled.div<{ applied: number | undefined }>`
-  width: 100%;
-  height: 100%;
-  margin: 1rem 1.6rem;
+  flex: 1;
+  height: 4.4rem;
+
   display: flex;
   justify-content: center;
   align-items: center;
