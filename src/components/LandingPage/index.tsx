@@ -61,14 +61,6 @@ const LandingPage: React.FC = () => {
         className="landing__banner-img"
         onClick={() => push('/guide')}
       />
-      <div
-        style={{ width: '30px', height: '30px' }}
-        onClick={() => {
-          push('/new');
-        }}
-      >
-        모임 만들기
-      </div>
       {meetings.filter(el => el.live_status === 'live').length !== 0 && (
         <div>
           <CurrMeetingList
