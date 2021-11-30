@@ -34,7 +34,7 @@ function AlarmFooter({ data, alarmHandler, fromFeed }: Props): ReactElement {
             : '알림 신청하고 랜동모에서 이웃을 만나보세요!'}
         </MessageBubble>
       )}
-      <Footer>
+      <Footer fromFeed={data?.live_status !== 'live' && isRoot}>
         <AlarmBtn
           applied={data?.alarm_id}
           onClick={
@@ -113,7 +113,7 @@ const BubbleIcon = styled.img`
   margin-right: 0.6rem;
 `;
 
-const Footer = styled.div`
+const Footer = styled.div<{ fromFeed: boolean }>`
   width: 100%;
   max-height: 6.4rem;
   display: flex;
@@ -121,7 +121,8 @@ const Footer = styled.div`
   align-items: center;
   justify-content: space-between;
   background: ${COLOR.BACKGROUND_WHITE};
-  /* border-top: 1px solid ${COLOR.NAVBAR_TOP_BORDER}; */
+  border-top: ${({ fromFeed }) =>
+    fromFeed ? 'none' : `1px solid ${COLOR.NAVBAR_TOP_BORDER}`};
 `;
 
 const AlarmBtn = styled.div<{ applied: number | undefined }>`
