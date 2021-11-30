@@ -274,7 +274,7 @@ const MeetingDetailPage = () => {
             data={data?.description.recommend_topic}
           />
         </DescriptionWrapper>
-        {data?.live_status !== 'live' && isRoot && (
+        {isRoot && (
           <>
             <Divider size="1.2rem" />
             <GoHomeWrapper>
@@ -296,14 +296,14 @@ const MeetingDetailPage = () => {
         <Divider size="1.2rem" />
         <MeetingMannerCard className="meeting-detail__manner-card" />
       </ContentsWrapper>
-      {data?.live_status !== 'live' ? (
+      {data?.live_status !== 'live' && data?.live_status !== 'finish' ? (
         <AlarmFooter
           data={data}
           alarmHandler={alarmHandler}
           fromFeed={fromFeed ? true : false}
         />
       ) : (
-        <Footer onClickJoinHandler={onClickJoinHandler} />
+        <Footer onClickJoinHandler={onClickJoinHandler} data={data} />
       )}
     </PageWrapper>
   );
