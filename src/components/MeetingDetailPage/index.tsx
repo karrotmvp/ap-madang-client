@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
@@ -20,9 +20,8 @@ import person from '../../assets/icon/person.svg';
 import nav_logo from '../../assets/image/nav_logo.png';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
-import useInterval from '../../hook/useInterval';
 import { userInfoAtom, UserInfoType } from '../../store/user';
-import { getDateToText, getRemainTime } from '../../util/utils';
+import { getDateToText } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
 import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
@@ -40,7 +39,6 @@ interface MatchParams {
 
 const MeetingDetailPage = () => {
   const [data, setData] = useState<MeetingDetail | undefined>(undefined);
-  const [remainTime, setRemainTime] = useState('');
   const [modal, setModal] = useState<React.ReactElement | undefined>(undefined);
   const [sendLogEvent, setSendLogEvent] = useState(false);
   const { isRoot, isTop } = useCurrentScreen();
@@ -55,6 +53,13 @@ const MeetingDetailPage = () => {
   const matchId = useRouteMatch<MatchParams>({
     path: '/meetings/:id',
   }) || { params: { id: '' } };
+
+  const fromFeed = useMemo(() => {
+    const urlHashParams = new URLSearchParams(
+      window.location.hash.substr(window.location.hash.indexOf('?')),
+    );
+    return urlHashParams.get('feed');
+  }, []);
 
   // 모임 상세정보 fetch
   const fetchData = useCallback(
@@ -145,7 +150,7 @@ const MeetingDetailPage = () => {
     (userInfo: UserInfoType) => async (e?: React.MouseEvent) => {
       e?.stopPropagation();
       if (!data && !userInfo) return;
-      logEvent(analytics, 'join__click');
+      logEvent(analytics, `${data?.is_video ? 'video' : 'audio'}_join__click`);
       const result = await getAgoraCode(data?.id);
       if (result.success && result.data)
         setModal(
@@ -168,24 +173,17 @@ const MeetingDetailPage = () => {
         );
     };
 
-  // 하단 남은시간 타이머 업데이트
-  useInterval(
-    () => {
-      setRemainTime(getRemainTime(data?.start_time, data?.date));
-    },
-    data?.live_status === 'upcoming' ? 10000 : null,
-  );
-
   useEffect(() => {
     if (matchId?.params.id && !data) fetchData(matchId.params.id);
   }, [data, fetchData, matchId.params.id]);
 
   useEffect(() => {
-    if (data) setRemainTime(getRemainTime(data.start_time, data.date));
-  }, [data]);
-
-  useEffect(() => {
-    if (isRoot && data && !sendLogEvent && userInfo) {
+    if (isRoot && data && !sendLogEvent && userInfo && fromFeed) {
+      logEvent(analytics, 'user_from_feed__show', {
+        location: 'detail_page',
+      });
+      setSendLogEvent(true);
+    } else if (isRoot && data && !sendLogEvent && userInfo) {
       logEvent(analytics, 'user_from_alarm__show', {
         location: 'detail_page',
       });
@@ -194,7 +192,7 @@ const MeetingDetailPage = () => {
       logEvent(analytics, 'detail_page__show');
       setSendLogEvent(true);
     }
-  }, [data, isRoot, sendLogEvent, userInfo]);
+  }, [data, fromFeed, isRoot, sendLogEvent, userInfo]);
 
   // 페이지 트랜지션이 있을때 떠있는 모달 제거
   useEffect(() => {
@@ -209,7 +207,12 @@ const MeetingDetailPage = () => {
         }
       />
       {modal}
-      <ContentsWrapper className="meeting-detail__contents">
+      <ContentsWrapper
+        className="meeting-detail__contents"
+        bottomPadding={
+          data?.live_status !== 'live' && isRoot ? '16rem' : '9rem'
+        }
+      >
         <BannerWrapper>
           <BannerImg src={data?.image} />
         </BannerWrapper>
@@ -270,24 +273,37 @@ const MeetingDetailPage = () => {
             title={MEETING_DETAIL.DESCRIPTION_TITLE2}
             data={data?.description.recommend_topic}
           />
-          {data?.live_status !== 'live' && isRoot && (
-            <GoHomeBtn onClick={() => replace('/')}>
-              <BackArrowIcon src={back_arrow_green} />
-              <GoHomeText>다른 모임 보러가기</GoHomeText>
-            </GoHomeBtn>
-          )}
         </DescriptionWrapper>
+        {data?.live_status !== 'live' && isRoot && (
+          <>
+            <Divider size="1.2rem" />
+            <GoHomeWrapper>
+              <GoHomeTitle>다른 모임도 궁금하신가요?</GoHomeTitle>
+              <GoHomeBtn
+                onClick={() => {
+                  logEvent(analytics, 'user_from_feed_go_home__click', {
+                    location: 'detail_page',
+                  });
+                  replace('/');
+                }}
+              >
+                <BackArrowIcon src={back_arrow_green} />
+                <GoHomeText>다른 모임 보러가기</GoHomeText>
+              </GoHomeBtn>
+            </GoHomeWrapper>
+          </>
+        )}
         <Divider size="1.2rem" />
         <MeetingMannerCard className="meeting-detail__manner-card" />
       </ContentsWrapper>
       {data?.live_status !== 'live' ? (
-        <AlarmFooter data={data} alarmHandler={alarmHandler} />
-      ) : (
-        <Footer
+        <AlarmFooter
           data={data}
-          onClickJoinHandler={onClickJoinHandler}
-          remainTime={remainTime}
+          alarmHandler={alarmHandler}
+          fromFeed={fromFeed ? true : false}
         />
+      ) : (
+        <Footer onClickJoinHandler={onClickJoinHandler} />
       )}
     </PageWrapper>
   );
@@ -300,6 +316,7 @@ const PageWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   white-space: pre-line;
+  box-sizing: border-box;
 `;
 
 const PageTitle = styled.img`
@@ -328,10 +345,10 @@ const TagWrapper = styled.div`
 
 const Tag = styled.img``;
 
-const ContentsWrapper = styled.div`
+const ContentsWrapper = styled.div<{ bottomPadding: string }>`
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 3rem;
+  padding-bottom: ${({ bottomPadding }) => bottomPadding};
 `;
 
 const TitleWrapper = styled.div`
@@ -389,6 +406,20 @@ const DescriptionWrapper = styled.div`
   padding: 3.2rem 1.6rem 1.4rem 1.6rem;
 `;
 
+const GoHomeWrapper = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  padding: 2.4rem 1.6rem 2.4rem 1.6rem;
+`;
+
+const GoHomeTitle = styled.div`
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 2.3rem;
+  letter-spacing: -0.03rem;
+  margin-bottom: 1rem;
+`;
+
 const GoHomeBtn = styled.div`
   padding: 1rem;
   border: 1px solid ${COLOR.LIGHT_GREEN};
@@ -405,6 +436,7 @@ const BackArrowIcon = styled.img`
 `;
 
 const GoHomeText = styled.div`
+  font-weight: 500;
   font-size: 1.5rem;
   line-height: 2.3rem;
   letter-spacing: -0.03rem;
