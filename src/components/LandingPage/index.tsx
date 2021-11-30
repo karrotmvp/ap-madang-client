@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
-import { logEvent, setUserId } from '@firebase/analytics';
+import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 import { MeetingList as MeetingListType } from 'meeting';
 import { useRecoilValue } from 'recoil';
@@ -45,11 +45,7 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     if (userInfo) {
-      logEvent(analytics, 'landing_page__show', {
-        userRegion: userInfo?.region || 'GUEST',
-        userNickname: userInfo?.nickname || 'GUEST',
-      });
-      setUserId(analytics, userInfo?.nickname || 'Guest');
+      logEvent(analytics, 'landing_page__show');
     }
   }, [userInfo]);
 

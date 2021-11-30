@@ -2,14 +2,12 @@ import React, { ReactElement, useCallback, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-import { useRecoilValue } from 'recoil';
 
 import { increaseMeetingEnterUserCount } from '../../../api/meeting';
 import { analytics } from '../../../App';
 import closeBtn from '../../../assets/icon/nav_close.svg';
 import agoraBottomSheet from '../../../assets/image/agora_bottom_sheet.png';
 import { COLOR } from '../../../constant/color';
-import { userInfoAtom } from '../../../store/user';
 import BottomSheet from '../../common/BottomSheet';
 
 interface Props {
@@ -29,7 +27,6 @@ function AudioMeetBottomSheet({
   meetingTitle,
 }: Props): ReactElement {
   const [closeState, setCloseState] = useState(!open);
-  const userInfo = useRecoilValue(userInfoAtom);
 
   const closeHandler = useCallback(() => {
     setCloseState(true);
@@ -54,13 +51,11 @@ function AudioMeetBottomSheet({
       location: 'audio_bottom_sheet',
       meeting_id: meetingId,
       meeting_name: meetingTitle,
-      userNickname: userInfo?.nickname || 'GUEST',
-      userRegion: userInfo?.region || 'GUEST',
     });
     windowReference;
     onClickJoin && onClickJoin();
     closeHandler();
-  }, [closeHandler, code, meetingId, meetingTitle, onClickJoin, userInfo]);
+  }, [closeHandler, code, meetingId, meetingTitle, onClickJoin]);
 
   return (
     <BottomSheet

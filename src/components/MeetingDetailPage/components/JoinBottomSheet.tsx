@@ -2,13 +2,11 @@ import React, { ReactElement, useCallback, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-import { useRecoilValue } from 'recoil';
 
 import { analytics } from '../../../App';
 import closeBtn from '../../../assets/icon/nav_close.svg';
 import BottomSheet from '../../../components/common/BottomSheet';
 import { BOTTOM_SHEET } from '../../../constant/message';
-import { userInfoAtom } from '../../../store/user';
 import DescriptionItem from '../../common/DescriptionItem';
 
 interface Props {
@@ -27,7 +25,6 @@ function JoinBottomSheet({
   meetingTitle,
 }: Props): ReactElement {
   const [closeState, setCloseState] = useState(!open);
-  const userInfo = useRecoilValue(userInfoAtom);
 
   const closeHandler = useCallback(() => {
     setCloseState(true);
@@ -46,8 +43,6 @@ function JoinBottomSheet({
       location: 'bottom_sheet',
       meeting_id: meetingId,
       meeting_name: meetingTitle,
-      userNickname: userInfo?.nickname || 'GUEST',
-      userRegion: userInfo?.region || 'GUEST',
     });
     window.open(url, '', '_blank');
     onClickJoin && onClickJoin();
