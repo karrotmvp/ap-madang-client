@@ -174,8 +174,8 @@ const MeetingDetailPage = () => {
     };
 
   useEffect(() => {
-    if (matchId?.params.id && !data) fetchData(matchId.params.id);
-  }, [data, fetchData, matchId.params.id]);
+    if (matchId?.params.id) fetchData(matchId.params.id);
+  }, [fetchData, matchId.params.id, userInfo]);
 
   useEffect(() => {
     if (isRoot && data && !sendLogEvent && userInfo && fromFeed) {
