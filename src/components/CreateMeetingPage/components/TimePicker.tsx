@@ -15,12 +15,15 @@ function TimePicker({ date, setTime }: Props): ReactElement {
   const [startState, setStartState] = useState<string | undefined>(undefined);
 
   const initHour = useCallback(() => {
-    const isToday = dayjs().isSame(dayjs(date));
+    const isToday = dayjs().isSame(date, 'day');
+    console.log(date, isToday, dayjs());
     if (isToday) {
       for (let i = 0; i < 7; i++) {
         const now = dayjs();
+        const time = dayjs().add(i * 30, 'minute');
+        console.log(now);
         setStartList(prevState => {
-          return [...prevState, now.hour().toString()];
+          return [...prevState, time.toString()];
         });
       }
     }
@@ -30,34 +33,42 @@ function TimePicker({ date, setTime }: Props): ReactElement {
     initHour();
   }, [initHour]);
 
-  console.log(setTime);
-
   return (
     <TimePickerWrapper>
-      <input type="time" step="7200" />
       <SelectorStyle
-        className="w150"
+        className="start_time_selector"
         onChange={e => setStartState(e.target.value)}
         selected={startState ? true : false}
+        defaultValue={0}
       >
-        <DefaultOption value="시작시간" selected disabled hidden>
+        <DefaultOption value="시작시간" hidden>
           시작시간
         </DefaultOption>
+
         {startList.map(day => {
-          return <option value={day.toString()}>{day}시</option>;
+          return (
+            <option key={day.toString()} value={day.toString()}>
+              {day}시
+            </option>
+          );
         })}
       </SelectorStyle>
-      <Tilde>-</Tilde>
+      <Tilde />
       <SelectorStyle
-        className="w150"
+        className="end_time_selector"
         onChange={e => setTime(e.target.value)}
         selected={startState ? true : false}
+        defaultValue={0}
       >
-        <DefaultOption value="종료시간" selected disabled hidden>
+        <DefaultOption value="종료시간" hidden>
           종료시간
         </DefaultOption>
         {startList.map(day => {
-          return <option value={day.toString()}>{day}시</option>;
+          return (
+            <option key={day.toString()} value={day.toString()}>
+              {day}시
+            </option>
+          );
         })}
       </SelectorStyle>
     </TimePickerWrapper>
@@ -89,7 +100,10 @@ const DefaultOption = styled.option`
 `;
 
 const Tilde = styled.div`
-  margin: 0 0.8rem;
+  margin: 0.8rem;
+  width: 0.8rem;
+  height: 0.1rem;
+  background: ${COLOR.TEXT_BLACK};
 `;
 
 export default TimePicker;
