@@ -48,7 +48,8 @@ export const COMMON = {
 };
 
 export const CREATE_MEETING = {
-  NAVIGATOR_TITLE: '모임 만들기',
+  NAVIGATOR_TITLE_1: '모임 만들기(1/2)',
+  NAVIGATOR_TITLE_2: '모임 만들기(2/2)',
 };
 
 export const SUGGESTION = {
