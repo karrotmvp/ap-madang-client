@@ -17,7 +17,7 @@ function DatePicker({ setDate }: Props): ReactElement {
   const [dateState, setDateState] = React.useState<string | undefined>(
     undefined,
   );
-  console.log(setDate, dateState);
+
   useEffect(() => {
     for (let i = 0; i < 7; i++) {
       const day = dayjs().add(i, 'day');
@@ -30,21 +30,20 @@ function DatePicker({ setDate }: Props): ReactElement {
   return (
     <DatePickerWrapper>
       <SelectorStyle
-        className="w150"
-        onChange={e => setDateState(e.target.value)}
+        className="date_picker"
+        onChange={e => {
+          setDateState(e.target.value);
+          setDate(e.target.value);
+        }}
         selected={dateState ? true : false}
+        defaultValue={0}
       >
-        <DefaultOption
-          value="모임 날짜를 선택해주세요."
-          selected
-          disabled
-          hidden
-        >
+        <DefaultOption value="모임 날짜를 선택해주세요." hidden>
           모임 날짜를 선택해주세요.
         </DefaultOption>
         {dayList.map((day, idx) => {
           return (
-            <option value={day.toString()}>
+            <option key={day.toString()} value={day.format('YYYY-MM-DD')}>
               {day.format('YYYY년 MM월 DD일 dd')} (
               {idx !== 0 ? `${idx + 1}일 후` : '오늘'})
             </option>
