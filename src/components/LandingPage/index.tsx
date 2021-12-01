@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
-import { logEvent, setUserId } from '@firebase/analytics';
+import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 import { MeetingList as MeetingListType } from 'meeting';
 import { useRecoilValue } from 'recoil';
@@ -45,11 +45,7 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     if (userInfo) {
-      logEvent(analytics, 'landing_page__show', {
-        userRegion: userInfo?.region,
-        userNickname: userInfo?.nickname,
-      });
-      setUserId(analytics, userInfo?.nickname || 'Guest');
+      logEvent(analytics, 'landing_page__show');
     }
   }, [userInfo]);
 
@@ -61,26 +57,6 @@ const LandingPage: React.FC = () => {
         className="landing__banner-img"
         onClick={() => push('/guide')}
       />
-      <label>
-        Choose a browser from this list:
-        <input list="browsers" name="myBrowser" />
-      </label>
-      <datalist id="browsers">
-        <option value="Chrome" />
-        <option value="Firefox" />
-        <option value="Internet Explorer" />
-        <option value="Opera" />
-        <option value="Safari" />
-        <option value="Microsoft Edge" />
-      </datalist>
-      <div
-        style={{ width: '30px', height: '30px' }}
-        onClick={() => {
-          push('/new');
-        }}
-      >
-        모임 만들기
-      </div>
       {meetings.filter(el => el.live_status === 'live').length !== 0 && (
         <div>
           <CurrMeetingList

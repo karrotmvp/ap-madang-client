@@ -66,7 +66,7 @@ export const MEETING_DETAIL = {
   DESCRIPTION_TITLE1: '이런 분이면 참여해보세요!',
   DESCRIPTION_TITLE2: '이런 주제로 대화를 나눠보세요!',
   JOIN_NOW: '지금 참여하기',
-  CLOSE_MEETING: '내일 열리는 모임이에요',
+  CLOSE_MEETING: '이미 종료된 모임이에요',
   JOIN_LATER: ' 후에 만나요',
   IS_VIDEO: '이 모임은 줌(zoom)으로 진행돼요. 카메라를 켜지 않아도 괜찮아요!',
   IS_VOICE: '이 모임에서는 음성으로 이웃과 실시간 대화를 나눠요.',

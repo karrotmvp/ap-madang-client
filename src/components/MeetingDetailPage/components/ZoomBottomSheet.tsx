@@ -2,7 +2,6 @@ import React, { ReactElement, useCallback, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-import { useRecoilValue } from 'recoil';
 
 import { increaseMeetingEnterUserCount } from '../../../api/meeting';
 import { analytics } from '../../../App';
@@ -15,7 +14,6 @@ import zoom_view from '../../../assets/image/zoom_view.png';
 import BottomSheet from '../../../components/common/BottomSheet';
 import { COLOR } from '../../../constant/color';
 import { ZOOM_BOTTOM_SHEET } from '../../../constant/message';
-import { userInfoAtom } from '../../../store/user';
 
 interface Props {
   onClose: () => void;
@@ -33,7 +31,6 @@ function ZoomBottomSheet({
   meetingTitle,
 }: Props): ReactElement {
   const [closeState, setCloseState] = useState(!open);
-  const userInfo = useRecoilValue(userInfoAtom);
 
   const closeHandler = useCallback(() => {
     setCloseState(true);
@@ -55,12 +52,10 @@ function ZoomBottomSheet({
       location: 'zoom_bottom_sheet',
       meeting_id: meetingId,
       meeting_name: meetingTitle,
-      userNickname: userInfo ? userInfo.nickname : '',
-      userRegion: userInfo ? userInfo.region : '',
     });
     windowReference;
     onClickJoin && onClickJoin();
-  }, [meetingId, meetingTitle, onClickJoin, url, userInfo]);
+  }, [meetingId, meetingTitle, onClickJoin, url]);
 
   return (
     <BottomSheet
