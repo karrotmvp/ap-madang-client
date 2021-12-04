@@ -2,7 +2,6 @@ import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
-
 import { COLOR } from '../../../constant/color';
 
 interface Props {
@@ -10,28 +9,50 @@ interface Props {
   setTime: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function TimePicker({ date, setTime }: Props): ReactElement {
-  const [startList, setStartList] = useState<string[]>([]);
-  const [startState, setStartState] = useState<string | undefined>(undefined);
+function TimePicker({ date }: Props): ReactElement {
+  const [startList, setStartList] = useState<dayjs.Dayjs[]>([]);
+  const [startState, setStartState] = useState('');
 
-  const initHour = useCallback(() => {
+  const [endList, setEndList] = useState<dayjs.Dayjs[]>([]);
+  const [endState, setEndState] = useState('');
+
+  const startListHandler = useCallback(() => {
     const isToday = dayjs().isSame(date, 'day');
-    console.log(date, isToday, dayjs());
-    if (isToday) {
-      for (let i = 0; i < 7; i++) {
-        const now = dayjs();
-        const time = dayjs().add(i * 30, 'minute');
-        console.log(now);
-        setStartList(prevState => {
-          return [...prevState, time.toString()];
-        });
-      }
+    const day = isToday ? dayjs() : dayjs(date);
+    const nextDay = day.add(1, 'day').format('YYYY-MM-DD');
+    const remainMin = dayjs(nextDay).diff(day, 'minute');
+    for (let i = 0; i < Math.floor(remainMin / 30); i++) {
+      const min = day.minute();
+      const time = day.add(
+        i * 30 + (min % 30 === 0 ? 0 : 30 - (min % 30)),
+        'minute',
+      );
+      setStartList(prevState => {
+        return [...prevState, time];
+      });
     }
   }, [date]);
 
+  const endListHandler = useCallback(() => {
+    const startTime = dayjs(startState);
+    for (let i = 1; i <= 6; i++) {
+      const time = startTime.add(i * 30, 'minute');
+      setEndList(prevState => {
+        return [...prevState, time];
+      });
+    }
+  }, [date, startState]);
+
   useEffect(() => {
-    initHour();
-  }, [initHour]);
+    setStartList([]);
+    setEndList([]);
+    startListHandler();
+  }, [date]);
+
+  useEffect(() => {
+    setEndList([]);
+    startList.length !== 0 && endListHandler();
+  }, [startState]);
 
   return (
     <TimePickerWrapper>
@@ -45,10 +66,13 @@ function TimePicker({ date, setTime }: Props): ReactElement {
           시작시간
         </DefaultOption>
 
-        {startList.map(day => {
+        {startList.map((day, idx) => {
           return (
-            <option key={day.toString()} value={day.toString()}>
-              {day}시
+            <option
+              key={idx.toString() + day.toString()}
+              value={day.format('YYYY-MM-DD hh:mm')}
+            >
+              {day.format('a hh:mm')}
             </option>
           );
         })}
@@ -56,17 +80,20 @@ function TimePicker({ date, setTime }: Props): ReactElement {
       <Tilde />
       <SelectorStyle
         className="end_time_selector"
-        onChange={e => setTime(e.target.value)}
-        selected={startState ? true : false}
+        onChange={e => setEndState(e.target.value)}
+        selected={endState ? true : false}
         defaultValue={0}
       >
         <DefaultOption value="종료시간" hidden>
           종료시간
         </DefaultOption>
-        {startList.map(day => {
+        {endList.map((day, idx) => {
           return (
-            <option key={day.toString()} value={day.toString()}>
-              {day}시
+            <option
+              key={idx.toString() + day.toString()}
+              value={day.format('YYYY-MM-DD hh:mm')}
+            >
+              {day.format('a hh:mm')}
             </option>
           );
         })}
@@ -90,6 +117,11 @@ const SelectorStyle = styled.select<{ selected: boolean }>`
   background-color: white;
   box-sizing: border-box;
   border-radius: 0.6rem;
+
+  background: url('http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png')
+    no-repeat right #ffffff;
+  -webkit-appearance: none;
+  background-position-x: calc(100% - 20px);
 `;
 
 const DefaultOption = styled.option`

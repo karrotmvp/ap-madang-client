@@ -6,13 +6,16 @@ import { COLOR } from '../../../constant/color';
 
 function InputList(): ReactElement {
   const [inputElement, setInputElement] = useState([
-    <InputStyle placeholder="예) 함께 열심히 공부하고 싶은 분" />,
+    <InputStyle key={1} placeholder="예) 함께 열심히 공부하고 싶은 분" />,
   ]);
 
   const addInput = () => {
     setInputElement(prevState => [
       ...prevState,
-      <InputStyle placeholder="예) 함께 열심히 공부하고 싶은 분" />,
+      <InputStyle
+        key={prevState.length + 1}
+        placeholder="예) 함께 열심히 공부하고 싶은 분"
+      />,
     ]);
   };
   return (

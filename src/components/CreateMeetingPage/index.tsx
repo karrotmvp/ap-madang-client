@@ -35,7 +35,7 @@ function CreateMeetingPage(): ReactElement {
   return (
     <CreateMeeting>
       <CustomScreenHelmet
-        appendLeft={<PageTitle>{CREATE_MEETING.NAVIGATOR_TITLE}</PageTitle>}
+        appendLeft={<PageTitle>{CREATE_MEETING.NAVIGATOR_TITLE_1}</PageTitle>}
       />
       <Title>
         <TitleText>모임 제목</TitleText>
