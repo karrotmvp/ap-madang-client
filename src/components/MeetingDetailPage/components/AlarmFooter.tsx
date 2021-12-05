@@ -3,25 +3,22 @@ import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 import { useCurrentScreen } from '@karrotframe/navigator';
 import { MeetingDetail } from 'meeting';
-import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import fire_emoji from '../../../assets/icon/detailPage/fire_emoji.svg';
 import notification_empty_green from '../../../assets/icon/detailPage/notification_empty_green.svg';
 import notification_fill_white from '../../../assets/icon/detailPage/notification_fill_white.svg';
 import smile_emoji from '../../../assets/icon/detailPage/smile_emoji.svg';
 import { COLOR } from '../../../constant/color';
-import { codeAtom, userInfoAtom, UserInfoType } from '../../../store/user';
-import { authHandler } from '../../../util/withMini';
+import { useMini } from '../../../hook/useMini';
 
 interface Props {
   data: MeetingDetail | undefined;
-  alarmHandler: (userInfo: UserInfoType) => (e?: React.MouseEvent) => void;
+  alarmHandler: () => void;
   fromFeed: boolean;
 }
 
-function AlarmFooter({ data, alarmHandler, fromFeed }: Props): ReactElement {
-  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
-  const setCode = useSetRecoilState(codeAtom);
+function AlarmFooter({ data, alarmHandler }: Props): ReactElement {
+  const { loginWithMini } = useMini();
   const { isRoot } = useCurrentScreen();
 
   return (
@@ -35,20 +32,13 @@ function AlarmFooter({ data, alarmHandler, fromFeed }: Props): ReactElement {
         </MessageBubble>
       )}
       <Footer fromFeed={data?.live_status !== 'live' && isRoot}>
+        {/* TODO: add fromFeed Event */}
         <AlarmBtn
           applied={data?.alarm_id}
-          onClick={
-            !userInfo
-              ? authHandler(
-                  alarmHandler,
-                  setCode,
-                  setUserInfo,
-                  fromFeed
-                    ? 'detail_page_alaram_user_from_feed'
-                    : 'detail_page_alaram',
-                )
-              : alarmHandler(userInfo)
-          }
+          onClick={e => {
+            e.stopPropagation();
+            loginWithMini(alarmHandler);
+          }}
         >
           {data?.alarm_id ? (
             <img src={notification_fill_white} />

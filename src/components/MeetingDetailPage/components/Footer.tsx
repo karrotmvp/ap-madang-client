@@ -2,38 +2,26 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 import { MeetingDetail } from 'meeting';
-import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { COLOR } from '../../../constant/color';
 import { MEETING_DETAIL } from '../../../constant/message';
-import { codeAtom, userInfoAtom, UserInfoType } from '../../../store/user';
-import { authHandler } from '../../../util/withMini';
+import { useMini } from '../../../hook/useMini';
 
 interface Props {
   data: MeetingDetail | undefined;
-  onClickJoinHandler: (
-    userInfo: UserInfoType,
-  ) => (e?: React.MouseEvent) => void;
+  onClickJoinHandler: (e?: React.MouseEvent) => void;
 }
 
 function Footer({ data, onClickJoinHandler }: Props): ReactElement {
-  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
-  const setCode = useSetRecoilState(codeAtom);
-
+  const { loginWithMini } = useMini();
   return (
     <FooterWrapper className="meeting-detail__footer-nav-bar">
       {data?.live_status === 'live' ? (
         <JoinBtn
-          onClick={
-            !userInfo
-              ? authHandler(
-                  onClickJoinHandler,
-                  setCode,
-                  setUserInfo,
-                  'detail_page_join',
-                )
-              : onClickJoinHandler(userInfo)
-          }
+          onClick={e => {
+            e.stopPropagation();
+            loginWithMini(onClickJoinHandler);
+          }}
         >
           {MEETING_DETAIL.JOIN_NOW}
         </JoinBtn>

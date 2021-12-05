@@ -14,6 +14,7 @@ import home_banner from '../../assets/image/home_banner.png';
 import nav_logo from '../../assets/image/nav_logo.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
 import { LANDING } from '../../constant/message';
+import { useMini } from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
 import { getRegionId } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
@@ -24,6 +25,7 @@ import { useRedirect } from './useRedirect';
 
 const LandingPage: React.FC = () => {
   const { push, replace } = useNavigator();
+  const { loginWithoutMini } = useMini();
 
   const [meetings, setMeetings] = useState<MeetingListType[]>([]);
   const userInfo = useRecoilValue(userInfoAtom);
@@ -44,10 +46,9 @@ const LandingPage: React.FC = () => {
   }, [meetingListHandler, push, userInfo]);
 
   useEffect(() => {
-    if (userInfo) {
-      logEvent(analytics, 'landing_page__show');
-    }
-  }, [userInfo]);
+    loginWithoutMini();
+    logEvent(analytics, 'landing_page__show');
+  }, [loginWithoutMini]);
 
   return (
     <PageWrapper className="landing">
