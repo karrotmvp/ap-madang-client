@@ -10,9 +10,10 @@ dayjs.locale('ko');
 
 interface Props {
   setDate: React.Dispatch<React.SetStateAction<string>>;
+  trySubmit: boolean;
 }
 
-function DatePicker({ setDate }: Props): ReactElement {
+function DatePicker({ setDate, trySubmit }: Props): ReactElement {
   const [dayList, setDayList] = React.useState<dayjs.Dayjs[]>([]);
   const [dateState, setDateState] = React.useState<string | undefined>(
     undefined,
@@ -37,6 +38,7 @@ function DatePicker({ setDate }: Props): ReactElement {
         }}
         selected={dateState ? true : false}
         defaultValue={0}
+        trySubmit={trySubmit}
       >
         <DefaultOption value="모임 날짜를 선택해주세요." hidden>
           모임 날짜를 선택해주세요.
@@ -45,7 +47,7 @@ function DatePicker({ setDate }: Props): ReactElement {
           return (
             <option key={day.toString()} value={day.format('YYYY-MM-DD')}>
               {day.format('YYYY년 MM월 DD일 dd')} (
-              {idx !== 0 ? `${idx + 1}일 후` : '오늘'})
+              {idx !== 0 ? `${idx}일 후` : '오늘'})
             </option>
           );
         })}
@@ -58,11 +60,11 @@ const DatePickerWrapper = styled.div`
   margin-top: 1.6rem;
 `;
 
-const SelectorStyle = styled.select<{ selected: boolean }>`
+const SelectorStyle = styled.select<{ selected: boolean; trySubmit: boolean }>`
   width: 100%;
   height: 5.5rem;
   color: ${({ selected }) => (selected ? COLOR.TEXT_BLACK : COLOR.GREY_500)};
-  border: 1px solid #cbcccd;
+
   background-color: white;
   box-sizing: border-box;
   border-radius: 0.6rem;
@@ -71,6 +73,10 @@ const SelectorStyle = styled.select<{ selected: boolean }>`
     no-repeat right #ffffff;
   -webkit-appearance: none;
   background-position-x: calc(100% - 20px);
+
+  border: 1px solid
+    ${({ trySubmit, selected }) =>
+      !selected && trySubmit ? '#ff5638' : '#cbcccd'};
 `;
 
 const DefaultOption = styled.option`
