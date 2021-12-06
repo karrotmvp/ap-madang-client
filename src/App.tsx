@@ -4,8 +4,7 @@ import { css } from '@emotion/css';
 import { Navigator, Screen } from '@karrotframe/navigator';
 import { getAnalytics, logEvent } from 'firebase/analytics';
 
-import CreateForm1 from './components/CreateMeetingPage/CreateForm1';
-import CreateForm2 from './components/CreateMeetingPage/CreateForm2';
+import CreateMeetingForm from './components/CreateMeetingPage/CreateMeetingForm';
 import LandingPage from './components/LandingPage';
 import MeetingDetailPage from './components/MeetingDetailPage';
 const AgoraPage = React.lazy(() => import('./components/MeetingPage'));
@@ -14,7 +13,7 @@ import NotFoundPage from './components/NotFountPage';
 import NotServiceRegionPage from './components/NotServiceRegionPage';
 import OnBoardPage from './components/OnBoardPage';
 import ReservationPage from './components/ReservationPage';
-import { useMini } from './hook/useMini';
+import useMini from './hook/useMini';
 import { app } from './util/firebase';
 import { checkMobileType } from './util/utils';
 
@@ -40,8 +39,7 @@ const App: React.FC = () => {
       <Screen path="/" component={LandingPage} />
       <Screen path="/guide" component={OnBoardPage} />
       <Screen path="/meetings/:id" component={MeetingDetailPage} />
-      <Screen path="/create/form1" component={CreateForm1} />
-      <Screen path="/create/form2" component={CreateForm2} />
+      <Screen path="/create" component={CreateMeetingForm} />
       <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
       <Screen path="/reservation" component={ReservationPage} />
       <Screen path="/not-service-region" component={NotServiceRegionPage} />
