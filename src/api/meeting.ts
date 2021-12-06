@@ -49,6 +49,15 @@ export const createMeeting = async (
   }
 };
 
+export const deleteMeeting = async (id: string): Promise<deleteMeetingRes> => {
+  try {
+    await customAxios().delete(`/meetings/${id}/`);
+    return { success: true };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
 interface getMeetingsRes {
   success: boolean;
   data?: MeetingList[];
@@ -77,4 +86,8 @@ interface createFormType {
 interface createMeetingRes {
   success: boolean;
   data?: { id: number };
+}
+
+interface deleteMeetingRes {
+  success: boolean;
 }
