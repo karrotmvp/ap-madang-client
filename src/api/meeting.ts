@@ -35,6 +35,20 @@ export const increaseMeetingEnterUserCount = async (
   }
 };
 
+export const createMeeting = async (
+  createData: createFormType,
+): Promise<createMeetingRes> => {
+  try {
+    const res: { data: { id: number } } = await customAxios().post(
+      `/meetings/`,
+      createData,
+    );
+    return { success: true, data: res.data };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
 interface getMeetingsRes {
   success: boolean;
   data?: MeetingList[];
@@ -47,4 +61,20 @@ interface getMeetingDetailRes {
 
 interface increaseMeetingEnterUserCountRes {
   success: boolean;
+}
+
+interface createFormType {
+  title: string;
+  date: string;
+  start_time: string;
+  end_time: string;
+  is_video: boolean;
+  description: {
+    text: string;
+  };
+}
+
+interface createMeetingRes {
+  success: boolean;
+  data?: { id: number };
 }
