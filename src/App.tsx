@@ -14,9 +14,8 @@ import NotFoundPage from './components/NotFountPage';
 import NotServiceRegionPage from './components/NotServiceRegionPage';
 import OnBoardPage from './components/OnBoardPage';
 import ReservationPage from './components/ReservationPage';
-import AuthWithoutMini from './hoc/AuthWithoutMini';
+import { useMini } from './hook/useMini';
 import { app } from './util/firebase';
-import mini from './util/mini';
 import { checkMobileType } from './util/utils';
 
 const NavigatorStyle = css`
@@ -26,6 +25,8 @@ const NavigatorStyle = css`
 export const analytics = getAnalytics(app);
 
 const App: React.FC = () => {
+  const { ejectApp } = useMini();
+
   useEffect(() => {
     logEvent(analytics, 'launch_app');
   }, []);
@@ -33,17 +34,14 @@ const App: React.FC = () => {
   return (
     <Navigator
       theme={checkMobileType()}
-      onClose={() => mini.close()}
+      onClose={ejectApp}
       className={NavigatorStyle}
     >
-      <Screen path="/" component={AuthWithoutMini(LandingPage)} />
+      <Screen path="/" component={LandingPage} />
       <Screen path="/guide" component={OnBoardPage} />
-      <Screen
-        path="/meetings/:id"
-        component={AuthWithoutMini(MeetingDetailPage)}
-      />
-      <Screen path="/create/form1" component={AuthWithoutMini(CreateForm1)} />
-      <Screen path="/create/form2" component={AuthWithoutMini(CreateForm2)} />
+      <Screen path="/meetings/:id" component={MeetingDetailPage} />
+      <Screen path="/create/form1" component={CreateForm1} />
+      <Screen path="/create/form2" component={CreateForm2} />
       <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
       <Screen path="/reservation" component={ReservationPage} />
       <Screen path="/not-service-region" component={NotServiceRegionPage} />

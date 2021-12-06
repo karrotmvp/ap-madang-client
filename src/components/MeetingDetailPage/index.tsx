@@ -20,7 +20,8 @@ import person from '../../assets/icon/person.svg';
 import nav_logo from '../../assets/image/nav_logo.png';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
-import { userInfoAtom, UserInfoType } from '../../store/user';
+import { useMini } from '../../hook/useMini';
+import { userInfoAtom } from '../../store/user';
 import { getDateToText } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
@@ -43,6 +44,7 @@ const MeetingDetailPage = () => {
   const [sendLogEvent, setSendLogEvent] = useState(false);
   const { isRoot, isTop } = useCurrentScreen();
   const { pop, replace } = useNavigator();
+  const { loginWithoutMini } = useMini();
 
   const userInfo = useRecoilValue(userInfoAtom);
 
@@ -127,27 +129,23 @@ const MeetingDetailPage = () => {
   }, [data, matchId.params.id, userInfo]);
 
   // 알람 신청 핸들러
-  const alarmHandler = useCallback(
-    (userInfo: UserInfoType) => async (e?: React.MouseEvent) => {
-      e?.stopPropagation();
-      if (data?.alarm_id) {
-        setModal(
-          <DeleteAlarmModal
-            open={true}
-            closeHandler={hideModal}
-            deleteAlarmHandler={deleteAlarmHandler}
-          />,
-        );
-      } else if (matchId?.params.id) {
-        addAlarmHandler(userInfo);
-      }
-    },
-    [addAlarmHandler, data, deleteAlarmHandler, matchId.params.id],
-  );
+  const alarmHandler = useCallback(async () => {
+    if (data?.alarm_id) {
+      setModal(
+        <DeleteAlarmModal
+          open={true}
+          closeHandler={hideModal}
+          deleteAlarmHandler={deleteAlarmHandler}
+        />,
+      );
+    } else if (matchId?.params.id) {
+      addAlarmHandler(userInfo);
+    }
+  }, [addAlarmHandler, data, deleteAlarmHandler, matchId.params.id, userInfo]);
 
   // 모임 참여 버튼 핸들러
-  const onClickJoinHandler =
-    (userInfo: UserInfoType) => async (e?: React.MouseEvent) => {
+  const onClickJoinHandler = useCallback(
+    async (e?: React.MouseEvent) => {
       e?.stopPropagation();
       if (!data && !userInfo) return;
       logEvent(analytics, `${data?.is_video ? 'video' : 'audio'}_join__click`);
@@ -171,7 +169,9 @@ const MeetingDetailPage = () => {
             />
           ),
         );
-    };
+    },
+    [data, userInfo],
+  );
 
   useEffect(() => {
     if (matchId?.params.id) fetchData(matchId.params.id);
@@ -197,7 +197,11 @@ const MeetingDetailPage = () => {
   // 페이지 트랜지션이 있을때 떠있는 모달 제거
   useEffect(() => {
     hideModal();
-  }, [isTop, userInfo]);
+  }, [isTop]);
+
+  useEffect(() => {
+    loginWithoutMini();
+  }, [loginWithoutMini]);
 
   return (
     <PageWrapper className="meeting-detail">

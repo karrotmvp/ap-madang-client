@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 import { MeetingList } from 'meeting';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { deleteAlarm, newAlarm } from '../../../../api/alarm';
 import { analytics } from '../../../../App';
@@ -13,9 +13,9 @@ import card_noti_on from '../../../../assets/icon/card_noti_on.svg';
 import camera_meeting_tag__gray from '../../../../assets/icon/home/camera_meeting_tag__gray.svg';
 import voice_meeting_tag__gray from '../../../../assets/icon/home/voice_meeting_tag__gray.svg';
 import { COLOR } from '../../../../constant/color';
-import { codeAtom, userInfoAtom, UserInfoType } from '../../../../store/user';
+import { useMini } from '../../../../hook/useMini';
+import { userInfoAtom } from '../../../../store/user';
 import { getTimeForm } from '../../../../util/utils';
-import { authHandler } from '../../../../util/withMini';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../../../common/Modal/NewAlarmModal';
 
@@ -33,8 +33,8 @@ interface WrapperProps {
 function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
   const [openDeleteAlarmModal, setOpenDeleteAlarmModal] = useState(false);
-  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
-  const setCode = useSetRecoilState(codeAtom);
+  const userInfo = useRecoilValue(userInfoAtom);
+  const { loginWithMini } = useMini();
 
   const { push } = useNavigator();
 
@@ -75,40 +75,43 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
     userInfo,
   ]);
 
-  const alarmHandler = useCallback(
-    (userInfo: UserInfoType) => async (e?: React.MouseEvent) => {
-      e?.stopPropagation();
-      if (data?.alarm_id) {
-        setOpenDeleteAlarmModal(true);
-      } else if (data.id && userInfo) {
-        logEvent(analytics, 'add_alarm__click', {
-          location: 'meeting_card',
-          meeting_id: data.id,
-          meeting_name: data.title,
-          is_current: data.live_status,
-          userNickname: userInfo.nickname,
-          userRegion: userInfo.region,
-        });
-        const result = await newAlarm(data.id.toString());
-        if (result.success && result.data?.id) {
-          setMeetings(el =>
-            el.map(prevState => {
-              if (prevState.id === data.id && result.data?.id) {
-                return {
-                  ...prevState,
-                  alarm_num: prevState.alarm_num + 1,
-                  alarm_id: result.data.id,
-                };
-              }
-              return prevState;
-            }),
-          );
-          setOpenNewAlarmModal(true);
-        }
+  const alarmHandler = useCallback(async () => {
+    if (data?.alarm_id) {
+      setOpenDeleteAlarmModal(true);
+    } else if (data.id && userInfo) {
+      logEvent(analytics, 'add_alarm__click', {
+        location: 'meeting_card',
+        meeting_id: data.id,
+        meeting_name: data.title,
+        is_current: data.live_status,
+        userNickname: userInfo.nickname,
+        userRegion: userInfo.region,
+      });
+      const result = await newAlarm(data.id.toString());
+      if (result.success && result.data?.id) {
+        setMeetings(el =>
+          el.map(prevState => {
+            if (prevState.id === data.id && result.data?.id) {
+              return {
+                ...prevState,
+                alarm_num: prevState.alarm_num + 1,
+                alarm_id: result.data.id,
+              };
+            }
+            return prevState;
+          }),
+        );
+        setOpenNewAlarmModal(true);
       }
-    },
-    [data.alarm_id, data.id, data.live_status, data.title, setMeetings],
-  );
+    }
+  }, [
+    data.alarm_id,
+    data.id,
+    data.live_status,
+    data.title,
+    setMeetings,
+    userInfo,
+  ]);
 
   const onClickCardHandler = useCallback(() => {
     push(`/meetings/${data.id}`);
@@ -146,11 +149,10 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
           <AlarmBtn
             hasAlarm={data.alarm_id ? true : false}
             className="meeting-card__alarm-icon"
-            onClick={
-              !userInfo
-                ? authHandler(alarmHandler, setCode, setUserInfo, 'home_alaram')
-                : alarmHandler(userInfo)
-            }
+            onClick={e => {
+              e.stopPropagation();
+              loginWithMini(alarmHandler);
+            }}
           >
             <AlarmIcon src={data.alarm_id ? card_noti_on : card_noti_off} />
             {data.alarm_num}
