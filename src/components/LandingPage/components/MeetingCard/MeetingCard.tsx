@@ -13,7 +13,7 @@ import card_noti_on from '../../../../assets/icon/card_noti_on.svg';
 import camera_meeting_tag__gray from '../../../../assets/icon/home/camera_meeting_tag__gray.svg';
 import voice_meeting_tag__gray from '../../../../assets/icon/home/voice_meeting_tag__gray.svg';
 import { COLOR } from '../../../../constant/color';
-import { useMini } from '../../../../hook/useMini';
+import useMini from '../../../../hook/useMini';
 import { userInfoAtom } from '../../../../store/user';
 import { getTimeForm } from '../../../../util/utils';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';

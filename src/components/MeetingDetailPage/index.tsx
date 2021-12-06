@@ -20,7 +20,7 @@ import person from '../../assets/icon/person.svg';
 import nav_logo from '../../assets/image/nav_logo.png';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
-import { useMini } from '../../hook/useMini';
+import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
 import { getDateToText } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';

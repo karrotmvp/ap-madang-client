@@ -12,7 +12,8 @@ type TokenPayloadType = {
   nickname: string;
   region: string;
 } & JwtPayload;
-export const useMini = () => {
+
+const useMini = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
 
   // update user info
@@ -99,3 +100,5 @@ export const useMini = () => {
     ejectApp,
   };
 };
+
+export default useMini;

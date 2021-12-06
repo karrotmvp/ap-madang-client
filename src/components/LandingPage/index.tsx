@@ -14,7 +14,7 @@ import home_banner from '../../assets/image/home_banner.png';
 import nav_logo from '../../assets/image/nav_logo.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
 import { LANDING } from '../../constant/message';
-import { useMini } from '../../hook/useMini';
+import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
 import { getRegionId } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';

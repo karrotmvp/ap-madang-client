@@ -9,7 +9,7 @@ import notification_empty_green from '../../../assets/icon/detailPage/notificati
 import notification_fill_white from '../../../assets/icon/detailPage/notification_fill_white.svg';
 import smile_emoji from '../../../assets/icon/detailPage/smile_emoji.svg';
 import { COLOR } from '../../../constant/color';
-import { useMini } from '../../../hook/useMini';
+import useMini from '../../../hook/useMini';
 
 interface Props {
   data: MeetingDetail | undefined;

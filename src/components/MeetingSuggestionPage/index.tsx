@@ -12,7 +12,7 @@ import { analytics } from '../../App';
 import bulb from '../../assets/icon/bulb.svg';
 import { COLOR } from '../../constant/color';
 import { SUGGESTION } from '../../constant/message';
-import { useMini } from '../../hook/useMini';
+import useMini from '../../hook/useMini';
 import useViewportSize from '../../hook/useViewportSize';
 import { userInfoAtom } from '../../store/user';
 import { checkMobileType } from '../../util/utils';

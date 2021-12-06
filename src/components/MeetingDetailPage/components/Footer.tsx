@@ -5,7 +5,7 @@ import { MeetingDetail } from 'meeting';
 
 import { COLOR } from '../../../constant/color';
 import { MEETING_DETAIL } from '../../../constant/message';
-import { useMini } from '../../../hook/useMini';
+import useMini from '../../../hook/useMini';
 
 interface Props {
   data: MeetingDetail | undefined;
