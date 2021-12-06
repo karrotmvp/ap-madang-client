@@ -141,13 +141,7 @@ const MeetingDetailPage = () => {
     } else if (matchId?.params.id) {
       addAlarmHandler(userInfo);
     }
-  }, [
-    addAlarmHandler,
-    data.alarm_id,
-    deleteAlarmHandler,
-    matchId.params.id,
-    userInfo,
-  ]);
+  }, [addAlarmHandler, data, deleteAlarmHandler, matchId.params.id, userInfo]);
 
   // 모임 참여 버튼 핸들러
   const onClickJoinHandler = useCallback(

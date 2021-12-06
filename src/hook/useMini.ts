@@ -1,6 +1,8 @@
-import jwt_decode, { JwtPayload } from 'jwt-decode';
 import { useCallback } from 'react';
+
+import jwt_decode, { JwtPayload } from 'jwt-decode';
 import { useRecoilState } from 'recoil';
+
 import { login } from '../api/user';
 import { userInfoAtom } from '../store/user';
 import mini from '../util/mini';
@@ -14,14 +16,17 @@ export const useMini = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
 
   // update user info
-  const updateUserInfo = async (token: string) => {
-    window.localStorage.setItem('Authorization', token);
-    const decodeToken: TokenPayloadType = jwt_decode(token);
-    setUserInfo({
-      nickname: decodeToken.nickname,
-      region: decodeToken.region,
-    });
-  };
+  const updateUserInfo = useCallback(
+    async (token: string) => {
+      window.localStorage.setItem('Authorization', token);
+      const decodeToken: TokenPayloadType = jwt_decode(token);
+      setUserInfo({
+        nickname: decodeToken.nickname,
+        region: decodeToken.region,
+      });
+    },
+    [setUserInfo],
+  );
 
   // fetch login
   const fetchLoginUser = useCallback(
@@ -39,26 +44,29 @@ export const useMini = () => {
         }
       }
     },
-    [],
+    [updateUserInfo],
   );
 
   // with Third-party agreement handler
-  const loginWithMini = useCallback(async (runOnSuccess?: () => void) => {
-    if (userInfo) {
-      runOnSuccess && runOnSuccess();
-      return;
-    }
+  const loginWithMini = useCallback(
+    async (runOnSuccess?: () => void) => {
+      if (userInfo) {
+        runOnSuccess && runOnSuccess();
+        return;
+      }
 
-    mini.startPreset({
-      preset: process.env.MINI_PRESET_URL || '',
-      params: { appId: process.env.APP_ID || '' },
-      onSuccess: async function (result) {
-        if (result && result.code) {
-          fetchLoginUser(result.code, runOnSuccess);
-        }
-      },
-    });
-  }, []);
+      mini.startPreset({
+        preset: process.env.MINI_PRESET_URL || '',
+        params: { appId: process.env.APP_ID || '' },
+        onSuccess: async function (result) {
+          if (result && result.code) {
+            fetchLoginUser(result.code, runOnSuccess);
+          }
+        },
+      });
+    },
+    [fetchLoginUser, userInfo],
+  );
 
   // without Third-party agreement handler
   const loginWithoutMini = useCallback(() => {
@@ -78,7 +86,7 @@ export const useMini = () => {
       }
     }
     fetchLoginUser(code);
-  }, []);
+  }, [fetchLoginUser, setUserInfo]);
 
   // Leave miniapp
   const ejectApp = () => {
