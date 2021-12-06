@@ -60,7 +60,7 @@ function MiddleScreenHelmet({
     <ScreenHelmet>
       <AppendLeft>{leftButton}</AppendLeft>
       <AppendMiddle>{appendMiddle}</AppendMiddle>
-      <AppendRight>{appendRight ? appendRight : ':'}</AppendRight>
+      <AppendRight>{appendRight && appendRight}</AppendRight>
     </ScreenHelmet>
   );
 }
