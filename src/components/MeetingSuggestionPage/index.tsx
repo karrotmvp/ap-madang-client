@@ -79,7 +79,7 @@ const MeetingSuggestionPage = () => {
       }
     >
       <CustomScreenHelmet
-        appendLeft={<PageTitle>{SUGGESTION.NAVIGATOR_TITLE}</PageTitle>}
+        appendMiddle={<PageTitle>{SUGGESTION.NAVIGATOR_TITLE}</PageTitle>}
       />
       <ContentsWrapper isSubmit={submit}>
         <IconWrapper>
@@ -172,7 +172,6 @@ const PageTitle = styled.div`
   font-size: 1.6rem;
   line-height: 2.4rem;
   letter-spacing: -0.03em;
-  margin-left: 3.2rem;
   box-sizing: border-box;
 `;
 

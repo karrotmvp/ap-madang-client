@@ -43,7 +43,7 @@ function WaitingRoom({
       <CustomScreenHelmet
         onCustomBackButton={goBackHandler}
         onCustomCloseButton={goBackHandler}
-        appendLeft={<PageTitle src={nav_logo} />}
+        appendMiddle={<PageTitle src={nav_logo} />}
       />
       {callState.state === 'error' ? (
         <ContentsWrapper className="join WaitingRoom">

@@ -29,7 +29,6 @@ import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../common/Modal/NewAlarmModal';
 import AlarmFooter from './components/AlarmFooter';
 import AudioMeetBottomSheet from './components/AudioMeetBottomSheet';
-import DescriptionList from './components/DescriptionList';
 import Footer from './components/Footer';
 import MeetingMannerCard from './components/MannerCard';
 import ZoomBottomSheet from './components/ZoomBottomSheet';
@@ -206,9 +205,13 @@ const MeetingDetailPage = () => {
   return (
     <PageWrapper className="meeting-detail">
       <CustomScreenHelmet
-        appendLeft={
+        appendMiddle={
           isRoot && <PageTitle onClick={() => replace('/')} src={nav_logo} />
         }
+              src={trailing_icon}
+              onClick={() => setMoreActionState('menu')}
+            />
+          )
       />
       {modal}
       <ContentsWrapper
@@ -324,8 +327,7 @@ const PageWrapper = styled.div`
 `;
 
 const PageTitle = styled.img`
-  margin-left: 3.2rem;
-  height: 33%;
+  height: 1.43rem;
   width: auto;
 `;
 

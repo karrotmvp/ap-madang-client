@@ -10,8 +10,8 @@ import video_active from '../../assets/icon/createMeeting/video_active.svg';
 import video_disabled from '../../assets/icon/createMeeting/video_disabled.svg';
 import { COLOR } from '../../constant/color';
 import { CREATE_MEETING } from '../../constant/message';
+import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
-import MiddleScreenHelmet from '../common/MiddleScreenHelmet';
 import DatePicker from './components/DatePicker';
 import EditableTextarea from './components/EditableTextarea';
 import TimePicker from './components/TimePicker';
@@ -76,7 +76,7 @@ function CreateMeetingForm(): ReactElement {
 
   return (
     <CreateMeeting>
-      <MiddleScreenHelmet
+      <CustomScreenHelmet
         appendMiddle={<PageTitle>{CREATE_MEETING.NAVIGATOR_TITLE}</PageTitle>}
       />
       <Title>

@@ -52,7 +52,7 @@ const LandingPage: React.FC = () => {
 
   return (
     <PageWrapper className="landing">
-      <CustomScreenHelmet appendLeft={<PageTitle src={nav_logo} />} />
+      <CustomScreenHelmet appendMiddle={<PageTitle src={nav_logo} />} />
       <BannerImg
         src={home_banner}
         className="landing__banner-img"
@@ -107,8 +107,7 @@ const PageWrapper = styled.div`
 `;
 
 const PageTitle = styled.img`
-  margin-left: 3.2rem;
-  height: 33%;
+  height: 1.43rem;
   width: auto;
 `;
 
