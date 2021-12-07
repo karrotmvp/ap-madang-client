@@ -3,9 +3,9 @@ import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 import { MeetingDetail } from 'meeting';
 
-import { COLOR } from '../../../constant/color';
-import { MEETING_DETAIL } from '../../../constant/message';
-import useMini from '../../../hook/useMini';
+import { COLOR } from '../../../../constant/color';
+import { MEETING_DETAIL } from '../../../../constant/message';
+import useMini from '../../../../hook/useMini';
 
 interface Props {
   data: MeetingDetail | undefined;

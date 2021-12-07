@@ -4,12 +4,12 @@ import styled from '@emotion/styled';
 import { useCurrentScreen } from '@karrotframe/navigator';
 import { MeetingDetail } from 'meeting';
 
-import fire_emoji from '../../../assets/icon/detailPage/fire_emoji.svg';
-import notification_empty_green from '../../../assets/icon/detailPage/notification_empty_green.svg';
-import notification_fill_white from '../../../assets/icon/detailPage/notification_fill_white.svg';
-import smile_emoji from '../../../assets/icon/detailPage/smile_emoji.svg';
-import { COLOR } from '../../../constant/color';
-import useMini from '../../../hook/useMini';
+import fire_emoji from '../../../../assets/icon/detailPage/fire_emoji.svg';
+import notification_empty_green from '../../../../assets/icon/detailPage/notification_empty_green.svg';
+import notification_fill_white from '../../../../assets/icon/detailPage/notification_fill_white.svg';
+import smile_emoji from '../../../../assets/icon/detailPage/smile_emoji.svg';
+import { COLOR } from '../../../../constant/color';
+import useMini from '../../../../hook/useMini';
 
 interface Props {
   data: MeetingDetail | undefined;
