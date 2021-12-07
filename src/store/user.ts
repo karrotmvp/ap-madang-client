@@ -4,6 +4,7 @@ export type UserInfoType =
   | {
       nickname: string;
       region: string;
+      profile_image_url: string;
     }
   | undefined;
 
