@@ -13,6 +13,17 @@ export const getMeetings = async (region_id: string) => {
   }
 };
 
+export const getMyMeetings = async () => {
+  try {
+    const result: getMeetingsRes = await customAxios().get(
+      `/users/me/meetings`,
+    );
+    return { success: true, data: result.data };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
 export const getMeetingDetail = async (
   id: string,
 ): Promise<getMeetingDetailRes> => {
