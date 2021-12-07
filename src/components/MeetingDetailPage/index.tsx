@@ -3,6 +3,7 @@ import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useCurrentScreen, useNavigator } from '@karrotframe/navigator';
+import dayjs from 'dayjs';
 import { MeetingDetail } from 'meeting';
 import { useRouteMatch } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
@@ -14,7 +15,7 @@ import { analytics } from '../../App';
 import back_arrow_green from '../../assets/icon/detailPage/back_arrow_green.svg';
 import camera_meeting_tag__gray from '../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
 import clock from '../../assets/icon/detailPage/clock.svg';
-import info_circle from '../../assets/icon/detailPage/info_circle.svg';
+import trailing_icon from '../../assets/icon/detailPage/trailing_icon.svg';
 import voice_meeting_tag__gray from '../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
 import person from '../../assets/icon/person.svg';
 import nav_logo from '../../assets/image/nav_logo.png';
@@ -26,10 +27,14 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
 import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../common/Modal/NewAlarmModal';
-import AlarmFooter from './components/AlarmFooter';
 import AudioMeetBottomSheet from './components/AudioMeetBottomSheet';
-import Footer from './components/Footer';
+import AlarmFooter from './components/Footer/AlarmFooter';
+import FinishFooter from './components/Footer/FinishFooter';
+import Footer from './components/Footer/Footer';
+import HostFooter from './components/Footer/HostFooter';
 import MeetingMannerCard from './components/MannerCard';
+import MoreActionModal from './components/MoreActionModal';
+import UserProfile from './components/UserProfile';
 import ZoomBottomSheet from './components/ZoomBottomSheet';
 
 interface MatchParams {
@@ -40,6 +45,9 @@ const MeetingDetailPage = () => {
   const [data, setData] = useState<MeetingDetail | undefined>(undefined);
   const [modal, setModal] = useState<React.ReactElement | undefined>(undefined);
   const [sendLogEvent, setSendLogEvent] = useState(false);
+  const [moreActionState, setMoreActionState] = useState<
+    undefined | 'menu' | 'delete'
+  >(undefined);
   const { isRoot, isTop } = useCurrentScreen();
   const { pop, replace } = useNavigator();
 
@@ -202,11 +210,22 @@ const MeetingDetailPage = () => {
         appendMiddle={
           isRoot && <PageTitle onClick={() => replace('/')} src={nav_logo} />
         }
+        appendRight={
+          data?.is_host && (
+            <TrailingIcon
               src={trailing_icon}
               onClick={() => setMoreActionState('menu')}
             />
           )
+        }
       />
+      {moreActionState && data?.is_host && (
+        <MoreActionModal
+          state={moreActionState}
+          setState={setMoreActionState}
+          id={matchId.params.id}
+        />
+      )}
       {modal}
       <ContentsWrapper
         className="meeting-detail__contents"
@@ -218,6 +237,14 @@ const MeetingDetailPage = () => {
           <BannerImg src={data?.image} />
         </BannerWrapper>
         <TagWrapper>
+          <TagMessageBubbleOutside>
+            <TagMessageBubble>
+              {data?.is_video
+                ? MEETING_DETAIL.IS_VIDEO
+                : MEETING_DETAIL.IS_VOICE}
+            </TagMessageBubble>
+          </TagMessageBubbleOutside>
+
           {data?.is_video ? (
             <Tag src={camera_meeting_tag__gray} />
           ) : (
@@ -227,15 +254,16 @@ const MeetingDetailPage = () => {
         <TitleWrapper className="meeting-detail__header">
           <Title className="title1">{data?.title}</Title>
         </TitleWrapper>
+        {data?.host && <UserProfile hostInfo={data.host} />}
         <Divider size="0.1rem" color={COLOR.GREY_200} />
         <SummaryWrapper>
           <SummaryInfo className="summary-info">
             <SummaryIcon src={clock} />
             <SummaryDiscription className="body4">
               {data &&
-                `${getDateToText(data?.start_time)} ~ ${getDateToText(
-                  data?.end_time,
-                )}`}
+                `${dayjs(data?.date).format('MM월 DD일 dddd')} ${getDateToText(
+                  data?.start_time,
+                )} ~ ${getDateToText(data?.end_time)}`}
             </SummaryDiscription>
           </SummaryInfo>
           {data?.live_status === 'live' && (
@@ -246,14 +274,6 @@ const MeetingDetailPage = () => {
               </SummaryDiscription>
             </SummaryInfo>
           )}
-          <SummaryInfo className="summary-info">
-            <SummaryIcon src={info_circle} />
-            <SummaryDiscription className="body4">
-              {data?.is_video
-                ? MEETING_DETAIL.IS_VIDEO
-                : MEETING_DETAIL.IS_VOICE}
-            </SummaryDiscription>
-          </SummaryInfo>
         </SummaryWrapper>
         <Divider size="1.2rem" />
 
@@ -264,17 +284,6 @@ const MeetingDetailPage = () => {
           {data?.description.text}
         </UserDiscriptionWrapper>
         <Divider size="0.1rem" />
-
-        <DescriptionWrapper className="meeting-detail__body">
-          <DescriptionList
-            title={MEETING_DETAIL.DESCRIPTION_TITLE1}
-            data={data?.description.recommend_user}
-          />
-          <DescriptionList
-            title={MEETING_DETAIL.DESCRIPTION_TITLE2}
-            data={data?.description.recommend_topic}
-          />
-        </DescriptionWrapper>
         {isRoot && (
           <>
             <Divider size="1.2rem" />
@@ -297,7 +306,12 @@ const MeetingDetailPage = () => {
         <Divider size="1.2rem" />
         <MeetingMannerCard className="meeting-detail__manner-card" />
       </ContentsWrapper>
-      {data?.live_status !== 'live' && data?.live_status !== 'finish' ? (
+
+      {data?.live_status === 'finish' ? (
+        <FinishFooter />
+      ) : data?.is_host && data?.live_status !== 'live' ? (
+        <HostFooter data={data} />
+      ) : data?.live_status !== 'live' && data?.live_status !== 'finish' ? (
         <AlarmFooter
           data={data}
           alarmHandler={alarmHandler}
@@ -325,6 +339,10 @@ const PageTitle = styled.img`
   width: auto;
 `;
 
+const TrailingIcon = styled.img`
+  /* margin-right: 1.6rem; */
+`;
+
 const BannerWrapper = styled.div`
   width: 100%;
   height: 16.6rem;
@@ -340,13 +358,54 @@ const BannerImg = styled.img`
 `;
 
 const TagWrapper = styled.div`
-  margin: 1.6rem 0 0.8rem 1.6rem;
+  box-sizing: border-box;
+  position: relative;
+  margin: 1.6rem 1.6rem 0.8rem 1.6rem;
+  display: flex;
+  flex-direction: column;
 `;
 
-const Tag = styled.img``;
+const TagMessageBubbleOutside = styled.div`
+  position: relative;
+`;
+
+const TagMessageBubble = styled.div`
+  position: absolute;
+  padding: 0.8rem 1.4rem;
+  background: #3ea36a;
+  border-radius: 0.6rem;
+  bottom: 1rem;
+  font-size: 1.3rem;
+  line-height: 2rem;
+  color: ${COLOR.TEXT_WHITE};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 3.4rem;
+    width: 0;
+    height: 0;
+    border: 0.7rem solid transparent;
+    border-top-color: #3ea36a;
+    border-bottom: 0;
+    margin-left: -0.7rem;
+    margin-bottom: -0.7rem;
+  }
+`;
+
+const Tag = styled.img`
+  width: 6.8rem;
+`;
 
 const ContentsWrapper = styled.div<{ bottomPadding: string }>`
+  width: 100%;
   flex: 1;
+  overflow-x: hidden;
   overflow-y: auto;
   padding-bottom: ${({ bottomPadding }) => bottomPadding};
 `;
@@ -354,7 +413,7 @@ const ContentsWrapper = styled.div<{ bottomPadding: string }>`
 const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0.8rem 1.6rem 2.4rem 1.6rem;
+  margin: 0.6rem 1.6rem 1.2rem 1.6rem;
 `;
 
 const Title = styled.div`
@@ -362,7 +421,7 @@ const Title = styled.div`
 `;
 
 const SummaryWrapper = styled.div`
-  margin: 2rem 1.6rem 3rem 1.6rem;
+  margin: 2rem 1.6rem;
 
   .summary-info:last-child {
     margin-bottom: 0;
@@ -381,7 +440,7 @@ const SummaryIcon = styled.img`
 `;
 
 const SummaryDiscription = styled.div`
-  color: ${COLOR.TEXT_GREY};
+  color: ${COLOR.TEXT_BLACK};
   margin-left: 0.4rem;
   letter-spacing: -0.03rem;
 `;
@@ -400,10 +459,6 @@ const UserDiscriptionTitle = styled.div`
   line-height: 2.3rem;
   margin-bottom: 1.6rem;
   color: ${COLOR.TEXT_BLACK};
-`;
-
-const DescriptionWrapper = styled.div`
-  padding: 3.2rem 1.6rem 1.4rem 1.6rem;
 `;
 
 const GoHomeWrapper = styled.div`
