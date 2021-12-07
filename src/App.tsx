@@ -41,6 +41,7 @@ const App: React.FC = () => {
     >
       <Screen path="/" component={LandingPage} />
       <Screen path="/guide" component={OnBoardPage} />
+      <Screen path="/me" component={MyPage} />
       <Screen path="/meetings/:id" component={MeetingDetailPage} />
       <Screen path="/create" component={CreateMeetingForm} />
       <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
