@@ -39,6 +39,7 @@ const App: React.FC = () => {
       onClose={ejectApp}
       className={NavigatorStyle}
     >
+      <ToastContainer position="bottom-center" delay={2000} />
       <Screen path="/" component={LandingPage} />
       <Screen path="/guide" component={OnBoardPage} />
       <Screen path="/me" component={MyPage} />
