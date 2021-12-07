@@ -13,7 +13,6 @@ import { analytics } from '../../App';
 import home_banner from '../../assets/image/home_banner.png';
 import nav_logo from '../../assets/image/nav_logo.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
-import { LANDING } from '../../constant/message';
 import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
 import { getRegionId } from '../../util/utils';
@@ -37,6 +36,10 @@ const LandingPage: React.FC = () => {
     if (result.success && result.data) setMeetings(result.data);
   }, [setMeetings]);
 
+  const myPageHandler = () => {
+    push('/me');
+  };
+
   useEffect(() => {
     if (redirectUrl) replace(redirectUrl);
   }, [redirectUrl, replace]);
@@ -51,13 +54,17 @@ const LandingPage: React.FC = () => {
 
   return (
     <PageWrapper className="landing">
-      <CustomScreenHelmet appendMiddle={<PageTitle src={nav_logo} />} />
+      <CustomScreenHelmet
+        appendMiddle={<PageTitle src={nav_logo} />}
+        appendRight={<UserIcon onClick={() => loginWithMini(myPageHandler)} />}
+      />
       <BannerImg
         src={home_banner}
         className="landing__banner-img"
         onClick={() => push('/guide')}
       />
-      <div onClick={() => push('/create/form1')}>이동 </div>
+      <div onClick={() => push('/create')}>이동 </div>
+      <div onClick={() => push('/me')}>이동 </div>
       {meetings.filter(el => el.live_status === 'live').length !== 0 && (
         <div>
           <CurrMeetingList
@@ -67,26 +74,21 @@ const LandingPage: React.FC = () => {
           <Divider className="landing__divider" size="1rem" />
         </div>
       )}
-      {meetings.filter(el => el.live_status === 'upcoming').length !== 0 && (
+      {meetings.filter(
+        el => el.live_status !== 'live' && el.live_status !== 'finish',
+      ).length !== 0 && (
         <div>
           <MeetingList
             className="landing__upoming"
-            title={LANDING.UPCOMING_MEETING}
-            meetings={meetings.filter(el => el.live_status === 'upcoming')}
+            meetings={meetings.filter(
+              el => el.live_status !== 'live' && el.live_status !== 'finish',
+            )}
             hasMeetings={meetings.length !== 0 ? true : false}
             setMeetings={setMeetings}
           />
           <Divider className="landing__divider" size="1rem" />
         </div>
       )}
-      <MeetingList
-        className="landing__tomorrow"
-        title={LANDING.TOMORROW_MEETING}
-        meetings={meetings.filter(el => el.live_status === 'tomorrow')}
-        hasMeetings={meetings.length !== 0 ? true : false}
-        setMeetings={setMeetings}
-      />
-      <Divider className="landing__divider" size="1rem" />
       <SuggestionBannerWrapper>
         <SuggestionImg
           src={suggestion_img}
@@ -99,7 +101,7 @@ const LandingPage: React.FC = () => {
 
 const PageWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -108,6 +110,13 @@ const PageWrapper = styled.div`
 const PageTitle = styled.img`
   height: 1.43rem;
   width: auto;
+`;
+
+const UserIcon = styled.div`
+  background: gray;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
 `;
 
 const BannerImg = styled.img`

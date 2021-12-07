@@ -5,12 +5,11 @@ import classnames from 'classnames';
 import { MeetingList } from 'meeting';
 
 import { COLOR } from '../../../../constant/color';
-import { LANDING } from '../../../../constant/message';
+import Divider from '../../../common/Divider';
 import MeetingCard from '../MeetingCard/MeetingCard';
 import SkeletonCard from '../MeetingCard/SkeletonCard';
 
 interface Props {
-  title: string;
   className?: string;
   meetings: MeetingList[];
   hasMeetings: boolean;
@@ -18,7 +17,6 @@ interface Props {
 }
 
 function MeetingList({
-  title,
   className,
   meetings,
   hasMeetings,
@@ -27,33 +25,26 @@ function MeetingList({
   return (
     <MeetingListWrapper className={classnames('meeting-list', className)}>
       <ListTitle>
-        {title === LANDING.UPCOMING_MEETING ? (
-          <Title>
-            {LANDING.UPCOMING_MEETING_01}
-            <MeetingCounter className="title2 meeting-list__counter">
-              {meetings && meetings.length.toString()}
-            </MeetingCounter>
-            {LANDING.UPCOMING_MEETING_02}
-          </Title>
-        ) : (
-          <Title>
-            {title}
-            <MeetingCounter className="title2 meeting-list__counter">
-              {meetings && meetings.length.toString()}
-            </MeetingCounter>
-          </Title>
-        )}
+        <Title>
+          다가오는 모임
+          <MeetingCounter className="title2 meeting-list__counter">
+            {meetings && meetings.length.toString()}
+          </MeetingCounter>
+        </Title>
       </ListTitle>
 
       {meetings.length !== 0 ? (
         meetings.map((el, idx) => {
           return (
-            <MeetingCard
-              key={el.id}
-              data={el}
-              idx={idx}
-              setMeetings={setMeetings}
-            />
+            <div key={el.id}>
+              <MeetingCard
+                key={el.id}
+                data={el}
+                idx={idx}
+                setMeetings={setMeetings}
+              />
+              {meetings.length - 1 !== idx && <Divider size="0.1rem" />}
+            </div>
           );
         })
       ) : (

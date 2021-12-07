@@ -13,9 +13,7 @@ function ParticipantNum({ userMeetingNum }: Props): ReactElement {
   return (
     <ParticipantNumWrapper>
       <ParticipantIcon src={person} />
-      <Participant className="body4">
-        누적 참여자 {userMeetingNum}명
-      </Participant>
+      <Participant>누적 참여자 {userMeetingNum}명</Participant>
     </ParticipantNumWrapper>
   );
 }
@@ -24,15 +22,17 @@ const ParticipantNumWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-top: 0.4rem;
 `;
 
 const ParticipantIcon = styled.img`
-  margin-right: 0.4rem;
+  margin-right: 0.6rem;
 `;
 
 const Participant = styled.div`
-  color: ${COLOR.TEXT_GREY};
+  font-size: 1.3rem;
+  line-height: 2rem;
+  color: ${COLOR.FONT_BODY_GREY};
 `;
 
 export default ParticipantNum;

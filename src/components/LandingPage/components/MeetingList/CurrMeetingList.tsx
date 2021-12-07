@@ -11,15 +11,16 @@ import CurrMeetingCard from '../MeetingCard/CurrMeetingCard';
 interface Props {
   className?: string;
   meetings: MeetingList[];
+  title?: string;
 }
 
-function CurrMeetingList({ className, meetings }: Props): ReactElement {
+function CurrMeetingList({ className, meetings, title }: Props): ReactElement {
   return (
     <CurrMeetingListWrapper
       className={classnames('curr-meeting-list', className)}
     >
       <TitleWrapper>
-        <Title>{LANDING.CURRENT_MEETING}</Title>
+        <Title>{title ? title : LANDING.CURRENT_MEETING}</Title>
       </TitleWrapper>
       <CardWrapper>
         {meetings.map((el, idx) => {

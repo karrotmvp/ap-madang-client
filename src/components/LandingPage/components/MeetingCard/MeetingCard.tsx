@@ -3,21 +3,22 @@ import React, { ReactElement, useCallback, useState } from 'react';
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
-import { MeetingList } from 'meeting';
+import { LiveStatus, MeetingList } from 'meeting';
 import { useRecoilValue } from 'recoil';
 
 import { deleteAlarm, newAlarm } from '../../../../api/alarm';
 import { analytics } from '../../../../App';
 import card_noti_off from '../../../../assets/icon/card_noti_off.svg';
 import card_noti_on from '../../../../assets/icon/card_noti_on.svg';
-import camera_meeting_tag__gray from '../../../../assets/icon/home/camera_meeting_tag__gray.svg';
-import voice_meeting_tag__gray from '../../../../assets/icon/home/voice_meeting_tag__gray.svg';
+import video_upcoming_tag from '../../../../assets/icon/home/video_upcoming_tag.svg';
+import voice_upcoming_tag from '../../../../assets/icon/home/voice_upcoming_tag.svg';
 import { COLOR } from '../../../../constant/color';
 import useMini from '../../../../hook/useMini';
 import { userInfoAtom } from '../../../../store/user';
 import { getTimeForm } from '../../../../util/utils';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../../../common/Modal/NewAlarmModal';
+import UserProfile from '../UserProfile';
 
 interface Props {
   data: MeetingList;
@@ -27,7 +28,7 @@ interface Props {
 
 interface WrapperProps {
   idx: number;
-  live_status: 'live' | 'upcoming' | 'tomorrow' | 'finish';
+  live_status: LiveStatus;
 }
 
 function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
@@ -139,13 +140,37 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
           deleteAlarmHandler={deleteAlarmHandler}
         />
       )}
-      <ContentsWrapper className="meeting-card__contents">
-        <CardHeader>
+      <CardImageWrapper>
+        <TagWrapper>
           <MeetingTypeTag
-            src={
-              data.is_video ? camera_meeting_tag__gray : voice_meeting_tag__gray
-            }
+            src={data.is_video ? video_upcoming_tag : voice_upcoming_tag}
           />
+        </TagWrapper>
+
+        <CardImage src={data.image} />
+      </CardImageWrapper>
+      <ContentsWrapper className="meeting-card__contents">
+        <InfoWrapper>
+          <MeetingTime className="body3 meeting-card__time">
+            {getTimeForm(
+              data.start_time,
+              data.end_time,
+              data.live_status,
+              true,
+            )}
+          </MeetingTime>
+
+          <MeetingTitle className="title3 meeting-card__title">
+            {data.title}
+          </MeetingTitle>
+
+          <UserProfile
+            profileUrl={data.host.profile_image_url}
+            nickname={data.host.nickname}
+            region={data.host.region_name || ''}
+          />
+        </InfoWrapper>
+        <AlarmWrapper>
           <AlarmBtn
             hasAlarm={data.alarm_id ? true : false}
             className="meeting-card__alarm-icon"
@@ -157,65 +182,69 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
             <AlarmIcon src={data.alarm_id ? card_noti_on : card_noti_off} />
             {data.alarm_num}
           </AlarmBtn>
-        </CardHeader>
-        <InfoWrapper>
-          <MeetingTime className="body3 meeting-card__time">
-            {getTimeForm(
-              data.start_time,
-              data.end_time,
-              data.live_status,
-              true,
-            )}
-          </MeetingTime>
-
-          <MeetingTitle
-            className="title3 meeting-card__title"
-            live_status={data.live_status}
-          >
-            {data.title}
-          </MeetingTitle>
-        </InfoWrapper>
+        </AlarmWrapper>
       </ContentsWrapper>
-      {data.live_status === 'upcoming' && (
-        <CardFooter className="body3 meeting-card__footer">
-          <FooterText>{data.description_text}</FooterText>
-        </CardFooter>
-      )}
     </MeetingCardWrapper>
   );
 }
 
 const MeetingCardWrapper = styled.div<WrapperProps>`
   box-sizing: border-box;
-  margin: 0 0 1.6rem 0;
+  margin: 1.8rem 0;
   height: auto;
-  padding: 1.1rem 1.5rem 1.7rem 1.5rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   word-break: keep-all;
   background-color: ${COLOR.TEXT_WHITE};
-  border-radius: 0.6rem;
-  border: 1px solid ${COLOR.GREY_200};
+
   box-sizing: border-box;
-  margin-top: ${props => (props.idx === 0 ? '1.8rem' : 0)};
+  /* margin-top: ${props => (props.idx === 0 ? '1.8rem' : 0)}; */
 `;
 
 const ContentsWrapper = styled.div`
+  width: calc(100% - 8rem);
+  padding-left: 1.4rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
 `;
 
+const CardImageWrapper = styled.div`
+  width: 8rem;
+  height: 8rem;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.6rem;
+`;
+
+const TagWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+
+  display: flex;
+  flex-direction: row;
+  z-index: 1;
+`;
+
+const CardImage = styled.img`
+  width: auto;
+  height: 8rem;
+  object-fit: cover;
+  border-radius: 0.6rem;
+`;
+
 const InfoWrapper = styled.div`
+  width: calc(100% - 3rem);
   display: flex;
   flex-direction: column;
 `;
 
-const MeetingTypeTag = styled.img`
-  width: 6.8rem;
-  height: 2.4rem;
-  margin-bottom: 0.6rem;
-`;
+const MeetingTypeTag = styled.img``;
 
 const AlarmBtn = styled.div<{ hasAlarm: boolean }>`
   display: flex;
@@ -245,43 +274,34 @@ const AlarmIcon = styled.img`
   margin-right: 0.2rem;
 `;
 
-const CardHeader = styled.div`
-  width: 100%;
+const AlarmWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: center;
 `;
 
 const MeetingTime = styled.div`
   color: ${COLOR.LIGHT_GREEN};
 `;
 
-interface MeetingTitleType {
-  live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
-}
-
 const MeetingTitle = styled.div`
+  width: 100%;
+  padding-right: 0.7rem;
+  max-height: 5.2rem;
   color: ${COLOR.TEXT_BLACK};
-  margin-bottom: ${({ live_status }: MeetingTitleType) =>
-    live_status === 'upcoming' ? '0.8rem' : '0'};
-`;
+  margin-bottom: 0.8rem;
 
-const CardFooter = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: box;
 
-const FooterText = styled.div`
-  font-size: 1.4rem;
-  line-height: 1.7rem;
-  letter-spacing: -0.02rem;
-  color: ${COLOR.FONT_BODY_GREY};
-  white-space: nowrap;
+  max-height: 5.2rem;
   overflow: hidden;
+  vertical-align: top;
   text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 `;
-
 export default MeetingCard;
