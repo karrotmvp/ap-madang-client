@@ -3,12 +3,14 @@ import React, { useEffect } from 'react';
 import { css } from '@emotion/css';
 import { Navigator, Screen } from '@karrotframe/navigator';
 import { getAnalytics, logEvent } from 'firebase/analytics';
+import { ToastContainer } from 'react-toast';
 
 import CreateMeetingForm from './components/CreateMeetingPage/CreateMeetingForm';
 import LandingPage from './components/LandingPage';
 import MeetingDetailPage from './components/MeetingDetailPage';
 const AgoraPage = React.lazy(() => import('./components/MeetingPage'));
 import MeetingSuggestionPage from './components/MeetingSuggestionPage';
+import MyPage from './components/MyPage';
 import NotFoundPage from './components/NotFountPage';
 import NotServiceRegionPage from './components/NotServiceRegionPage';
 import OnBoardPage from './components/OnBoardPage';
@@ -24,11 +26,12 @@ const NavigatorStyle = css`
 export const analytics = getAnalytics(app);
 
 const App: React.FC = () => {
-  const { ejectApp } = useMini();
+  const { ejectApp, loginWithoutMini } = useMini();
 
   useEffect(() => {
     logEvent(analytics, 'launch_app');
-  }, []);
+    loginWithoutMini();
+  }, [loginWithoutMini]);
 
   return (
     <Navigator

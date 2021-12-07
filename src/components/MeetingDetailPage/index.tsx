@@ -20,7 +20,6 @@ import person from '../../assets/icon/person.svg';
 import nav_logo from '../../assets/image/nav_logo.png';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
-import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
 import { getDateToText } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
@@ -43,7 +42,6 @@ const MeetingDetailPage = () => {
   const [sendLogEvent, setSendLogEvent] = useState(false);
   const { isRoot, isTop } = useCurrentScreen();
   const { pop, replace } = useNavigator();
-  const { loginWithoutMini } = useMini();
 
   const userInfo = useRecoilValue(userInfoAtom);
 
@@ -197,10 +195,6 @@ const MeetingDetailPage = () => {
   useEffect(() => {
     hideModal();
   }, [isTop]);
-
-  useEffect(() => {
-    loginWithoutMini();
-  }, [loginWithoutMini]);
 
   return (
     <PageWrapper className="meeting-detail">

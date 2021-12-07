@@ -25,11 +25,11 @@ import { useRedirect } from './useRedirect';
 
 const LandingPage: React.FC = () => {
   const { push, replace } = useNavigator();
-  const { loginWithoutMini } = useMini();
 
   const [meetings, setMeetings] = useState<MeetingListType[]>([]);
   const userInfo = useRecoilValue(userInfoAtom);
   const redirectUrl = useRedirect();
+  const { loginWithMini } = useMini();
 
   const meetingListHandler = useCallback(async () => {
     const region_id = getRegionId(window.location.search);
@@ -46,9 +46,8 @@ const LandingPage: React.FC = () => {
   }, [meetingListHandler, push, userInfo]);
 
   useEffect(() => {
-    loginWithoutMini();
     logEvent(analytics, 'landing_page__show');
-  }, [loginWithoutMini]);
+  }, []);
 
   return (
     <PageWrapper className="landing">
