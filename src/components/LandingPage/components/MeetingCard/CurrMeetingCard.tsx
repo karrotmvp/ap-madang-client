@@ -2,7 +2,7 @@ import React, { ReactElement, useCallback } from 'react';
 
 import styled from '@emotion/styled';
 import { useNavigator } from '@karrotframe/navigator';
-import { MeetingList } from 'meeting';
+import { LiveStatus, MeetingList } from 'meeting';
 
 import camera_meeting_tag__gray from '../../../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
 import voice_meeting_tag__gray from '../../../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
@@ -18,7 +18,7 @@ interface Props {
 
 interface WrapperProps {
   idx: number;
-  live_status: 'live' | 'upcoming' | 'tomorrow' | 'finish';
+  live_status: LiveStatus;
 }
 
 function CurrMeetingCard({ idx, data }: Props): ReactElement {

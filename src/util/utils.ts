@@ -2,6 +2,7 @@ import { INavigatorTheme } from '@karrotframe/navigator';
 import { UID } from 'agora-rtc-sdk-ng';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+import { LiveStatus } from 'meeting';
 dayjs.extend(duration);
 
 export const checkMobileType = (): INavigatorTheme => {
@@ -72,7 +73,7 @@ export const getDateToText = (start_time: string) => {
 export const getTimeForm = (
   start_time: string,
   end_time: string,
-  live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish',
+  live_status: LiveStatus,
   head_text?: boolean,
 ) => {
   let text = '';
@@ -86,7 +87,7 @@ export const getTimeForm = (
     )}에 모임이 종료돼요`;
 
   if (head_text && live_status === 'tomorrow') text += '내일 ';
-  else if (head_text) text += '오늘 ';
+  else if (head_text && live_status === 'today') text += '오늘 ';
   text += getTimeText(parseInt(startTimeArr[0]), parseInt(startTimeArr[1]));
   text += '~';
   text += getTimeText(parseInt(endTimeArr[0]), parseInt(endTimeArr[1]));
