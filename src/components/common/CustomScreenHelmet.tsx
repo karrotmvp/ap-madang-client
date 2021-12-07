@@ -79,6 +79,7 @@ const ScreenHelmet = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  z-index: 10000;
 `;
 
 const NavCustomBtn = styled.img``;
