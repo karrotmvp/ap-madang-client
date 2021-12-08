@@ -1,20 +1,23 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
-import { useCurrentScreen } from '@karrotframe/navigator';
+import { useCurrentScreen, useNavigator } from '@karrotframe/navigator';
 import { MeetingList as MeetingListType } from 'meeting';
 import { useRecoilValue } from 'recoil';
 
 import { getMyMeetings } from '../../api/meeting';
 import { COLOR } from '../../constant/color';
+import { MY_PAGE } from '../../constant/message';
 import { userInfoAtom } from '../../store/user';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
+import EmptyMeeting from './components/EmptyMeeting';
 import MyMeetingList from './components/MyMeetingList';
 
 function MyPage(): ReactElement {
   const [meetings, setMeetings] = useState<MeetingListType[]>([]);
   const userInfo = useRecoilValue(userInfoAtom);
+  const { push } = useNavigator();
   const { isTop } = useCurrentScreen();
 
   const fetchMeetings = async () => {
@@ -44,21 +47,26 @@ function MyPage(): ReactElement {
 
   return (
     <MyPageWrapper>
-      <CustomScreenHelmet />
+      <CustomScreenHelmet
+        appendMiddle={<PageTitle>{MY_PAGE.NAVIGATOR_TITLE}</PageTitle>}
+        appendRight={<PageTitle onClick={() => push('/create')}>+</PageTitle>}
+      />
       <UserProfileWrapper>
-        <img src={userInfo?.profile_image_url} />
+        <ProofileImg src={userInfo?.profile_image_url} />
         <InfoWrapper>
           <UserNickname>{userInfo?.nickname}</UserNickname>
           <UserRegion>{userInfo?.region}</UserRegion>
         </InfoWrapper>
       </UserProfileWrapper>
       <Divider size="1rem" />
-      {meetings.length !== 0 && (
+      {meetings.length !== 0 ? (
         <MyMeetingList
           className="my__meeting"
           title="내가 만든 모임"
           meetings={meetings}
         />
+      ) : (
+        <EmptyMeeting />
       )}
     </MyPageWrapper>
   );
@@ -69,6 +77,14 @@ const MyPageWrapper = styled.div`
   box-sizing: border-box;
 `;
 
+const PageTitle = styled.div`
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  letter-spacing: -0.03em;
+  box-sizing: border-box;
+`;
+
 const UserProfileWrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
@@ -76,6 +92,12 @@ const UserProfileWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+`;
+
+const ProofileImg = styled.img`
+  width: 6.4rem;
+  height: 6.4rem;
+  border-radius: 50%;
 `;
 
 const InfoWrapper = styled.div`
