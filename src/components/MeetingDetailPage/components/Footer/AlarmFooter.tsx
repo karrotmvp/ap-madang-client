@@ -40,11 +40,13 @@ function AlarmFooter({ data, alarmHandler }: Props): ReactElement {
             loginWithMini(alarmHandler);
           }}
         >
-          {data?.alarm_id ? (
-            <img src={notification_fill_white} />
-          ) : (
-            <img src={notification_empty_green} />
-          )}
+          <img
+            src={
+              data?.alarm_id
+                ? notification_empty_green
+                : notification_fill_white
+            }
+          />
 
           <AlarmApplicant applied={data?.alarm_id}>
             {data?.alarm_id ? '알림 받는 중' : '알림 신청하기'}
@@ -126,7 +128,7 @@ const AlarmBtn = styled.div<{ applied: number | undefined }>`
   border-radius: 0.6rem;
   border: 0.1rem solid ${COLOR.LIGHT_GREEN};
   background: ${({ applied }) =>
-    applied ? COLOR.LIGHT_GREEN : COLOR.TEXT_WHITE};
+    applied ? COLOR.TEXT_WHITE : COLOR.LIGHT_GREEN};
 `;
 
 const AlarmApplicant = styled.div<{ applied: number | undefined }>`
@@ -136,7 +138,7 @@ const AlarmApplicant = styled.div<{ applied: number | undefined }>`
   text-align: center;
   letter-spacing: -0.03rem;
   margin-left: 0.4rem;
-  color: ${({ applied }) => (applied ? COLOR.TEXT_WHITE : COLOR.LIGHT_GREEN)};
+  color: ${({ applied }) => (applied ? COLOR.LIGHT_GREEN : COLOR.TEXT_WHITE)};
   display: flex;
   flex-direction: row;
   justify-content: center;

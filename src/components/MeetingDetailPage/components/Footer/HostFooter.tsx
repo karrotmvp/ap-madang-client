@@ -35,7 +35,6 @@ const FooterWrapper = styled.div`
 
 const AlarmBtn = styled.div<{ applied: number | undefined }>`
   width: 100%;
-  margin: 1rem 1.6rem;
   height: 4.4rem;
 
   display: flex;
