@@ -89,6 +89,7 @@ interface createFormType {
   start_time: string;
   end_time: string;
   is_video: boolean;
+  image_url: string | undefined;
   description: {
     text: string;
   };
