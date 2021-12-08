@@ -10,6 +10,7 @@ import video_active from '../../assets/icon/createMeeting/video_active.svg';
 import video_disabled from '../../assets/icon/createMeeting/video_disabled.svg';
 import { COLOR } from '../../constant/color';
 import { CREATE_MEETING } from '../../constant/message';
+import useMini from '../../hook/useMini';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
 import DatePicker from './components/DatePicker';
@@ -24,7 +25,7 @@ function CreateMeetingForm(): ReactElement {
   const [date, setDate] = useState('');
   const [time, setTime] = useState({ start_time: '', end_time: '' });
   const [trySubmit, setTrySubmit] = useState(false);
-
+  const { loginWithMini } = useMini();
   const { replace } = useNavigator();
 
   const isValid = useMemo(
@@ -61,8 +62,6 @@ function CreateMeetingForm(): ReactElement {
     });
     if (!result.success) return;
     replace(`/meetings/${result.data?.id}`);
-
-    // TODO: submit data;
   }, [
     date,
     description,
@@ -200,7 +199,9 @@ function CreateMeetingForm(): ReactElement {
             </div>
           </ValidationInfo>
         </ValidationInfoWarpper>
-        <SubmitBtn onClick={onSubmitBtnHandler}>모임 생성하기</SubmitBtn>
+        <SubmitBtn onClick={() => loginWithMini(onSubmitBtnHandler)}>
+          모임 생성하기
+        </SubmitBtn>
       </SubmitArea>
     </CreateMeeting>
   );
