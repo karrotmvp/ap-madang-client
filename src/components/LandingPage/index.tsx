@@ -10,9 +10,11 @@ import { useRecoilValue } from 'recoil';
 
 import { getMeetings } from '../../api/meeting';
 import { analytics } from '../../App';
+import big_plus__white from '../../assets/icon/landingPage/big_plus__white.svg';
 import home_banner from '../../assets/image/home_banner.png';
 import nav_logo from '../../assets/image/nav_logo.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
+import { COLOR } from '../../constant/color';
 import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
 import { getRegionId } from '../../util/utils';
@@ -69,8 +71,10 @@ const LandingPage: React.FC = () => {
         className="landing__banner-img"
         onClick={() => push('/guide')}
       />
-      <div onClick={() => push('/create')}>이동 </div>
-      <div onClick={() => push('/me')}>이동 </div>
+      <CreateBtn onClick={() => push('/create')}>
+        <img src={big_plus__white} />
+      </CreateBtn>
+
       {meetings.filter(el => el.live_status === 'live').length !== 0 && (
         <div>
           <CurrMeetingList
@@ -131,6 +135,24 @@ const BannerImg = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const CreateBtn = styled.div`
+  position: fixed;
+  bottom: 3.2rem;
+  right: 2rem;
+  z-index: 1000;
+  width: 5.6rem;
+  height: 5.6rem;
+  border-radius: 50%;
+  background: ${COLOR.LIGHT_GREEN};
+  color: ${COLOR.TEXT_WHITE};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  line-height: 5.6rem;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3), 0px 4px 8px rgba(0, 0, 0, 0.15);
 `;
 
 const SuggestionBannerWrapper = styled.div`
