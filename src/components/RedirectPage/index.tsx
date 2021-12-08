@@ -16,15 +16,17 @@ function RedirectPage(): ReactElement {
   return (
     <PageWrapper>
       <CustomScreenHelmet />
-      <ContentsArea>
-        <RedirectHouseStyle />
-        <TextArea className="body2">{REDIRECT.TITLE}</TextArea>
-      </ContentsArea>
+      <ContentsWrapper>
+        <ContentsArea>
+          <RedirectHouseStyle />
+          <TextArea className="body2">{REDIRECT.TITLE}</TextArea>
+        </ContentsArea>
 
-      <BtnWrapper className="body4">
-        {REDIRECT.CANT_JOIN}
-        <GoHomeBtn onClick={redirectToHome}>{REDIRECT.GO_HOME}</GoHomeBtn>
-      </BtnWrapper>
+        <BtnWrapper className="body4">
+          {REDIRECT.CANT_JOIN}
+          <GoHomeBtn onClick={redirectToHome}>{REDIRECT.GO_HOME}</GoHomeBtn>
+        </BtnWrapper>
+      </ContentsWrapper>
     </PageWrapper>
   );
 }
@@ -37,6 +39,14 @@ const PageWrapper = styled.div`
   height: 100%;
   width: 100%;
   font-size: 20px;
+`;
+
+const ContentsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
 `;
 
 const ContentsArea = styled.div`

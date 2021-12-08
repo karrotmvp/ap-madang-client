@@ -23,10 +23,10 @@ function NotFoundPage(): ReactElement {
   return (
     <PageWrapper>
       <CustomScreenHelmet />
-      <>
+      <ContentsWrapper>
         <NotFoundImg src={not_fount_404} />
         <NotFountBtn src={btn404} onClick={onClickBackHandler} />
-      </>
+      </ContentsWrapper>
     </PageWrapper>
   );
 }
@@ -34,6 +34,14 @@ function NotFoundPage(): ReactElement {
 const PageWrapper = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ContentsWrapper = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
