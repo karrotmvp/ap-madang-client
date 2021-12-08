@@ -164,8 +164,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
             {data.title}
           </MeetingTitle>
 
-          <UserProfile
-            profileUrl={data.host.profile_image_url}
+          <UserProfileStyle
             nickname={data.host.nickname}
             region={data.host.region_name || ''}
           />

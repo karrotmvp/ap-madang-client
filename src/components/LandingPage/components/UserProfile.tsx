@@ -1,19 +1,26 @@
 import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
+import classnames from 'classnames';
 
 import { COLOR } from '../../../constant/color';
 
 interface Props {
-  profileUrl: string;
+  profileUrl?: string;
   nickname: string;
   region: string;
+  className?: string;
 }
 
-function UserProfile({ profileUrl, nickname, region }: Props): ReactElement {
+function UserProfile({
+  profileUrl,
+  nickname,
+  region,
+  className,
+}: Props): ReactElement {
   return (
-    <UserProfileWrapper>
-      <ProfileImg src={profileUrl} />
+    <UserProfileWrapper className={classnames(className, 'user-profile')}>
+      {profileUrl && <ProfileImg src={profileUrl} />}
       <Text>{nickname}</Text>
       <DotDivider>·</DotDivider>
       <Text>{region}</Text>
@@ -26,6 +33,9 @@ const UserProfileWrapper = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+
+  font-size: 1.3rem;
+  line-height: 2rem;
 `;
 
 const ProfileImg = styled.img`
@@ -35,8 +45,6 @@ const ProfileImg = styled.img`
   margin-right: 0.8rem;
 `;
 const Text = styled.div`
-  font-size: 1.3rem;
-  line-height: 2rem;
   color: ${COLOR.TEXT_GREY};
 `;
 const DotDivider = styled.div`
