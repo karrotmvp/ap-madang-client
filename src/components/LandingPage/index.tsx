@@ -33,7 +33,13 @@ const LandingPage: React.FC = () => {
   const meetingListHandler = useCallback(async () => {
     const region_id = getRegionId(window.location.search);
     const result = await getMeetings(region_id);
-    if (result.success && result.data) setMeetings(result.data);
+    if (result.success && result.data)
+      setMeetings(
+        result.data.sort((a, b) => {
+          if (a.date === b.date) return a.start_time < b.start_time ? -1 : 1;
+          return a.date < b.date ? -1 : 1;
+        }),
+      );
   }, [setMeetings]);
 
   const myPageHandler = () => {
