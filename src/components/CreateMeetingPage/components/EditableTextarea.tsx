@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 import classnames from 'classnames';
+import { FieldValues, useController, Control } from 'react-hook-form';
 
 import { COLOR } from '../../../constant/color';
 
@@ -10,7 +11,15 @@ interface Props {
   formHandler?: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
   height?: string;
-  validation?: boolean;
+  notValidation?: boolean;
+  control: Control<FieldValues>;
+  registerForm: {
+    name: string;
+    config?: {
+      required?: boolean;
+      maxLength?: number;
+    };
+  };
 }
 
 function EditableTextarea({
@@ -18,30 +27,41 @@ function EditableTextarea({
   formHandler,
   className,
   height,
-  validation,
+  notValidation,
+  registerForm,
+  control,
 }: Props): ReactElement {
+  const {
+    field: { onChange },
+  } = useController({
+    name: registerForm.name,
+    control,
+    rules: registerForm.config,
+  });
+
   return (
     <EditableArea
       className={classnames('editable-textarea', className)}
       contentEditable
       height={height}
-      validation={validation}
+      notValidation={notValidation}
       placeholder={placeholder}
-      onInput={(e: React.ChangeEvent<HTMLDivElement>) =>
-        formHandler && formHandler(e.target.innerText)
-      }
+      onInput={(e: React.ChangeEvent<HTMLDivElement>) => {
+        onChange(e.target.innerText);
+        formHandler && formHandler(e.target.innerText);
+      }}
     />
   );
 }
 
-const EditableArea = styled.div<{ height?: string; validation?: boolean }>`
+const EditableArea = styled.div<{ height?: string; notValidation?: boolean }>`
   box-sizing: border-box;
   width: auto;
   height: ${props => props.height || 'auto'};
   padding: 1.6rem 1.6rem 2.4rem 1.6rem;
 
   border: 1px solid
-    ${({ validation }) => (validation ? COLOR.GREY_400 : '#ff5638')};
+    ${({ notValidation }) => (notValidation ? '#ff5638' : COLOR.GREY_400)};
   border-radius: 0.6rem;
 
   color: ${COLOR.TEXT_BLACK};
@@ -51,7 +71,7 @@ const EditableArea = styled.div<{ height?: string; validation?: boolean }>`
   &:focus {
     outline: none !important;
     border: 1px solid
-      ${({ validation }) => (validation ? COLOR.LIGHT_GREEN : '#ff5638')};
+      ${({ notValidation }) => (notValidation ? '#ff5638' : COLOR.LIGHT_GREEN)};
   }
   &[placeholder]:empty::before {
     content: attr(placeholder);

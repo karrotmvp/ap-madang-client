@@ -2,22 +2,30 @@ import React, { ReactElement, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
+import { FieldValues, useController, Control } from 'react-hook-form';
 
 import 'dayjs/locale/ko';
-import { COLOR } from '../../../constant/color';
 
+import { COLOR } from '../../../constant/color';
 dayjs.locale('ko');
 
 interface Props {
-  setDate: React.Dispatch<React.SetStateAction<string>>;
   trySubmit: boolean;
+  control: Control<FieldValues>;
 }
 
-function DatePicker({ setDate, trySubmit }: Props): ReactElement {
+function DatePicker({ trySubmit, control }: Props): ReactElement {
   const [dayList, setDayList] = React.useState<dayjs.Dayjs[]>([]);
   const [dateState, setDateState] = React.useState<string | undefined>(
     undefined,
   );
+  const {
+    field: { onChange },
+  } = useController({
+    name: 'date',
+    control,
+    rules: { required: true },
+  });
 
   useEffect(() => {
     for (let i = 0; i < 7; i++) {
@@ -34,7 +42,7 @@ function DatePicker({ setDate, trySubmit }: Props): ReactElement {
         className="date_picker"
         onChange={e => {
           setDateState(e.target.value);
-          setDate(e.target.value);
+          onChange(e.target.value);
         }}
         selected={dateState ? true : false}
         defaultValue={0}

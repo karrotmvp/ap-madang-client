@@ -20,10 +20,7 @@ interface Props {
 
 function TimePicker({ date, time, setTime, trySubmit }: Props): ReactElement {
   const [startList, setStartList] = useState<dayjs.Dayjs[]>([]);
-  // const [startState, setStartState] = useState('');
-
   const [endList, setEndList] = useState<dayjs.Dayjs[]>([]);
-  // const [endState, setEndState] = useState('');
 
   const startListHandler = useCallback(() => {
     const isToday = dayjs().isSame(date, 'day');
