@@ -152,7 +152,7 @@ const Title = styled.div`
 `;
 
 const UserProfileWrapper = styled.div`
-  margin-bottom: 1.6rem;
+  margin-bottom: 0.8rem;
 `;
 
 const Tag = styled.div<{ color: string }>`
@@ -176,6 +176,7 @@ const Button = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 0.8rem;
 `;
 
 export default CurrMeetingCard;

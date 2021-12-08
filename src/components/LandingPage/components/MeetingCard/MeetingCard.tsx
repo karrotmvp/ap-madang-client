@@ -8,10 +8,10 @@ import { useRecoilValue } from 'recoil';
 
 import { deleteAlarm, newAlarm } from '../../../../api/alarm';
 import { analytics } from '../../../../App';
-import card_noti_off from '../../../../assets/icon/card_noti_off.svg';
-import card_noti_on from '../../../../assets/icon/card_noti_on.svg';
-import video_upcoming_tag from '../../../../assets/icon/home/video_upcoming_tag.svg';
-import voice_upcoming_tag from '../../../../assets/icon/home/voice_upcoming_tag.svg';
+import upcoming_noti_off__green from '../../../../assets/icon/landingPage/upcoming_noti_off__green.svg';
+import upcoming_noti_on__green from '../../../../assets/icon/landingPage/upcoming_noti_on__green.svg';
+import video_upcoming_tag__green from '../../../../assets/icon/landingPage/video_upcoming_tag__green.svg';
+import voice_upcoming_tag__green from '../../../../assets/icon/landingPage/voice_upcoming_tag__green.svg';
 import { COLOR } from '../../../../constant/color';
 import useMini from '../../../../hook/useMini';
 import { userInfoAtom } from '../../../../store/user';
@@ -143,7 +143,11 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
       <CardImageWrapper>
         <TagWrapper>
           <MeetingTypeTag
-            src={data.is_video ? video_upcoming_tag : voice_upcoming_tag}
+            src={
+              data.is_video
+                ? video_upcoming_tag__green
+                : voice_upcoming_tag__green
+            }
           />
         </TagWrapper>
 
@@ -165,6 +169,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
           </MeetingTitle>
 
           <UserProfileStyle
+            // profileUrl={data.host.profile_image_url}
             nickname={data.host.nickname}
             region={data.host.region_name || ''}
           />
@@ -178,7 +183,13 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
               loginWithMini(alarmHandler);
             }}
           >
-            <AlarmIcon src={data.alarm_id ? card_noti_on : card_noti_off} />
+            <AlarmIcon
+              src={
+                data.alarm_id
+                  ? upcoming_noti_on__green
+                  : upcoming_noti_off__green
+              }
+            />
             {data.alarm_num}
           </AlarmBtn>
         </AlarmWrapper>
@@ -189,10 +200,11 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
 
 const MeetingCardWrapper = styled.div<WrapperProps>`
   box-sizing: border-box;
-  margin: 1.8rem 0;
+  margin: 1.8rem 1.6rem;
   height: auto;
   display: flex;
   flex-direction: row;
+  align-items: center;
   word-break: keep-all;
   background-color: ${COLOR.TEXT_WHITE};
 
@@ -202,7 +214,7 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
 
 const ContentsWrapper = styled.div`
   width: calc(100% - 8rem);
-  padding-left: 1.4rem;
+  padding-left: 1.6rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -253,24 +265,24 @@ const AlarmBtn = styled.div<{ hasAlarm: boolean }>`
   box-sizing: border-box;
   min-width: 6rem;
 
-  padding: 0.4rem 0.9rem 0.4rem 0.8rem;
-  border: ${({ hasAlarm }) =>
-    hasAlarm ? '1px solid #41AC70' : `1px solid #85878A`};
-  background: ${({ hasAlarm }) => (hasAlarm ? '#E0F3E9' : 'none')};
+  padding: 0.5rem 0.9rem 0.5rem 0.8rem;
+  border: ${({ hasAlarm }) => (hasAlarm ? 'noen' : `1px solid #41AC70`)};
+  background: ${({ hasAlarm }) =>
+    hasAlarm ? '#E0F3E9' : COLOR.BACKGROUND_WHITE};
   box-sizing: border-box;
   border-radius: 1.8rem;
 
-  font-weight: 700;
-  font-size: 1.5rem;
-  line-height: 1.8rem;
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 2rem;
   letter-spacing: -0.03rem;
-  color: ${({ hasAlarm }) => (hasAlarm ? '#41AC70' : COLOR.GREY_600)}; ;
+  color: #41ac70;
 `;
 
 const AlarmIcon = styled.img`
   width: 2.2rem;
   height: 2.2rem;
-  margin-right: 0.2rem;
+  margin-right: 0.473rem;
 `;
 
 const AlarmWrapper = styled.div`
@@ -281,20 +293,26 @@ const AlarmWrapper = styled.div`
 `;
 
 const MeetingTime = styled.div`
-  color: ${COLOR.LIGHT_GREEN};
+  font-weight: 700;
+  font-size: 1.4rem;
+  line-height: 2.1rem;
+  margin-bottom: 0.2rem;
 `;
 
 const MeetingTitle = styled.div`
   width: 100%;
-  padding-right: 0.7rem;
-  max-height: 5.2rem;
+
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 2.3rem;
   color: ${COLOR.TEXT_BLACK};
+
   margin-bottom: 0.8rem;
+  padding-right: 0.7rem;
 
   display: -webkit-box;
   display: -ms-flexbox;
   display: box;
-
   max-height: 5.2rem;
   overflow: hidden;
   vertical-align: top;
@@ -303,4 +321,10 @@ const MeetingTitle = styled.div`
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 `;
+
+const UserProfileStyle = styled(UserProfile)`
+  font-size: 11px;
+  line-height: 100%;
+`;
+
 export default MeetingCard;
