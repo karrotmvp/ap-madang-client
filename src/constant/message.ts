@@ -51,6 +51,10 @@ export const CREATE_MEETING = {
   NAVIGATOR_TITLE: '모임 만들기',
 };
 
+export const MY_PAGE = {
+  NAVIGATOR_TITLE: '마이페이지',
+};
+
 export const SUGGESTION = {
   NAVIGATOR_TITLE: '모임 의견내기',
   SUBMIT_BUTTON: '의견 전달하기',
