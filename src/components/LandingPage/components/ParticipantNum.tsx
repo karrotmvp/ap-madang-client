@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
-import person from '../../../assets/icon/person.svg';
+import person from '../../../assets/icon/common/person.svg';
 import { COLOR } from '../../../constant/color';
 
 interface Props {

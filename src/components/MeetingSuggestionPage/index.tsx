@@ -9,7 +9,7 @@ import { useRecoilValue } from 'recoil';
 
 import { meetingSuggestion } from '../../api/suggestion';
 import { analytics } from '../../App';
-import bulb from '../../assets/icon/bulb.svg';
+import bulb_suggestion from '../../assets/icon/bulb_suggestion.svg';
 import { COLOR } from '../../constant/color';
 import { SUGGESTION } from '../../constant/message';
 import useMini from '../../hook/useMini';
@@ -84,7 +84,7 @@ const MeetingSuggestionPage = () => {
       <ContentsWrapper isSubmit={submit}>
         <IconWrapper>
           <BulbIcon>
-            <img src={bulb} />
+            <img src={bulb_suggestion} />
           </BulbIcon>
           {submit && (
             <EllipseIcon>

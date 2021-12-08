@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { Cookies } from 'react-cookie';
 
 import { alarmReservation, getRegionName } from '../../api/reservation';
-import { NotificationsNone } from '../../assets/icon';
+import notifications_none_reservation from '../../assets/icon/notifications_none_reservation.svg';
 import { COLOR } from '../../constant/color';
 import { RESERVATION } from '../../constant/message';
 import mini from '../../util/mini';
@@ -130,7 +130,7 @@ const ReservationPage: React.FC = () => {
         <Footer>
           {!cookies.get(RESERVATION.COOKIE_NAME) && (
             <Message>
-              <NotiIcon fill={COLOR.TEXT_GREY} width="24" height="24" />
+              <NotiIcon src={notifications_none_reservation} />
               <InfoText>{RESERVATION.INFO_TEXT}</InfoText>
             </Message>
           )}
@@ -193,7 +193,9 @@ const Message = styled.div`
   margin-bottom: 1rem;
 `;
 
-const NotiIcon = styled(NotificationsNone)`
+const NotiIcon = styled.img`
+  width: 2.4rem;
+  height: 2.4rem;
   margin-right: 0.2rem;
 `;
 

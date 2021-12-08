@@ -3,8 +3,8 @@ import React, { ReactElement, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { useCurrentScreen, useNavigator } from '@karrotframe/navigator';
 
-import nav_back from '../../assets/icon/nav_back.svg';
-import nav_close from '../../assets/icon/nav_close.svg';
+import nav_back from '../../assets/icon/common/nav_back.svg';
+import nav_close from '../../assets/icon/common/nav_close.svg';
 import { COLOR } from '../../constant/color';
 import mini from '../../util/mini';
 

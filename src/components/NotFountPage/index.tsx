@@ -5,7 +5,7 @@ import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 
 import { analytics } from '../../App';
-import btn404 from '../../assets/icon/btn404.svg';
+import btn404 from '../../assets/icon/notFound/btn404.svg';
 import not_fount_404 from '../../assets/image/not_found_404.png';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 

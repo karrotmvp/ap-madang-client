@@ -3,7 +3,7 @@ import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 
-import nav_close from '../../../assets/icon/nav_close.svg';
+import nav_close from '../../../assets/icon/common/nav_close.svg';
 import { COLOR } from '../../../constant/color';
 
 type TimeType = {
