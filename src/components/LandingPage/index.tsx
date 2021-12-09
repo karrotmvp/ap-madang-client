@@ -11,7 +11,6 @@ import { useRecoilValue } from 'recoil';
 import { getMeetings } from '../../api/meeting';
 import { analytics } from '../../App';
 import big_plus__white from '../../assets/icon/landingPage/big_plus__white.svg';
-import home_banner from '../../assets/image/home_banner.png';
 import nav_logo from '../../assets/image/nav_logo.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
 import { COLOR } from '../../constant/color';
@@ -20,6 +19,7 @@ import { userInfoAtom } from '../../store/user';
 import { getRegionId } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
+import CarouselBanner from './components/CarouselBanner';
 import CurrMeetingList from './components/MeetingList/CurrMeetingList';
 import MeetingList from './components/MeetingList/MeetingList';
 import { useRedirect } from './useRedirect';
@@ -66,15 +66,12 @@ const LandingPage: React.FC = () => {
         appendMiddle={<PageTitle src={nav_logo} />}
         appendRight={<UserIcon onClick={() => loginWithMini(myPageHandler)} />}
       />
-      <BannerImg
-        src={home_banner}
-        className="landing__banner-img"
-        onClick={() => push('/guide')}
       />
       <CreateBtn onClick={() => push('/create')}>
         <img src={big_plus__white} />
       </CreateBtn>
 
+      <CarouselBanner />
       {meetings.filter(el => el.live_status === 'live').length !== 0 && (
         <div>
           <CurrMeetingList
