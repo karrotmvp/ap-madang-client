@@ -178,7 +178,7 @@ function CreateMeetingForm(): ReactElement {
                 type="radio"
                 id="audio"
                 value="audio"
-                {...register('type', { required: true })}
+                {...register('type')}
               />
               <TypeContentWrapper>
                 <TypeHeader>
@@ -200,7 +200,7 @@ function CreateMeetingForm(): ReactElement {
                 type="radio"
                 id="video"
                 value="video"
-                {...register('type', { required: true })}
+                {...register('type')}
               />
               <TypeContentWrapper>
                 <TypeHeader>
