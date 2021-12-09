@@ -14,8 +14,8 @@ import MeetingNotice from './MeetingNotice';
 import UserAudioCard from './UserAudioCard';
 
 interface Props {
-  users: AgoraRTCUsers[];
-  localUser: User & { audioStreamValue: boolean };
+  users: (AgoraRTCUsers & { isHost: boolean })[];
+  localUser: User & { audioStreamValue: boolean; isHost: boolean };
   volumeState: Map<number, number>;
   subTopic: string[];
 }
