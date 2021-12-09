@@ -54,7 +54,7 @@ function TimePicker({ date, time, setTime, trySubmit }: Props): ReactElement {
     setStartList([]);
     setEndList([]);
     setTime({ start_time: '', end_time: '' });
-    startListHandler();
+    date && startListHandler();
   }, [date, setTime, startListHandler]);
 
   useEffect(() => {
@@ -62,22 +62,20 @@ function TimePicker({ date, time, setTime, trySubmit }: Props): ReactElement {
     setTime(prevTime => {
       return { ...prevTime, end_time: '' };
     });
-    startList.length !== 0 && endListHandler();
-  }, [endListHandler, setTime, startList.length]);
+    time.start_time !== '시작시간' && endListHandler();
+  }, [endListHandler, setTime, time.start_time]);
 
   return (
     <TimePickerWrapper>
       <SelectorStyle
         className="start_time_selector"
         onChange={e => {
-          // setStartState(e.target.value);
           setTime({ start_time: e.target.value, end_time: '' });
         }}
         selected={time.start_time ? true : false}
-        defaultValue={0}
         trySubmit={trySubmit}
       >
-        <DefaultOption value="시작시간" hidden>
+        <DefaultOption value={''} hidden>
           시작시간
         </DefaultOption>
 
@@ -96,16 +94,14 @@ function TimePicker({ date, time, setTime, trySubmit }: Props): ReactElement {
       <SelectorStyle
         className="end_time_selector"
         onChange={e => {
-          // setEndState(e.target.value);
           setTime(prevTime => {
             return { ...prevTime, end_time: e.target.value };
           });
         }}
         selected={time.end_time ? true : false}
-        defaultValue={0}
         trySubmit={trySubmit}
       >
-        <DefaultOption value="종료시간" hidden>
+        <DefaultOption value={''} hidden>
           종료시간
         </DefaultOption>
         {endList.map((day, idx) => {

@@ -45,13 +45,12 @@ function DatePicker({ trySubmit, control }: Props): ReactElement {
           onChange(e.target.value);
         }}
         selected={dateState ? true : false}
-        defaultValue={0}
         trySubmit={trySubmit}
       >
-        <DefaultOption value="모임 날짜를 선택해주세요." hidden>
+        <DefaultOption value={''} hidden>
           모임 날짜를 선택해주세요.
         </DefaultOption>
-        {dayList.map((day, idx) => {
+        {dayList.map(day => {
           return (
             <option key={day.toString()} value={day.format('YYYY-MM-DD')}>
               {day.format('MM월 DD일 dddd')}
