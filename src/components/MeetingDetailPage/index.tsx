@@ -32,7 +32,7 @@ import FinishFooter from './components/Footer/FinishFooter';
 import Footer from './components/Footer/Footer';
 import HostFooter from './components/Footer/HostFooter';
 import MeetingMannerCard from './components/MannerCard';
-import MoreActionModal from './components/MoreActionModal';
+import MoreActionModal from './components/Modal/MoreActionModal';
 import UserProfile from './components/UserProfile';
 import ZoomBottomSheet from './components/ZoomBottomSheet';
 
