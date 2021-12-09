@@ -70,6 +70,20 @@ export const getDateToText = (start_time: string) => {
   return getTimeText(parseInt(startTimeArr[0]), parseInt(startTimeArr[1]));
 };
 
+export const getStartTimeForm = (
+  start_time: string,
+  live_status: LiveStatus,
+  head_text?: boolean,
+) => {
+  let text = '';
+  const startTimeArr = start_time.split(':');
+
+  if (head_text && live_status === 'tomorrow') text += '내일 ';
+  else if (head_text && live_status === 'today') text += '오늘 ';
+  text += getTimeText(parseInt(startTimeArr[0]), parseInt(startTimeArr[1]));
+  return text;
+};
+
 export const getTimeForm = (
   start_time: string,
   end_time: string,
