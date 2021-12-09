@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import customAxios from '../util/request';
 
 export const uploadImage = async (file: File): Promise<string | undefined> => {
@@ -16,23 +18,18 @@ const getPreSignedUrl = async (fileName: string) => {
 };
 
 const uploadToBucket = async (preSignedUrl: presignedUrlRes, file: File) => {
-  return new Promise((res, rej) => {
-    try {
-      const formData = new FormData();
-      for (const [key, value] of Object.entries(preSignedUrl.data.fields)) {
-        formData.append(key, value);
-      }
-      formData.append('file', file);
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', preSignedUrl.data.url, true);
-      xhr.send(formData);
-      xhr.onload = function () {
-        this.status === 204 ? res(true) : rej(false);
-      };
-    } catch (e) {
-      rej(false);
+  try {
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(preSignedUrl.data.fields)) {
+      formData.append(key, value);
     }
-  });
+    formData.append('file', file);
+    await axios.post(preSignedUrl.data.url, formData);
+    return true;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
 };
 
 type presignedUrlRes = {
