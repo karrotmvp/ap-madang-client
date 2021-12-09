@@ -31,6 +31,13 @@ export type InfoType = {
       recommend_user: { text: string }[];
       recommend_topic: { text: string }[];
     };
+    host: {
+      id: number;
+      nickname: string;
+      profile_image_url: string;
+      manner_temperature: number;
+      region_name: string;
+    };
   };
   user: {
     id: number;
