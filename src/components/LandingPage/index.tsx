@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { jsx } from '@emotion/react';
+import { jsx, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
@@ -10,7 +10,9 @@ import { useRecoilValue } from 'recoil';
 
 import { getMeetings } from '../../api/meeting';
 import { analytics } from '../../App';
+import nav_my_page from '../../assets/icon/common/nav_my_page.svg';
 import big_plus__white from '../../assets/icon/landingPage/big_plus__white.svg';
+import tooltip_close__white from '../../assets/icon/landingPage/tooltip_close__white.svg';
 import nav_logo from '../../assets/image/nav_logo.png';
 import suggestion_img from '../../assets/image/suggestion_img.png';
 import { COLOR } from '../../constant/color';
@@ -26,7 +28,7 @@ import { useRedirect } from './useRedirect';
 
 const LandingPage: React.FC = () => {
   const { push, replace } = useNavigator();
-
+  const [showTooltip, setShowTooltip] = useState(false);
   const [meetings, setMeetings] = useState<MeetingListType[]>([]);
   const userInfo = useRecoilValue(userInfoAtom);
   const redirectUrl = useRedirect();
@@ -44,6 +46,11 @@ const LandingPage: React.FC = () => {
       );
   }, [setMeetings]);
 
+  const tooltipCloseHandler = () => {
+    window.localStorage.setItem('create_tooltip', 'true');
+    setShowTooltip(false);
+  };
+
   const myPageHandler = () => {
     push('/me');
   };
@@ -58,20 +65,38 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     logEvent(analytics, 'landing_page__show');
+    const tooltip = window.localStorage.getItem('create_tooltip');
+    if (!tooltip) setShowTooltip(true);
   }, []);
 
   return (
     <PageWrapper className="landing">
       <CustomScreenHelmet
         appendMiddle={<PageTitle src={nav_logo} />}
-        appendRight={<UserIcon onClick={() => loginWithMini(myPageHandler)} />}
+        appendRight={
+          <UserIcon
+            src={nav_my_page}
+            onClick={() => loginWithMini(myPageHandler)}
+          />
+        }
       />
-      />
-      <CreateBtn onClick={() => push('/create')}>
-        <img src={big_plus__white} />
-      </CreateBtn>
-
       <CarouselBanner />
+      <CreateBtnWrapper>
+        {showTooltip && (
+          <ToolTipOutside>
+            <ToolTip>
+              버튼을 눌러 모임을 만들어 보세요!{' '}
+              <ToolTipIcon
+                src={tooltip_close__white}
+                onClick={() => tooltipCloseHandler()}
+              />
+            </ToolTip>
+          </ToolTipOutside>
+        )}
+        <CreateBtn onClick={() => push('/create')}>
+          <img src={big_plus__white} />
+        </CreateBtn>
+      </CreateBtnWrapper>
       {meetings.filter(el => el.live_status === 'live').length !== 0 && (
         <div>
           <CurrMeetingList
@@ -106,6 +131,16 @@ const LandingPage: React.FC = () => {
   );
 };
 
+const tooltipAni = keyframes`
+  0% {
+    transform: translate3d(0,0,0);
+  }
+  50% {
+    transform: translate3d(0, -5px, 0);
+  }
+  
+`;
+
 const PageWrapper = styled.div`
   width: 100%;
   height: auto;
@@ -119,26 +154,24 @@ const PageTitle = styled.img`
   width: auto;
 `;
 
-const UserIcon = styled.div`
-  background: gray;
+const UserIcon = styled.img`
   width: 2.4rem;
   height: 2.4rem;
-  border-radius: 50%;
 `;
 
-const BannerImg = styled.img`
-  box-sizing: border-box;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const CreateBtnWrapper = styled.div`
+  position: -webkit-sticky; /* 사파리 브라우저 지원 */
+  position: sticky;
+  top: calc(100vh - 11.2rem);
+  left: calc(100vw - 7.6rem);
+  width: 0;
+  height: 0;
+  z-index: 1000;
 `;
 
 const CreateBtn = styled.div`
-  position: fixed;
-  bottom: 3.2rem;
-  right: 2rem;
-  z-index: 1000;
+  position: 0;
+  box-sizing: border-box;
   width: 5.6rem;
   height: 5.6rem;
   border-radius: 50%;
@@ -150,6 +183,51 @@ const CreateBtn = styled.div`
   font-size: 3rem;
   line-height: 5.6rem;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3), 0px 4px 8px rgba(0, 0, 0, 0.15);
+`;
+
+const ToolTipOutside = styled.div`
+  position: relative;
+  width: calc(100vw - 2rem);
+  right: calc(100vw - 7.6rem);
+`;
+
+const ToolTip = styled.div`
+  animation: ${tooltipAni} 1s ease infinite;
+  position: absolute;
+  max-width: calc(100vw - 3.2rem);
+  box-sizing: border-box;
+  padding: 1.1rem 1.2rem;
+  background: ${COLOR.GREY_900};
+  border-radius: 0.6rem;
+  bottom: 1rem;
+  right: 0;
+
+  font-size: 1.3rem;
+  line-height: 2rem;
+  color: ${COLOR.TEXT_WHITE};
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 2.1rem;
+    width: 0;
+    height: 0;
+    border: 0.7rem solid transparent;
+    border-top-color: ${COLOR.GREY_900};
+    border-bottom: 0;
+    margin-left: -0.7rem;
+    margin-bottom: -0.7rem;
+  }
+`;
+
+const ToolTipIcon = styled.img`
+  margin-left: 0.6rem;
 `;
 
 const SuggestionBannerWrapper = styled.div`
