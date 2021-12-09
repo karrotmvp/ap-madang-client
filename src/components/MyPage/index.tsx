@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
-import { useCurrentScreen, useNavigator } from '@karrotframe/navigator';
+import { useCurrentScreen } from '@karrotframe/navigator';
 import { MeetingList as MeetingListType } from 'meeting';
 import { useRecoilValue } from 'recoil';
 
@@ -17,7 +17,6 @@ import MyMeetingList from './components/MyMeetingList';
 function MyPage(): ReactElement {
   const [meetings, setMeetings] = useState<MeetingListType[]>([]);
   const userInfo = useRecoilValue(userInfoAtom);
-  const { push } = useNavigator();
   const { isTop } = useCurrentScreen();
 
   const fetchMeetings = async () => {
@@ -49,7 +48,6 @@ function MyPage(): ReactElement {
     <MyPageWrapper>
       <CustomScreenHelmet
         appendMiddle={<PageTitle>{MY_PAGE.NAVIGATOR_TITLE}</PageTitle>}
-        appendRight={<PageTitle onClick={() => push('/create')}>+</PageTitle>}
       />
       <UserProfileWrapper>
         <ProofileImg src={userInfo?.profile_image_url} />
