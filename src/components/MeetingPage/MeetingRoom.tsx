@@ -40,7 +40,9 @@ const MeetingRoom = ({
   info: InfoType;
   code: string;
 }) => {
-  const [users, setUsers] = useState<AgoraRTCUsers[]>([]);
+  const [users, setUsers] = useState<(AgoraRTCUsers & { isHost: boolean })[]>(
+    [],
+  );
   const [start, setStart] = useState<boolean>(false);
   const [openBottomSheet, setOpenBottomSheet] = useState<boolean>(false);
   const [trackState, setTrackState] = useState({ audioStreamValue: true });
@@ -50,23 +52,27 @@ const MeetingRoom = ({
   const { ready, track, error } = useMicrophoneAudioTrack();
   const client = useClient();
 
-  const fetchNewUser = useCallback(async (user: IAgoraRTCRemoteUser) => {
-    const fetchUserInfo = await getMeetingUsersInfo(uidToNum(user.uid));
-    if (fetchUserInfo.success && fetchUserInfo.data) {
-      setUsers(prevUsers =>
-        fetchUserInfo.data
-          ? [
-              ...prevUsers,
-              {
-                ...user,
-                ...fetchUserInfo.data,
-                audioStreamValue: true,
-              },
-            ]
-          : prevUsers,
-      );
-    }
-  }, []);
+  const fetchNewUser = useCallback(
+    async (user: IAgoraRTCRemoteUser) => {
+      const fetchUserInfo = await getMeetingUsersInfo(uidToNum(user.uid));
+      if (fetchUserInfo.success && fetchUserInfo.data) {
+        setUsers(prevUsers =>
+          fetchUserInfo.data
+            ? [
+                ...prevUsers,
+                {
+                  ...user,
+                  ...fetchUserInfo.data,
+                  audioStreamValue: true,
+                  isHost: info.meeting.host.id === fetchUserInfo.data.id,
+                },
+              ]
+            : prevUsers,
+        );
+      }
+    },
+    [info.meeting.host.id],
+  );
 
   const init = useCallback(async () => {
     // 신규 유저 유입
@@ -187,6 +193,7 @@ const MeetingRoom = ({
           localUser={{
             ...info.user,
             audioStreamValue: trackState.audioStreamValue,
+            isHost: info.user.id === info.meeting.host.id,
           }}
           volumeState={volumeState}
         />

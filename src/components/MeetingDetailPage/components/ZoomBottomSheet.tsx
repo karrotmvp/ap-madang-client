@@ -5,11 +5,11 @@ import { logEvent } from '@firebase/analytics';
 
 import { increaseMeetingEnterUserCount } from '../../../api/meeting';
 import { analytics } from '../../../App';
-import arrow_iOS_xsmall_green from '../../../assets/icon/arrow_iOS_xsmall_green.svg';
-import cam from '../../../assets/icon/cam.svg';
-import mic from '../../../assets/icon/mic.svg';
-import closeBtn from '../../../assets/icon/nav_close.svg';
-import zoom_logo__white from '../../../assets/icon/zoom_logo__white.svg';
+import closeBtn from '../../../assets/icon/common/nav_close.svg';
+import arrow_iOS_xsmall_green from '../../../assets/icon/detailPage/arrow_iOS_xsmall_green.svg';
+import cam from '../../../assets/icon/detailPage/cam.svg';
+import mic from '../../../assets/icon/detailPage/mic.svg';
+import zoom_logo__white from '../../../assets/icon/detailPage/zoom_logo__white.svg';
 import zoom_view from '../../../assets/image/zoom_view.png';
 import BottomSheet from '../../../components/common/BottomSheet';
 import { COLOR } from '../../../constant/color';

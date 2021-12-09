@@ -28,7 +28,12 @@ interface loginReq {
 
 interface loginRes {
   success: boolean;
-  data?: { token: string; nickname: string; region: string };
+  data?: {
+    token: string;
+    nickname: string;
+    region: string;
+    profile_img_url: string;
+  };
 }
 
 interface usersRes {

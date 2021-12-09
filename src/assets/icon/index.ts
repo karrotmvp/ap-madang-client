@@ -1,6 +1,5 @@
-import ArrowBackAnd from './ArrowBackAnd';
-import ArrowBackIos from './ArrowBackIos';
 import Dot from './Dot';
-import NotificationsNone from './Notifications_none';
+import ArrowBackAnd from './reservationPage/ArrowBackAnd';
+import ArrowBackIos from './reservationPage/ArrowBackIos';
 
-export { ArrowBackAnd, ArrowBackIos, Dot, NotificationsNone };
+export { ArrowBackAnd, ArrowBackIos, Dot };

@@ -47,6 +47,14 @@ export const COMMON = {
   },
 };
 
+export const CREATE_MEETING = {
+  NAVIGATOR_TITLE: '모임 만들기',
+};
+
+export const MY_PAGE = {
+  NAVIGATOR_TITLE: '마이페이지',
+};
+
 export const SUGGESTION = {
   NAVIGATOR_TITLE: '모임 의견내기',
   SUBMIT_BUTTON: '의견 전달하기',
@@ -70,6 +78,7 @@ export const MEETING_DETAIL = {
   GREEN_BOX_INFO:
     '모든 모임은 줌(Zoom) 화상 회의로 진행돼요. 줌 앱을 다운로드한 후 이용해 주세요. 카메라를 켜지 않아도 괜찮아요!',
   GREEN_BOX_BTN: '줌 사용방법 보러가기',
+  HOST_FOOTER_MESSAGE: '참여자 모집 중',
   MANNER_CARD: {
     TITLE: '즐거운 랜선동네모임을 위해\n함께 지켜주세요!',
     SUB_TITLE: [

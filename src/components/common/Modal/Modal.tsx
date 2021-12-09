@@ -54,12 +54,14 @@ export default function Modal({
         onClick={onOutsideClick}
         onDragStart={onOutsideClick}
         className={classnames(
-          open ? 'open-modal-animation' : 'close-modal-animation',
           className,
+          open ? 'open-modal-animation' : 'close-modal-animation',
         )}
       >
         <ModalInner
-          className={open ? 'open-modal-animation' : 'close-modal-animation'}
+          className={classnames(
+            open ? 'open-modal-animation' : 'close-modal-animation',
+          )}
           onClick={e => e.stopPropagation()}
           css={innerModalStyle}
         >
@@ -72,19 +74,19 @@ export default function Modal({
 
 const openModalBackground = keyframes`
   0%{
-    background: rgba(0,0,0,0);
+    opacity:0;
   }
   100% {   
-    background: ${COLOR.MODAL_WRAPPER_BLACK};
+    opacity:100;
   }
 `;
 
 const closeModalBackground = keyframes`
   0%{
-    background: ${COLOR.MODAL_WRAPPER_BLACK};
+    opacity:100;
   }
   100% {   
-    background: rgba(0,0,0,0);
+    opacity:0;
   }
 `;
 
@@ -105,6 +107,7 @@ const ModalOverlay = styled.div`
   padding: 0 4rem;
   box-sizing: border-box;
   white-space: pre-line;
+  background: ${COLOR.MODAL_WRAPPER_BLACK};
 
   &.open-modal-animation {
     animation: ${openModalBackground} 0.4s ease forwards;

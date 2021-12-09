@@ -33,6 +33,7 @@ const PageWrapper = styled.div`
 `;
 
 const ContentsWrapper = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;

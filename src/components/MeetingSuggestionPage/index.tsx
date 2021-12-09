@@ -1,22 +1,20 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-import { useCurrentScreen } from '@karrotframe/navigator';
-import { useNavigator } from 'karrotframe/lib';
+import { useCurrentScreen, useNavigator } from '@karrotframe/navigator';
 import { IoEllipse } from 'react-icons/io5';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { meetingSuggestion } from '../../api/suggestion';
 import { analytics } from '../../App';
-import bulb from '../../assets/icon/bulb.svg';
+import bulb_suggestion from '../../assets/icon/bulb_suggestion.svg';
 import { COLOR } from '../../constant/color';
 import { SUGGESTION } from '../../constant/message';
+import useMini from '../../hook/useMini';
 import useViewportSize from '../../hook/useViewportSize';
-import { codeAtom, userInfoAtom, UserInfoType } from '../../store/user';
-import mini from '../../util/mini';
+import { userInfoAtom } from '../../store/user';
 import { checkMobileType } from '../../util/utils';
-import { authHandler } from '../../util/withMini';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
 interface ButtonProps {
@@ -31,10 +29,10 @@ const MeetingSuggestionPage = () => {
   const [inputFocus, setInputFocus] = useState(false);
   const [text, setText] = useState('');
   const [submit, setsubmit] = useState(false);
-  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
+  const userInfo = useRecoilValue(userInfoAtom);
   const { pop } = useNavigator();
   const { isRoot } = useCurrentScreen();
-  const setCode = useSetRecoilState(codeAtom);
+  const { loginWithMini, ejectApp } = useMini();
 
   const size = useViewportSize();
 
@@ -42,18 +40,20 @@ const MeetingSuggestionPage = () => {
     setText(e.target.value);
   };
 
-  const onSubmitHandler =
-    (userInfo: UserInfoType) => async (e?: React.MouseEvent) => {
+  const onSubmitHandler = useCallback(
+    async (e?: React.MouseEvent) => {
       e?.stopPropagation();
       if (submit) {
-        if (isRoot) mini.close();
+        if (isRoot) ejectApp();
         else pop();
         return;
       }
       if (text.length === 0 && !userInfo) return;
       const result = await meetingSuggestion(text);
       if (result.success) setsubmit(true);
-    };
+    },
+    [ejectApp, isRoot, pop, submit, text, userInfo],
+  );
 
   const Title = useMemo(() => {
     if (submit && userInfo)
@@ -78,12 +78,12 @@ const MeetingSuggestionPage = () => {
       }
     >
       <CustomScreenHelmet
-        appendLeft={<PageTitle>{SUGGESTION.NAVIGATOR_TITLE}</PageTitle>}
+        appendMiddle={<PageTitle>{SUGGESTION.NAVIGATOR_TITLE}</PageTitle>}
       />
       <ContentsWrapper isSubmit={submit}>
         <IconWrapper>
           <BulbIcon>
-            <img src={bulb} />
+            <img src={bulb_suggestion} />
           </BulbIcon>
           {submit && (
             <EllipseIcon>
@@ -116,16 +116,10 @@ const MeetingSuggestionPage = () => {
           className="meeting-suggestion__submit"
           inputFocus={inputFocus}
           inputLength={text.length}
-          onClick={
-            !userInfo
-              ? authHandler(
-                  onSubmitHandler,
-                  setCode,
-                  setUserInfo,
-                  'meeting_suggestion_submit',
-                )
-              : onSubmitHandler(userInfo)
-          }
+          onClick={e => {
+            e.stopPropagation();
+            loginWithMini(onSubmitHandler);
+          }}
         >
           {submit ? SUGGESTION.CONFITM_BUTTON : SUGGESTION.SUBMIT_BUTTON}
         </Button>
@@ -177,7 +171,6 @@ const PageTitle = styled.div`
   font-size: 1.6rem;
   line-height: 2.4rem;
   letter-spacing: -0.03em;
-  margin-left: 3.2rem;
   box-sizing: border-box;
 `;
 

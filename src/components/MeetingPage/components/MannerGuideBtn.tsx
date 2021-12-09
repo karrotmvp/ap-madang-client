@@ -20,8 +20,6 @@ function MannerGuideBtn({ onClickHandler }: Props): ReactElement {
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
-
-  margin-right: 2rem;
   display: flex;
   flex-direction: row;
   align-items: center;

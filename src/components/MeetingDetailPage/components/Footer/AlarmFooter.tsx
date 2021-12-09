@@ -3,25 +3,22 @@ import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 import { useCurrentScreen } from '@karrotframe/navigator';
 import { MeetingDetail } from 'meeting';
-import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import fire_emoji from '../../../assets/icon/detailPage/fire_emoji.svg';
-import notification_empty_green from '../../../assets/icon/detailPage/notification_empty_green.svg';
-import notification_fill_white from '../../../assets/icon/detailPage/notification_fill_white.svg';
-import smile_emoji from '../../../assets/icon/detailPage/smile_emoji.svg';
-import { COLOR } from '../../../constant/color';
-import { codeAtom, userInfoAtom, UserInfoType } from '../../../store/user';
-import { authHandler } from '../../../util/withMini';
+import fire_emoji from '../../../../assets/icon/detailPage/fire_emoji.svg';
+import notification_empty_green from '../../../../assets/icon/detailPage/notification_empty_green.svg';
+import notification_fill_white from '../../../../assets/icon/detailPage/notification_fill_white.svg';
+import smile_emoji from '../../../../assets/icon/detailPage/smile_emoji.svg';
+import { COLOR } from '../../../../constant/color';
+import useMini from '../../../../hook/useMini';
 
 interface Props {
   data: MeetingDetail | undefined;
-  alarmHandler: (userInfo: UserInfoType) => (e?: React.MouseEvent) => void;
+  alarmHandler: () => void;
   fromFeed: boolean;
 }
 
-function AlarmFooter({ data, alarmHandler, fromFeed }: Props): ReactElement {
-  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
-  const setCode = useSetRecoilState(codeAtom);
+function AlarmFooter({ data, alarmHandler }: Props): ReactElement {
+  const { loginWithMini } = useMini();
   const { isRoot } = useCurrentScreen();
 
   return (
@@ -35,26 +32,21 @@ function AlarmFooter({ data, alarmHandler, fromFeed }: Props): ReactElement {
         </MessageBubble>
       )}
       <Footer fromFeed={data?.live_status !== 'live' && isRoot}>
+        {/* TODO: add fromFeed Event */}
         <AlarmBtn
           applied={data?.alarm_id}
-          onClick={
-            !userInfo
-              ? authHandler(
-                  alarmHandler,
-                  setCode,
-                  setUserInfo,
-                  fromFeed
-                    ? 'detail_page_alaram_user_from_feed'
-                    : 'detail_page_alaram',
-                )
-              : alarmHandler(userInfo)
-          }
+          onClick={e => {
+            e.stopPropagation();
+            loginWithMini(alarmHandler);
+          }}
         >
-          {data?.alarm_id ? (
-            <img src={notification_fill_white} />
-          ) : (
-            <img src={notification_empty_green} />
-          )}
+          <img
+            src={
+              data?.alarm_id
+                ? notification_empty_green
+                : notification_fill_white
+            }
+          />
 
           <AlarmApplicant applied={data?.alarm_id}>
             {data?.alarm_id ? '알림 받는 중' : '알림 신청하기'}
@@ -136,7 +128,7 @@ const AlarmBtn = styled.div<{ applied: number | undefined }>`
   border-radius: 0.6rem;
   border: 0.1rem solid ${COLOR.LIGHT_GREEN};
   background: ${({ applied }) =>
-    applied ? COLOR.LIGHT_GREEN : COLOR.TEXT_WHITE};
+    applied ? COLOR.TEXT_WHITE : COLOR.LIGHT_GREEN};
 `;
 
 const AlarmApplicant = styled.div<{ applied: number | undefined }>`
@@ -146,7 +138,7 @@ const AlarmApplicant = styled.div<{ applied: number | undefined }>`
   text-align: center;
   letter-spacing: -0.03rem;
   margin-left: 0.4rem;
-  color: ${({ applied }) => (applied ? COLOR.TEXT_WHITE : COLOR.LIGHT_GREEN)};
+  color: ${({ applied }) => (applied ? COLOR.LIGHT_GREEN : COLOR.TEXT_WHITE)};
   display: flex;
   flex-direction: row;
   justify-content: center;
