@@ -2,8 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-import { useCurrentScreen } from '@karrotframe/navigator';
-import { useNavigator } from 'karrotframe/lib';
+import { useCurrentScreen, useNavigator } from '@karrotframe/navigator';
 import { IoEllipse } from 'react-icons/io5';
 import { useRecoilValue } from 'recoil';
 
