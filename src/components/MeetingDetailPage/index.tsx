@@ -22,7 +22,6 @@ import nav_logo from '../../assets/image/nav_logo.png';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
 import { userInfoAtom } from '../../store/user';
-import { getDateToText } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
 import DeleteAlarmModal from '../common/Modal/DeleteAlarmModal';
@@ -261,9 +260,12 @@ const MeetingDetailPage = () => {
             <SummaryIcon src={clock} />
             <SummaryDiscription className="body4">
               {data &&
-                `${dayjs(data?.date).format('MM월 DD일 dddd')} ${getDateToText(
-                  data?.start_time,
-                )} ~ ${getDateToText(data?.end_time)}`}
+                `${dayjs(data?.date).format('MM월 DD일 dddd')} ${dayjs(
+                  data?.date + data?.start_time,
+                ).format('a h:mm')}~${dayjs(data?.date + data?.end_time).format(
+                  'a h:mm',
+                )} 
+                `}
             </SummaryDiscription>
           </SummaryInfo>
           {data?.live_status === 'live' && (

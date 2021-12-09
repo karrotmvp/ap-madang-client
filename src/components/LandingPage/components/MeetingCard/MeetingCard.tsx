@@ -15,7 +15,7 @@ import voice_upcoming_tag__green from '../../../../assets/icon/landingPage/voice
 import { COLOR } from '../../../../constant/color';
 import useMini from '../../../../hook/useMini';
 import { userInfoAtom } from '../../../../store/user';
-import { getTimeForm } from '../../../../util/utils';
+import { getStartTimeForm } from '../../../../util/utils';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../../../common/Modal/NewAlarmModal';
 import UserProfile from '../UserProfile';
@@ -156,12 +156,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
       <ContentsWrapper className="meeting-card__contents">
         <InfoWrapper>
           <MeetingTime className="body3 meeting-card__time">
-            {getTimeForm(
-              data.start_time,
-              data.end_time,
-              data.live_status,
-              true,
-            )}
+            {getStartTimeForm(data.start_time, data.live_status, true)}
           </MeetingTime>
 
           <MeetingTitle className="title3 meeting-card__title">

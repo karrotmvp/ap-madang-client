@@ -54,8 +54,7 @@ function DatePicker({ trySubmit, control }: Props): ReactElement {
         {dayList.map((day, idx) => {
           return (
             <option key={day.toString()} value={day.format('YYYY-MM-DD')}>
-              {day.format('YYYY년 MM월 DD일 dd')} (
-              {idx !== 0 ? `${idx}일 후` : '오늘'})
+              {day.format('MM월 DD일 dddd')}
             </option>
           );
         })}
