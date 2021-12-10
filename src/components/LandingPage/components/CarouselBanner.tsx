@@ -4,9 +4,11 @@ import styled from '@emotion/styled';
 import { useNavigator } from '@karrotframe/navigator';
 import Slider from 'react-slick';
 
-import home_banner from '../../../assets/image/home_banner.png';
+import home_banner_01 from '../../../assets/image/home_banner_01.png';
+import home_banner_02 from '../../../assets/image/home_banner_02.png';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { COLOR } from '../../../constant/color';
 
 const settings = {
   dots: true,
@@ -16,6 +18,7 @@ const settings = {
   autoplaySpeed: 3000,
   slidesToShow: 1,
   slidesToScroll: 1,
+  adaptiveHeight: true,
   customPaging: () => <CustomDot className="dot" />,
 };
 
@@ -26,23 +29,13 @@ function CarouselBanner(): ReactElement {
     <BannerWrapper>
       <Slider {...settings}>
         <BannerImg
-          src={home_banner}
-          className="landing__banner-img"
-          onClick={() => push('/guide')}
+          src={home_banner_01}
+          className="landing__banner-img_01"
+          onClick={() => push('/create-guide')}
         />
         <BannerImg
-          src={home_banner}
-          className="landing__banner-img"
-          onClick={() => push('/guide')}
-        />
-        <BannerImg
-          src={home_banner}
-          className="landing__banner-img"
-          onClick={() => push('/guide')}
-        />
-        <BannerImg
-          src={home_banner}
-          className="landing__banner-img"
+          src={home_banner_02}
+          className="landing__banner-img_02"
           onClick={() => push('/guide')}
         />
       </Slider>
@@ -52,28 +45,49 @@ function CarouselBanner(): ReactElement {
 
 const BannerWrapper = styled.div`
   box-sizing: border-box;
-  overflow-x: hidden;
+  overflow: hidden;
   width: 100%;
+  height: auto;
 
+  .slick-list,
+  .slick-track {
+    height: calc(100vw * 0.333) !important;
+  }
   .slick-dots {
-    bottom: 0;
+    bottom: 1.2rem;
+    transform: translateZ(10px);
+  }
+
+  .slick-dots > li {
+    width: auto;
+    height: auto;
   }
 
   .slick-active .dot {
-    background-color: white;
+    background-color: ${COLOR.LIGHT_GREEN};
+  }
+
+  .dot:last-child {
+    margin-right: 0;
+  }
+
+  .slick-arrow {
+    display: none;
   }
 `;
 
 const CustomDot = styled.div`
-  width: 0.5rem;
-  height: 0.5rem;
-  background-color: grey;
+  width: 0.6rem;
+  height: 0.6rem;
+  background-color: #c4c4c4;
   border-radius: 50%;
+  margin-right: 0.6rem;
 `;
 
 const BannerImg = styled.img`
   box-sizing: border-box;
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
