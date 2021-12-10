@@ -8,8 +8,8 @@ import camera_meeting_tag__gray from '../../../assets/icon/detailPage/camera_mee
 import voice_meeting_tag__gray from '../../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
 import { COLOR } from '../../../constant/color';
 import Gradient from '../../common/Gradient';
-import ParticipantNum from '../../LandingPage/components/ParticipantNum';
 import AlarmNum from './AlarmNum';
+import ParticipantNum from './ParticipantNum';
 
 interface Props {
   data: MeetingList;
@@ -74,7 +74,6 @@ function MyMeetingCard({ idx, data }: Props): ReactElement {
               <ParticipantNum userMeetingNum={data.user_enter_cnt} />
             ))}
         </InfoWrapper>
-        {data.live_status !== 'finish' && <Button>모임 정보 보러가기</Button>}
       </ContentsWrapper>
     </MeetingCardWrapper>
   );
@@ -133,13 +132,12 @@ const MeetingTypeTag = styled.img`
 
 const ContentsWrapper = styled.div`
   flex: 1;
-  padding: 1.4rem 1.5rem;
+  padding: 1.4rem 1.6rem;
   display: flex;
   flex-direction: column;
 `;
 const InfoWrapper = styled.div`
   flex: 1;
-  padding: 0 0.4rem;
 `;
 
 const Title = styled.div`
@@ -149,7 +147,7 @@ const Title = styled.div`
   line-height: 2.4rem;
   letter-spacing: -0.03rem;
   color: ${COLOR.TEXT_BLACK};
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.2rem;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
@@ -164,25 +162,6 @@ const Tag = styled.div<{ color: string }>`
   display: inline;
   color: ${({ color }) => (color ? color : COLOR.ORANGE)};
   margin-right: 0.6rem;
-`;
-
-const Button = styled.div`
-  width: 100%;
-  height: 4rem;
-  box-sizing: border-box;
-  background: ${COLOR.BACKGROUND_WHITE};
-  border: 1px solid ${COLOR.LIGHT_GREEN};
-  border-radius: 0.6rem;
-  font-weight: 600;
-  font-size: 1.4rem;
-  line-height: 1.7rem;
-  letter-spacing: -0.03rem;
-  color: ${COLOR.LIGHT_GREEN};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  margin-top: 0.8rem;
 `;
 
 export default MyMeetingCard;
