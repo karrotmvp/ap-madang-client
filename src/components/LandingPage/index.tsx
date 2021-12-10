@@ -22,6 +22,7 @@ import { getRegionId } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
 import CarouselBanner from './components/CarouselBanner';
+import SkeletonCard from './components/MeetingCard/SkeletonCard';
 import CurrMeetingList from './components/MeetingList/CurrMeetingList';
 import MeetingList from './components/MeetingList/MeetingList';
 import { useRedirect } from './useRedirect';
@@ -81,6 +82,8 @@ const LandingPage: React.FC = () => {
         }
       />
       <CarouselBanner />
+      <Divider size="0.1rem" color={COLOR.GREY_400} />
+      <Divider size="0.9rem" color={COLOR.GREY_200} />
       <CreateBtnWrapper>
         {showTooltip && (
           <ToolTipOutside>
@@ -97,7 +100,8 @@ const LandingPage: React.FC = () => {
           <img src={big_plus__white} />
         </CreateBtn>
       </CreateBtnWrapper>
-      {meetings.filter(el => el.live_status === 'live').length !== 0 && (
+      {meetings.length === 0 && <SkeletonCard />}
+      {
         <div>
           <CurrMeetingList
             className="landing__current"
@@ -105,22 +109,20 @@ const LandingPage: React.FC = () => {
           />
           <Divider className="landing__divider" size="1rem" />
         </div>
-      )}
-      {meetings.filter(
-        el => el.live_status !== 'live' && el.live_status !== 'finish',
-      ).length !== 0 && (
+      }
+      {
         <div>
           <MeetingList
             className="landing__upoming"
             meetings={meetings.filter(
               el => el.live_status !== 'live' && el.live_status !== 'finish',
             )}
-            hasMeetings={meetings.length !== 0 ? true : false}
+            hasMeetings={meetings.length !== 0}
             setMeetings={setMeetings}
           />
           <Divider className="landing__divider" size="1rem" />
         </div>
-      )}
+      }
       <SuggestionBannerWrapper>
         <SuggestionImg
           src={suggestion_img}
@@ -143,7 +145,7 @@ const tooltipAni = keyframes`
 
 const PageWrapper = styled.div`
   width: 100%;
-  height: auto;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
