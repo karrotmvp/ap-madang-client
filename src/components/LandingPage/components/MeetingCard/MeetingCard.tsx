@@ -16,6 +16,7 @@ import { COLOR } from '../../../../constant/color';
 import useMini from '../../../../hook/useMini';
 import { userInfoAtom } from '../../../../store/user';
 import { getStartTimeForm } from '../../../../util/utils';
+import ImageRenderer from '../../../common/LazyLoading/ImageRenderer';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../../../common/Modal/NewAlarmModal';
 import UserProfile from '../UserProfile';
@@ -151,7 +152,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
           />
         </TagWrapper>
 
-        <CardImage src={data.image} />
+        <LazyImageItemStyle url={data.image} thumb={data.image} />
       </CardImageWrapper>
       <ContentsWrapper className="meeting-card__contents">
         <InfoWrapper>
@@ -164,7 +165,6 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
           </MeetingTitle>
 
           <UserProfileStyle
-            // profileUrl={data.host.profile_image_url}
             nickname={data.host.nickname}
             region={data.host.region_name || ''}
           />
@@ -237,7 +237,7 @@ const TagWrapper = styled.div`
   z-index: 1;
 `;
 
-const CardImage = styled.img`
+const LazyImageItemStyle = styled(ImageRenderer)`
   width: auto;
   height: 8rem;
   object-fit: cover;
