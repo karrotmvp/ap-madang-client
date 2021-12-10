@@ -97,10 +97,19 @@ const useMini = () => {
     mini.close();
   };
 
+  // share link
+  const share = (url: string, text: string) => {
+    mini.share({
+      url,
+      text,
+    });
+  };
+
   return {
     loginWithoutMini,
     loginWithMini,
     ejectApp,
+    share,
   };
 };
 

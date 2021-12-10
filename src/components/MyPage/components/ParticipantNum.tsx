@@ -22,7 +22,7 @@ const ParticipantNumWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 1.6rem;
+  margin-top: 0.4rem;
 `;
 
 const ParticipantIcon = styled.img`

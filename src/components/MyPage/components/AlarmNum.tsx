@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
-import notification_off__grey from '../../../assets/icon/myPage/notification_off__grey.svg';
+import notification_fill__grey from '../../../assets/icon/myPage/notification_fill__grey.svg';
 import { COLOR } from '../../../constant/color';
 
 interface Props {
@@ -12,8 +12,8 @@ interface Props {
 function AlarmNum({ alarmNum }: Props): ReactElement {
   return (
     <AlarmNumWrapper>
-      <AlarmIcon src={notification_off__grey} />
-      <AlarmText>{alarmNum}명 신청 중</AlarmText>
+      <AlarmIcon src={notification_fill__grey} />
+      <AlarmText>{alarmNum}명 신청</AlarmText>
     </AlarmNumWrapper>
   );
 }

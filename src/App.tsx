@@ -6,6 +6,8 @@ import { getAnalytics, logEvent } from 'firebase/analytics';
 import { ToastContainer } from 'react-toast';
 
 import CreateMeetingForm from './components/CreateMeetingPage/CreateMeetingForm';
+import CreateGuidePage from './components/FullImgPage/CreateGuidePage';
+import GuidePage from './components/FullImgPage/GuidePage';
 import LandingPage from './components/LandingPage';
 import MeetingDetailPage from './components/MeetingDetailPage';
 const AgoraPage = React.lazy(() => import('./components/MeetingPage'));
@@ -13,7 +15,6 @@ import MeetingSuggestionPage from './components/MeetingSuggestionPage';
 import MyPage from './components/MyPage';
 import NotFoundPage from './components/NotFountPage';
 import NotServiceRegionPage from './components/NotServiceRegionPage';
-import OnBoardPage from './components/OnBoardPage';
 import ReservationPage from './components/ReservationPage';
 import useMini from './hook/useMini';
 import { app } from './util/firebase';
@@ -41,7 +42,8 @@ const App: React.FC = () => {
     >
       <ToastContainer position="bottom-center" delay={2000} />
       <Screen path="/" component={LandingPage} />
-      <Screen path="/guide" component={OnBoardPage} />
+      <Screen path="/create-guide" component={CreateGuidePage} />
+      <Screen path="/guide" component={GuidePage} />
       <Screen path="/me" component={MyPage} />
       <Screen path="/meetings/:id" component={MeetingDetailPage} />
       <Screen path="/create" component={CreateMeetingForm} />

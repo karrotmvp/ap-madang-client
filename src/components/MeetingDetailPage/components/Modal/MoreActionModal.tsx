@@ -19,7 +19,6 @@ function MoreActionModal({ state, setState, id }: Props): ReactElement {
     (e?): void => {
       e?.stopPropagation();
       setModalCloseState(true);
-      console.log('close');
       setTimeout(() => {
         setState(undefined);
       }, 400);

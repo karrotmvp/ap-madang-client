@@ -69,6 +69,17 @@ export const deleteMeeting = async (id: string): Promise<deleteMeetingRes> => {
   }
 };
 
+export const shareMeeting = async (id: string): Promise<shareMeetingRes> => {
+  try {
+    const res: { data: { short_url: string } } = await customAxios().get(
+      `/share/short-url/meeting?meeting=${id}`,
+    );
+    return { success: true, data: res.data };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
 interface getMeetingsRes {
   success: boolean;
   data?: MeetingList[];
@@ -102,4 +113,9 @@ interface createMeetingRes {
 
 interface deleteMeetingRes {
   success: boolean;
+}
+
+interface shareMeetingRes {
+  success: boolean;
+  data?: { short_url: string };
 }

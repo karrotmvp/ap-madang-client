@@ -34,7 +34,7 @@ function DeleteModalView({
           backgroundColor: COLOR.GREY_900,
           color: COLOR.TEXT_WHITE,
         });
-        isRoot ? replace('/') : pop();
+        isRoot ? replace('/') : pop().send('goBack');
       } else {
         toast('모임 삭제에 실패했어요.', {
           backgroundColor: COLOR.ORANGE,

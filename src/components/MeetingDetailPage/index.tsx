@@ -10,17 +10,19 @@ import { useRecoilValue } from 'recoil';
 
 import { getAgoraCode } from '../../api/agora';
 import { deleteAlarm, newAlarm } from '../../api/alarm';
-import { getMeetingDetail } from '../../api/meeting';
+import { getMeetingDetail, shareMeeting } from '../../api/meeting';
 import { analytics } from '../../App';
 import person from '../../assets/icon/common/person.svg';
 import back_arrow_green from '../../assets/icon/detailPage/back_arrow_green.svg';
 import camera_meeting_tag__gray from '../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
 import clock from '../../assets/icon/detailPage/clock.svg';
+import share_meeting from '../../assets/icon/detailPage/share_meeting.svg';
 import trailing_icon from '../../assets/icon/detailPage/trailing_icon.svg';
 import voice_meeting_tag__gray from '../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
 import nav_logo from '../../assets/image/nav_logo.png';
 import { COLOR } from '../../constant/color';
 import { MEETING_DETAIL } from '../../constant/message';
+import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
@@ -49,6 +51,7 @@ const MeetingDetailPage = () => {
   >(undefined);
   const { isRoot, isTop } = useCurrentScreen();
   const { pop, replace } = useNavigator();
+  const mini = useMini();
 
   const userInfo = useRecoilValue(userInfoAtom);
 
@@ -75,7 +78,7 @@ const MeetingDetailPage = () => {
       else {
         alert('이미 종료된 모임이에요');
         if (isRoot) replace('/');
-        else pop();
+        else pop().send('goBack');
       }
     },
     [isRoot, pop, replace],
@@ -177,6 +180,13 @@ const MeetingDetailPage = () => {
     [data, userInfo],
   );
 
+  const onShareMeetingHandler = async () => {
+    const shareUrl = await shareMeeting(matchId.params.id);
+    if (shareUrl.success && shareUrl.data && data.title) {
+      mini.share(shareUrl.data.short_url, '[랜동모] ' + data.title);
+    }
+  };
+
   useEffect(() => {
     if (matchId?.params.id) fetchData(matchId.params.id);
   }, [fetchData, matchId.params.id, userInfo]);
@@ -206,16 +216,20 @@ const MeetingDetailPage = () => {
   return (
     <PageWrapper className="meeting-detail">
       <CustomScreenHelmet
+        onCustomBackButton={() => pop().send('goBack')}
         appendMiddle={
           isRoot && <PageTitle onClick={() => replace('/')} src={nav_logo} />
         }
         appendRight={
-          data?.is_host && (
-            <TrailingIcon
-              src={trailing_icon}
-              onClick={() => setMoreActionState('menu')}
-            />
-          )
+          <NavIconSet>
+            <ShareIcon src={share_meeting} onClick={onShareMeetingHandler} />
+            {data?.is_host && (
+              <TrailingIcon
+                src={trailing_icon}
+                onClick={() => setMoreActionState('menu')}
+              />
+            )}
+          </NavIconSet>
         }
       />
       {moreActionState && data?.is_host && (
@@ -272,7 +286,7 @@ const MeetingDetailPage = () => {
             <SummaryInfo className="summary-info">
               <SummaryIcon src={person} />
               <SummaryDiscription className="body4">
-                누적 참여자 {data?.user_enter_cnt}명
+                참여 이웃 {data?.user_enter_cnt}명
               </SummaryDiscription>
             </SummaryInfo>
           )}
@@ -341,7 +355,16 @@ const PageTitle = styled.img`
   width: auto;
 `;
 
+const NavIconSet = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const ShareIcon = styled.img``;
+
 const TrailingIcon = styled.img`
+  margin-left: 2.4rem;
   /* margin-right: 1.6rem; */
 `;
 
