@@ -286,7 +286,7 @@ const MeetingDetailPage = () => {
             <SummaryInfo className="summary-info">
               <SummaryIcon src={person} />
               <SummaryDiscription className="body4">
-                누적 참여자 {data?.user_enter_cnt}명
+                참여 이웃 {data?.user_enter_cnt}명
               </SummaryDiscription>
             </SummaryInfo>
           )}

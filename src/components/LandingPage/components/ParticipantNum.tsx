@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
-import person from '../../../assets/icon/common/person.svg';
+import person_fill__grey from '../../../assets/icon/common/person_fill__grey.svg';
 import { COLOR } from '../../../constant/color';
 
 interface Props {
@@ -12,8 +12,8 @@ interface Props {
 function ParticipantNum({ userMeetingNum }: Props): ReactElement {
   return (
     <ParticipantNumWrapper>
-      <ParticipantIcon src={person} />
-      <Participant>누적 참여자 {userMeetingNum}명</Participant>
+      <ParticipantIcon src={person_fill__grey} />
+      <Participant>참여 이웃 {userMeetingNum}명</Participant>
     </ParticipantNumWrapper>
   );
 }
