@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 import classnames from 'classnames';
@@ -23,12 +23,15 @@ function MeetingList({
   hasMeetings,
   setMeetings,
 }: Props): ReactElement {
-  const filteredDate = meetings.map(el => el.date);
-  const [dateList] = useState(
-    filteredDate.reduce((unique: string[], item) => {
+  const [dateList, setDateList] = useState<string[]>([]);
+
+  useEffect(() => {
+    const filteredDate = meetings.map(el => el.date);
+    const result = filteredDate.reduce((unique: string[], item) => {
       return unique.includes(item) ? unique : [...unique, item];
-    }, []),
-  );
+    }, []);
+    setDateList(result);
+  }, [meetings]);
 
   return (
     <MeetingListWrapper className={classnames('meeting-list', className)}>
@@ -64,6 +67,7 @@ function MeetingList({
           </DateWrapper>
         );
       })}
+
       {!hasMeetings && <SkeletonCard />}
     </MeetingListWrapper>
   );
