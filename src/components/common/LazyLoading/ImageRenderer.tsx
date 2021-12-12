@@ -1,16 +1,20 @@
-import React, { useRef, useState } from 'react';
+/** @jsx jsx */
+import { useRef, useState } from 'react';
 
+import { jsx, SerializedStyles } from '@emotion/react';
+import styled from '@emotion/styled';
 import classnames from 'classnames';
 
+import { COLOR } from '../../../constant/color';
 import useIntersectionObserver from './useIntersectionObserver';
 
 interface Props {
   url: string;
-  thumb: string;
   className?: string;
+  inViewStyle?: SerializedStyles;
 }
 
-const ImageRenderer = ({ url, thumb, className }: Props) => {
+const ImageRenderer = ({ url, className, inViewStyle }: Props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const imgRef = useRef(null);
@@ -21,32 +25,30 @@ const ImageRenderer = ({ url, thumb, className }: Props) => {
     setIsLoaded(true);
   };
   return (
-    <div
-      className="image-container"
+    <ImageContainer
+      className={classnames('image-container', className)}
       ref={imgRef}
-      style={{
-        width: '100%',
-      }}
     >
       {isInView && (
-        <>
-          <img
-            className={classnames(className, 'image', 'thumb', {
-              ['isLoaded']: !!isLoaded,
-            })}
-            src={thumb}
-          />
-          <img
-            className={classnames(className, 'image', {
-              ['isLoaded']: !!isLoaded,
-            })}
-            src={url}
-            onLoad={handleOnLoad}
-          />
-        </>
+        <img
+          css={inViewStyle}
+          className={classnames('image', isLoaded)}
+          src={url}
+          onLoad={handleOnLoad}
+        />
       )}
-    </div>
+    </ImageContainer>
   );
 };
+
+const ImageContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  background-color: ${COLOR.IMAGE_WRAPPER_BLACK};
+`;
 
 export default ImageRenderer;

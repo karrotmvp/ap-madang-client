@@ -1,5 +1,6 @@
 import React, { ReactElement, useCallback, useState } from 'react';
 
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
@@ -152,7 +153,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
           />
         </TagWrapper>
 
-        <LazyImageItemStyle url={data.image} thumb={data.image} />
+        <LazyImageItemStyle url={data.image} inViewStyle={ImageStyle} />
       </CardImageWrapper>
       <ContentsWrapper className="meeting-card__contents">
         <InfoWrapper>
@@ -238,10 +239,18 @@ const TagWrapper = styled.div`
 `;
 
 const LazyImageItemStyle = styled(ImageRenderer)`
-  width: auto;
+  width: 100%;
   height: 8rem;
   object-fit: cover;
   border-radius: 0.6rem;
+  overflow: hidden;
+`;
+
+const ImageStyle = css`
+  //TODO: 가로 세로 비율 변경
+  width: auto;
+  height: 8rem;
+  object-fit: cover;
 `;
 
 const InfoWrapper = styled.div`

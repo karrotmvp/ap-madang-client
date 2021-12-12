@@ -13,7 +13,7 @@ const useIntersectionObserver = (
     handleIntersections,
     intersectionOptions,
   );
-  function handleIntersections(entries: any[]) {
+  function handleIntersections(entries: IntersectionObserverEntry[]) {
     entries.forEach(entry => {
       if (entry.isIntersecting || entry.intersectionRatio > 0) {
         observer.unobserve(entry.target);
