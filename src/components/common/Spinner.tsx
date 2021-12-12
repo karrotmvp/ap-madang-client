@@ -2,14 +2,14 @@ import React, { ReactElement } from 'react';
 
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ImSpinner2 } from 'react-icons/im';
 
+import spinner_icon from '../../assets/icon/common/spinner.svg';
 import { COLOR } from '../../constant/color';
 
 function Spinner(): ReactElement {
   return (
     <SpinnerWrapper className="spinner">
-      <SpinnerIcon />
+      <SpinnerIcon src={spinner_icon} />
     </SpinnerWrapper>
   );
 }
@@ -34,7 +34,7 @@ const SpinnerWrapper = styled.div`
   align-items: center;
 `;
 
-const SpinnerIcon = styled(ImSpinner2)`
+const SpinnerIcon = styled.img`
   width: 40px;
   height: 40px;
   color: ${COLOR.LIGHT_GREEN};
