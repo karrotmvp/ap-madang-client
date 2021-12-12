@@ -43,4 +43,18 @@ declare module 'meeting' {
     meeting_url: string;
     region: string;
   } & meetingListType;
+
+  export type TimeType = {
+    start_time: string;
+    end_time: string;
+  };
+
+  export type CreateMeeting = {
+    title: string;
+    description: string;
+    type: undefined | 'video' | 'audio';
+    date: string;
+    time: TimeType;
+    image: File | null;
+  };
 }

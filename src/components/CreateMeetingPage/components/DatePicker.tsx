@@ -2,7 +2,6 @@ import React, { ReactElement, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
-import { FieldValues, useController, Control } from 'react-hook-form';
 
 import 'dayjs/locale/ko';
 
@@ -10,22 +9,15 @@ import { COLOR } from '../../../constant/color';
 dayjs.locale('ko');
 
 interface Props {
-  trySubmit: boolean;
-  control: Control<FieldValues>;
+  submitState: { state: 'loading' | 'wait' | 'submit' };
+  onChange: (value: string) => void;
 }
 
-function DatePicker({ trySubmit, control }: Props): ReactElement {
+function DatePicker({ submitState, onChange }: Props): ReactElement {
   const [dayList, setDayList] = React.useState<dayjs.Dayjs[]>([]);
   const [dateState, setDateState] = React.useState<string | undefined>(
     undefined,
   );
-  const {
-    field: { onChange },
-  } = useController({
-    name: 'date',
-    control,
-    rules: { required: true },
-  });
 
   useEffect(() => {
     for (let i = 0; i < 7; i++) {
@@ -45,7 +37,7 @@ function DatePicker({ trySubmit, control }: Props): ReactElement {
           onChange(e.target.value);
         }}
         selected={dateState ? true : false}
-        trySubmit={trySubmit}
+        trySubmit={submitState.state === 'submit'}
       >
         <DefaultOption value={''} hidden>
           모임 날짜를 선택해주세요.

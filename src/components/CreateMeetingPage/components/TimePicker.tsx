@@ -2,23 +2,20 @@ import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
+import { CreateMeeting, TimeType } from 'meeting';
 
 import nav_close from '../../../assets/icon/common/nav_close.svg';
 import { COLOR } from '../../../constant/color';
 
-type TimeType = {
-  start_time: string;
-  end_time: string;
-};
-
 interface Props {
   date: string;
+  // form: CreateMeeting;
   time: TimeType;
-  setTime: React.Dispatch<React.SetStateAction<TimeType>>;
+  setForm: React.Dispatch<React.SetStateAction<CreateMeeting>>;
   trySubmit: boolean;
 }
 
-function TimePicker({ date, time, setTime, trySubmit }: Props): ReactElement {
+function TimePicker({ date, time, setForm, trySubmit }: Props): ReactElement {
   const [startList, setStartList] = useState<dayjs.Dayjs[]>([]);
   const [endList, setEndList] = useState<dayjs.Dayjs[]>([]);
 
@@ -53,26 +50,32 @@ function TimePicker({ date, time, setTime, trySubmit }: Props): ReactElement {
   useEffect(() => {
     setStartList([]);
     setEndList([]);
-    setTime({ start_time: '', end_time: '' });
+    setForm((prevState: CreateMeeting) => ({
+      ...prevState,
+      time: { start_time: '', end_time: '' },
+    }));
     date && startListHandler();
-  }, [date, setTime, startListHandler]);
+  }, [date, setForm, startListHandler]);
 
   useEffect(() => {
     setEndList([]);
-    setTime(prevTime => {
-      return { ...prevTime, end_time: '' };
+    setForm(prevState => {
+      return { ...prevState, time: { ...prevState.time, end_time: '' } };
     });
-    time.start_time !== '시작시간' && endListHandler();
-  }, [endListHandler, setTime, time.start_time]);
-
+    time.start_time !== '' && endListHandler();
+  }, [endListHandler, setForm, time.start_time]);
   return (
     <TimePickerWrapper>
       <SelectorStyle
         className="start_time_selector"
         onChange={e => {
-          setTime({ start_time: e.target.value, end_time: '' });
+          console.log('onChange', e.target.value);
+          setForm((prevState: CreateMeeting) => ({
+            ...prevState,
+            time: { start_time: e.target.value, end_time: '' },
+          }));
         }}
-        selected={time.start_time ? true : false}
+        selected={time.start_time !== '' ? true : false}
         trySubmit={trySubmit}
       >
         <DefaultOption value={''} hidden>
@@ -94,9 +97,10 @@ function TimePicker({ date, time, setTime, trySubmit }: Props): ReactElement {
       <SelectorStyle
         className="end_time_selector"
         onChange={e => {
-          setTime(prevTime => {
-            return { ...prevTime, end_time: e.target.value };
-          });
+          setForm((prevState: CreateMeeting) => ({
+            ...prevState,
+            time: { ...prevState.time, end_time: e.target.value },
+          }));
         }}
         selected={time.end_time ? true : false}
         trySubmit={trySubmit}
