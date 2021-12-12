@@ -52,6 +52,7 @@ const MeetingDetailPage = () => {
   const { isRoot, isTop } = useCurrentScreen();
   const { pop, replace } = useNavigator();
   const mini = useMini();
+  const [tagFocus, setTagFocus] = useState(true);
 
   const userInfo = useRecoilValue(userInfoAtom);
 
@@ -249,20 +250,32 @@ const MeetingDetailPage = () => {
         <BannerWrapper>
           <BannerImg src={data?.image} />
         </BannerWrapper>
-        <TagWrapper>
-          <TagMessageBubbleOutside>
-            <TagMessageBubble>
-              {data?.is_video
-                ? MEETING_DETAIL.IS_VIDEO
-                : MEETING_DETAIL.IS_VOICE}
-            </TagMessageBubble>
-          </TagMessageBubbleOutside>
-
-          {data?.is_video ? (
-            <Tag src={camera_meeting_tag__gray} />
-          ) : (
-            <Tag src={voice_meeting_tag__gray} />
+        <TagWrapper
+          onClick={() => {
+            if (tagFocus) {
+              setTagFocus(false);
+            } else {
+              setTagFocus(true);
+            }
+          }}
+        >
+          {tagFocus && (
+            <TagMessageBubbleOutside className="tag-tooltip">
+              <TagMessageBubble>
+                {data?.is_video
+                  ? MEETING_DETAIL.IS_VIDEO
+                  : MEETING_DETAIL.IS_VOICE}
+              </TagMessageBubble>
+            </TagMessageBubbleOutside>
           )}
+
+          <Tag
+            src={
+              data?.is_video
+                ? camera_meeting_tag__gray
+                : voice_meeting_tag__gray
+            }
+          />
         </TagWrapper>
         <TitleWrapper className="meeting-detail__header">
           <Title className="title1">{data?.title}</Title>
