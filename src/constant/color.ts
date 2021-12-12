@@ -5,6 +5,7 @@ export const COLOR = {
   TEXT_WHITE: '#ffffff',
   BACKGROUND_WHITE: '#ffffff',
   MODAL_WRAPPER_BLACK: 'rgba(25,25,26, 0.75)',
+  SPINNER_WRAPPER_BLACK: 'rgba(25,25,26, 0.01)',
   IMAGE_WRAPPER_BLACK: 'rgba(25,25,26, 0.1)',
   GREY_000: '#FAFAFA',
   GREY_100: '#F5F5F5',
