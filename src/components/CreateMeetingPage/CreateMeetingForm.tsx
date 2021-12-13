@@ -291,7 +291,7 @@ function CreateMeetingForm(): ReactElement {
             submitState.state !== 'loading' && loginWithMini(onSubmitBtnHandler)
           }
         >
-          모임 생성하기
+          모임 만들기
         </SubmitBtn>
       </SubmitArea>
     </CreateMeeting>

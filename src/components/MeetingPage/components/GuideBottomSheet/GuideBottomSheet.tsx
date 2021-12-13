@@ -43,7 +43,7 @@ function GuideBottomSheet({ onClose }: Props): ReactElement {
         </IconWrapper>
         <TitleWrapper>
           <LogoImg src={house_logo} />
-          <TitleText>{`랜선동네모임에\n오신 것을 환영해요!`}</TitleText>
+          <TitleText>{`랜선동네모임에\n오신 것을 환영해요`}</TitleText>
         </TitleWrapper>
         <ContentsWrapper>
           <GuideDescription

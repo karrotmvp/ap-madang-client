@@ -25,7 +25,7 @@ function EmptyMeeting({ className }: Props): ReactElement {
       <EmptyWrapper>
         <EmptyImg src={un_happy_scratch} />
         <EmptyText>
-          {'아직 만든 모임이 없어요!\n모임을 만들고 이웃을 만나보세요.'}
+          {'아직 만든 모임이 없어요.\n모임을 만들고 이웃을 만나보세요.'}
         </EmptyText>
         <CreateBtn>
           <img src={plus__white} />

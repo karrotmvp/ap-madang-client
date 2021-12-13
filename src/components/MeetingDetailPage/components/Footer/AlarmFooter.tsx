@@ -28,7 +28,7 @@ function AlarmFooter({ data, alarmHandler }: Props): ReactElement {
           <BubbleIcon src={data?.alarm_id ? smile_emoji : fire_emoji} />
           {data?.alarm_id
             ? '모임이 시작되면 알림을 보내드릴게요'
-            : '알림 신청하고 랜동모에서 이웃을 만나보세요!'}
+            : '알림 신청하고 랜동모에서 이웃을 만나보세요'}
         </MessageBubble>
       )}
       <Footer fromFeed={data?.live_status !== 'live' && isRoot}>
@@ -49,7 +49,7 @@ function AlarmFooter({ data, alarmHandler }: Props): ReactElement {
           />
 
           <AlarmApplicant applied={data?.alarm_id}>
-            {data?.alarm_id ? '알림 받는 중' : '알림 신청'}
+            {data?.alarm_id ? '알림 신청 완료' : '알림 신청'}
             <Count>{data?.alarm_num || 0}명 신청 중</Count>
           </AlarmApplicant>
         </AlarmBtn>
