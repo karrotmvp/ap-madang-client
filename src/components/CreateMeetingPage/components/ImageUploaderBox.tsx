@@ -43,6 +43,7 @@ function ImageUploaderBox({
       <TitleText>
         사진 추가<SubTitle>(선택)</SubTitle>
       </TitleText>
+      <Notice>모임 사진을 선택하지 않으면 기본 사진이 들어가요.</Notice>
       <FileWrapper>
         <FileUploadBox className="file-upload-box file-upload btn btn-primary">
           <ImageInputPreview
@@ -89,6 +90,15 @@ const SubTitle = styled.div`
   line-height: 2.3rem;
   letter-spacing: -0.03rem;
   color: ${COLOR.FONT_BODY_GREY};
+`;
+
+const Notice = styled.div`
+  font-size: 1.3rem;
+  line-height: 1.9rem;
+  letter-spacing: -0.03rem;
+
+  color: ${COLOR.LIGHT_GREEN};
+  margin-bottom: 1.6rem;
 `;
 
 const FileWrapper = styled.div`
