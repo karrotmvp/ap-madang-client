@@ -14,7 +14,6 @@ import nav_my_page from '../../assets/icon/common/nav_my_page.svg';
 import big_plus__white from '../../assets/icon/landingPage/big_plus__white.svg';
 import tooltip_close__white from '../../assets/icon/landingPage/tooltip_close__white.svg';
 import nav_logo from '../../assets/image/nav_logo.png';
-import suggestion_img from '../../assets/image/suggestion_img.png';
 import { COLOR } from '../../constant/color';
 import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
@@ -123,12 +122,6 @@ const LandingPage: React.FC = () => {
           <Divider className="landing__divider" size="1rem" />
         </div>
       }
-      <SuggestionBannerWrapper>
-        <SuggestionImg
-          src={suggestion_img}
-          onClick={() => push('/suggestion/meeting')}
-        />
-      </SuggestionBannerWrapper>
     </PageWrapper>
   );
 };
@@ -164,7 +157,7 @@ const UserIcon = styled.img`
 const CreateBtnWrapper = styled.div`
   position: -webkit-sticky; /* 사파리 브라우저 지원 */
   position: sticky;
-  top: calc(100vh - 11.2rem);
+  top: calc(100vh - 9rem);
   left: calc(100vw - 7.6rem);
   width: 0;
   height: 0;
@@ -230,15 +223,6 @@ const ToolTip = styled.div`
 
 const ToolTipIcon = styled.img`
   margin-left: 0.6rem;
-`;
-
-const SuggestionBannerWrapper = styled.div`
-  padding: 2.4rem 1.6rem 5rem 1.6rem;
-`;
-
-const SuggestionImg = styled.img`
-  width: 100%;
-  height: 100%;
 `;
 
 export default LandingPage;
