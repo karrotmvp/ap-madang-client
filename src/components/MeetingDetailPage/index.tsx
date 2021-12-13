@@ -53,7 +53,7 @@ const MeetingDetailPage = () => {
   const { isRoot, isTop } = useCurrentScreen();
   const { pop, replace } = useNavigator();
   const mini = useMini();
-  const [tagFocus, setTagFocus] = useState(true);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const userInfo = useRecoilValue(userInfoAtom);
 
@@ -94,6 +94,11 @@ const MeetingDetailPage = () => {
         location: 'detail_page',
         userNickname: userInfo.nickname,
         userRegion: userInfo.region,
+
+        meeting_title: data.title,
+        meeting_id: data.id,
+        meeting_live_status: data.live_status,
+        meeting_is_video: data.is_video,
       });
       const result = await newAlarm(matchId.params.id);
       if (result.success && result.data?.id) {
@@ -119,6 +124,11 @@ const MeetingDetailPage = () => {
         location: 'detail_page',
         userNickname: userInfo.nickname,
         userRegion: userInfo.region,
+
+        meeting_title: data.title,
+        meeting_id: data.id,
+        meeting_live_status: data.live_status,
+        meeting_is_video: data.is_video,
       });
       const result = await deleteAlarm(data?.alarm_id.toString());
       if (result.success) {
@@ -198,7 +208,7 @@ const MeetingDetailPage = () => {
     if (isRoot && !sendLogEvent && refParams) {
       logEvent(analytics, `user_from_${refParams}__show`, {
         location: 'detail_page',
-        meeting_state: data.live_status,
+        meeting_state: data?.live_status,
       });
       setSendLogEvent(true);
     }
@@ -207,8 +217,16 @@ const MeetingDetailPage = () => {
   // 페이지 트랜지션이 있을때 떠있는 모달 제거
   useEffect(() => {
     hideModal();
-    isTop && logEvent(analytics, 'detail_page__show');
+    isTop && logEvent(analytics, `detail_page__show`);
   }, [isTop]);
+
+  useEffect(() => {
+    data &&
+      logEvent(
+        analytics,
+        `${data.is_video ? 'video' : 'audio'}_detail_page__show`,
+      );
+  }, [data]);
 
   return (
     <PageWrapper className="meeting-detail">
@@ -228,6 +246,7 @@ const MeetingDetailPage = () => {
           </NavIconSet>
         }
       />
+
       {moreActionState && data?.is_host && (
         <MoreActionModal
           state={moreActionState}
@@ -246,7 +265,7 @@ const MeetingDetailPage = () => {
           <BannerImg src={data?.image} />
         </BannerWrapper>
         <TagWrapper>
-          {tagFocus && (
+          {showTooltip && (
             <TagMessageBubbleOutside className="tag-tooltip">
               <TagMessageBubble>
                 {data?.is_video
@@ -263,13 +282,13 @@ const MeetingDetailPage = () => {
                   : voice_meeting_tag__gray
               }
               onClick={() => {
-                setTagFocus(state => !state);
+                setShowTooltip(state => !state);
               }}
             />
             <InfoIcon
               src={info_i}
               onClick={() => {
-                setTagFocus(state => !state);
+                setShowTooltip(state => !state);
               }}
             />
           </TagImageWrapper>
@@ -369,6 +388,8 @@ const NavIconSet = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  margin-right: 1.6rem;
 `;
 
 const ShareIcon = styled.img``;
@@ -458,7 +479,7 @@ const ContentsWrapper = styled.div<{ bottomPadding: string }>`
 const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0.6rem 1.6rem 1.2rem 1.6rem;
+  margin: 0 1.6rem 1.2rem 1.6rem;
 `;
 
 const Title = styled.div`
