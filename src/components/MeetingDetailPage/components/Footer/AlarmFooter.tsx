@@ -49,7 +49,7 @@ function AlarmFooter({ data, alarmHandler }: Props): ReactElement {
           />
 
           <AlarmApplicant applied={data?.alarm_id}>
-            {data?.alarm_id ? '알림 받는 중' : '알림 신청하기'}
+            {data?.alarm_id ? '알림 받는 중' : '알림 신청'}
             <Count>{data?.alarm_num || 0}명 신청 중</Count>
           </AlarmApplicant>
         </AlarmBtn>
@@ -59,12 +59,11 @@ function AlarmFooter({ data, alarmHandler }: Props): ReactElement {
 }
 
 const FooterWrapper = styled.div`
-  width: 100%;
-  position: absolute;
-  bottom: 0;
+  max-height: 6.4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
 `;
 
 const MessageBubble = styled.div`
