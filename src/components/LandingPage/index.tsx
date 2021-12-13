@@ -47,8 +47,11 @@ const LandingPage: React.FC = () => {
   }, [setMeetings]);
 
   const tooltipCloseHandler = () => {
-    window.localStorage.setItem('create_tooltip', 'true');
-    setShowTooltip(false);
+    const tooltip = window.localStorage.getItem('create_btn_tooltip');
+    if (!tooltip) {
+      window.localStorage.setItem('create_btn_tooltip', 'true');
+      setShowTooltip(false);
+    }
   };
 
   const myPageHandler = () => {
@@ -65,7 +68,7 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     logEvent(analytics, 'landing_page__show');
-    const tooltip = window.localStorage.getItem('create_tooltip');
+    const tooltip = window.localStorage.getItem('create_btn_tooltip');
     if (!tooltip) setShowTooltip(true);
   }, []);
 
@@ -80,6 +83,7 @@ const LandingPage: React.FC = () => {
           />
         }
       />
+
       <CarouselBanner />
       <Divider size="0.1rem" color={COLOR.GREY_400} />
       <Divider size="0.9rem" color={COLOR.GREY_200} />
@@ -87,7 +91,7 @@ const LandingPage: React.FC = () => {
         {showTooltip && (
           <ToolTipOutside>
             <ToolTip>
-              버튼을 눌러 모임을 만들어 보세요!{' '}
+              버튼을 눌러 모임을 만들어 보세요{' '}
               <ToolTipIcon
                 src={tooltip_close__white}
                 onClick={() => tooltipCloseHandler()}
@@ -95,12 +99,17 @@ const LandingPage: React.FC = () => {
             </ToolTip>
           </ToolTipOutside>
         )}
-        <CreateBtn onClick={() => push('/create')}>
+        <CreateBtn
+          onClick={() => {
+            tooltipCloseHandler();
+            push('/create');
+          }}
+        >
           <img src={big_plus__white} />
         </CreateBtn>
       </CreateBtnWrapper>
       {meetings.length === 0 && <SkeletonCard />}
-      {
+      {meetings.filter(el => el.live_status === 'live') && (
         <div>
           <CurrMeetingList
             className="landing__current"
@@ -108,7 +117,7 @@ const LandingPage: React.FC = () => {
           />
           <Divider className="landing__divider" size="1rem" />
         </div>
-      }
+      )}
       {
         <div>
           <MeetingList
@@ -152,13 +161,15 @@ const PageTitle = styled.img`
 const UserIcon = styled.img`
   width: 2.4rem;
   height: 2.4rem;
+
+  margin-right: 1.6rem;
 `;
 
 const CreateBtnWrapper = styled.div`
   position: -webkit-sticky; /* 사파리 브라우저 지원 */
   position: sticky;
-  top: calc(100vh - 9rem);
-  left: calc(100vw - 7.6rem);
+  top: calc(100% - 9rem);
+  left: calc(100% - 7.6rem);
   width: 0;
   height: 0;
   z-index: 1000;
