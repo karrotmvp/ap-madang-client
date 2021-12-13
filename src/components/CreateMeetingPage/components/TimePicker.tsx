@@ -82,12 +82,12 @@ function TimePicker({ date, time, setForm, trySubmit }: Props): ReactElement {
 
         {startList.map((day, idx) => {
           return (
-            <option
+            <SelectOption
               key={idx.toString() + day.toString()}
               value={day.format('YYYY-MM-DD HH:mm:00')}
             >
               {day.format('a hh:mm')}
-            </option>
+            </SelectOption>
           );
         })}
       </SelectorStyle>
@@ -108,12 +108,12 @@ function TimePicker({ date, time, setForm, trySubmit }: Props): ReactElement {
         </DefaultOption>
         {endList.map((day, idx) => {
           return (
-            <option
+            <SelectOption
               key={idx.toString() + day.toString()}
               value={day.format('YYYY-MM-DD HH:mm:00')}
             >
               {day.format('a hh:mm')}
-            </option>
+            </SelectOption>
           );
         })}
       </SelectorStyle>
@@ -136,6 +136,8 @@ const SelectorStyle = styled.select<{ selected: boolean; trySubmit: boolean }>`
   background-color: white;
   box-sizing: border-box;
   border-radius: 0.6rem;
+  font-size: 1.5rem;
+  line-height: 2.3rem;
 
   background: url('http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png')
     no-repeat right #ffffff;
@@ -145,6 +147,12 @@ const SelectorStyle = styled.select<{ selected: boolean; trySubmit: boolean }>`
   border: 1px solid
     ${({ trySubmit, selected }) =>
       !selected && trySubmit ? '#ff5638' : '#cbcccd'};
+
+  &:focus {
+    outline: none;
+    border: 2px solid ${COLOR.LIGHT_GREEN};
+    border-radius: 0.6rem;
+  }
 `;
 
 const DefaultOption = styled.option`
@@ -170,6 +178,13 @@ const Tilde = styled.div`
   width: 0.8rem;
   height: 0.1rem;
   background: ${COLOR.TEXT_BLACK};
+`;
+
+const SelectOption = styled.option`
+  font-size: 1.5rem;
+  line-height: 2.3rem;
+  letter-spacing: -0.03rem;
+  color: ${COLOR.TEXT_BLACK};
 `;
 
 export default TimePicker;

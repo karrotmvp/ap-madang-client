@@ -44,9 +44,9 @@ function DatePicker({ submitState, onChange }: Props): ReactElement {
         </DefaultOption>
         {dayList.map(day => {
           return (
-            <option key={day.toString()} value={day.format('YYYY-MM-DD')}>
+            <SelectOption key={day.toString()} value={day.format('YYYY-MM-DD')}>
               {day.format('MM월 DD일 dddd')}
-            </option>
+            </SelectOption>
           );
         })}
       </SelectorStyle>
@@ -71,10 +71,18 @@ const SelectorStyle = styled.select<{ selected: boolean; trySubmit: boolean }>`
     no-repeat right #ffffff;
   -webkit-appearance: none;
   background-position-x: calc(100% - 20px);
+  font-size: 1.5rem;
+  line-height: 2.3rem;
 
   border: 1px solid
     ${({ trySubmit, selected }) =>
       !selected && trySubmit ? '#ff5638' : '#cbcccd'};
+
+  &:focus {
+    outline: none;
+    border: 2px solid ${COLOR.LIGHT_GREEN};
+    border-radius: 0.6rem;
+  }
 `;
 
 const DefaultOption = styled.option`
@@ -82,6 +90,13 @@ const DefaultOption = styled.option`
   line-height: 2.3rem;
   letter-spacing: -0.03rem;
   color: ${COLOR.GREY_500};
+`;
+
+const SelectOption = styled.option`
+  font-size: 1.5rem;
+  line-height: 2.3rem;
+  letter-spacing: -0.03rem;
+  color: ${COLOR.TEXT_BLACK};
 `;
 
 export default DatePicker;
