@@ -1,6 +1,6 @@
 import React, { ReactElement, useCallback, useState } from 'react';
 
-import { css } from '@emotion/react';
+// import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
@@ -17,7 +17,7 @@ import { COLOR } from '../../../../constant/color';
 import useMini from '../../../../hook/useMini';
 import { userInfoAtom } from '../../../../store/user';
 import { getStartTimeForm } from '../../../../util/utils';
-import ImageRenderer from '../../../common/LazyLoading/ImageRenderer';
+// import ImageRenderer from '../../../common/LazyLoading/ImageRenderer';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../../../common/Modal/NewAlarmModal';
 import UserProfile from '../UserProfile';
@@ -42,7 +42,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
   const { push } = useNavigator();
 
   const deleteAlarmHandler = useCallback(async () => {
-    if (data?.alarm_id && userInfo) {
+    if (data && data?.alarm_id && userInfo) {
       logEvent(analytics, 'delete_alarm__click', {
         location: 'meeting_card',
         meeting_id: data.id,
@@ -69,14 +69,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
       }
     }
     return false;
-  }, [
-    data.alarm_id,
-    data.id,
-    data.live_status,
-    data.title,
-    setMeetings,
-    userInfo,
-  ]);
+  }, [data, setMeetings, userInfo]);
 
   const alarmHandler = useCallback(async () => {
     if (data?.alarm_id) {
@@ -153,7 +146,8 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
           />
         </TagWrapper>
 
-        <LazyImageItemStyle url={data.image} inViewStyle={ImageStyle} />
+        <ImageThumbnail src={data.image} />
+        {/* <LazyImageItemStyle url={data.image} inViewStyle={ImageStyle} /> */}
       </CardImageWrapper>
       <ContentsWrapper className="meeting-card__contents">
         <InfoWrapper>
@@ -238,20 +232,28 @@ const TagWrapper = styled.div`
   z-index: 1;
 `;
 
-const LazyImageItemStyle = styled(ImageRenderer)`
-  width: 100%;
+const ImageThumbnail = styled.img`
+  width: auto;
   height: 8rem;
   object-fit: cover;
   border-radius: 0.6rem;
   overflow: hidden;
 `;
 
-const ImageStyle = css`
-  //TODO: 가로 세로 비율 변경
-  width: auto;
-  height: 8rem;
-  object-fit: cover;
-`;
+// const LazyImageItemStyle = styled(ImageRenderer)`
+//   width: 100%;
+//   height: 8rem;
+//   object-fit: cover;
+//   border-radius: 0.6rem;
+//   overflow: hidden;
+// `;
+
+// const ImageStyle = css`
+//   //TODO: 가로 세로 비율 변경
+//   width: auto;
+//   height: 8rem;
+//   object-fit: cover;
+// `;
 
 const InfoWrapper = styled.div`
   width: calc(100% - 3rem);
