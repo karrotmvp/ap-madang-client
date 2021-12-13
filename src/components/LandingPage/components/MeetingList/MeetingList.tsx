@@ -44,26 +44,25 @@ function MeetingList({
         </Title>
       </ListTitle>
       {dateList.map((date, dateListIdx) => {
+        const filteredMeetings = meetings.filter(el => el.date === date);
         return (
-          <DateWrapper key={dateListIdx}>
+          <DateWrapper key={dateListIdx} className="date-list">
             <DateLabel>{dayjs(date).format('MM월 DD일')}</DateLabel>
-            {meetings
-              .filter(el => el.date === date)
-              .map((meeting, meetingIdx) => {
-                return (
-                  <div key={meeting.id}>
-                    <MeetingCard
-                      key={meeting.id}
-                      data={meeting}
-                      idx={meetingIdx}
-                      setMeetings={setMeetings}
-                    />
-                    {meetings.length - 1 !== meetingIdx && (
-                      <Divider size="0.1rem" />
-                    )}
-                  </div>
-                );
-              })}
+            {filteredMeetings.map((meeting, meetingIdx) => {
+              return (
+                <div key={meeting.id}>
+                  <MeetingCard
+                    key={meeting.id}
+                    data={meeting}
+                    idx={meetingIdx}
+                    setMeetings={setMeetings}
+                  />
+                  {filteredMeetings.length - 1 !== meetingIdx && (
+                    <DividerStyle size="0.1rem" />
+                  )}
+                </div>
+              );
+            })}
           </DateWrapper>
         );
       })}
@@ -76,12 +75,6 @@ function MeetingList({
 const MeetingListWrapper = styled.div`
   box-sizing: border-box;
   padding: 5rem 0;
-  .meeting-card:last-child {
-    margin-bottom: 0;
-  }
-  .meeting-card:first-of-type {
-    margin-top: 0.8rem;
-  }
 `;
 
 const Title = styled.div`
@@ -109,6 +102,9 @@ const DateWrapper = styled.div`
   position: static;
   width: 100%;
   height: auto;
+  margin-bottom: 3.4rem;
+  &:last-child {
+    margin-bottom: 0;
 `;
 
 const DateLabel = styled.div`
@@ -125,6 +121,10 @@ const DateLabel = styled.div`
   font-size: 1.5rem;
   line-height: 2.3rem;
   color: ${COLOR.TEXT_BLACK};
+`;
+
+const DividerStyle = styled(Divider)`
+  margin: 2rem 0;
 `;
 
 export default MeetingList;

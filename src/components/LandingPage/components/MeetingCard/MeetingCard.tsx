@@ -196,7 +196,7 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
 
 const MeetingCardWrapper = styled.div<WrapperProps>`
   box-sizing: border-box;
-  margin: 1.8rem 1.6rem;
+  margin: 0 1.6rem;
   height: auto;
   display: flex;
   flex-direction: row;
@@ -205,7 +205,7 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
   background-color: ${COLOR.TEXT_WHITE};
 
   box-sizing: border-box;
-  /* margin-top: ${props => (props.idx === 0 ? '1.8rem' : 0)}; */
+  margin-top: ${props => props.idx === 0 && '0.8rem'};
 `;
 
 const ContentsWrapper = styled.div`
