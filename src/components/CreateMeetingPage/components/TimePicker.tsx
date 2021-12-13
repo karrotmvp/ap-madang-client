@@ -9,7 +9,6 @@ import { COLOR } from '../../../constant/color';
 
 interface Props {
   date: string;
-  // form: CreateMeeting;
   time: TimeType;
   setForm: React.Dispatch<React.SetStateAction<CreateMeeting>>;
   trySubmit: boolean;
@@ -69,7 +68,6 @@ function TimePicker({ date, time, setForm, trySubmit }: Props): ReactElement {
       <SelectorStyle
         className="start_time_selector"
         onChange={e => {
-          console.log('onChange', e.target.value);
           setForm((prevState: CreateMeeting) => ({
             ...prevState,
             time: { start_time: e.target.value, end_time: '' },

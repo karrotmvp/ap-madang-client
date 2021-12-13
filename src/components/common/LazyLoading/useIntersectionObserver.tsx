@@ -17,7 +17,6 @@ const useIntersectionObserver = (
     entries.forEach(entry => {
       if (entry.isIntersecting || entry.intersectionRatio > 0) {
         observer.unobserve(entry.target);
-        console.log('load', callback);
         callback();
       }
     });

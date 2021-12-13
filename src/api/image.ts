@@ -27,7 +27,6 @@ const uploadToBucket = async (preSignedUrl: presignedUrlRes, file: File) => {
     await axios.post(preSignedUrl.data.url, formData);
     return true;
   } catch (e) {
-    console.log(e);
     return false;
   }
 };
