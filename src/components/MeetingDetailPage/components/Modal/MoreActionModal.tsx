@@ -44,7 +44,7 @@ function MoreActionModal({ state, setState, id }: Props): ReactElement {
             setState('delete');
           }}
         >
-          삭제
+          모임 삭제
         </MenuBtn>
         <MenuBtn color={COLOR.TEXT_BLACK} onClick={onClickOutsideHandler}>
           닫기
