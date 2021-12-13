@@ -74,7 +74,7 @@ function MeetingList({
 
 const MeetingListWrapper = styled.div`
   box-sizing: border-box;
-  padding: 5rem 0;
+  padding: 4rem 0;
 `;
 
 const Title = styled.div`
@@ -114,7 +114,7 @@ const DateLabel = styled.div`
   position: -webkit-sticky;
   position: sticky;
   width: 100%;
-  top: 5.6rem;
+  top: 0;
   background: ${COLOR.BACKGROUND_WHITE};
   z-index: 10;
   padding: 1rem 1.6rem;

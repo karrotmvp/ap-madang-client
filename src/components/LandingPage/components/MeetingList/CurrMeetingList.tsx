@@ -34,7 +34,7 @@ function CurrMeetingList({ className, meetings, title }: Props): ReactElement {
 const CurrMeetingListWrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
-  padding: 4rem 1.6rem 5rem 1.6rem;
+  padding: 4rem 1.6rem;
 
   .swiper {
     width: 100%;
