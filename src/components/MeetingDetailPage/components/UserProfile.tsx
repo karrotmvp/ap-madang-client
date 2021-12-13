@@ -25,6 +25,7 @@ const UserProfileWrapper = styled.div`
   margin: 0 1.6rem 2rem 1.6rem;
   display: flex;
   flex-direction: row;
+  align-items: center;
 `;
 
 const ProfileImg = styled.img`
