@@ -16,6 +16,7 @@ import person from '../../assets/icon/common/person.svg';
 import back_arrow_green from '../../assets/icon/detailPage/back_arrow_green.svg';
 import camera_meeting_tag__gray from '../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
 import clock from '../../assets/icon/detailPage/clock.svg';
+import info_i from '../../assets/icon/detailPage/info_i.svg';
 import share_meeting from '../../assets/icon/detailPage/share_meeting.svg';
 import trailing_icon from '../../assets/icon/detailPage/trailing_icon.svg';
 import voice_meeting_tag__gray from '../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
@@ -64,11 +65,11 @@ const MeetingDetailPage = () => {
     path: '/meetings/:id',
   }) || { params: { id: '' } };
 
-  const fromFeed = useMemo(() => {
+  const refParams = useMemo(() => {
     const urlHashParams = new URLSearchParams(
       window.location.hash.substr(window.location.hash.indexOf('?')),
     );
-    return urlHashParams.get('feed');
+    return urlHashParams.get('ref');
   }, []);
 
   // 모임 상세정보 fetch
@@ -193,25 +194,20 @@ const MeetingDetailPage = () => {
   }, [fetchData, matchId.params.id, userInfo]);
 
   useEffect(() => {
-    if (isRoot && data && !sendLogEvent && userInfo && fromFeed) {
-      logEvent(analytics, 'user_from_feed__show', {
+    if (!data) return;
+    if (isRoot && !sendLogEvent && refParams) {
+      logEvent(analytics, `user_from_${refParams}__show`, {
         location: 'detail_page',
+        meeting_state: data.live_status,
       });
-      setSendLogEvent(true);
-    } else if (isRoot && data && !sendLogEvent && userInfo) {
-      logEvent(analytics, 'user_from_alarm__show', {
-        location: 'detail_page',
-      });
-      setSendLogEvent(true);
-    } else if (data && !sendLogEvent && userInfo) {
-      logEvent(analytics, 'detail_page__show');
       setSendLogEvent(true);
     }
-  }, [data, fromFeed, isRoot, sendLogEvent, userInfo]);
+  }, [data, isRoot, refParams, sendLogEvent]);
 
   // 페이지 트랜지션이 있을때 떠있는 모달 제거
   useEffect(() => {
     hideModal();
+    isTop && logEvent(analytics, 'detail_page__show');
   }, [isTop]);
 
   return (
@@ -244,21 +240,13 @@ const MeetingDetailPage = () => {
       <ContentsWrapper
         className="meeting-detail__contents"
         bottomPadding={
-          data?.live_status !== 'live' && isRoot ? '16rem' : '9rem'
+          data?.live_status !== 'live' && isRoot ? '16rem' : '4rem'
         }
       >
         <BannerWrapper>
           <BannerImg src={data?.image} />
         </BannerWrapper>
-        <TagWrapper
-          onClick={() => {
-            if (tagFocus) {
-              setTagFocus(false);
-            } else {
-              setTagFocus(true);
-            }
-          }}
-        >
+        <TagWrapper>
           {tagFocus && (
             <TagMessageBubbleOutside className="tag-tooltip">
               <TagMessageBubble>
@@ -268,14 +256,24 @@ const MeetingDetailPage = () => {
               </TagMessageBubble>
             </TagMessageBubbleOutside>
           )}
-
-          <Tag
-            src={
-              data?.is_video
-                ? camera_meeting_tag__gray
-                : voice_meeting_tag__gray
-            }
-          />
+          <TagImageWrapper>
+            <Tag
+              src={
+                data?.is_video
+                  ? camera_meeting_tag__gray
+                  : voice_meeting_tag__gray
+              }
+              onClick={() => {
+                setTagFocus(state => !state);
+              }}
+            />
+            <InfoIcon
+              src={info_i}
+              onClick={() => {
+                setTagFocus(state => !state);
+              }}
+            />
+          </TagImageWrapper>
         </TagWrapper>
         <TitleWrapper className="meeting-detail__header">
           <Title className="title1">{data?.title}</Title>
@@ -344,7 +342,7 @@ const MeetingDetailPage = () => {
         <AlarmFooter
           data={data}
           alarmHandler={alarmHandler}
-          fromFeed={fromFeed ? true : false}
+          fromFeed={refParams === 'feed' ? true : false}
         />
       ) : (
         <Footer onClickJoinHandler={onClickJoinHandler} data={data} />
@@ -378,7 +376,6 @@ const ShareIcon = styled.img``;
 
 const TrailingIcon = styled.img`
   margin-left: 2.4rem;
-  /* margin-right: 1.6rem; */
 `;
 
 const BannerWrapper = styled.div`
@@ -412,7 +409,7 @@ const TagMessageBubble = styled.div`
   padding: 0.8rem 1.4rem;
   background: #3ea36a;
   border-radius: 0.6rem;
-  bottom: 1rem;
+  bottom: 0.8rem;
   font-size: 1.3rem;
   line-height: 2rem;
   color: ${COLOR.TEXT_WHITE};
@@ -425,7 +422,7 @@ const TagMessageBubble = styled.div`
     content: '';
     position: absolute;
     bottom: 0;
-    left: 3.4rem;
+    left: 8.1rem;
     width: 0;
     height: 0;
     border: 0.7rem solid transparent;
@@ -436,8 +433,19 @@ const TagMessageBubble = styled.div`
   }
 `;
 
+const TagImageWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
 const Tag = styled.img`
   width: 6.8rem;
+`;
+
+const InfoIcon = styled.img`
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-left: 0.4rem;
 `;
 
 const ContentsWrapper = styled.div<{ bottomPadding: string }>`
