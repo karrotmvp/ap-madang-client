@@ -6,11 +6,10 @@ import { useNavigator } from '@karrotframe/navigator';
 import { COLOR } from '../../../constant/color';
 
 function CreateFooter(): ReactElement {
-  const { push, pop } = useNavigator();
+  const { push } = useNavigator();
 
   const onCreateBtnClickHandler = async () => {
-    const result = await push('/create');
-    if (JSON.stringify(result) == '"goBack"') pop();
+    push('/create?ref=banner');
   };
 
   return (

@@ -80,7 +80,7 @@ const MeetingDetailPage = () => {
       else {
         alert('이미 종료된 모임이에요');
         if (isRoot) replace('/');
-        else pop().send('goBack');
+        else pop();
       }
     },
     [isRoot, pop, replace],
@@ -213,7 +213,6 @@ const MeetingDetailPage = () => {
   return (
     <PageWrapper className="meeting-detail">
       <CustomScreenHelmet
-        onCustomBackButton={() => pop().send('goBack')}
         appendMiddle={
           isRoot && <PageTitle onClick={() => replace('/')} src={nav_logo} />
         }

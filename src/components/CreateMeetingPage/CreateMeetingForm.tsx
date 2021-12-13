@@ -20,7 +20,7 @@ import { CREATE_MEETING } from '../../constant/message';
 import useMini from '../../hook/useMini';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
-import Spinner from '../common/Spinner';
+import SpinnerModal from '../common/SpinnerModal';
 import DatePicker from './components/DatePicker';
 import EditableTextarea from './components/EditableTextarea';
 import ImageUploaderBox from './components/ImageUploaderBox';
@@ -36,14 +36,19 @@ function CreateMeetingForm(): ReactElement {
     time: { start_time: '', end_time: '' },
     image: null,
   });
-  // const [time, setTime] = useState({ start_time: '', end_time: '' });
-  const [image, setImage] = useState<File | null>(null);
   const [submitState, setSubmitState] = useState<{
     state: 'loading' | 'wait' | 'submit';
   }>({ state: 'wait' });
   const { loginWithMini } = useMini();
   const { replace } = useNavigator();
   const previewRef = useRef<HTMLImageElement | null>(null);
+
+  const refParams = useMemo(() => {
+    const urlHashParams = new URLSearchParams(
+      window.location.hash.substr(window.location.hash.indexOf('?')),
+    );
+    return urlHashParams.get('ref');
+  }, []);
 
   const isValid = useMemo(
     () =>
@@ -62,19 +67,22 @@ function CreateMeetingForm(): ReactElement {
     async (e?: ChangeEvent<HTMLInputElement>) => {
       if (e && e.target.files) {
         const file = e.target.files[0];
-        setImage(file);
-      } else setImage(null);
+        setForm(prevForm => ({ ...prevForm, image: file }));
+      } else setForm(prevForm => ({ ...prevForm, image: null }));
     },
     [],
   );
 
   const onSubmitBtnHandler = useCallback(async () => {
+    setSubmitState({ state: 'loading' });
     if (!isValid) {
       setSubmitState({ state: 'submit' });
       return;
     }
-    setSubmitState({ state: 'loading' });
-    const uploadImageResult = image ? await uploadImage(image) : undefined;
+
+    const uploadImageResult = form.image
+      ? await uploadImage(form.image)
+      : undefined;
 
     const result = await createMeeting({
       title: form.title,
@@ -86,16 +94,19 @@ function CreateMeetingForm(): ReactElement {
       description: { text: form.description },
     });
     if (!result.success) return;
-    replace(`/meetings/${result.data?.id}`);
+    if (refParams === 'banner')
+      replace(`/meetings/${result.data?.id}?ref=created`);
+    else replace(`/meetings/${result.data?.id}`);
   }, [
     form.date,
     form.description,
+    form.image,
     form.time.end_time,
     form.time.start_time,
     form.title,
     form.type,
-    image,
     isValid,
+    refParams,
     replace,
   ]);
 
@@ -104,12 +115,11 @@ function CreateMeetingForm(): ReactElement {
       <CustomScreenHelmet
         appendMiddle={<PageTitle>{CREATE_MEETING.NAVIGATOR_TITLE}</PageTitle>}
       />
-      {submitState.state === 'loading' && <Spinner />}
-
+      <SpinnerModal show={submitState.state === 'loading'} />
       <ImageUploaderBox
         previewRef={previewRef}
         onSetImageHandler={onSetImageHandler}
-        image={image}
+        image={form.image}
       />
       <Title>
         <TitleText>모임 제목</TitleText>
@@ -276,7 +286,11 @@ function CreateMeetingForm(): ReactElement {
             </SubmitValidation>
           </ValidationInfo>
         </ValidationInfoWarpper>
-        <SubmitBtn onClick={() => loginWithMini(onSubmitBtnHandler)}>
+        <SubmitBtn
+          onClick={() =>
+            submitState.state !== 'loading' && loginWithMini(onSubmitBtnHandler)
+          }
+        >
           모임 생성하기
         </SubmitBtn>
       </SubmitArea>

@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo } from 'react';
+import React, { ReactElement, useCallback, useMemo } from 'react';
 
 import styled from '@emotion/styled';
 import { useCurrentScreen, useNavigator } from '@karrotframe/navigator';
@@ -26,18 +26,32 @@ function CustomScreenHelmet({
   appendMiddle,
 }: Props): ReactElement {
   const { isRoot } = useCurrentScreen();
-  const { pop } = useNavigator();
+  const { pop, replace } = useNavigator();
+
+  const popCreatedMeeting = useCallback(() => {
+    const urlHashParams = new URLSearchParams(
+      window.location.hash.substring(window.location.hash.indexOf('?')),
+    );
+    if (isRoot) replace('/');
+    else {
+      if (urlHashParams.get('ref') === 'created') {
+        pop(2);
+      } else pop();
+    }
+  }, [isRoot, pop, replace]);
 
   const backButton = useMemo(() => {
     return (
       customBackButton || (
         <NavCustomBtn
           src={nav_back}
-          onClick={onCustomBackButton ? onCustomBackButton : () => pop()}
+          onClick={
+            onCustomBackButton ? onCustomBackButton : () => popCreatedMeeting()
+          }
         />
       )
     );
-  }, [customBackButton, onCustomBackButton, pop]);
+  }, [customBackButton, onCustomBackButton, popCreatedMeeting]);
 
   const closeButton = useMemo(() => {
     return (

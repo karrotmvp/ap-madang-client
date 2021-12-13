@@ -26,15 +26,26 @@ function DeleteModalView({
   const onDeleteHandler = useCallback(
     async (e?) => {
       e?.stopPropagation();
+      const urlHashParams = new URLSearchParams(
+        window.location.hash.substring(window.location.hash.indexOf('?')),
+      );
       setModalCloseState(true);
       setState(undefined);
       const result = await deleteMeeting(id);
+
       if (result.success) {
         toast('모임을 삭제했어요.', {
           backgroundColor: COLOR.GREY_900,
           color: COLOR.TEXT_WHITE,
         });
-        isRoot ? replace('/') : pop().send('goBack');
+
+        if (isRoot) replace('/');
+        else {
+          if (urlHashParams.get('ref') === 'created') {
+            pop(2);
+          } else pop();
+        }
+        isRoot ? replace('/') : pop();
       } else {
         toast('모임 삭제에 실패했어요.', {
           backgroundColor: COLOR.ORANGE,
