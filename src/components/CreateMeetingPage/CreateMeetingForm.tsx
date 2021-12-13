@@ -173,7 +173,13 @@ function CreateMeetingForm(): ReactElement {
 
       <MeetingTypeWrapper>
         <TitleText>모임 진행 방식</TitleText>
-
+        {submitState.state === 'submit' && form.type === undefined && (
+          <ValidationInfoWarpper>
+            <ValidationInfo>
+              <div>모임 진행 방식을 선택해주세요.</div>
+            </ValidationInfo>
+          </ValidationInfoWarpper>
+        )}
         <TypeBtnWrapper>
           <TypeBtn
             onClick={() =>
@@ -182,7 +188,7 @@ function CreateMeetingForm(): ReactElement {
               })
             }
           >
-            <RadioInput type="radio" id="audio" value="audio" />
+            <RadioInput type="radio" id="audio" name="type" value="audio" />
             <TypeContentWrapper>
               <TypeHeader>
                 <TypeIcon src={audio_disabled} />
@@ -201,11 +207,11 @@ function CreateMeetingForm(): ReactElement {
               })
             }
           >
-            <RadioInput type="radio" id="video" value="video" />
+            <RadioInput type="radio" id="video" name="type" value="video" />
             <TypeContentWrapper>
               <TypeHeader>
                 <TypeIcon src={video_disabled} />
-                <TypeName>화성모임</TypeName>
+                <TypeName>화상모임</TypeName>
               </TypeHeader>
               <TypeInfo>
                 화상모임은 줌(zoom) 링크가 자동으로 생성돼요. 줌 어플을
@@ -214,15 +220,6 @@ function CreateMeetingForm(): ReactElement {
             </TypeContentWrapper>
           </TypeBtn>
         </TypeBtnWrapper>
-        <ValidationInfoWarpper>
-          <ValidationInfo>
-            <div>
-              {submitState.state === 'submit' &&
-                form.type === undefined &&
-                '모임 진행 방식을 선택해주세요.'}
-            </div>
-          </ValidationInfo>
-        </ValidationInfoWarpper>
       </MeetingTypeWrapper>
       <Divider size="1.2rem" />
       <Date>
