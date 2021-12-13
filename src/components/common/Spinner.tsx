@@ -47,7 +47,6 @@ const SpinnerIcon = styled.img`
   animation-name: ${spinAnimation};
   animation-duration: 0.8s;
   animation-iteration-count: infinite;
-  background-color: white;
 `;
 
 export default Spinner;
