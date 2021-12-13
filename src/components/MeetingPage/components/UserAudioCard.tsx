@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import Reward, { RewardElement } from 'react-rewards';
 
 import { User } from '..';
-import host_house_icon from '../../../assets/icon/agora/host_house_icon.svg';
+import host_icon from '../../../assets/icon/agora/host_icon.svg';
 import userMicOff from '../../../assets/icon/agora/user_micOff.svg';
 import { COLOR } from '../../../constant/color';
 import useOnScreenRatio from '../useOnScreenRatio';
@@ -64,7 +64,7 @@ export default function UserAudioCard({
         </Reward>
         <InfoArea>
           <NickNameInfo>
-            {user.isHost && <HostIcon src={host_house_icon} />}
+            {user.isHost && <HostIcon src={host_icon} />}
             <NickName>{user.nickname}</NickName>
             {!user.audioStreamValue && <MicIcon src={userMicOff} />}
           </NickNameInfo>

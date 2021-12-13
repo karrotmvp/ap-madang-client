@@ -34,7 +34,7 @@ function MeetingNotice({ subTopic, userNum }: Props): ReactElement {
       {newUserState ? (
         <NoticeNewUserWrapper>
           <EmojiWrapper src={welcome} />
-          <Message>새로운 이웃이 참여했어요! 환영해 주세요 🎉</Message>
+          <Message>새로운 이웃이 참여했어요! 환영해 주세요 🥳</Message>
         </NoticeNewUserWrapper>
       ) : (
         subTopic.length !== 0 && <TopicBox subTopic={subTopic} />
