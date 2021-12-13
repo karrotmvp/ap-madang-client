@@ -2,17 +2,20 @@ import React, {
   ChangeEvent,
   ReactElement,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 import { CreateMeeting } from 'meeting';
 
 import { uploadImage } from '../../api/image';
 import { createMeeting } from '../../api/meeting';
+import { analytics } from '../../App';
 import audio_disabled from '../../assets/icon/createMeeting/audio_disabled.svg';
 import video_disabled from '../../assets/icon/createMeeting/video_disabled.svg';
 import { COLOR } from '../../constant/color';
@@ -109,6 +112,12 @@ function CreateMeetingForm(): ReactElement {
     refParams,
     replace,
   ]);
+
+  useEffect(() => {
+    logEvent(analytics, 'create_meeting__show', {
+      from: refParams || '',
+    });
+  }, [refParams]);
 
   return (
     <CreateMeeting>
