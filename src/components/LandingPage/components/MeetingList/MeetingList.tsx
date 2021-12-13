@@ -102,9 +102,11 @@ const DateWrapper = styled.div`
   position: static;
   width: 100%;
   height: auto;
-  margin-bottom: 3.4rem;
-  &:last-child {
-    margin-bottom: 0;
+  box-sizing: border-box;
+
+  .meeting-card:last-child {
+    padding-bottom: 3.4rem;
+  }
 `;
 
 const DateLabel = styled.div`
