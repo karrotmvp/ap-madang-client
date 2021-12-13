@@ -23,6 +23,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-right: 1.6rem;
 `;
 
 const Icon = styled.img`
