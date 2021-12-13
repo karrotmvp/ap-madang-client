@@ -69,7 +69,7 @@ function ImageUploaderBox({
 }
 
 const ImageUploaderBoxWrapper = styled.div`
-  margin: 1.96rem 1.6rem 3.2rem 1.6rem;
+  margin: 1.96rem 1.6rem 4rem 1.6rem;
 `;
 
 const TitleText = styled.div`
@@ -111,8 +111,8 @@ const FileUploadBox = styled.div`
   position: relative;
   overflow: hidden;
 
-  width: 7rem;
-  height: 7rem;
+  width: 23.2rem;
+  height: 9rem;
   border: 1px solid #cbcccd;
   box-sizing: border-box;
   border-radius: 0.4rem;
