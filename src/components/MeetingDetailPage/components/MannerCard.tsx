@@ -50,15 +50,19 @@ const Title = styled.div`
 
 const ItemTitle = styled.div`
   font-size: 1.5rem;
-  line-height: 2.3rem;
+  line-height: 2.4rem;
   letter-spacing: -0.03rem;
   color: #505050;
-  margin-bottom: 1.3rem;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const Item = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
 
   font-size: 1.5rem;
   line-height: 2.3rem;
@@ -66,6 +70,7 @@ const Item = styled.div`
   letter-spacing: -0.03rem;
 
   color: #505050;
+  margin-bottom: 0.8rem;
 `;
 
 const Emoji = styled.img`
