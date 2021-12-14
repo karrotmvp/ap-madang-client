@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
@@ -51,6 +51,8 @@ const MeetingRoom = ({
   );
   const { ready, track, error } = useMicrophoneAudioTrack();
   const client = useClient();
+
+  const userNum = useMemo(() => users.length, [users.length]);
 
   const fetchNewUser = useCallback(
     async (user: IAgoraRTCRemoteUser) => {
@@ -136,7 +138,8 @@ const MeetingRoom = ({
         info.user.id,
       );
       logEvent(analytics, 'meeting_calling__show', {
-        ...info,
+        ...info.user,
+        ...info.meeting,
       });
     } catch (e) {
       setInCall({
@@ -207,6 +210,7 @@ const MeetingRoom = ({
           trackState={trackState}
           setTrackState={setTrackState}
           info={info}
+          userNum={userNum}
         />
       )}
     </MeetingRoomWrapper>

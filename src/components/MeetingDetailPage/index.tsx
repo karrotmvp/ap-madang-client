@@ -12,11 +12,12 @@ import { getAgoraCode } from '../../api/agora';
 import { deleteAlarm, newAlarm } from '../../api/alarm';
 import { getMeetingDetail, shareMeeting } from '../../api/meeting';
 import { analytics } from '../../App';
-import person from '../../assets/icon/common/person.svg';
+import nav_back from '../../assets/icon/common/nav_back.svg';
 import back_arrow_green from '../../assets/icon/detailPage/back_arrow_green.svg';
 import camera_meeting_tag__gray from '../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
 import clock from '../../assets/icon/detailPage/clock.svg';
 import info_i from '../../assets/icon/detailPage/info_i.svg';
+import neighbor_person from '../../assets/icon/detailPage/neighbor_person.svg';
 import share_meeting from '../../assets/icon/detailPage/share_meeting.svg';
 import trailing_icon from '../../assets/icon/detailPage/trailing_icon.svg';
 import voice_meeting_tag__gray from '../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
@@ -65,11 +66,11 @@ const MeetingDetailPage = () => {
     path: '/meetings/:id',
   }) || { params: { id: '' } };
 
-  const refParams = useMemo(() => {
+  const params = useMemo(() => {
     const urlHashParams = new URLSearchParams(
       window.location.hash.substr(window.location.hash.indexOf('?')),
     );
-    return urlHashParams.get('ref');
+    return urlHashParams;
   }, []);
 
   // 모임 상세정보 fetch
@@ -193,6 +194,12 @@ const MeetingDetailPage = () => {
   );
 
   const onShareMeetingHandler = async () => {
+    logEvent(analytics, `share_meeting_btn__click`, {
+      meeting_id: data.id,
+      meeting_title: data.title,
+      meeting_state: data.live_status,
+      is_host: data.is_host,
+    });
     const shareUrl = await shareMeeting(matchId.params.id);
     if (shareUrl.success && shareUrl.data && data.title) {
       mini.share(shareUrl.data.short_url, '[랜동모] ' + data.title);
@@ -205,14 +212,18 @@ const MeetingDetailPage = () => {
 
   useEffect(() => {
     if (!data) return;
-    if (isRoot && !sendLogEvent && refParams) {
-      logEvent(analytics, `user_from_${refParams}__show`, {
+    const refParam = params?.get('ref');
+    if (isRoot && !sendLogEvent && refParam) {
+      logEvent(analytics, `user_from_${refParam}__show`, {
         location: 'detail_page',
+        meeting_id: data.id,
+        meeting_title: data.title,
         meeting_state: data?.live_status,
+        isHost: data.isHost,
       });
       setSendLogEvent(true);
     }
-  }, [data, isRoot, refParams, sendLogEvent]);
+  }, [data, isRoot, params, sendLogEvent]);
 
   // 페이지 트랜지션이 있을때 떠있는 모달 제거
   useEffect(() => {
@@ -221,16 +232,37 @@ const MeetingDetailPage = () => {
   }, [isTop]);
 
   useEffect(() => {
-    data &&
+    if (data) {
       logEvent(
         analytics,
         `${data.is_video ? 'video' : 'audio'}_detail_page__show`,
       );
-  }, [data]);
+      const createdParam = params.get('created');
+      createdParam &&
+        logEvent(analytics, `created_from_${createdParam}__show`, {
+          meeting_id: data.id,
+          meeting_title: data.title,
+        });
+    }
+  }, [data, params]);
+
+  const popCreatedMeeting = useCallback(() => {
+    const urlHashParams = new URLSearchParams(
+      location.search.substring(location.search.indexOf('?')),
+    );
+    if (isRoot) replace('/');
+    else {
+      if (urlHashParams.get('created') === 'banner') pop(2);
+      else pop();
+    }
+  }, [isRoot, replace, pop]);
 
   return (
     <PageWrapper className="meeting-detail">
       <CustomScreenHelmet
+        customBackButton={
+          <NavCustomBtn src={nav_back} onClick={popCreatedMeeting} />
+        }
         appendMiddle={
           isRoot && <PageTitle onClick={() => replace('/')} src={nav_logo} />
         }
@@ -313,7 +345,7 @@ const MeetingDetailPage = () => {
           </SummaryInfo>
           {data?.live_status === 'live' && (
             <SummaryInfo className="summary-info">
-              <SummaryIcon src={person} />
+              <SummaryIcon src={neighbor_person} />
               <SummaryDiscription className="body4">
                 참여 이웃 {data?.user_enter_cnt}명
               </SummaryDiscription>
@@ -360,7 +392,7 @@ const MeetingDetailPage = () => {
         <AlarmFooter
           data={data}
           alarmHandler={alarmHandler}
-          fromFeed={refParams === 'feed' ? true : false}
+          fromFeed={params.get('ref') === 'feed' ? true : false}
         />
       ) : (
         <Footer onClickJoinHandler={onClickJoinHandler} data={data} />
@@ -377,6 +409,10 @@ const PageWrapper = styled.div`
   justify-content: space-between;
   white-space: pre-line;
   box-sizing: border-box;
+`;
+
+const NavCustomBtn = styled.img`
+  margin-left: 1.6rem;
 `;
 
 const PageTitle = styled.img`

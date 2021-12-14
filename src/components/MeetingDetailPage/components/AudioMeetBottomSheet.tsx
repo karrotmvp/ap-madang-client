@@ -41,17 +41,18 @@ function AudioMeetBottomSheet({
   };
 
   const onClickJoinHandler = useCallback(async () => {
+    logEvent(analytics, 'audio_bottom_sheet_join__click', {
+      location: 'audio_bottom_sheet',
+      meeting_id: meetingId,
+      meeting_name: meetingTitle,
+    });
     const windowReference = window.open(
       `/#/agora?meeting_code=${code}`,
       '_blank',
     );
 
     await increaseMeetingEnterUserCount(meetingId);
-    logEvent(analytics, 'audio_bottom_sheet_join__click', {
-      location: 'audio_bottom_sheet',
-      meeting_id: meetingId,
-      meeting_name: meetingTitle,
-    });
+
     windowReference;
     onClickJoin && onClickJoin();
     closeHandler();

@@ -98,8 +98,8 @@ function CreateMeetingForm(): ReactElement {
     });
     if (!result.success) return;
     if (refParams === 'banner')
-      replace(`/meetings/${result.data?.id}?ref=created`);
-    else replace(`/meetings/${result.data?.id}`);
+      replace(`/meetings/${result.data?.id}?created=banner`);
+    else replace(`/meetings/${result.data?.id}?created=others`);
   }, [
     form.date,
     form.description,

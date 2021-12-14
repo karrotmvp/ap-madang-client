@@ -1,10 +1,12 @@
-import React, { ReactElement, useCallback } from 'react';
+import React, { ReactElement, useCallback, useEffect } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { useCurrentScreen, useNavigator } from '@karrotframe/navigator';
 import { toast } from 'react-toast';
 
 import { deleteMeeting } from '../../../../api/meeting';
+import { analytics } from '../../../../App';
 import { COLOR } from '../../../../constant/color';
 
 type Prop = {
@@ -26,6 +28,7 @@ function DeleteModalView({
   const onDeleteHandler = useCallback(
     async (e?) => {
       e?.stopPropagation();
+      logEvent(analytics, 'delete_meeting__click');
       const urlHashParams = new URLSearchParams(
         window.location.hash.substring(window.location.hash.indexOf('?')),
       );
@@ -41,7 +44,7 @@ function DeleteModalView({
 
         if (isRoot) replace('/');
         else {
-          if (urlHashParams.get('ref') === 'created') {
+          if (urlHashParams.get('created') === 'banner') {
             pop(2);
           } else pop();
         }
@@ -55,6 +58,10 @@ function DeleteModalView({
     },
     [id, isRoot, pop, replace, setModalCloseState, setState],
   );
+
+  useEffect(() => {
+    logEvent(analytics, 'delete_meeting_modal__show');
+  }, []);
 
   return (
     <DeleteViewStyle>

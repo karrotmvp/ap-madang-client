@@ -1,9 +1,11 @@
 import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { useCurrentScreen } from '@karrotframe/navigator';
 import { MeetingDetail } from 'meeting';
 
+import { analytics } from '../../../../App';
 import fire_emoji from '../../../../assets/icon/detailPage/fire_emoji.svg';
 import notification_empty_green from '../../../../assets/icon/detailPage/notification_empty_green.svg';
 import notification_fill_white from '../../../../assets/icon/detailPage/notification_fill_white.svg';
@@ -37,6 +39,7 @@ function AlarmFooter({ data, alarmHandler }: Props): ReactElement {
           applied={data?.alarm_id}
           onClick={e => {
             e.stopPropagation();
+            logEvent(analytics, 'add_alarm_btn__click');
             loginWithMini(alarmHandler);
           }}
         >

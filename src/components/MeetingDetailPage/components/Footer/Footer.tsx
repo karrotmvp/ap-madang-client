@@ -1,8 +1,10 @@
 import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { MeetingDetail } from 'meeting';
 
+import { analytics } from '../../../../App';
 import { COLOR } from '../../../../constant/color';
 import { MEETING_DETAIL } from '../../../../constant/message';
 import useMini from '../../../../hook/useMini';
@@ -20,6 +22,7 @@ function Footer({ data, onClickJoinHandler }: Props): ReactElement {
         <JoinBtn
           onClick={e => {
             e.stopPropagation();
+            logEvent(analytics, 'add_alarm_btn__click');
             loginWithMini(onClickJoinHandler);
           }}
         >

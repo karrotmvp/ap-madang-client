@@ -21,6 +21,7 @@ const Controls = (props: {
     React.SetStateAction<{ audioStreamValue: boolean }>
   >;
   info: InfoType;
+  userNum: number;
 }) => {
   const client = useClient();
   const { track, trackState, setStart, setInCall, setTrackState } = props;
@@ -33,7 +34,12 @@ const Controls = (props: {
       logEvent(
         analytics,
         `mic_${trackState.audioStreamValue ? 'off' : 'on'}__click`,
-        { ...props.info },
+        {
+          user_nickname: props.info.user.nickname,
+          user_id: props.info.user.id,
+          meeting_id: props.info.meeting.id,
+          meeting_title: props.info.meeting.title,
+        },
       );
       await track.setEnabled(!trackState.audioStreamValue);
 
@@ -44,7 +50,14 @@ const Controls = (props: {
   };
 
   const leaveChannel = async () => {
-    logEvent(analytics, `quit_meeting__click`, { ...props.info });
+    logEvent(analytics, `quit_meeting__click`, {
+      meeting_user_num: props.userNum,
+      user_nickname: props.info.user.nickname,
+      user_id: props.info.user.id,
+      meeting_id: props.info.meeting.id,
+      meeting_title: props.info.meeting.title,
+      is_host: props.info.meeting.host.id === props.info.user.id,
+    });
     await client.leave();
     client.removeAllListeners();
     track.close();

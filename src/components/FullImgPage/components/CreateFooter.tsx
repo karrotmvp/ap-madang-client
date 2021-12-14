@@ -1,14 +1,17 @@
 import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 
+import { analytics } from '../../../App';
 import { COLOR } from '../../../constant/color';
 
 function CreateFooter(): ReactElement {
   const { push } = useNavigator();
 
   const onCreateBtnClickHandler = async () => {
+    logEvent(analytics, 'create_guide_btn__click');
     push('/create?ref=banner');
   };
 

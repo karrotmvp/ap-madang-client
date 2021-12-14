@@ -1,8 +1,16 @@
-import React, { ReactElement, useCallback, useMemo, useState } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 
+import { analytics } from '../../../../App';
 import { COLOR } from '../../../../constant/color';
 import Modal from '../../../common/Modal/Modal';
 import DeleteModalView from './DeleteModalView';
@@ -52,6 +60,10 @@ function MoreActionModal({ state, setState, id }: Props): ReactElement {
       </MenuViewStyle>
     );
   }, [onClickOutsideHandler, setState]);
+
+  useEffect(() => {
+    logEvent(analytics, 'more_action_modal__show');
+  }, []);
 
   return (
     <ModalStyle
