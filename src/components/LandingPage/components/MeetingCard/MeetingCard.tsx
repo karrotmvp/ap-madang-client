@@ -233,7 +233,7 @@ const TagWrapper = styled.div`
 `;
 
 const ImageThumbnail = styled.img`
-  width: auto;
+  min-width: 8rem;
   height: 8rem;
   object-fit: cover;
   border-radius: 0.6rem;
@@ -256,9 +256,10 @@ const ImageThumbnail = styled.img`
 // `;
 
 const InfoWrapper = styled.div`
-  width: calc(100% - 3rem);
+  /* width: calc(100% - 3rem); */
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 `;
 
 const MeetingTypeTag = styled.img``;
@@ -269,7 +270,7 @@ const AlarmBtn = styled.div<{ hasAlarm: boolean }>`
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  min-width: 6rem;
+  min-width: 5.5rem;
 
   padding: 0.5rem 0.9rem 0.5rem 0.8rem;
   border: ${({ hasAlarm }) => (hasAlarm ? 'noen' : `1px solid #41AC70`)};
@@ -313,8 +314,10 @@ const MeetingTitle = styled.div`
   line-height: 2.3rem;
   color: ${COLOR.TEXT_BLACK};
 
-  margin-bottom: 0.8rem;
-  padding-right: 0.7rem;
+  margin-bottom: 1.2rem;
+  padding-right: 0.8rem;
+
+  box-sizing: border-box;
 
   display: -webkit-box;
   display: -ms-flexbox;
