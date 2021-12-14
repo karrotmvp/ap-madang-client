@@ -71,16 +71,21 @@ export const getDateToText = (start_time: string) => {
 };
 
 export const getStartTimeForm = (
+  date: string,
   start_time: string,
   live_status: LiveStatus,
   head_text?: boolean,
 ) => {
   let text = '';
-  const startTimeArr = start_time.split(':');
+  const startDate = dayjs(
+    `${date} ${start_time}`,
+    'YYYY-MM-DD HH:mm:ss',
+  ).format('a hh:mm');
 
   if (head_text && live_status === 'tomorrow') text += '내일 ';
   else if (head_text && live_status === 'today') text += '오늘 ';
-  text += getTimeText(parseInt(startTimeArr[0]), parseInt(startTimeArr[1]));
+
+  text += startDate;
   return text;
 };
 
