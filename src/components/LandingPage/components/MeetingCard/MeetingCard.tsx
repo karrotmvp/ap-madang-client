@@ -152,7 +152,12 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
       <ContentsWrapper className="meeting-card__contents">
         <InfoWrapper>
           <MeetingTime className="body3 meeting-card__time">
-            {getStartTimeForm(data.start_time, data.live_status, true)}
+            {getStartTimeForm(
+              data.date,
+              data.start_time,
+              data.live_status,
+              true,
+            )}
           </MeetingTime>
 
           <MeetingTitle className="title3 meeting-card__title">
