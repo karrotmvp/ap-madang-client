@@ -109,7 +109,7 @@ const LandingPage: React.FC = () => {
         </CreateBtn>
       </CreateBtnWrapper>
       {meetings.length === 0 && <SkeletonCard />}
-      {meetings.filter(el => el.live_status === 'live') && (
+      {meetings.filter(el => el.live_status === 'live').length !== 0 && (
         <div>
           <CurrMeetingList
             className="landing__current"
@@ -118,19 +118,18 @@ const LandingPage: React.FC = () => {
           <Divider className="landing__divider" size="1rem" />
         </div>
       )}
-      {
-        <div>
-          <MeetingList
-            className="landing__upoming"
-            meetings={meetings.filter(
-              el => el.live_status !== 'live' && el.live_status !== 'finish',
-            )}
-            hasMeetings={meetings.length !== 0}
-            setMeetings={setMeetings}
-          />
-          <Divider className="landing__divider" size="1rem" />
-        </div>
-      }
+
+      <div>
+        <MeetingList
+          className="landing__upoming"
+          meetings={meetings.filter(
+            el => el.live_status !== 'live' && el.live_status !== 'finish',
+          )}
+          hasMeetings={meetings.length !== 0}
+          setMeetings={setMeetings}
+        />
+        <Divider className="landing__divider" size="1rem" />
+      </div>
     </PageWrapper>
   );
 };
