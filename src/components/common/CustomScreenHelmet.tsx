@@ -1,11 +1,7 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
-import {
-  ScreenHelmet,
-  useCurrentScreen,
-  useNavigator,
-} from '@karrotframe/navigator';
+import { ScreenHelmet } from '@karrotframe/navigator';
 
 import nav_back from '../../assets/icon/common/nav_back.svg';
 import nav_close from '../../assets/icon/common/nav_close.svg';
@@ -29,21 +25,6 @@ function CustomScreenHelmet({
   appendMiddle,
   appendLeft,
 }: Props) {
-  const { isRoot } = useCurrentScreen();
-  const { pop, replace } = useNavigator();
-
-  const popCreatedMeeting = useCallback(() => {
-    const urlHashParams = new URLSearchParams(
-      window.location.hash.substring(window.location.hash.indexOf('?')),
-    );
-    if (isRoot) replace('/');
-    else {
-      if (urlHashParams.get('ref') === 'created') {
-        pop(2);
-      } else pop();
-    }
-  }, [isRoot, pop, replace]);
-
   return (
     <ScreenHelmet
       customCloseButton={
@@ -53,10 +34,7 @@ function CustomScreenHelmet({
       }
       customBackButton={
         customBackButton || (
-          <NavCustomBtn
-            src={nav_back}
-            onClick={onCustomBackButton || popCreatedMeeting}
-          />
+          <NavCustomBtn src={nav_back} onClick={onCustomBackButton} />
         )
       }
       title={appendMiddle && <Middle>{appendMiddle}</Middle>}
