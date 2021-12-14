@@ -8,10 +8,27 @@ declare module 'meeting' {
     date: string;
     alarm_id: number | null;
     user_enter_cnt: number;
-    live_status: 'live' | 'tomorrow' | 'upcoming' | 'finish';
+    live_status: LiveStatus;
     is_video: boolean;
+    host: HostInfo;
+    is_host: boolean;
     description_text: string;
     alarm_num: number;
+  };
+
+  export type LiveStatus =
+    | 'live'
+    | 'tomorrow'
+    | 'upcoming'
+    | 'finish'
+    | 'today';
+
+  export type HostInfo = {
+    id: number;
+    nickname: string;
+    profile_image_url: string;
+    manner_temperature: null | number;
+    region_name: null | string;
   };
 
   export type MeetingDetailDescription = {
@@ -26,4 +43,18 @@ declare module 'meeting' {
     meeting_url: string;
     region: string;
   } & meetingListType;
+
+  export type TimeType = {
+    start_time: string;
+    end_time: string;
+  };
+
+  export type CreateMeeting = {
+    title: string;
+    description: string;
+    type: undefined | 'video' | 'audio';
+    date: string;
+    time: TimeType;
+    image: File | null;
+  };
 }

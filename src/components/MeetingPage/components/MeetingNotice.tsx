@@ -1,12 +1,10 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 import { keyframes } from '@emotion/css';
 import styled from '@emotion/styled';
 
-import bulb_off from '../../../assets/icon/agora/bulb_off.svg';
-import bulb_on from '../../../assets/icon/agora/bulb_on.svg';
 import welcome from '../../../assets/icon/agora/welcome.svg';
-import useInterval from '../../../hook/useInterval';
+import TopicBox from './TopicBox';
 
 interface Props {
   subTopic: string[];
@@ -16,34 +14,12 @@ interface Props {
 function MeetingNotice({ subTopic, userNum }: Props): ReactElement {
   const [userNumState, setUserNumState] = useState(0);
   const [newUserState, setNewUserState] = useState(false);
-  const [topicIdx, setTopicIdx] = useState(
-    new Date().getMinutes() % subTopic.length,
-  );
-  const [bulbState, setBulbState] = useState(false);
-  const bulbRef = useRef<HTMLImageElement>(null);
 
   const newUserStateChanger = () => {
     setTimeout(() => {
       setNewUserState(false);
     }, 5000);
   };
-
-  const changeTopicHandler = () => {
-    setTimeout(() => {
-      setBulbState(false);
-      bulbRef.current?.classList.remove('show');
-    }, 1500);
-  };
-
-  useInterval(() => {
-    const now = new Date();
-    if (now.getSeconds() === 0) {
-      setBulbState(true);
-      bulbRef.current?.classList.add('show');
-      setTopicIdx(now.getMinutes() % subTopic.length);
-      changeTopicHandler();
-    }
-  }, 1000);
 
   useEffect(() => {
     if (userNumState < userNum) {
@@ -58,13 +34,17 @@ function MeetingNotice({ subTopic, userNum }: Props): ReactElement {
       {newUserState ? (
         <NoticeNewUserWrapper>
           <EmojiWrapper src={welcome} />
-          <Message>새로운 이웃이 참여했어요! 환영해 주세요 🎉</Message>
+          <Message>새로운 이웃이 참여했어요! 환영해 주세요 🥳</Message>
+        </NoticeNewUserWrapper>
+      ) : userNum === 1 ? (
+        <NoticeNewUserWrapper>
+          <EmojiWrapper src={welcome} />
+          <Message>
+            모임에 오신 것을 환영해요! 설레는 마음으로 이웃들을 기다려보세요🤗
+          </Message>
         </NoticeNewUserWrapper>
       ) : (
-        <NoticeTopicWrapper topicIdx={topicIdx}>
-          <EmojiWrapper src={bulbState ? bulb_on : bulb_off} ref={bulbRef} />
-          <Message>{subTopic[topicIdx]}</Message>
-        </NoticeTopicWrapper>
+        subTopic.length !== 0 && <TopicBox subTopic={subTopic} />
       )}
     </NoticeOuterWrapper>
   );
@@ -105,10 +85,6 @@ const NoticeInnerWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   z-index: 10;
-`;
-
-const NoticeTopicWrapper = styled(NoticeInnerWrapper)<{ topicIdx: number }>`
-  background: #f5f5f5;
 `;
 
 const NoticeNewUserWrapper = styled(NoticeInnerWrapper)`

@@ -7,7 +7,7 @@ import house_logo from '../../../../assets/icon/agora/house_logo.svg';
 import mic_emoji from '../../../../assets/icon/agora/mic_emoji.svg';
 import talk_emoji from '../../../../assets/icon/agora/talk_emoji.svg';
 import x_emoji from '../../../../assets/icon/agora/x_emoji.svg';
-import closeBtn from '../../../../assets/icon/nav_close.svg';
+import closeBtn from '../../../../assets/icon/common/nav_close.svg';
 import { COLOR } from '../../../../constant/color';
 import BottomSheet from '../../../common/BottomSheet';
 import GuideDescription from './GuideDescription';
@@ -43,7 +43,7 @@ function GuideBottomSheet({ onClose }: Props): ReactElement {
         </IconWrapper>
         <TitleWrapper>
           <LogoImg src={house_logo} />
-          <TitleText>{`랜선동네모임에\n오신 것을 환영해요!`}</TitleText>
+          <TitleText>{`랜선동네모임에\n오신 것을 환영해요`}</TitleText>
         </TitleWrapper>
         <ContentsWrapper>
           <GuideDescription

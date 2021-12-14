@@ -14,6 +14,7 @@ type TokenPayloadType = {
   code: string;
   nickname: string;
   region: string;
+  profile_image_url: string;
 } & JwtPayload;
 
 const Auth = (SpecialComponent: React.FC) => {
@@ -42,6 +43,7 @@ const Auth = (SpecialComponent: React.FC) => {
           setUserInfo({
             nickname: decodeToken.nickname,
             region: decodeToken.region,
+            profile_image_url: decodeToken.profile_image_url,
           });
         }
       }
@@ -80,6 +82,7 @@ const Auth = (SpecialComponent: React.FC) => {
           setUserInfo({
             nickname: decodeToken.nickname,
             region: decodeToken.region,
+            profile_image_url: decodeToken.profile_image_url,
           });
           return;
         }

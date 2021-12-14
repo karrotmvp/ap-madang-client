@@ -26,11 +26,13 @@ function NotServiceRegionPage(): ReactElement {
   return (
     <PageWrapper>
       <CustomScreenHelmet />
-      <NotServiceImg src={scratching} />
-      <Text>
-        <BoldText>{region}</BoldText>
-        {NOT_SERVICE_REGION.TITLE}
-      </Text>
+      <ContentsWrapper>
+        <NotServiceImg src={scratching} />
+        <Text>
+          <BoldText>{region}</BoldText>
+          {NOT_SERVICE_REGION.TITLE}
+        </Text>
+      </ContentsWrapper>
     </PageWrapper>
   );
 }
@@ -38,6 +40,14 @@ function NotServiceRegionPage(): ReactElement {
 const PageWrapper = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ContentsWrapper = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;

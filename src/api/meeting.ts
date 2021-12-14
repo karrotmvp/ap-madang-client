@@ -13,6 +13,17 @@ export const getMeetings = async (region_id: string) => {
   }
 };
 
+export const getMyMeetings = async () => {
+  try {
+    const result: getMeetingsRes = await customAxios().get(
+      `/users/me/meetings`,
+    );
+    return { success: true, data: result.data };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
 export const getMeetingDetail = async (
   id: string,
 ): Promise<getMeetingDetailRes> => {
@@ -35,6 +46,40 @@ export const increaseMeetingEnterUserCount = async (
   }
 };
 
+export const createMeeting = async (
+  createData: createFormType,
+): Promise<createMeetingRes> => {
+  try {
+    const res: { data: { id: number } } = await customAxios().post(
+      `/meetings/`,
+      createData,
+    );
+    return { success: true, data: res.data };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
+export const deleteMeeting = async (id: string): Promise<deleteMeetingRes> => {
+  try {
+    await customAxios().delete(`/meetings/${id}/`);
+    return { success: true };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
+export const shareMeeting = async (id: string): Promise<shareMeetingRes> => {
+  try {
+    const res: { data: { short_url: string } } = await customAxios().get(
+      `/share/short-url/meeting?meeting=${id}`,
+    );
+    return { success: true, data: res.data };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
 interface getMeetingsRes {
   success: boolean;
   data?: MeetingList[];
@@ -47,4 +92,30 @@ interface getMeetingDetailRes {
 
 interface increaseMeetingEnterUserCountRes {
   success: boolean;
+}
+
+interface createFormType {
+  title: string;
+  date: string;
+  start_time: string;
+  end_time: string;
+  is_video: boolean;
+  image_url: string | undefined;
+  description: {
+    text: string;
+  };
+}
+
+interface createMeetingRes {
+  success: boolean;
+  data?: { id: number };
+}
+
+interface deleteMeetingRes {
+  success: boolean;
+}
+
+interface shareMeetingRes {
+  success: boolean;
+  data?: { short_url: string };
 }

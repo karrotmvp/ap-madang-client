@@ -3,18 +3,21 @@ import React, { useEffect } from 'react';
 import { css } from '@emotion/css';
 import { Navigator, Screen } from '@karrotframe/navigator';
 import { getAnalytics, logEvent } from 'firebase/analytics';
+import { ToastContainer } from 'react-toast';
 
+import CreateMeetingForm from './components/CreateMeetingPage/CreateMeetingForm';
+import CreateGuidePage from './components/FullImgPage/CreateGuidePage';
+import GuidePage from './components/FullImgPage/GuidePage';
 import LandingPage from './components/LandingPage';
 import MeetingDetailPage from './components/MeetingDetailPage';
 const AgoraPage = React.lazy(() => import('./components/MeetingPage'));
 import MeetingSuggestionPage from './components/MeetingSuggestionPage';
+import MyPage from './components/MyPage';
 import NotFoundPage from './components/NotFountPage';
 import NotServiceRegionPage from './components/NotServiceRegionPage';
-import OnBoardPage from './components/OnBoardPage';
 import ReservationPage from './components/ReservationPage';
-import AuthWithoutMini from './hoc/AuthWithoutMini';
+import useMini from './hook/useMini';
 import { app } from './util/firebase';
-import mini from './util/mini';
 import { checkMobileType } from './util/utils';
 
 const NavigatorStyle = css`
@@ -24,22 +27,26 @@ const NavigatorStyle = css`
 export const analytics = getAnalytics(app);
 
 const App: React.FC = () => {
+  const { ejectApp, loginWithoutMini } = useMini();
+
   useEffect(() => {
     logEvent(analytics, 'launch_app');
-  }, []);
+    loginWithoutMini();
+  }, [loginWithoutMini]);
 
   return (
     <Navigator
       theme={checkMobileType()}
-      onClose={() => mini.close()}
+      onClose={ejectApp}
       className={NavigatorStyle}
     >
-      <Screen path="/" component={AuthWithoutMini(LandingPage)} />
-      <Screen path="/guide" component={OnBoardPage} />
-      <Screen
-        path="/meetings/:id"
-        component={AuthWithoutMini(MeetingDetailPage)}
-      />
+      <ToastContainer position="bottom-center" delay={2000} />
+      <Screen path="/" component={LandingPage} />
+      <Screen path="/create-guide" component={CreateGuidePage} />
+      <Screen path="/guide" component={GuidePage} />
+      <Screen path="/me" component={MyPage} />
+      <Screen path="/meetings/:id" component={MeetingDetailPage} />
+      <Screen path="/create" component={CreateMeetingForm} />
       <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
       <Screen path="/reservation" component={ReservationPage} />
       <Screen path="/not-service-region" component={NotServiceRegionPage} />

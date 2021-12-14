@@ -1,27 +1,26 @@
 import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { useCurrentScreen } from '@karrotframe/navigator';
 import { MeetingDetail } from 'meeting';
-import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import fire_emoji from '../../../assets/icon/detailPage/fire_emoji.svg';
-import notification_empty_green from '../../../assets/icon/detailPage/notification_empty_green.svg';
-import notification_fill_white from '../../../assets/icon/detailPage/notification_fill_white.svg';
-import smile_emoji from '../../../assets/icon/detailPage/smile_emoji.svg';
-import { COLOR } from '../../../constant/color';
-import { codeAtom, userInfoAtom, UserInfoType } from '../../../store/user';
-import { authHandler } from '../../../util/withMini';
+import { analytics } from '../../../../App';
+import fire_emoji from '../../../../assets/icon/detailPage/fire_emoji.svg';
+import notification_empty_green from '../../../../assets/icon/detailPage/notification_empty_green.svg';
+import notification_fill_white from '../../../../assets/icon/detailPage/notification_fill_white.svg';
+import smile_emoji from '../../../../assets/icon/detailPage/smile_emoji.svg';
+import { COLOR } from '../../../../constant/color';
+import useMini from '../../../../hook/useMini';
 
 interface Props {
   data: MeetingDetail | undefined;
-  alarmHandler: (userInfo: UserInfoType) => (e?: React.MouseEvent) => void;
+  alarmHandler: () => void;
   fromFeed: boolean;
 }
 
-function AlarmFooter({ data, alarmHandler, fromFeed }: Props): ReactElement {
-  const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
-  const setCode = useSetRecoilState(codeAtom);
+function AlarmFooter({ data, alarmHandler }: Props): ReactElement {
+  const { loginWithMini } = useMini();
   const { isRoot } = useCurrentScreen();
 
   return (
@@ -31,33 +30,29 @@ function AlarmFooter({ data, alarmHandler, fromFeed }: Props): ReactElement {
           <BubbleIcon src={data?.alarm_id ? smile_emoji : fire_emoji} />
           {data?.alarm_id
             ? '모임이 시작되면 알림을 보내드릴게요'
-            : '알림 신청하고 랜동모에서 이웃을 만나보세요!'}
+            : '알림 신청하고 랜동모에서 이웃을 만나보세요'}
         </MessageBubble>
       )}
       <Footer fromFeed={data?.live_status !== 'live' && isRoot}>
+        {/* TODO: add fromFeed Event */}
         <AlarmBtn
           applied={data?.alarm_id}
-          onClick={
-            !userInfo
-              ? authHandler(
-                  alarmHandler,
-                  setCode,
-                  setUserInfo,
-                  fromFeed
-                    ? 'detail_page_alaram_user_from_feed'
-                    : 'detail_page_alaram',
-                )
-              : alarmHandler(userInfo)
-          }
+          onClick={e => {
+            e.stopPropagation();
+            logEvent(analytics, 'add_alarm_btn__click');
+            loginWithMini(alarmHandler);
+          }}
         >
-          {data?.alarm_id ? (
-            <img src={notification_fill_white} />
-          ) : (
-            <img src={notification_empty_green} />
-          )}
+          <img
+            src={
+              data?.alarm_id
+                ? notification_empty_green
+                : notification_fill_white
+            }
+          />
 
           <AlarmApplicant applied={data?.alarm_id}>
-            {data?.alarm_id ? '알림 받는 중' : '알림 신청하기'}
+            {data?.alarm_id ? '알림 신청 완료' : '알림 신청'}
             <Count>{data?.alarm_num || 0}명 신청 중</Count>
           </AlarmApplicant>
         </AlarmBtn>
@@ -67,12 +62,11 @@ function AlarmFooter({ data, alarmHandler, fromFeed }: Props): ReactElement {
 }
 
 const FooterWrapper = styled.div`
-  width: 100%;
-  position: absolute;
-  bottom: 0;
+  max-height: 6.4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
 `;
 
 const MessageBubble = styled.div`
@@ -136,7 +130,7 @@ const AlarmBtn = styled.div<{ applied: number | undefined }>`
   border-radius: 0.6rem;
   border: 0.1rem solid ${COLOR.LIGHT_GREEN};
   background: ${({ applied }) =>
-    applied ? COLOR.LIGHT_GREEN : COLOR.TEXT_WHITE};
+    applied ? COLOR.TEXT_WHITE : COLOR.LIGHT_GREEN};
 `;
 
 const AlarmApplicant = styled.div<{ applied: number | undefined }>`
@@ -146,7 +140,7 @@ const AlarmApplicant = styled.div<{ applied: number | undefined }>`
   text-align: center;
   letter-spacing: -0.03rem;
   margin-left: 0.4rem;
-  color: ${({ applied }) => (applied ? COLOR.TEXT_WHITE : COLOR.LIGHT_GREEN)};
+  color: ${({ applied }) => (applied ? COLOR.LIGHT_GREEN : COLOR.TEXT_WHITE)};
   display: flex;
   flex-direction: row;
   justify-content: center;

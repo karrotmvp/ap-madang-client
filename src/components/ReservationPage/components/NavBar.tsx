@@ -4,13 +4,15 @@ import styled from '@emotion/styled';
 
 import { ArrowBackAnd, ArrowBackIos } from '../../../assets/icon';
 import { COLOR } from '../../../constant/color';
-import mini from '../../../util/mini';
+import useMini from '../../../hook/useMini';
 import { checkMobileType } from '../../../util/utils';
 
 function NavBar(): ReactElement {
+  const { ejectApp } = useMini();
+
   return (
     <NavigationBar className="navigation-bar">
-      <CloseBtn onClick={() => mini.close()}>
+      <CloseBtn onClick={ejectApp}>
         {checkMobileType() === 'Android' ? (
           <ArrowBackAnd fill={COLOR.ICON_GREY} />
         ) : (

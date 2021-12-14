@@ -2,14 +2,14 @@ import React, { ReactElement, useCallback } from 'react';
 
 import styled from '@emotion/styled';
 import { useNavigator } from '@karrotframe/navigator';
-import { MeetingList } from 'meeting';
+import { LiveStatus, MeetingList } from 'meeting';
 
 import camera_meeting_tag__gray from '../../../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
 import voice_meeting_tag__gray from '../../../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
 import { COLOR } from '../../../../constant/color';
 import Gradient from '../../../common/Gradient';
-import CurrMeetingTimer from '../CurrMeetingTimer';
 import ParticipantNum from '../ParticipantNum';
+import UserProfile from '../UserProfile';
 
 interface Props {
   data: MeetingList;
@@ -18,7 +18,7 @@ interface Props {
 
 interface WrapperProps {
   idx: number;
-  live_status: 'live' | 'upcoming' | 'tomorrow' | 'finish';
+  live_status: LiveStatus;
 }
 
 function CurrMeetingCard({ idx, data }: Props): ReactElement {
@@ -37,7 +37,6 @@ function CurrMeetingCard({ idx, data }: Props): ReactElement {
     >
       <ImageWrapper>
         <TagWrapper>
-          <LiveTag>진행중</LiveTag>
           <MeetingTypeTag
             src={
               data.is_video ? camera_meeting_tag__gray : voice_meeting_tag__gray
@@ -51,24 +50,28 @@ function CurrMeetingCard({ idx, data }: Props): ReactElement {
       </ImageWrapper>
       <ContentsWrapper>
         <InfoWrapper>
-          <CurrMeetingTimer
-            date={data.date}
-            start_time={data.start_time}
-            end_time={data.end_time}
-          />
-          <Title className="title">{data.title}</Title>
+          <Title className="title">
+            <Tag color={COLOR.ORANGE}>진행중</Tag>
+            {data.title}
+          </Title>
+          <UserProfileWrapper>
+            <UserProfile
+              profileUrl={data.host.profile_image_url}
+              nickname={data.host.nickname}
+              region={data.host.region_name || ''}
+            />
+          </UserProfileWrapper>
           {data.user_enter_cnt !== 0 && (
             <ParticipantNum userMeetingNum={data.user_enter_cnt} />
           )}
         </InfoWrapper>
-        <Button>모임 정보 보러가기</Button>
       </ContentsWrapper>
     </MeetingCardWrapper>
   );
 }
 
 const MeetingCardWrapper = styled.div<WrapperProps>`
-  margin-bottom: 1.6rem;
+  margin-bottom: 2.4rem;
   width: 100%;
   height: auto;
   border: 1px solid ${COLOR.TEXTAREA_LIGHT_GREY};
@@ -84,8 +87,7 @@ const MeetingCardWrapper = styled.div<WrapperProps>`
 `;
 
 const ImageWrapper = styled.div`
-  width: 100%;
-  height: 15.1rem;
+  height: 12rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -115,45 +117,25 @@ const Thumbnail = styled.img`
   align-items: center;
 `;
 
-const LiveTag = styled.div`
-  position: relative;
-  padding: 0.5rem 0.8rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-weight: 600;
-  font-size: 1.2rem;
-  line-height: 1.4rem;
-  letter-spacing: -0.03rem;
-  color: ${COLOR.TEXT_WHITE};
-  background-color: ${COLOR.ORANGE};
-  border-radius: 0.4rem;
-`;
-
-const MeetingTypeTag = styled.img`
-  margin-left: 0.6rem;
-`;
+const MeetingTypeTag = styled.img``;
 
 const ContentsWrapper = styled.div`
   flex: 1;
-  padding: 1.4rem 1.5rem;
+  padding: 1.6rem;
   display: flex;
   flex-direction: column;
 `;
 const InfoWrapper = styled.div`
   flex: 1;
-  padding: 0 0.4rem;
 `;
 
 const Title = styled.div`
   font-weight: 600;
   max-height: 5.2rem;
-  font-size: 1.7rem;
-  line-height: 2.5rem;
-  letter-spacing: -0.04rem;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  letter-spacing: -0.03rem;
   color: ${COLOR.TEXT_BLACK};
-  margin-bottom: 1.4rem;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
@@ -164,19 +146,14 @@ const Title = styled.div`
   display: box;
 `;
 
-const Button = styled.div`
-  width: 100%;
-  height: 4rem;
-  background: ${COLOR.LIGHT_GREEN};
-  border-radius: 0.6rem;
-  font-weight: 600;
-  font-size: 1.4rem;
-  line-height: 1.7rem;
-  letter-spacing: -0.03rem;
-  color: ${COLOR.TEXT_WHITE};
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const UserProfileWrapper = styled.div`
+  margin-top: 0.8rem;
+`;
+
+const Tag = styled.div<{ color: string }>`
+  display: inline;
+  color: ${({ color }) => (color ? color : COLOR.ORANGE)};
+  margin-right: 0.6rem;
 `;
 
 export default CurrMeetingCard;

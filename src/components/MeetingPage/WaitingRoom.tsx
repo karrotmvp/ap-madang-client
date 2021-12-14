@@ -43,7 +43,7 @@ function WaitingRoom({
       <CustomScreenHelmet
         onCustomBackButton={goBackHandler}
         onCustomCloseButton={goBackHandler}
-        appendLeft={<PageTitle src={nav_logo} />}
+        appendMiddle={<PageTitle src={nav_logo} />}
       />
       {callState.state === 'error' ? (
         <ContentsWrapper className="join WaitingRoom">
@@ -67,7 +67,7 @@ function WaitingRoom({
         <ContentsWrapper className="join WaitingRoom">
           <Image src={un_happy_scratch} />
           <Title>
-            {`모임에서 나갔어요.\n랜선동네모임에서 다른 모임도 구경해 보세요!`}
+            {`모임에서 나갔어요.\n랜선동네모임에서 다른 모임도 구경해 보세요.`}
           </Title>
           <GreenBtn onClick={goBackHandler}>랜선동네모임으로 돌아가기</GreenBtn>
         </ContentsWrapper>
@@ -82,8 +82,7 @@ const PageWrapper = styled.div`
 `;
 
 const PageTitle = styled.img`
-  margin-left: 3.2rem;
-  height: 33%;
+  height: 1.43rem;
   width: auto;
 `;
 
@@ -94,6 +93,7 @@ const ContentsWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex: 1;
 `;
 
 const Image = styled.img`

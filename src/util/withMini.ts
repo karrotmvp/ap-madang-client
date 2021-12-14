@@ -12,6 +12,7 @@ type TokenPayloadType = {
   code: string;
   nickname: string;
   region: string;
+  profile_image_url: string;
 } & JwtPayload;
 
 type Props = {
@@ -48,10 +49,12 @@ const setUserNewInfoHandler = async ({
       setUserInfo({
         nickname: decodeToken.nickname,
         region: decodeToken.region,
+        profile_image_url: decodeToken.profile_image_url,
       });
       return {
         nickname: decodeToken.nickname,
         region: decodeToken.region,
+        profile_image_url: decodeToken.profile_image_url,
       };
     }
   }
@@ -89,11 +92,13 @@ const checkAuth = ({ code, setCode, setUserInfo }: checkAuthType) => {
       setUserInfo({
         nickname: decodeToken.nickname,
         region: decodeToken.region,
+        profile_image_url: decodeToken.profile_image_url,
       });
       setCode(code);
       return {
         nickname: decodeToken.nickname,
         region: decodeToken.region,
+        profile_image_url: decodeToken.profile_image_url,
       };
     }
   }

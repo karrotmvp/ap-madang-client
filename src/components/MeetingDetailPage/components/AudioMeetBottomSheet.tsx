@@ -5,7 +5,7 @@ import { logEvent } from '@firebase/analytics';
 
 import { increaseMeetingEnterUserCount } from '../../../api/meeting';
 import { analytics } from '../../../App';
-import closeBtn from '../../../assets/icon/nav_close.svg';
+import closeBtn from '../../../assets/icon/common/nav_close.svg';
 import agoraBottomSheet from '../../../assets/image/agora_bottom_sheet.png';
 import { COLOR } from '../../../constant/color';
 import BottomSheet from '../../common/BottomSheet';
@@ -41,17 +41,18 @@ function AudioMeetBottomSheet({
   };
 
   const onClickJoinHandler = useCallback(async () => {
+    logEvent(analytics, 'audio_bottom_sheet_join__click', {
+      location: 'audio_bottom_sheet',
+      meeting_id: meetingId,
+      meeting_name: meetingTitle,
+    });
     const windowReference = window.open(
       `/#/agora?meeting_code=${code}`,
       '_blank',
     );
 
     await increaseMeetingEnterUserCount(meetingId);
-    logEvent(analytics, 'audio_bottom_sheet_join__click', {
-      location: 'audio_bottom_sheet',
-      meeting_id: meetingId,
-      meeting_name: meetingTitle,
-    });
+
     windowReference;
     onClickJoin && onClickJoin();
     closeHandler();

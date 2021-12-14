@@ -2,24 +2,29 @@ import React, { ReactElement } from 'react';
 
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ImSpinner2 } from 'react-icons/im';
 
+import spinner_icon from '../../assets/icon/common/spinner.svg';
 import { COLOR } from '../../constant/color';
 
 function Spinner(): ReactElement {
+  const spinnerOnclick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ): void => {
+    e.stopPropagation();
+  };
   return (
-    <SpinnerWrapper className="spinner">
-      <SpinnerIcon />
+    <SpinnerWrapper className="spinner" onClick={spinnerOnclick}>
+      <SpinnerIcon src={spinner_icon} />
     </SpinnerWrapper>
   );
 }
 
 const spinAnimation = keyframes` 
     from {
-        transform:translate(-50%, -50%) rotate(0);
+        transform:rotate(0);
     }
     to {
-        transform:translate(-50%, -50%) rotate(360deg);
+        transform:rotate(360deg);
     }
 `;
 
@@ -32,12 +37,13 @@ const SpinnerWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background: ${COLOR.SPINNER_WRAPPER_BLACK};
+  z-index: 100;
 `;
 
-const SpinnerIcon = styled(ImSpinner2)`
+const SpinnerIcon = styled.img`
   width: 40px;
   height: 40px;
-  color: ${COLOR.LIGHT_GREEN};
   animation-name: ${spinAnimation};
   animation-duration: 0.8s;
   animation-iteration-count: infinite;

@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import Reward, { RewardElement } from 'react-rewards';
 
 import { User } from '..';
+import host_icon from '../../../assets/icon/agora/host_icon.svg';
 import userMicOff from '../../../assets/icon/agora/user_micOff.svg';
 import { COLOR } from '../../../constant/color';
 import useOnScreenRatio from '../useOnScreenRatio';
@@ -12,6 +13,7 @@ import { OptionType } from './AudioList';
 interface Props {
   user: User & {
     audioStreamValue: boolean;
+    isHost: boolean;
   };
   volumeState: number;
   options: OptionType;
@@ -62,6 +64,7 @@ export default function UserAudioCard({
         </Reward>
         <InfoArea>
           <NickNameInfo>
+            {user.isHost && <HostIcon src={host_icon} />}
             <NickName>{user.nickname}</NickName>
             {!user.audioStreamValue && <MicIcon src={userMicOff} />}
           </NickNameInfo>
@@ -172,6 +175,9 @@ const NickNameInfo = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+`;
+const HostIcon = styled.img`
+  margin-right: 0.2rem;
 `;
 
 const NickName = styled.div`

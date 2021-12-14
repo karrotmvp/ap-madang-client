@@ -25,7 +25,7 @@ export const RESERVATION = {
 
 export const LANDING = {
   NAVIGATOR_TITLE: '랜선동네모임',
-  CURRENT_MEETING: '지금 바로 모임에 참여해보세요',
+  CURRENT_MEETING: '지금 바로 모임에\n참여해보세요',
   UPCOMING_MEETING: '오늘 참여할 수 있는 모임',
   UPCOMING_MEETING_01: '오늘',
   UPCOMING_MEETING_02: '개 모임이 남아있어요',
@@ -36,15 +36,24 @@ export const LANDING = {
 
 export const COMMON = {
   NEW_ALARM_MODAL: {
-    TEXT: '선택한 모임이 시작되면\n알림으로 바로 알려드릴게요.',
+    TITLE: '알림 신청 완료',
+    TEXT: '모임이 시작되면 알림으로\n바로 알려드릴게요.',
   },
   DELETE_ALARM_MODAL: {
     TITLE: '선택한 모임의 시작 알림을\n해제하시겠어요?',
     SUB_TITLE: '알림받기를 해제하면 모임이\n시작될 때 알림을 받을 수 없어요.',
-    DONE_DELETE: '선택한 모임의 알림이\n해제되었어요.',
+    DONE_DELETE: '알림이 해제되었어요.',
     CLOSE: '닫기',
     DELETE: '해제하기',
   },
+};
+
+export const CREATE_MEETING = {
+  NAVIGATOR_TITLE: '모임 만들기',
+};
+
+export const MY_PAGE = {
+  NAVIGATOR_TITLE: '마이페이지',
 };
 
 export const SUGGESTION = {
@@ -64,14 +73,15 @@ export const MEETING_DETAIL = {
   JOIN_NOW: '지금 참여하기',
   CLOSE_MEETING: '이미 종료된 모임이에요',
   JOIN_LATER: ' 후에 만나요',
-  IS_VIDEO: '이 모임은 줌(zoom)으로 진행돼요. 카메라를 켜지 않아도 괜찮아요!',
+  IS_VIDEO: '이 모임은 줌(zoom)으로 진행돼요. 카메라를 켜지 않아도 괜찮아요.',
   IS_VOICE: '이 모임에서는 음성으로 이웃과 실시간 대화를 나눠요.',
   MEETING_DETAIL_DESCRIPTION_TITLE: '모임 상세 설명',
   GREEN_BOX_INFO:
-    '모든 모임은 줌(Zoom) 화상 회의로 진행돼요. 줌 앱을 다운로드한 후 이용해 주세요. 카메라를 켜지 않아도 괜찮아요!',
+    '모든 모임은 줌(Zoom) 화상 회의로 진행돼요. 줌 앱을 다운로드한 후 이용해 주세요. 카메라를 켜지 않아도 괜찮아요.',
   GREEN_BOX_BTN: '줌 사용방법 보러가기',
+  HOST_FOOTER_MESSAGE: '참여자 모집 중',
   MANNER_CARD: {
-    TITLE: '즐거운 랜선동네모임을 위해\n함께 지켜주세요!',
+    TITLE: '즐거운 랜선동네모임을 위해\n함께 지켜주세요.',
     SUB_TITLE: [
       '서로 배려하고 존중해요.',
       '이웃 모두가 함께 나눌 수 있는 대화를 해요.',
@@ -81,7 +91,7 @@ export const MEETING_DETAIL = {
     CLOSE: '닫기',
   },
   MANNER: {
-    TITLE: '즐거운 랜선동네모임을 위해\n함께 지켜주세요!',
+    TITLE: '즐거운 랜선동네모임을 위해\n함께 지켜주세요.',
     SUB_TITLE: [
       {
         BOLD: '첫째, ',

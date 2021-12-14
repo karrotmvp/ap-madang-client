@@ -1,14 +1,15 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 import { ScreenHelmet } from '@karrotframe/navigator';
 
-import nav_back from '../../assets/icon/nav_back.svg';
-import nav_close from '../../assets/icon/nav_close.svg';
+import nav_back from '../../assets/icon/common/nav_back.svg';
+import nav_close from '../../assets/icon/common/nav_close.svg';
 
 type Props = {
-  appendLeft?: React.ReactNode;
   appendRight?: React.ReactNode;
+  appendMiddle?: React.ReactNode;
+  appendLeft?: React.ReactNode;
   customCloseButton?: React.ReactNode;
   customBackButton?: React.ReactNode;
   onCustomCloseButton?: () => void;
@@ -20,9 +21,10 @@ function CustomScreenHelmet({
   customBackButton,
   onCustomCloseButton,
   onCustomBackButton,
-  appendLeft,
   appendRight,
-}: Props): ReactElement {
+  appendMiddle,
+  appendLeft,
+}: Props) {
   return (
     <ScreenHelmet
       customCloseButton={
@@ -35,14 +37,22 @@ function CustomScreenHelmet({
           <NavCustomBtn src={nav_back} onClick={onCustomBackButton} />
         )
       }
-      appendLeft={appendLeft}
-      appendRight={appendRight}
+      title={appendMiddle && <Middle>{appendMiddle}</Middle>}
+      appendLeft={appendLeft && appendLeft}
+      appendRight={appendRight && appendRight}
     />
   );
 }
 
 const NavCustomBtn = styled.img`
-  margin-left: 1.5rem;
+  margin-left: 1.6rem;
+`;
+
+const Middle = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default CustomScreenHelmet;
