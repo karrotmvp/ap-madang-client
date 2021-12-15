@@ -47,7 +47,7 @@ function MeetingList({
         const filteredMeetings = meetings.filter(el => el.date === date);
         return (
           <DateWrapper key={dateListIdx} className="date-list">
-            <DateLabel>{dayjs(date).format('MM월 DD일')}</DateLabel>
+            <DateLabel>{dayjs(date).format('MM월 DD일 dddd')}</DateLabel>
             {filteredMeetings.map((meeting, meetingIdx) => {
               return (
                 <div key={meeting.id}>
