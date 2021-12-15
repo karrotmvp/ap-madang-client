@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useQueryParams } from '@karrotframe/navigator';
 import { AgoraRTCError, UID } from 'agora-rtc-react';
 
 import { InfoType, validateMeetingCode } from '../../api/agora';
@@ -30,6 +31,8 @@ const AgoraMeetingPage = () => {
   const [info, setInfo] = useState<InfoType | undefined>(undefined);
   const [meetingCode, setMeetingCode] = useState<string>('');
 
+  const querystring: Partial<{ meeting_code: string }> = useQueryParams();
+
   const fetchMeetingData = async (code: string) => {
     const result = await validateMeetingCode(code);
     if (result.success && result.data) {
@@ -41,10 +44,7 @@ const AgoraMeetingPage = () => {
 
   useEffect(() => {
     if (!info) {
-      const urlHashParams = new URLSearchParams(
-        window.location.hash.substr(window.location.hash.indexOf('?')),
-      );
-      const code = urlHashParams.get('meeting_code');
+      const code = querystring.meeting_code;
       if (!code)
         setInCall({ state: 'error', message: '올바르지 않은 접근이에요' });
       code && setMeetingCode(code);
@@ -59,7 +59,7 @@ const AgoraMeetingPage = () => {
     return () => {
       sessionStorage.removeItem('Authorization');
     };
-  }, [info]);
+  }, [info, querystring]);
 
   return inCall.state === 'calling' && info ? (
     <MeetingRoom setInCall={setInCall} info={info} code={meetingCode} />
