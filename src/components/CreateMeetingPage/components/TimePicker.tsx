@@ -2,15 +2,17 @@ import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
-import { CreateMeeting, TimeType } from 'meeting';
+import { TimeType } from 'meeting';
+import { z } from 'zod';
 
 import nav_close from '../../../assets/icon/common/nav_close.svg';
 import { COLOR } from '../../../constant/color';
+import { FormValid } from '../CreateMeetingForm';
 
 interface Props {
   date: string;
   time: TimeType;
-  setForm: React.Dispatch<React.SetStateAction<CreateMeeting>>;
+  setForm: React.Dispatch<React.SetStateAction<z.infer<typeof FormValid>>>;
   trySubmit: boolean;
 }
 
@@ -49,7 +51,7 @@ function TimePicker({ date, time, setForm, trySubmit }: Props): ReactElement {
   useEffect(() => {
     setStartList([]);
     setEndList([]);
-    setForm((prevState: CreateMeeting) => ({
+    setForm(prevState => ({
       ...prevState,
       time: { start_time: '', end_time: '' },
     }));
@@ -68,7 +70,7 @@ function TimePicker({ date, time, setForm, trySubmit }: Props): ReactElement {
       <SelectorStyle
         className="start_time_selector"
         onChange={e => {
-          setForm((prevState: CreateMeeting) => ({
+          setForm(prevState => ({
             ...prevState,
             time: { start_time: e.target.value, end_time: '' },
           }));
@@ -95,7 +97,7 @@ function TimePicker({ date, time, setForm, trySubmit }: Props): ReactElement {
       <SelectorStyle
         className="end_time_selector"
         onChange={e => {
-          setForm((prevState: CreateMeeting) => ({
+          setForm(prevState => ({
             ...prevState,
             time: { ...prevState.time, end_time: e.target.value },
           }));
