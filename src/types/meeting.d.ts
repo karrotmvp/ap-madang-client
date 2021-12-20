@@ -14,6 +14,7 @@ declare module 'meeting' {
     is_host: boolean;
     description_text: string;
     alarm_num: number;
+    is_agora_channel_available: boolean;
   };
 
   export type LiveStatus =
