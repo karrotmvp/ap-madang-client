@@ -8,7 +8,6 @@ import { MeetingList } from 'meeting';
 import { COLOR } from '../../../../constant/color';
 import Divider from '../../../common/Divider';
 import MeetingCard from '../MeetingCard/MeetingCard';
-import SkeletonCard from '../MeetingCard/SkeletonCard';
 
 interface Props {
   className?: string;
@@ -20,7 +19,7 @@ interface Props {
 function MeetingList({
   className,
   meetings,
-  hasMeetings,
+
   setMeetings,
 }: Props): ReactElement {
   const [dateList, setDateList] = useState<string[]>([]);
@@ -66,8 +65,8 @@ function MeetingList({
           </DateWrapper>
         );
       })}
-
-      {!hasMeetings && <SkeletonCard />}
+      {/* 
+      {!hasMeetings && <SkeletonCard />} */}
     </MeetingListWrapper>
   );
 }

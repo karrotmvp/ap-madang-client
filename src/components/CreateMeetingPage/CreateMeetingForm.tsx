@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 import { CreateMeeting } from 'meeting';
+import { z } from 'zod';
 
 import { uploadImage } from '../../api/image';
 import { createMeeting } from '../../api/meeting';
@@ -30,11 +31,39 @@ import ImageUploaderBox from './components/ImageUploaderBox';
 import TimePicker from './components/TimePicker';
 import WordCounter from './components/WordCounter';
 
+const TitleMaxValid = z.string().max(40);
+const TitleMinValid = z.string().min(1);
+const TitleValid = z.intersection(TitleMaxValid, TitleMinValid);
+const DescriptionMaxValid = z.string().max(140);
+const DescriptionMinValid = z.string().min(1);
+const DescriptionValid = z.intersection(
+  DescriptionMinValid,
+  DescriptionMaxValid,
+);
+const TypeValid = z.string().min(1);
+const DateValid = z.string();
+const TimeStringValid = z.string().min(2);
+const TimeValid = z.object({
+  start_time: z.string(),
+  end_time: z.string(),
+});
+
+const ImageValid = z.instanceof(File).nullable();
+
+export const FormValid = z.object({
+  title: TitleValid,
+  description: DescriptionValid,
+  type: TypeValid,
+  date: DateValid,
+  time: TimeValid,
+  image: ImageValid,
+});
+
 function CreateMeetingForm(): ReactElement {
-  const [form, setForm] = useState<CreateMeeting>({
+  const [form, setForm] = useState<z.infer<typeof FormValid>>({
     title: '',
     description: '',
-    type: undefined,
+    type: '',
     date: '',
     time: { start_time: '', end_time: '' },
     image: null,
@@ -53,18 +82,14 @@ function CreateMeetingForm(): ReactElement {
     return urlHashParams.get('ref');
   }, []);
 
-  const isValid = useMemo(
-    () =>
-      form.title.length !== 0 &&
-      form.title.length <= 40 &&
-      form.description.length !== 0 &&
-      form.description.length <= 140 &&
-      form.type !== undefined &&
-      form.date.length != 0 &&
-      form.time.start_time.length !== 0 &&
-      form.time.end_time.length !== 0,
-    [form.date, form.description, form.time, form.title, form.type],
-  );
+  const isValid = useMemo(() => {
+    try {
+      FormValid.parse(form);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }, [form]);
 
   const onSetImageHandler = useCallback(
     async (e?: ChangeEvent<HTMLInputElement>) => {
@@ -137,10 +162,10 @@ function CreateMeetingForm(): ReactElement {
           placeholder="모임 제목을 입력해주세요. (예. 같이 책 읽고 대화 나눠요.)"
           height="8.6rem"
           validation={
-            (submitState.state !== 'submit' && form.title.length < 40) ||
+            (submitState.state !== 'submit' &&
+              TitleMaxValid.safeParse(form.title).success) ||
             (submitState.state === 'submit' &&
-              form.title.length !== 0 &&
-              form.title.length < 40)
+              TitleValid.safeParse(form.title).success)
           }
           formHandler={(value: string) =>
             setForm(prevState => ({ ...prevState, title: value }))
@@ -148,12 +173,13 @@ function CreateMeetingForm(): ReactElement {
         />
         <ValidationInfoWarpper>
           <ValidationInfo>
-            {form.title.length > 40 && (
+            {!TitleMaxValid.safeParse(form.title).success && (
               <div>모임 제목은 최대 40자까지 입력할 수 있어요.</div>
             )}
-            {submitState.state === 'submit' && form.title.length === 0 && (
-              <div>모임 제목을 입력해주세요.</div>
-            )}
+            {submitState.state === 'submit' &&
+              !TitleMinValid.safeParse(form.title).success && (
+                <div>모임 제목을 입력해주세요.</div>
+              )}
           </ValidationInfo>
           <WordCounter maxWords={40} words={form.title} />
         </ValidationInfoWarpper>
@@ -165,10 +191,9 @@ function CreateMeetingForm(): ReactElement {
           height="15.5rem"
           validation={
             (submitState.state !== 'submit' &&
-              form.description.length <= 140) ||
+              DescriptionMaxValid.safeParse(form.description).success) ||
             (submitState.state === 'submit' &&
-              form.description.length !== 0 &&
-              form.description.length <= 140)
+              DescriptionValid.safeParse(form.description).success)
           }
           formHandler={(value: string) =>
             setForm(prevState => ({ ...prevState, description: value }))
@@ -176,15 +201,13 @@ function CreateMeetingForm(): ReactElement {
         />
         <ValidationInfoWarpper>
           <ValidationInfo>
-            <div>
-              {form.description.length > 140 &&
-                '모임 내용은 최대 140자까지 입력할 수 있어요.'}
-            </div>
-            <div>
-              {submitState.state === 'submit' &&
-                form.description.length === 0 &&
-                '모임 내용을 입력해주세요.'}
-            </div>
+            {!DescriptionMaxValid.safeParse(form.description).success && (
+              <div>'모임 내용은 최대 140자까지 입력할 수 있어요.'</div>
+            )}
+            {submitState.state === 'submit' &&
+              !DescriptionMinValid.safeParse(form.description).success && (
+                <div>'모임 내용을 입력해주세요.'</div>
+              )}
           </ValidationInfo>
           <WordCounter maxWords={140} words={form.description} />
         </ValidationInfoWarpper>
@@ -192,13 +215,14 @@ function CreateMeetingForm(): ReactElement {
 
       <MeetingTypeWrapper>
         <TitleText>모임 진행 방식</TitleText>
-        {submitState.state === 'submit' && form.type === undefined && (
-          <ValidationInfoWarpper>
-            <ValidationInfo>
-              <div>모임 진행 방식을 선택해주세요.</div>
-            </ValidationInfo>
-          </ValidationInfoWarpper>
-        )}
+        {submitState.state === 'submit' &&
+          !TypeValid.safeParse(form.type).success && (
+            <ValidationInfoWarpper>
+              <ValidationInfo>
+                <div>모임 진행 방식을 선택해주세요.</div>
+              </ValidationInfo>
+            </ValidationInfoWarpper>
+          )}
         <TypeBtnWrapper>
           <TypeBtn
             onClick={() =>
@@ -254,11 +278,10 @@ function CreateMeetingForm(): ReactElement {
         />
         <ValidationInfoWarpper>
           <ValidationInfo>
-            <div>
-              {submitState.state === 'submit' &&
-                (form.date === undefined || form.date.length === 0) &&
-                '모임 날짜를 선택해주세요.'}
-            </div>
+            {submitState.state === 'submit' &&
+              !TypeValid.safeParse(form.date).success && (
+                <div>'모임 날짜를 선택해주세요.'</div>
+              )}
           </ValidationInfo>
         </ValidationInfoWarpper>
       </Date>
@@ -272,16 +295,14 @@ function CreateMeetingForm(): ReactElement {
         />
         <ValidationInfoWarpper>
           <ValidationInfo>
-            <div>
-              {submitState.state === 'submit' &&
-                form.time.start_time.length === 0 &&
-                '모임 시작 시간을 선택해주세요.'}
-            </div>
-            <div>
-              {submitState.state === 'submit' &&
-                form.time.end_time.length === 0 &&
-                '모임 종료 시간을 선택해주세요.'}
-            </div>
+            {submitState.state === 'submit' &&
+              !TimeStringValid.safeParse(form.time.start_time).success && (
+                <div>'모임 시작 시간을 선택해주세요.'</div>
+              )}
+            {submitState.state === 'submit' &&
+              !TimeStringValid.safeParse(form.time.end_time).success && (
+                <div>'모임 종료 시간을 선택해주세요.'</div>
+              )}
           </ValidationInfo>
         </ValidationInfoWarpper>
       </Time>

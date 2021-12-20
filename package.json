@@ -52,7 +52,8 @@
     "recoil": "^0.4.1",
     "slick-carousel": "^1.8.1",
     "swiper": "^7.0.9",
-    "ts-node": "^10.2.1"
+    "ts-node": "^10.2.1",
+    "zod": "^3.11.6"
   },
   "devDependencies": {
     "@types/agora-rtc-sdk": "^3.2.0",

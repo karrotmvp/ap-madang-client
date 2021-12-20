@@ -34,6 +34,7 @@ import AudioMeetBottomSheet from './components/AudioMeetBottomSheet';
 import AlarmFooter from './components/Footer/AlarmFooter';
 import FinishFooter from './components/Footer/FinishFooter';
 import Footer from './components/Footer/Footer';
+import FullFooter from './components/Footer/FullFooter';
 import HostFooter from './components/Footer/HostFooter';
 import MeetingMannerCard from './components/MannerCard';
 import MoreActionModal from './components/Modal/MoreActionModal';
@@ -386,6 +387,8 @@ const MeetingDetailPage = () => {
 
       {data?.live_status === 'finish' ? (
         <FinishFooter />
+      ) : data?.is_agora_channel_available === false ? (
+        <FullFooter />
       ) : data?.is_host && data?.live_status !== 'live' ? (
         <HostFooter data={data} />
       ) : data?.live_status !== 'live' && data?.live_status !== 'finish' ? (

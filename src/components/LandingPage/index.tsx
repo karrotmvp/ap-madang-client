@@ -21,7 +21,6 @@ import { getRegionId } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
 import CarouselBanner from './components/CarouselBanner';
-import SkeletonCard from './components/MeetingCard/SkeletonCard';
 import CurrMeetingList from './components/MeetingList/CurrMeetingList';
 import MeetingList from './components/MeetingList/MeetingList';
 import { useRedirect } from './useRedirect';
@@ -108,7 +107,7 @@ const LandingPage: React.FC = () => {
           <img src={big_plus__white} />
         </CreateBtn>
       </CreateBtnWrapper>
-      {meetings.length === 0 && <SkeletonCard />}
+      {/* {meetings.length === 0 && <SkeletonCard />} */}
       {meetings.filter(el => el.live_status === 'live').length !== 0 && (
         <div>
           <CurrMeetingList
@@ -128,7 +127,6 @@ const LandingPage: React.FC = () => {
           hasMeetings={meetings.length !== 0}
           setMeetings={setMeetings}
         />
-        <Divider className="landing__divider" size="1rem" />
       </div>
     </PageWrapper>
   );

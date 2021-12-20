@@ -28,7 +28,7 @@ function EditableTextarea({
       placeholder={placeholder}
       validation={validation}
       onInput={(e: React.ChangeEvent<HTMLDivElement>) => {
-        formHandler && formHandler(e.target.innerText);
+        formHandler && formHandler(e.target.textContent || '');
       }}
     />
   );
