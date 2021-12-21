@@ -15,9 +15,13 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 function WaitingRoom({
   callState,
   userInfo,
+  setMeetingCode,
+  setInfo,
 }: {
   callState: callState;
   userInfo: InfoType | undefined;
+  setMeetingCode: React.Dispatch<React.SetStateAction<string>>;
+  setInfo: React.Dispatch<React.SetStateAction<InfoType | undefined>>;
 }): ReactElement {
   const goBackHandler = () => {
     window.open(process.env.KARROT_SCHEME);
@@ -33,10 +37,12 @@ function WaitingRoom({
       callState.state === 'finish' ||
       callState.state === 'error'
     ) {
+      setMeetingCode('');
+      setInfo(undefined);
       sessionStorage.removeItem('info');
       sessionStorage.removeItem('Authorization');
     }
-  }, [callState, userInfo]);
+  }, [callState, setInfo, setMeetingCode, userInfo]);
 
   return (
     <PageWrapper>
