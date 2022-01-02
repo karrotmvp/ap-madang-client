@@ -69,6 +69,7 @@ const Text = styled.div`
 `;
 
 const BoldText = styled(Text)`
+  display: inline;
   color: ${COLOR.LIGHT_GREEN};
 `;
 
