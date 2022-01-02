@@ -57,10 +57,7 @@ const AgoraMeetingPage = () => {
       setInCall({ state: 'calling' });
     }
     return () => {
-      setMeetingCode('');
-      setInfo(undefined);
       sessionStorage.removeItem('Authorization');
-      sessionStorage.removeItem('info');
     };
   }, [info, querystring]);
 
@@ -69,12 +66,7 @@ const AgoraMeetingPage = () => {
   ) : inCall.state === 'waiting' ? (
     <RedirectPage />
   ) : (
-    <WaitingRoom
-      callState={inCall}
-      userInfo={info}
-      setMeetingCode={setMeetingCode}
-      setInfo={setInfo}
-    />
+    <WaitingRoom callState={inCall} userInfo={info} />
   );
 };
 
