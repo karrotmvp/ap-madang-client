@@ -31,12 +31,12 @@ function CarouselBanner(): ReactElement {
         <BannerImg
           src={home_banner_01}
           className="landing__banner-img_01"
-          onClick={() => push('/create-guide')}
+          onClick={() => push('/guide/create')}
         />
         <BannerImg
           src={home_banner_02}
           className="landing__banner-img_02"
-          onClick={() => push('/guide')}
+          onClick={() => push('/guide/service')}
         />
       </Slider>
     </BannerWrapper>

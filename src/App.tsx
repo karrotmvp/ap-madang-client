@@ -42,8 +42,8 @@ const App: React.FC = () => {
     >
       <ToastContainer position="bottom-center" delay={2000} />
       <Screen path="/" component={LandingPage} />
-      <Screen path="/create-guide" component={CreateGuidePage} />
-      <Screen path="/guide" component={GuidePage} />
+      <Screen path="/guide/create" component={CreateGuidePage} />
+      <Screen path="/guide/service" component={GuidePage} />
       <Screen path="/me" component={MyPage} />
       <Screen path="/meetings/:id" component={MeetingDetailPage} />
       <Screen path="/create" component={CreateMeetingForm} />
