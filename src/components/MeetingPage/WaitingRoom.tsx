@@ -9,7 +9,7 @@ import { analytics } from '../../App';
 import happy_scratch from '../../assets/image/happy_scratch.png';
 import nav_logo from '../../assets/image/nav_logo.png';
 import un_happy_scratch from '../../assets/image/un_happy_scratch.png';
-import { COLOR } from '../../constant/color';
+import { COLOR } from '../../style/color';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
 function WaitingRoom({

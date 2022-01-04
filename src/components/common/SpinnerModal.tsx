@@ -7,7 +7,7 @@ import classnames from 'classnames';
 import { createPortal } from 'react-dom';
 
 import spinner_icon from '../../assets/icon/common/spinner.svg';
-import { COLOR } from '../../constant/color';
+import { COLOR } from '../../style/color';
 
 export type Confirm = {
   text: React.ReactNode;

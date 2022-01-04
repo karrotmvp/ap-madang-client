@@ -8,7 +8,7 @@ import home_banner_01 from '../../../assets/image/home_banner_01.png';
 import home_banner_02 from '../../../assets/image/home_banner_02.png';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 
 const settings = {
   dots: true,

@@ -6,7 +6,7 @@ import Reward, { RewardElement } from 'react-rewards';
 import { User } from '..';
 import host_icon from '../../../assets/icon/agora/host_icon.svg';
 import userMicOff from '../../../assets/icon/agora/user_micOff.svg';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 import useOnScreenRatio from '../useOnScreenRatio';
 import { OptionType } from './AudioList';
 

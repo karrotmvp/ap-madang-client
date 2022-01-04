@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import dayjs from 'dayjs';
 import { MeetingList } from 'meeting';
 
-import { COLOR } from '../../../../constant/color';
+import { COLOR } from '../../../../style/color';
 import Divider from '../../../common/Divider';
 import MeetingCard from '../MeetingCard/MeetingCard';
 

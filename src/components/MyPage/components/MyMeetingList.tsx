@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import classnames from 'classnames';
 import { MeetingList } from 'meeting';
 
-import { COLOR } from '../../../constant/color';
 import { LANDING } from '../../../constant/message';
+import { COLOR } from '../../../style/color';
 import MyMeetingCard from './MyMeetingCard';
 
 interface Props {

@@ -7,8 +7,8 @@ import { Cookies } from 'react-cookie';
 
 import { alarmReservation, getRegionName } from '../../api/reservation';
 import notifications_none_reservation from '../../assets/icon/notifications_none_reservation.svg';
-import { COLOR } from '../../constant/color';
 import { RESERVATION } from '../../constant/message';
+import { COLOR } from '../../style/color';
 import mini from '../../util/mini';
 import { getRegionId } from '../../util/utils';
 import ReservationModal from '../common/Modal/ReservationModal';

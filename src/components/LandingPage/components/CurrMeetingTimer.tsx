@@ -3,8 +3,8 @@ import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 
-import { COLOR } from '../../../constant/color';
 import useInterval from '../../../hook/useInterval';
+import { COLOR } from '../../../style/color';
 import { getRemainMilliSec } from '../../../util/utils';
 
 interface Props {

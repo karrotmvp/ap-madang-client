@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 
 interface Props {
   intervalTime?: number;

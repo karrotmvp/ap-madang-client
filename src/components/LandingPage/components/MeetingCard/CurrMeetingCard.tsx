@@ -6,7 +6,7 @@ import { LiveStatus, MeetingList } from 'meeting';
 
 import camera_meeting_tag__gray from '../../../../assets/icon/detailPage/camera_meeting_tag__gray.svg';
 import voice_meeting_tag__gray from '../../../../assets/icon/detailPage/voice_meeting_tag__gray.svg';
-import { COLOR } from '../../../../constant/color';
+import { COLOR } from '../../../../style/color';
 import Gradient from '../../../common/Gradient';
 import ParticipantNum from '../ParticipantNum';
 import UserProfile from '../UserProfile';

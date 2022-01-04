@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import classnames from 'classnames';
 
 import green_face_happy from '../../../assets/icon/detailPage/green_face_happy.svg';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 import DescriptionItem from '../../common/DescriptionItem';
 
 interface DescriptionProp {

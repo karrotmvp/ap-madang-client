@@ -6,8 +6,8 @@ import styled from '@emotion/styled';
 import classnamse from 'classnames';
 import { createPortal } from 'react-dom';
 
-import { COLOR } from '../../constant/color';
 import useBlockBack from '../../hook/useBlockBack';
+import { COLOR } from '../../style/color';
 
 export type Confirm = {
   text: React.ReactNode;

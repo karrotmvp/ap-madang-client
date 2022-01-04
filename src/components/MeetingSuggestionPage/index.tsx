@@ -9,11 +9,11 @@ import { useRecoilValue } from 'recoil';
 import { meetingSuggestion } from '../../api/suggestion';
 import { analytics } from '../../App';
 import bulb_suggestion from '../../assets/icon/bulb_suggestion.svg';
-import { COLOR } from '../../constant/color';
 import { SUGGESTION } from '../../constant/message';
 import useMini from '../../hook/useMini';
 import useViewportSize from '../../hook/useViewportSize';
 import { userInfoAtom } from '../../store/user';
+import { COLOR } from '../../style/color';
 import { checkMobileType } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 

@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 import 'dayjs/locale/ko';
 
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 dayjs.locale('ko');
 
 interface Props {

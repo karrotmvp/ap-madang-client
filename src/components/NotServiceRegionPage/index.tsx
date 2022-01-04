@@ -5,8 +5,8 @@ import { logEvent } from '@firebase/analytics';
 
 import { analytics } from '../../App';
 import scratching from '../../assets/image/scratching.png';
-import { COLOR } from '../../constant/color';
 import { NOT_SERVICE_REGION } from '../../constant/message';
+import { COLOR } from '../../style/color';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
 function NotServiceRegionPage(): ReactElement {

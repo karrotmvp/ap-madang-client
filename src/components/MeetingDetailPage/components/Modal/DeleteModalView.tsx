@@ -7,7 +7,7 @@ import { toast } from 'react-toast';
 
 import { deleteMeeting } from '../../../../api/meeting';
 import { analytics } from '../../../../App';
-import { COLOR } from '../../../../constant/color';
+import { COLOR } from '../../../../style/color';
 
 type Prop = {
   id: string;

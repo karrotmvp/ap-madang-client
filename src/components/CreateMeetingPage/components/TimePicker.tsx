@@ -6,7 +6,7 @@ import { TimeType } from 'meeting';
 import { z } from 'zod';
 
 import nav_close from '../../../assets/icon/common/nav_close.svg';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 import { FormValid } from '../CreateMeetingForm';
 
 interface Props {

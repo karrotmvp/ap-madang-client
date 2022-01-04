@@ -9,7 +9,7 @@ import Pretendard_Regular from '../assets/font/pretendard/Pretendard-Regular.wof
 import Pretendard_SemiBold from '../assets/font/pretendard/Pretendard-SemiBold.woff2';
 import './reset.css';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { COLOR } from '../constant/color';
+import { COLOR } from './color';
 
 const GlobalStyle = () => {
   return (

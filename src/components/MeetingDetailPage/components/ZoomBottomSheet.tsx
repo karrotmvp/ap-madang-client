@@ -12,8 +12,8 @@ import mic from '../../../assets/icon/detailPage/mic.svg';
 import zoom_logo__white from '../../../assets/icon/detailPage/zoom_logo__white.svg';
 import zoom_view from '../../../assets/image/zoom_view.png';
 import BottomSheet from '../../../components/common/BottomSheet';
-import { COLOR } from '../../../constant/color';
 import { ZOOM_BOTTOM_SHEET } from '../../../constant/message';
+import { COLOR } from '../../../style/color';
 
 interface Props {
   onClose: () => void;

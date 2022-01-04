@@ -9,7 +9,7 @@ import { InfoType } from '../../../api/agora';
 import { analytics } from '../../../App';
 import micOff from '../../../assets/icon/agora/micOff.svg';
 import micOn from '../../../assets/icon/agora/micOn.svg';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 import { useClient } from '../MeetingRoom';
 
 const Controls = (props: {

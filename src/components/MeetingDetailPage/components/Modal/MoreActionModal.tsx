@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 
 import { analytics } from '../../../../App';
-import { COLOR } from '../../../../constant/color';
+import { COLOR } from '../../../../style/color';
 import Modal from '../../../common/Modal/Modal';
 import DeleteModalView from './DeleteModalView';
 

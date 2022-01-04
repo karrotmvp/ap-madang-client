@@ -13,9 +13,9 @@ import upcoming_noti_off__green from '../../../../assets/icon/landingPage/upcomi
 import upcoming_noti_on__green from '../../../../assets/icon/landingPage/upcoming_noti_on__green.svg';
 import video_upcoming_tag__green from '../../../../assets/icon/landingPage/video_upcoming_tag__green.svg';
 import voice_upcoming_tag__green from '../../../../assets/icon/landingPage/voice_upcoming_tag__green.svg';
-import { COLOR } from '../../../../constant/color';
 import useMini from '../../../../hook/useMini';
 import { userInfoAtom } from '../../../../store/user';
+import { COLOR } from '../../../../style/color';
 import { getStartTimeForm } from '../../../../util/utils';
 // import ImageRenderer from '../../../common/LazyLoading/ImageRenderer';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';

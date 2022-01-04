@@ -4,8 +4,8 @@ import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import RedirectHouse from '../../assets/icon/RedirectHouse';
-import { COLOR } from '../../constant/color';
 import { REDIRECT } from '../../constant/message';
+import { COLOR } from '../../style/color';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
 function RedirectPage(): ReactElement {

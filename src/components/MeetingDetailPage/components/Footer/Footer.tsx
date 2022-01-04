@@ -5,9 +5,9 @@ import { logEvent } from '@firebase/analytics';
 import { MeetingDetail } from 'meeting';
 
 import { analytics } from '../../../../App';
-import { COLOR } from '../../../../constant/color';
 import { MEETING_DETAIL } from '../../../../constant/message';
 import useMini from '../../../../hook/useMini';
+import { COLOR } from '../../../../style/color';
 
 interface Props {
   data: MeetingDetail | undefined;

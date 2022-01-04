@@ -6,7 +6,7 @@ import classnames from 'classnames';
 
 import plus__white from '../../../assets/icon/myPage/plus__white.svg';
 import un_happy_scratch from '../../../assets/image/un_happy_scratch.png';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 
 interface Props {
   className?: string;

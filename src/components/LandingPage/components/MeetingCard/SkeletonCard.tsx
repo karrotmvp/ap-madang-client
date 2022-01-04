@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 import Skeleton from 'react-loading-skeleton';
 
-import { COLOR } from '../../../../constant/color';
+import { COLOR } from '../../../../style/color';
 
 function SkeletonCard(): ReactElement {
   return (

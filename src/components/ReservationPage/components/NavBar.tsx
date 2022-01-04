@@ -3,8 +3,8 @@ import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 
 import { ArrowBackAnd, ArrowBackIos } from '../../../assets/icon';
-import { COLOR } from '../../../constant/color';
 import useMini from '../../../hook/useMini';
+import { COLOR } from '../../../style/color';
 import { checkMobileType } from '../../../util/utils';
 
 function NavBar(): ReactElement {

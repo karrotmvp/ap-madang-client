@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 
 import notification_fill__grey from '../../../assets/icon/myPage/notification_fill__grey.svg';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 
 interface Props {
   alarmNum: number;

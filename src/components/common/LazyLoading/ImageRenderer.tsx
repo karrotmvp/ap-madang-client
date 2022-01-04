@@ -5,7 +5,7 @@ import { jsx, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import classnames from 'classnames';
 
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 import useIntersectionObserver from './useIntersectionObserver';
 
 interface Props {

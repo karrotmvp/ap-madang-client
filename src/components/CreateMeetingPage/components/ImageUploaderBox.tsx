@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 
 import delete_icon from '../../../assets/icon/createMeeting/delete_icon.svg';
 import upload_img from '../../../assets/icon/createMeeting/upload_img.svg';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 interface Props {
   previewRef: React.MutableRefObject<HTMLImageElement | null>;
   onSetImageHandler: (e?: ChangeEvent<HTMLInputElement>) => void;

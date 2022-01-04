@@ -8,7 +8,7 @@ import mic_emoji from '../../../../assets/icon/agora/mic_emoji.svg';
 import talk_emoji from '../../../../assets/icon/agora/talk_emoji.svg';
 import x_emoji from '../../../../assets/icon/agora/x_emoji.svg';
 import closeBtn from '../../../../assets/icon/common/nav_close.svg';
-import { COLOR } from '../../../../constant/color';
+import { COLOR } from '../../../../style/color';
 import BottomSheet from '../../../common/BottomSheet';
 import GuideDescription from './GuideDescription';
 
