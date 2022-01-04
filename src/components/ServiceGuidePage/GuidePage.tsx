@@ -4,7 +4,7 @@ import { logEvent } from '@firebase/analytics';
 
 import { analytics } from '../../App';
 import service_guide from '../../assets/image/service_guide.png';
-import FullImgPage from './FullImgPage';
+import FullImgPage from '../common/FullImgPage';
 
 function GuidePage(): ReactElement {
   useEffect(() => {
