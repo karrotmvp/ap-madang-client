@@ -188,23 +188,25 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
           />
         </InfoWrapper>
         <AlarmWrapper>
-          <AlarmBtn
-            hasAlarm={data.alarm_id ? true : false}
-            className="meeting-card__alarm-icon"
-            onClick={e => {
-              e.stopPropagation();
-              loginWithMini(alarmHandler);
-            }}
-          >
-            <AlarmIcon
-              src={
-                data.alarm_id
-                  ? upcoming_noti_on__green
-                  : upcoming_noti_off__green
-              }
-            />
-            {data.alarm_num}
-          </AlarmBtn>
+          {!data.is_host && (
+            <AlarmBtn
+              hasAlarm={data.alarm_id ? true : false}
+              className="meeting-card__alarm-icon"
+              onClick={e => {
+                e.stopPropagation();
+                loginWithMini(alarmHandler);
+              }}
+            >
+              <AlarmIcon
+                src={
+                  data.alarm_id
+                    ? upcoming_noti_on__green
+                    : upcoming_noti_off__green
+                }
+              />
+              {data.alarm_num}
+            </AlarmBtn>
+          )}
         </AlarmWrapper>
       </ContentsWrapper>
     </MeetingCardWrapper>
