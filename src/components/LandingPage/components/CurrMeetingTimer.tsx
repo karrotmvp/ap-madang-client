@@ -2,10 +2,11 @@ import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 
 import useInterval from '../../../hook/useInterval';
 import { COLOR } from '../../../style/color';
-import { getRemainMilliSec } from '../../../util/utils';
+dayjs.extend(duration);
 
 interface Props {
   start_time: string;
@@ -16,6 +17,18 @@ type TimeType = {
   hours: number;
   minutes: number;
   seconds: number;
+};
+
+const getRemainMilliSec = (
+  start_time: string,
+  end_time: string,
+  date: string,
+) => {
+  let endDate = dayjs(`${date} ${end_time}`, 'YYYY-MM-DD HH:mm:ss');
+  const now = dayjs();
+  if (start_time >= end_time) endDate = endDate.add(1, 'day');
+  const timeDiff = dayjs.duration(endDate.diff(now)).asMilliseconds();
+  return timeDiff;
 };
 
 function CurrMeetingTimer({ start_time, end_time, date }: Props): ReactElement {

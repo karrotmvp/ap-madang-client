@@ -1,9 +1,9 @@
 import React, { ReactElement, useCallback, useState } from 'react';
 
-// import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
+import dayjs from 'dayjs';
 import { LiveStatus, MeetingList } from 'meeting';
 import { useRecoilValue } from 'recoil';
 
@@ -16,7 +16,6 @@ import voice_upcoming_tag__green from '../../../../assets/icon/landingPage/voice
 import useMini from '../../../../hook/useMini';
 import { userInfoAtom } from '../../../../store/user';
 import { COLOR } from '../../../../style/color';
-import { getStartTimeForm } from '../../../../util/utils';
 // import ImageRenderer from '../../../common/LazyLoading/ImageRenderer';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../../../common/Modal/NewAlarmModal';
@@ -32,6 +31,25 @@ interface WrapperProps {
   idx: number;
   live_status: LiveStatus;
 }
+
+const getStartTimeForm = (
+  date: string,
+  start_time: string,
+  live_status: LiveStatus,
+  head_text?: boolean,
+) => {
+  let text = '';
+  const startDate = dayjs(
+    `${date} ${start_time}`,
+    'YYYY-MM-DD HH:mm:ss',
+  ).format('a hh:mm');
+
+  if (head_text && live_status === 'tomorrow') text += '내일 ';
+  else if (head_text && live_status === 'today') text += '오늘 ';
+
+  text += startDate;
+  return text;
+};
 
 function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);

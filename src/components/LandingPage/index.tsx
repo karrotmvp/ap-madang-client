@@ -90,7 +90,7 @@ const LandingPage: React.FC = () => {
         {showTooltip && (
           <ToolTipOutside>
             <ToolTip>
-              버튼을 눌러 모임을 만들어 보세요{' '}
+              버튼을 눌러 모임을 만들어 보세요
               <ToolTipIcon
                 src={tooltip_close__white}
                 onClick={() => tooltipCloseHandler()}
