@@ -141,8 +141,6 @@ const SelectorStyle = styled.select<{ selected: boolean; trySubmit: boolean }>`
   font-size: 1.5rem;
   line-height: 2.3rem;
 
-  background: url('http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png')
-    no-repeat right #ffffff;
   -webkit-appearance: none;
   background-position-x: calc(100% - 20px);
 
