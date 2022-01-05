@@ -96,7 +96,6 @@ const MeetingDetailPage = () => {
         location: 'detail_page',
         userNickname: userInfo.nickname,
         userRegion: userInfo.region,
-
         meeting_title: data.title,
         meeting_id: data.id,
         meeting_live_status: data.live_status,
@@ -207,10 +206,12 @@ const MeetingDetailPage = () => {
     }
   };
 
+  //url에 있는 모임 id로 모임 정보 fetch
   useEffect(() => {
     if (matchId?.params.id) fetchData(matchId.params.id);
   }, [fetchData, matchId.params.id, userInfo]);
 
+  // 모임 상세페이지 이벤트 로그
   useEffect(() => {
     if (!data) return;
     const refParam = params?.get('ref');
@@ -253,7 +254,8 @@ const MeetingDetailPage = () => {
     );
     if (isRoot) replace('/');
     else {
-      if (urlHashParams.get('created') === 'banner') pop(2);
+      console.log(urlHashParams.get('created'));
+      if (urlHashParams.get('created') === 'banner') pop();
       else pop();
     }
   }, [isRoot, replace, pop]);

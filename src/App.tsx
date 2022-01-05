@@ -10,15 +10,14 @@ import CreateMeetingForm from './components/CreateMeetingPage/CreateMeetingForm'
 import LandingPage from './components/LandingPage';
 import MeetingDetailPage from './components/MeetingDetailPage';
 const AgoraPage = React.lazy(() => import('./components/MeetingPage'));
-import MeetingSuggestionPage from './components/MeetingSuggestionPage';
 import MyPage from './components/MyPage';
 import NotFoundPage from './components/NotFountPage';
 import NotServiceRegionPage from './components/NotServiceRegionPage';
-import ReservationPage from './components/ReservationPage';
 import GuidePage from './components/ServiceGuidePage/GuidePage';
 import useMini from './hook/useMini';
 import { app } from './util/firebase';
 import { checkMobileType } from './util/utils';
+import '@karrotframe/navigator/index.css';
 
 const NavigatorStyle = css`
   --kf_navigator_navbar-height: 5.6rem !important;
@@ -47,8 +46,6 @@ const App: React.FC = () => {
       <Screen path="/me" component={MyPage} />
       <Screen path="/meetings/:id" component={MeetingDetailPage} />
       <Screen path="/create" component={CreateMeetingForm} />
-      <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
-      <Screen path="/reservation" component={ReservationPage} />
       <Screen path="/not-service-region" component={NotServiceRegionPage} />
       <Screen path="/agora" component={AgoraPage} />
       <Screen path="*" component={NotFoundPage} />
