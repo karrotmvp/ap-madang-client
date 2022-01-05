@@ -61,7 +61,10 @@ function ImageUploaderBox({
           />
         </FileUploadBox>
         {image && (
-          <RemoveImg src={delete_icon} onClick={() => onSetImageHandler()} />
+          <DeleteIconImg
+            src={delete_icon}
+            onClick={() => onSetImageHandler()}
+          />
         )}
       </FileWrapper>
     </ImageUploaderBoxWrapper>
@@ -143,7 +146,7 @@ const ImageInputPreview = styled.img<{ hasImage: boolean }>`
   height: auto;
 `;
 
-const RemoveImg = styled.img`
+const DeleteIconImg = styled.img`
   margin-left: 0.2rem;
 `;
 
