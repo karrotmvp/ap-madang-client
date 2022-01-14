@@ -1,3 +1,5 @@
+import { IAgoraRTCRemoteUser, UID } from 'agora-rtc-react';
+
 import customAxios from '../util/request';
 
 export const validateMeetingCode = async (
@@ -19,6 +21,12 @@ export const getAgoraCode = async (id: string): Promise<getAgoraCodeRes> => {
     return { success: false };
   }
 };
+
+export type NewUserType =
+  | {
+      uid: UID;
+    }
+  | IAgoraRTCRemoteUser;
 
 export type InfoType = {
   meeting: {

@@ -13,6 +13,17 @@ export const getMeetings = async (region_id: string) => {
   }
 };
 
+export const getMeetingUserList = async (meeting_id: number) => {
+  try {
+    const result: getMeetingUserListRes = await customAxios().get(
+      `/meetings/${meeting_id}/user-list`,
+    );
+    return { success: true, data: result.data };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
 export const getMyMeetings = async () => {
   try {
     const result: getMeetingsRes = await customAxios().get(
@@ -83,6 +94,10 @@ export const shareMeeting = async (id: string): Promise<shareMeetingRes> => {
 interface getMeetingsRes {
   success: boolean;
   data?: MeetingList[];
+}
+interface getMeetingUserListRes {
+  success: boolean;
+  data?: number[];
 }
 
 interface getMeetingDetailRes {

@@ -47,7 +47,7 @@ function AudioMeetBottomSheet({
       meeting_name: meetingTitle,
     });
     const windowReference = window.open(
-      `/#/agora?meeting_code=${code}`,
+      `http://localhost:3000/#/agora?meeting_code=${code}`,
       '_blank',
     );
 

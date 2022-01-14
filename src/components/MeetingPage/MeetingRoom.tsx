@@ -6,14 +6,15 @@ import {
   createClient,
   ClientConfig,
   createMicrophoneAudioTrack,
-  IAgoraRTCRemoteUser,
 } from 'agora-rtc-react';
 
 import { AgoraRTCUsers, callState } from '.';
-import { InfoType } from '../../api/agora';
+import { InfoType, NewUserType } from '../../api/agora';
+import { getMeetingUserList } from '../../api/meeting';
 import { getMeetingUsersInfo } from '../../api/user';
 import { analytics } from '../../App';
 import AGORA_ERROR_MSG from '../../constant/agoraErrMsg';
+import useInterval from '../../hook/useInterval';
 import { noSleep } from '../../util/nosleep';
 import { uidToNum } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
@@ -54,8 +55,8 @@ const MeetingRoom = ({
 
   const userNum = useMemo(() => users.length, [users.length]);
 
-  const fetchNewUser = useCallback(
-    async (user: IAgoraRTCRemoteUser) => {
+  const addUser = useCallback(
+    async (user: NewUserType) => {
       const fetchUserInfo = await getMeetingUsersInfo(uidToNum(user.uid));
       if (fetchUserInfo.success && fetchUserInfo.data) {
         setUsers(prevUsers =>
@@ -76,11 +77,46 @@ const MeetingRoom = ({
     [info.meeting.host.id],
   );
 
+  const deleteUser = useCallback((userId: number) => {
+    setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
+  }, []);
+
+  const updateUserList = useCallback(async () => {
+    const fetchServerUserList = await getMeetingUserList(info.meeting.id);
+    if (fetchServerUserList.success && fetchServerUserList.data) {
+      const addUserList = fetchServerUserList.data.filter(
+        userId =>
+          !users.find(user => user.id === userId) && userId !== info.user.id,
+      );
+      const deleteUserList = fetchServerUserList.data.filter(
+        userId =>
+          !users.find(user => user.id === userId) && userId !== info.user.id,
+      );
+
+      console.log('test', addUserList, deleteUserList, info.user.id);
+      if (addUserList.length) {
+        addUserList.forEach(userId => {
+          addUser({ uid: userId });
+        });
+      }
+      if (deleteUserList.length) {
+        deleteUserList.forEach(userId => {
+          deleteUser(userId);
+        });
+      }
+    }
+    return false;
+  }, [addUser, deleteUser, info.meeting.id, info.user.id, users]);
+
+  useInterval(() => {
+    updateUserList();
+  }, 5000);
+
   const init = useCallback(async () => {
-    // 신규 유저 유입
-    client.on('user-joined', async user => {
-      fetchNewUser(user);
-    });
+    // // 신규 유저 유입
+    // client.on('user-joined', async user => {
+    //   addUser(user);
+    // });
 
     // 유저 마이크 on
     client.on('user-published', async (user, mediaType) => {
@@ -150,7 +186,7 @@ const MeetingRoom = ({
 
     if (track) await client.publish(track);
     setStart(true);
-  }, [client, fetchNewUser, info, setInCall, track]);
+  }, [client, info, setInCall, track]);
 
   useEffect(() => {
     if (error) {
