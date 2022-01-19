@@ -39,3 +39,11 @@ export const COLOR = {
   LIGHT_GREY: '#5C5C5C',
   LIGHT_GREEN_000: '#90D5AE',
 };
+
+export type ColorScheme = {
+  $button: {
+    primary: string;
+  };
+  $gray300: string;
+  $gray500: string;
+};
