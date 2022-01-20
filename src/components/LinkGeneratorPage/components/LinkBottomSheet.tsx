@@ -3,9 +3,12 @@ import React, { ReactElement, useCallback, useState } from 'react';
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import closeBtn from '../../../assets/icon/common/nav_close.svg';
+import confetti from '../../../assets/icon/linkGenerator/confetti.svg';
 import mini from '../../../util/mini';
 import BottomSheet from '../../common/BottomSheet';
-import UrlBox from './UrlBox';
+import CopyButton from './CopyButton';
+import PrimaryButton from './PrimaryButton';
 
 type Props = {
   onClose: () => void;
@@ -31,7 +34,11 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
 
   const moveToDanngn = () => {
     if (copySuccess) {
-      window.open('karrot.alpha://story_articles/new?interest_id=234');
+      window.open(
+        `${
+          process.env.NODE_ENV === 'production' ? 'karrot' : 'karrot.alpha'
+        }://story_articles/new?interest_id=234`,
+      );
       mini.close();
     }
   };
@@ -47,21 +54,25 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
       `}
     >
       <BottomSheetWrapper copySuccess={copySuccess}>
+        <IconImg src={closeBtn} onClick={closeHandler} />
+        <ConfettiIcon src={confetti} />
         <Title>음성모임방이 생성됐어요!</Title>
         <SubTitle>
           아래 링크를 복사해 동네생활에서 이웃들을 모아보세요.
           <br />
           당근마켓앱이 있어야 링크에 접속할 수 있어요.
         </SubTitle>
-        <UrlBox
+        <CopyButton
           copySuccess={copySuccess}
-          setCopySuccess={setCopySuccess}
+          onCopySuccess={() => setCopySuccess(true)}
           url={url}
         />
 
-        <WriteButton copySuccess={copySuccess} onClick={moveToDanngn}>
-          동네생활 글쓰러가기
-        </WriteButton>
+        <WriteButton
+          copySuccess={copySuccess}
+          onClick={moveToDanngn}
+          text={'동네생활 글쓰러가기'}
+        />
       </BottomSheetWrapper>
     </BottomSheet>
   );
@@ -70,18 +81,25 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
 export default LinkBottomSheet;
 
 const BottomSheetWrapper = styled.div<{ copySuccess: boolean }>`
-  /* height: ${({ copySuccess }) =>
-    copySuccess ? 'calc(100%)' : 'calc(100% - 6.4rem)'};
-  transform: ${({ copySuccess }) =>
-    copySuccess ? 'translateY(0)' : 'translateY(6.4rem)'}; */
-
-  /* height: ${({ copySuccess }) => (copySuccess ? '30rem' : '20rem')}; */
-
   padding: 3.2rem 1.6rem 1.6rem 1.6rem;
   box-sizing: border-box;
+  position: relative;
 
-  transition-property: all;
-  transition-duration: 0.5s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const IconImg = styled.img`
+  position: absolute;
+  top: 1.6rem;
+  right: 1.6rem;
+`;
+
+const ConfettiIcon = styled.img`
+  width: 8rem;
+  height: 8rem;
+  margin-bottom: 1.6rem;
 `;
 
 const Title = styled.div`
@@ -97,12 +115,15 @@ const Title = styled.div`
 
   /* Scale/Gray/Gray900 */
   color: #212124;
+  margin-bottom: 1.2rem;
 `;
 
 const SubTitle = styled.div`
   width: 100%;
   font-size: 1.4rem;
   line-height: 160%;
+  font-style: normal;
+  font-weight: normal;
 
   display: flex;
   justify-content: center;
@@ -112,38 +133,23 @@ const SubTitle = styled.div`
 
   /* Scale/Gray/Gray700 */
   color: #4d5159;
+  margin-bottom: 2.4rem;
 `;
 
 const showButton = keyframes`
   0%{
-  
     transform: translateY(20px);
     opacity:0;
   }
 
   100%{
-  
     transform: translateY(0);
     opacity:100;
   }
 `;
 
-const WriteButton = styled.div<{ copySuccess: boolean }>`
-  height: 4.8rem;
-
-  margin-top: 2rem;
-  display: flex;
-  /* display: ${({ copySuccess }) => (copySuccess ? 'flex' : 'none')}; */
-  justify-content: center;
-  align-items: center;
-
-  font-size: 1.8rem;
-  line-height: 2.8rem;
-  letter-spacing: -0.02rem;
-
-  color: #ffffff;
-  /* Scale/Gray/Gray300 */
+const WriteButton = styled(PrimaryButton)<{ copySuccess: boolean }>`
+  margin-top: 1.6rem;
   animation: ${showButton} 0.5s ease forwards;
   background: ${({ copySuccess }) => (copySuccess ? '#FF7E36' : '#dcdee3')};
-  border-radius: 6px;
 `;
