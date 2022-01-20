@@ -107,6 +107,13 @@ const LandingPage: React.FC = () => {
           <img src={big_plus__white} />
         </CreateBtn>
       </CreateBtnWrapper>
+      <CreateBtn
+        onClick={() => {
+          push('/generator');
+        }}
+      >
+        링크젠
+      </CreateBtn>
       {/* {meetings.length === 0 && <SkeletonCard />} */}
       {meetings.filter(el => el.live_status === 'live').length !== 0 && (
         <div>
