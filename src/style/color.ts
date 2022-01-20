@@ -44,6 +44,49 @@ export type ColorScheme = {
   $button: {
     primary: string;
   };
-  $gray300: string;
-  $gray500: string;
+   
+  $carrot50: string,
+  $carrot100: string,
+  $carrot200: string,
+  $carrot300: string,
+  $carrot400: string,
+  $carrot500: string,
+  $carrot600: string,
+  $carrot700: string,
+  $carrot800: string,
+  $carrot900: string,
+  $carrot950: string,
+
+  $red50: string,
+  $red200: string,
+  $red800: string,
+  $red950: string,
+
+  $blue50: string,
+  $blue200: string,
+  $blue800: string,
+  $blue950: string,
+  
+  $green50: string,
+  $green200: string,
+  $green500: string,
+  $green800: string,
+  $green950: string,
+
+  $yellow50: string,
+  $yellow200: string,
+  $yellow500: string,
+  $yellow800: string,
+  $yellow950: string,
+
+  $gray00: string,
+  $gray50: string,
+  $gray100: string,
+  $gray200: string,
+  $gray300: string,
+  $gray400: string,
+  $gray500: string,
+  $gray600: string,
+  $gray700: string,
+  $gray900: string,
 };
