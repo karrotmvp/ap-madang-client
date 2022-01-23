@@ -80,6 +80,15 @@ export const shareMeeting = async (id: string): Promise<shareMeetingRes> => {
   }
 };
 
+export const generateShortLink = async (): Promise<generateShortLinkRes> => {
+  try {
+    const result = await customAxios().post(`/meetings/link`);
+    return { success: true, data: result.data };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
 interface getMeetingsRes {
   success: boolean;
   data?: MeetingList[];
@@ -118,4 +127,12 @@ interface deleteMeetingRes {
 interface shareMeetingRes {
   success: boolean;
   data?: { short_url: string };
+}
+
+interface generateShortLinkRes {
+  success: boolean;
+  data?: {
+    id: number;
+    short_url: string;
+  };
 }
