@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toast';
 import CreateGuidePage from './components/CreateGuidePage/CreateGuidePage';
 import CreateMeetingForm from './components/CreateMeetingPage/CreateMeetingForm';
 import LandingPage from './components/LandingPage';
+import LinkGeneratorPage from './components/LinkGeneratorPage';
 import MeetingDetailPage from './components/MeetingDetailPage';
 const AgoraPage = React.lazy(() => import('./components/MeetingPage'));
 import MyPage from './components/MyPage';
@@ -46,6 +47,7 @@ const App: React.FC = () => {
       >
         <ToastContainer position="bottom-center" delay={2000} />
         <Screen path="/" component={LandingPage} />
+        <Screen path="/generator" component={LinkGeneratorPage} />
         <Screen path="/guide/create" component={CreateGuidePage} />
         <Screen path="/guide/service" component={GuidePage} />
         <Screen path="/me" component={MyPage} />
