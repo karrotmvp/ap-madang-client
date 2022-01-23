@@ -3,15 +3,15 @@ import React, { ReactElement } from 'react';
 import styled from '@emotion/styled';
 
 type Props = {
-  text: string;
   onClick?: () => void;
   className?: string;
+  children?: React.ReactNode;
 };
 
-function PrimaryButton({ text, onClick, className }: Props): ReactElement {
+function PrimaryButton({ children, onClick, className }: Props): ReactElement {
   return (
     <Button className={className} onClick={onClick}>
-      <span>{text}</span>
+      {children}
     </Button>
   );
 }

@@ -2,6 +2,9 @@ import React from 'react';
 
 import { Global, css } from '@emotion/react';
 
+import HGSoftGGothicssi_Pro_40g from '../assets/font/HGSoftGGothicssi_Pro/HGSoftGGothicssi_Pro_40g.otf';
+import HGSoftGGothicssi_Pro_80g from '../assets/font/HGSoftGGothicssi_Pro/HGSoftGGothicssi_Pro_80g.otf';
+import HGSoftGGothicssi_Pro_99g from '../assets/font/HGSoftGGothicssi_Pro/HGSoftGGothicssi_Pro_99g.otf';
 import Pretendard_Bold from '../assets/font/pretendard/Pretendard-Bold.woff2';
 import Pretendard_ExtraBold from '../assets/font/pretendard/Pretendard-ExtraBold.woff2';
 import Pretendard_Medium from '../assets/font/pretendard/Pretendard-Medium.woff2';
@@ -100,6 +103,24 @@ const GlobalStyle = () => {
           font-weight: 400;
           font-display: swap;
           src: url(${Pretendard_Regular}) format('woff2');
+        }
+
+        @font-face {
+          font-family: 'HGSoftGGothicssi_Pro_40g';
+          font-display: swap;
+          src: url(${HGSoftGGothicssi_Pro_40g}) format('opentype');
+        }
+
+        @font-face {
+          font-family: 'HGSoftGGothicssi_Pro_80g';
+          font-display: swap;
+          src: url(${HGSoftGGothicssi_Pro_80g}) format('opentype');
+        }
+
+        @font-face {
+          font-family: 'HGSoftGGothicssi_Pro_99g';
+          font-display: swap;
+          src: url(${HGSoftGGothicssi_Pro_99g}) format('opentype');
         }
       `}
     />

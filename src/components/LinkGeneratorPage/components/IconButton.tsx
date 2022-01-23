@@ -53,7 +53,7 @@ const IconButtonWrapper = styled.div<{ show: boolean }>`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  animation: ${({ show }) => (show ? showButton : hideButton)} 0.4s forwards;
+  animation: ${({ show }) => (show ? showButton : hideButton)} 0.2s forwards;
 `;
 
 const Text = styled.span`
@@ -65,6 +65,7 @@ const Text = styled.span`
   align-items: center;
   text-align: center;
   letter-spacing: -0.02rem;
+  margin-left: 0.4rem;
 `;
 
 export default IconButton;

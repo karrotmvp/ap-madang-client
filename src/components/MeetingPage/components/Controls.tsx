@@ -4,29 +4,23 @@ import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { IMicrophoneAudioTrack } from 'agora-rtc-react';
 
-import { callState } from '..';
 import { InfoType } from '../../../api/agora';
 import { analytics } from '../../../App';
 import micOff from '../../../assets/icon/agora/micOff.svg';
 import micOn from '../../../assets/icon/agora/micOn.svg';
-import { COLOR } from '../../../style/color';
-import { useClient } from '../MeetingRoom';
+import MannerGuideBtn from './MannerGuideBtn';
 
 const Controls = (props: {
   track: IMicrophoneAudioTrack;
   trackState: { audioStreamValue: boolean };
-  setStart: React.Dispatch<React.SetStateAction<boolean>>;
-  setInCall: React.Dispatch<React.SetStateAction<callState>>;
   setTrackState: React.Dispatch<
     React.SetStateAction<{ audioStreamValue: boolean }>
   >;
+  setOpenBottomSheet: React.Dispatch<boolean>;
   info: InfoType;
-  userNum: number;
 }) => {
-  const client = useClient();
-  const { track, trackState, setStart, setInCall, setTrackState } = props;
+  const { track, trackState, setTrackState, setOpenBottomSheet } = props;
 
-  const [leaveBtnState, setLeaveBtnState] = useState(false);
   const [micBtnState, setMicBtnState] = useState(false);
 
   const mute = async (type: 'audio') => {
@@ -49,32 +43,9 @@ const Controls = (props: {
     }
   };
 
-  const leaveChannel = async () => {
-    logEvent(analytics, `quit_meeting__click`, {
-      meeting_user_num: props.userNum,
-      user_nickname: props.info.user.nickname,
-      user_id: props.info.user.id,
-      meeting_id: props.info.meeting.id,
-      meeting_title: props.info.meeting.title,
-      is_host: props.info.meeting.host.id === props.info.user.id,
-    });
-    await client.leave();
-    client.removeAllListeners();
-    track.close();
-    setStart(false);
-    setInCall({ state: 'quit' });
-  };
-
   return (
     <Controller>
-      <LeaveBtn
-        btnState={leaveBtnState}
-        onClick={leaveChannel}
-        onTouchStart={() => setLeaveBtnState(true)}
-        onTouchEnd={() => setLeaveBtnState(false)}
-      >
-        나가기
-      </LeaveBtn>
+      <MannerGuideBtn onClickHandler={() => setOpenBottomSheet(true)} />
       <MicBtn
         onClick={() => mute('audio')}
         btnState={micBtnState}
@@ -100,7 +71,7 @@ const Controller = styled.div`
   bottom: 0;
   left: 0;
   width: calc(100% - 4rem);
-  padding: 0 2rem;
+  padding: 0 1.6rem;
   height: 8rem;
   display: flex;
   align-items: center;
@@ -116,39 +87,19 @@ const Icon = styled.img`
   margin-right: 0.6rem;
 `;
 
-const LeaveBtn = styled.div<{ btnState: boolean }>`
-  width: 8.4rem;
-  height: 5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: ${({ btnState }) =>
-    btnState ? COLOR.TEXT_WHITE : COLOR.TEXT_WHITE};
-  box-shadow: 0 2px 9px rgba(17, 17, 17, 0.1),
-    0px 1px 5px rgba(17, 17, 17, 0.02);
-  border-radius: 10rem;
-
-  color: #f65b55;
-
-  line-height: 1.7rem;
-`;
-
 const MicBtn = styled.div<{ btnState: boolean; micOn: boolean }>`
-  width: 17.5rem;
-  height: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0.75rem 1.4rem;
 
-  background: ${({ micOn }) => (micOn ? '#2EB86A' : '#F5F5F5')};
-  box-shadow: ${({ micOn }) =>
-    micOn
-      ? '0px 2px 9px rgba(17, 17, 17, 0.22), 0px 1px 5px rgba(17, 17, 17, 0.06)'
-      : '0px 2px 9px rgba(17, 17, 17, 0.11), 0px 1px 5px rgba(17, 17, 17, 0.05)'};
-  border-radius: 10rem;
-  color: ${({ micOn }) => (micOn ? '#FFFFFF' : '#5F6263')};
-  line-height: 2.2rem;
+  background: ${({ micOn, theme }) =>
+    micOn ? theme.colors.$button.primary : theme.colors.$button.disable};
+  border-radius: 0.4rem;
+  color: #ffffff;
+  /* color: ${({ micOn }) => (micOn ? '#FFFFFF' : '#5F6263')}; */
+  font-size: 1.4rem;
+  line-height: 2.1rem;
 `;
 
 export default Controls;

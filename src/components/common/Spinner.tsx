@@ -12,6 +12,7 @@ function Spinner(): ReactElement {
   ): void => {
     e.stopPropagation();
   };
+
   return (
     <SpinnerWrapper className="spinner" onClick={spinnerOnclick}>
       <SpinnerIcon src={spinner_icon} />

@@ -130,12 +130,18 @@ const ProfileImg = styled.img<{
   position: relative;
   z-index: 1;
 
-  border: ${({ volumeState }) =>
-    volumeState > 10 ? '2px solid #41ac70;' : 'none'};
-  -webkit-box-shadow: ${({ volumeState }) =>
-    volumeState > 10 ? '0px 0px 30px #41AC70' : 'none'};
-  box-shadow: ${({ volumeState }) =>
-    volumeState > 10 ? '0px 0px 30px #41AC70' : 'none'};
+  border: ${({ volumeState, theme }) =>
+    volumeState > 10
+      ? `2px solid ${theme.colors.$meeting.user.shadow}`
+      : 'none'};
+  -webkit-box-shadow: ${({ volumeState, theme }) =>
+    volumeState > 10
+      ? `0px 0px 30px ${theme.colors.$meeting.user.shadow}`
+      : 'none'};
+  box-shadow: ${({ volumeState, theme }) =>
+    volumeState > 10
+      ? `0px 0px 30px ${theme.colors.$meeting.user.shadow}`
+      : 'none'};
 
   transition-property: width, height, background-size, box-shadow, transform;
   transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
@@ -148,8 +154,8 @@ const InfoArea = styled.div`
   position: absolute;
   bottom: calc(1.6rem * 2 * -1 + -6px);
   font-size: 1.3rem;
-  line-height: 1.6rem;
-  letter-spacing: -0.3px;
+  line-height: 2rem;
+  letter-spacing: -0.04rem;
   text-align: center;
 
   display: flex;
@@ -184,12 +190,14 @@ const NickName = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: ${({ theme }) => theme.colors.$gray900};
 `;
 
 const MicIcon = styled.img``;
 
 const LocationInfo = styled.div<{ options: OptionType }>`
-  color: ${COLOR.LIGHT_GREEN};
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.$gray600};
   width: 100%;
 
   white-space: nowrap;

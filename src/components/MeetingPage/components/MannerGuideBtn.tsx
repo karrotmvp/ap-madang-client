@@ -20,21 +20,19 @@ function MannerGuideBtn({ onClickHandler }: Props): ReactElement {
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  display: flex;
-  flex-direction: row;
   align-items: center;
-  margin-right: 1.6rem;
 `;
 
 const Icon = styled.img`
-  margin-right: 0.6rem;
+  margin-right: 0.4rem;
 `;
 
 const TextWrapper = styled.div`
   font-size: 1.4rem;
-  line-height: 1.7rem;
+  line-height: 2rem;
 
-  color: #29a35f;
+  color: #4d5159;
+  letter-spacing: -0.02rem;
 `;
 
 export default MannerGuideBtn;

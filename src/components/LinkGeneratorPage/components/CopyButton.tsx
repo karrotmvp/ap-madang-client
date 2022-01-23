@@ -47,7 +47,7 @@ function CopyButton({ url, copySuccess, onCopySuccess }: Props): ReactElement {
 const Wrapper = styled.div`
   width: 100%;
   height: 3.7rem;
-  background: ${({ theme }) => theme.colors.$gray00};
+  background: ${({ theme }) => theme.colors.$gray100};
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -68,7 +68,7 @@ const IconTextButton = styled.div`
 const IconButtonStyle = styled(IconButton)<{ copySuccess: boolean }>`
   color: ${({ copySuccess }) => (copySuccess ? '#9B9B9B' : '#0C7EAB')};
   will-change: color;
-  transition: color 0.4s ease-in-out;
+  transition: color 0.2s ease-in-out;
 `;
 
 export default CopyButton;

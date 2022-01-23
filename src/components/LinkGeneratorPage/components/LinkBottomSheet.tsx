@@ -56,11 +56,11 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
       <BottomSheetWrapper copySuccess={copySuccess}>
         <IconImg src={closeBtn} onClick={closeHandler} />
         <ConfettiIcon src={confetti} />
-        <Title>음성모임방이 생성됐어요!</Title>
+        <Title>음성 모임방이 생성됐어요!</Title>
         <SubTitle>
-          아래 링크를 복사해 동네생활에서 이웃들을 모아보세요.
+          동네생활에서 모임방 링크를 공유하고
           <br />
-          당근마켓앱이 있어야 링크에 접속할 수 있어요.
+          이웃들을 모아보세요.
         </SubTitle>
         <CopyButton
           copySuccess={copySuccess}
@@ -68,11 +68,9 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
           url={url}
         />
 
-        <WriteButton
-          copySuccess={copySuccess}
-          onClick={moveToDanngn}
-          text={'동네생활 글쓰러가기'}
-        />
+        <WriteButton copySuccess={copySuccess} onClick={moveToDanngn}>
+          동네생활 글쓰러가기
+        </WriteButton>
       </BottomSheetWrapper>
     </BottomSheet>
   );

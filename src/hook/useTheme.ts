@@ -16,7 +16,6 @@ export const useTheme = () => {
   const [theme, setTheme] = useState<ThemeType>(carrotTheme);
 
   useEffect(() => {
-    console.log(window.location.href);
     if (window.location.href.includes('daangn')) setTheme(carrotTheme);
     else setTheme(landongmoTheme);
   }, []);

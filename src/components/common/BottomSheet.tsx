@@ -130,10 +130,10 @@ const BottomSheetOverlay = styled.div`
   align-items: center;
 
   &.open-bottom-sheet {
-    animation: ${openSheetBackground} 0.4s ease forwards;
+    animation: ${openSheetBackground} 0.2s ease forwards;
   }
   &.close-bottom-sheet {
-    animation: ${closeSheetBackground} 0.4s ease forwards;
+    animation: ${closeSheetBackground} 0.2s ease forwards;
   }
 `;
 
@@ -149,10 +149,10 @@ const BottomSheetInner = styled.div`
   flex-direction: column;
 
   &.open-bottom-sheet {
-    animation: ${openSheet} 0.4s ease forwards;
+    animation: ${openSheet} 0.2s ease forwards;
   }
   &.close-bottom-sheet {
-    animation: ${closeSheet} 0.4s ease forwards;
+    animation: ${closeSheet} 0.2s ease forwards;
   }
 `;
 

@@ -1,12 +1,12 @@
 /** @jsx jsx */
 import React, { useMemo } from 'react';
 
-import { jsx, keyframes } from '@emotion/react';
+import { jsx, keyframes, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import classnames from 'classnames';
 import { createPortal } from 'react-dom';
 
-import spinner_icon from '../../assets/icon/common/spinner.svg';
+import SpinnerIconComponents from '../../assets/icon/common/Spinner';
 import { COLOR } from '../../style/color';
 
 export type Confirm = {
@@ -29,10 +29,13 @@ export type innerModeType = 'list' | 'confirm';
 
 type ModalProps = {
   show: boolean;
+  children?: React.ReactNode;
   className?: string;
 };
 
-export default function Spinner({ show, className }: ModalProps) {
+export default function Spinner({ show, className, children }: ModalProps) {
+  const theme = useTheme();
+
   return (
     <Portal>
       {show && (
@@ -42,7 +45,7 @@ export default function Spinner({ show, className }: ModalProps) {
             show ? 'show-spinner-animation' : 'stop-spinner-animation',
           )}
         >
-          <SpinnerIcon src={spinner_icon} />
+          {children ?? <SpinnerIcon mainColor={theme.colors.$carrot400} />}
         </SpinnerOverlay>
       )}
     </Portal>
@@ -95,17 +98,15 @@ const SpinnerOverlay = styled.div`
 `;
 
 const spinAnimation = keyframes` 
-    from {
+    0% {
         transform:rotate(0);
     }
-    to {
+    100% {
         transform:rotate(360deg);
     }
 `;
 
-const SpinnerIcon = styled.img`
-  width: 40px;
-  height: 40px;
+const SpinnerIcon = styled(SpinnerIconComponents)`
   animation-name: ${spinAnimation};
   animation-duration: 0.8s;
   animation-iteration-count: infinite;
