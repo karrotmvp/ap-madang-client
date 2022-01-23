@@ -47,7 +47,6 @@ function CopyButton({ url, copySuccess, onCopySuccess }: Props): ReactElement {
 const Wrapper = styled.div`
   width: 100%;
   height: 3.7rem;
-  background: ${({ theme }) => theme.colors.$gray100};
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
