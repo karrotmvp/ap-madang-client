@@ -13,11 +13,11 @@ function MeetingTitle({ title }: Props): ReactElement {
 }
 
 const TitleWrapper = styled.div`
-  margin: 1.76rem 2rem 1.4rem 2rem;
+  margin: 2.35rem 2rem 1.6rem 2rem;
   font-weight: 600;
-  font-size: 1.8rem;
-  line-height: 2.5rem;
-  letter-spacing: -0.05rem;
+  font-size: 2rem;
+  line-height: 2.6rem;
+  letter-spacing: -0.04rem;
   color: ${COLOR.TEXT_BLACK};
 `;
 

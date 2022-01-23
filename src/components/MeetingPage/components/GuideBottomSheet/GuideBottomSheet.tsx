@@ -8,7 +8,6 @@ import mic_emoji from '../../../../assets/icon/agora/mic_emoji.svg';
 import talk_emoji from '../../../../assets/icon/agora/talk_emoji.svg';
 import x_emoji from '../../../../assets/icon/agora/x_emoji.svg';
 import closeBtn from '../../../../assets/icon/common/nav_close.svg';
-import { COLOR } from '../../../../style/color';
 import BottomSheet from '../../../common/BottomSheet';
 import GuideDescription from './GuideDescription';
 
@@ -43,7 +42,7 @@ function GuideBottomSheet({ onClose }: Props): ReactElement {
         </IconWrapper>
         <TitleWrapper>
           <LogoImg src={house_logo} />
-          <TitleText>{`랜선동네모임에\n오신 것을 환영해요`}</TitleText>
+          {/* <TitleText>{`랜선동네모임에\n오신 것을 환영해요`}</TitleText> */}
         </TitleWrapper>
         <ContentsWrapper>
           <GuideDescription
@@ -113,16 +112,16 @@ const LogoImg = styled.img`
   margin: 0.74rem 0 1.8rem 0;
 `;
 
-const TitleText = styled.div`
-  font-weight: 700;
-  font-size: 2rem;
-  line-height: 2.7rem;
-  text-align: center;
-  letter-spacing: -0.04rem;
-  color: ${COLOR.TEXT_BLACK};
-  white-space: pre-line;
-  margin-bottom: 3.6rem;
-`;
+// const TitleText = styled.div`
+//   font-weight: 700;
+//   font-size: 2rem;
+//   line-height: 2.7rem;
+//   text-align: center;
+//   letter-spacing: -0.04rem;
+//   color: ${COLOR.TEXT_BLACK};
+//   white-space: pre-line;
+//   margin-bottom: 3.6rem;
+// `;
 
 const ContentsWrapper = styled.div`
   height: 100%;

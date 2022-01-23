@@ -14,6 +14,7 @@ const AgoraPage = React.lazy(() => import('./components/MeetingPage'));
 import MyPage from './components/MyPage';
 import NotFoundPage from './components/NotFountPage';
 import NotServiceRegionPage from './components/NotServiceRegionPage';
+import QuitMeetingPage from './components/QuitMeetingPage';
 import GuidePage from './components/ServiceGuidePage/GuidePage';
 import useMini from './hook/useMini';
 import '@karrotframe/navigator/index.css';
@@ -52,6 +53,7 @@ const App: React.FC = () => {
         <Screen path="/create" component={CreateMeetingForm} />
         <Screen path="/not-service-region" component={NotServiceRegionPage} />
         <Screen path="/agora" component={AgoraPage} />
+        <Screen path="/agora/quit" component={QuitMeetingPage} />
         <Screen path="*" component={NotFoundPage} />
       </Navigator>
     </ThemeProvider>
