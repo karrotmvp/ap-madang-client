@@ -16,6 +16,7 @@ import MyPage from './components/MyPage';
 import NotFoundPage from './components/NotFountPage';
 import NotServiceRegionPage from './components/NotServiceRegionPage';
 import QuitMeetingPage from './components/QuitMeetingPage';
+import RedirectPage from './components/RedirectPage';
 import GuidePage from './components/ServiceGuidePage/GuidePage';
 import useMini from './hook/useMini';
 import '@karrotframe/navigator/index.css';
@@ -56,6 +57,7 @@ const App: React.FC = () => {
         <Screen path="/not-service-region" component={NotServiceRegionPage} />
         <Screen path="/agora" component={AgoraPage} />
         <Screen path="/agora/quit" component={QuitMeetingPage} />
+        <Screen path="/redirect" component={RedirectPage} />
         <Screen path="*" component={NotFoundPage} />
       </Navigator>
     </ThemeProvider>
