@@ -1,9 +1,11 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { useRecoilValue } from 'recoil';
 
 import { generateShortLink } from '../../api/meeting';
+import { analytics } from '../../App';
 import speaker from '../../assets/icon/linkGenerator/speaker.svg';
 import link_generator_guide from '../../assets/image/link_generator_guide.png';
 import useMini from '../../hook/useMini';
@@ -23,6 +25,10 @@ function LinkGeneratorPage(): ReactElement {
   const userInfo = useRecoilValue(userInfoAtom);
 
   const onClickGenerateLink = async () => {
+    logEvent(analytics, 'link_gen_btn__click', {
+      userNickname: userInfo?.nickname,
+      userRegion: userInfo?.region,
+    });
     setLoading(true);
     const result = await generateShortLink();
 
@@ -37,6 +43,14 @@ function LinkGeneratorPage(): ReactElement {
   useEffect(() => {
     loginWithMini();
   }, [loginWithMini]);
+
+  useEffect(() => {
+    if (userInfo)
+      logEvent(analytics, 'link_gen_page__show', {
+        userNickname: userInfo?.nickname,
+        userRegion: userInfo?.region,
+      });
+  }, [userInfo]);
 
   return (
     <Container>
