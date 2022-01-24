@@ -4,7 +4,6 @@ import { useNavigator, useQueryParams } from '@karrotframe/navigator';
 import { AgoraRTCError, UID } from 'agora-rtc-react';
 
 import { InfoType, validateMeetingCode } from '../../api/agora';
-import RedirectPage from '../RedirectPage';
 import MeetingRoom from './MeetingRoom';
 import WaitingRoom from './WaitingRoom';
 
@@ -92,8 +91,6 @@ const AgoraMeetingPage = () => {
 
   return inCall.state === 'calling' && info ? (
     <MeetingRoom setCallState={setCallState} info={info} code={meetingCode} />
-  ) : inCall.state === 'waiting' ? (
-    <RedirectPage />
   ) : (
     <WaitingRoom callState={inCall} userInfo={info} />
   );

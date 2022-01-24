@@ -10,6 +10,11 @@ import Pretendard_ExtraBold from '../assets/font/pretendard/Pretendard-ExtraBold
 import Pretendard_Medium from '../assets/font/pretendard/Pretendard-Medium.woff2';
 import Pretendard_Regular from '../assets/font/pretendard/Pretendard-Regular.woff2';
 import Pretendard_SemiBold from '../assets/font/pretendard/Pretendard-SemiBold.woff2';
+import Roboto_Bold from '../assets/font/Roboto/Roboto-Bold.woff2';
+import Roboto_Light from '../assets/font/Roboto/Roboto-Light.woff2';
+import Roboto_Medium from '../assets/font/Roboto/Roboto-Medium.woff2';
+import Roboto_Regular from '../assets/font/Roboto/Roboto-Regular.woff2';
+import Roboto_Thin from '../assets/font/Roboto/Roboto-Thin.woff2';
 import './reset.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { COLOR } from './color';
@@ -24,7 +29,7 @@ const GlobalStyle = () => {
           height: 100%;
           color: ${COLOR.TEXT_BLACK};
           font-size: 62.5%;
-          font-family: 'Pretendard';
+          font-family: 'Roboto';
           font-weight: 400;
           letter-spacing: -0.03rem;
         }
@@ -121,6 +126,37 @@ const GlobalStyle = () => {
           font-family: 'HGSoftGGothicssi_Pro_99g';
           font-display: swap;
           src: url(${HGSoftGGothicssi_Pro_99g}) format('opentype');
+        }
+
+        @font-face {
+          font-family: 'Roboto';
+          font-style: normal;
+          font-weight: 100;
+          src: url(${Roboto_Thin}) format('woff2');
+        }
+        @font-face {
+          font-family: 'Roboto';
+          font-style: normal;
+          font-weight: 300;
+          src: url(${Roboto_Light}) format('woff2');
+        }
+        @font-face {
+          font-family: 'Roboto';
+          font-style: normal;
+          font-weight: 400;
+          src: url(${Roboto_Regular}) format('woff2');
+        }
+        @font-face {
+          font-family: 'Roboto';
+          font-style: normal;
+          font-weight: 500;
+          src: url(${Roboto_Medium}) format('woff2');
+        }
+        @font-face {
+          font-family: 'Roboto';
+          font-style: normal;
+          font-weight: 700;
+          src: url(${Roboto_Bold}) format('woff2');
         }
       `}
     />

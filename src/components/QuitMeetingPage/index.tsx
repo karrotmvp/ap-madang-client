@@ -2,13 +2,15 @@ import React, { ReactElement, useMemo } from 'react';
 
 import styled from '@emotion/styled';
 
-import happy_scratch from '../../assets/image/happy_scratch.png';
-import un_happy_scratch from '../../assets/image/un_happy_scratch.png';
+import orange_house from '../../assets/icon/common/orange_house.svg';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
+import PrimaryButton from '../common/PrimaryButton';
 
 function QuitMeetingPage(): ReactElement {
   const callState = useMemo(() => {
-    const urlSearchParams = new URLSearchParams(window.location.search);
+    const urlSearchParams = new URLSearchParams(
+      window.location.hash.substring(window.location.hash.indexOf('?')),
+    );
     return urlSearchParams.get('callstate') || '';
   }, []);
 
@@ -23,25 +25,17 @@ function QuitMeetingPage(): ReactElement {
         onCustomBackButton={goBackHandler}
         onCustomCloseButton={goBackHandler}
       />
-      {callState === 'error' ? (
-        <ContentsWrapper className="join WaitingRoom">
-          <Image src={un_happy_scratch} />
-          <Title>당근마켓 앱을 통해 다시 접속해 주세요.</Title>
-          <BackButton onClick={goBackHandler}>당근마켓으로 돌아가기</BackButton>
-        </ContentsWrapper>
-      ) : callState === 'finish' ? (
-        <ContentsWrapper className="join WaitingRoom">
-          <Image src={happy_scratch} />
-          <Title>{`모임이 종료되었어요.`}</Title>
-          <BackButton onClick={goBackHandler}>당근마켓으로 돌아가기</BackButton>
-        </ContentsWrapper>
-      ) : (
-        <ContentsWrapper className="join WaitingRoom">
-          <Image src={un_happy_scratch} />
-          <Title>모임에서 나갔어요</Title>
-          <BackButton onClick={goBackHandler}>당근마켓으로 돌아가기</BackButton>
-        </ContentsWrapper>
-      )}
+      <ContentsWrapper className="join WaitingRoom">
+        <Image src={orange_house} />
+        <Title>
+          {callState === 'error'
+            ? `에러가 발생했어요.\n당근마켓 앱을 통해 다시 접속해 주세요.`
+            : callState === 'finish'
+            ? '모임이 종료되었어요.'
+            : '모임에서 나갔어요'}
+        </Title>
+        <Button onClick={goBackHandler}>당근마켓으로 돌아가기</Button>
+      </ContentsWrapper>
     </PageWrapper>
   );
 }
@@ -74,21 +68,17 @@ const Title = styled.div`
   letter-spacing: -0.03rem;
 
   color: #5c5c5c;
-  margin-bottom: 3rem;
+  margin-bottom: 2.4rem;
 `;
 
-const BackButton = styled.div`
-  width: 19.6rem;
-  height: 4.6rem;
-  background: ${({ theme }) => theme.colors.$button.primary};
-  border-radius: 25px;
-
+const Button = styled(PrimaryButton)`
+  width: auto;
   font-size: 1.5rem;
   line-height: 2.2rem;
   color: white;
+  background: ${({ theme }) => theme.colors.$button.primary};
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-
 export default QuitMeetingPage;

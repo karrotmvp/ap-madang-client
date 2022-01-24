@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
+import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { IMicrophoneAudioTrack } from 'agora-rtc-react';
 
 import { InfoType } from '../../../api/agora';
 import { analytics } from '../../../App';
-import micOff from '../../../assets/icon/agora/micOff.svg';
+import MicOff from '../../../assets/icon/agora/MicOff';
 import micOn from '../../../assets/icon/agora/micOn.svg';
 import MannerGuideBtn from './MannerGuideBtn';
 
@@ -22,6 +23,7 @@ const Controls = (props: {
   const { track, trackState, setTrackState, setOpenBottomSheet } = props;
 
   const [micBtnState, setMicBtnState] = useState(false);
+  const theme = useTheme();
 
   const mute = async (type: 'audio') => {
     if (type === 'audio') {
@@ -35,11 +37,10 @@ const Controls = (props: {
           meeting_title: props.info.meeting.title,
         },
       );
-      await track.setEnabled(!trackState.audioStreamValue);
-
       setTrackState(ps => {
         return { audioStreamValue: !ps.audioStreamValue };
       });
+      await track.setEnabled(!trackState.audioStreamValue);
     }
   };
 
@@ -56,7 +57,7 @@ const Controls = (props: {
         {trackState.audioStreamValue ? (
           <Icon src={micOn} />
         ) : (
-          <Icon src={micOff} />
+          <Mic_off_Icon color={theme.colors.$button.primary} />
         )}
         {trackState.audioStreamValue
           ? '마이크가 켜져 있어요'
@@ -87,17 +88,25 @@ const Icon = styled.img`
   margin-right: 0.6rem;
 `;
 
+const Mic_off_Icon = styled(MicOff)`
+  margin-right: 0.6rem;
+  color: blue;
+`;
+
 const MicBtn = styled.div<{ btnState: boolean; micOn: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.75rem 1.4rem;
 
+  color: ${({ micOn, theme }) =>
+    micOn ? '#FFFFFF' : theme.colors.$button.primary};
   background: ${({ micOn, theme }) =>
-    micOn ? theme.colors.$button.primary : theme.colors.$button.disable};
+    micOn ? theme.colors.$button.primary : 'white'};
+  border: ${({ micOn, theme }) =>
+    micOn ? 'none' : `1px solid ${theme.colors.$button.primary}`};
+
   border-radius: 0.4rem;
-  color: #ffffff;
-  /* color: ${({ micOn }) => (micOn ? '#FFFFFF' : '#5F6263')}; */
   font-size: 1.4rem;
   line-height: 2.1rem;
 `;

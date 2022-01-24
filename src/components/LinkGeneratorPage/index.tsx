@@ -13,9 +13,9 @@ import { userInfoAtom } from '../../store/user';
 import { COLOR } from '../../style/color';
 import CircularProgress from '../common/Circular-progress';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
+import PrimaryButton from '../common/PrimaryButton';
 import Spinner from '../common/SpinnerModal';
 import LinkBottomSheet from './components/LinkBottomSheet';
-import PrimaryButton from './components/PrimaryButton';
 
 function LinkGeneratorPage(): ReactElement {
   const [openLinkBottomSheet, setOpenLinkBottomSheet] = useState(false);
