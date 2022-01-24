@@ -7,8 +7,8 @@ import closeBtn from '../../../assets/icon/common/nav_close.svg';
 import confetti from '../../../assets/icon/linkGenerator/confetti.svg';
 import mini from '../../../util/mini';
 import BottomSheet from '../../common/BottomSheet';
+import PrimaryButton from '../../common/PrimaryButton';
 import CopyButton from './CopyButton';
-import PrimaryButton from './PrimaryButton';
 
 type Props = {
   onClose: () => void;
@@ -147,7 +147,8 @@ const showButton = keyframes`
 `;
 
 const WriteButton = styled(PrimaryButton)<{ copySuccess: boolean }>`
-  margin-top: 1.6rem;
+  margin: 1.6rem 1.6rem 0 1.6rem;
+  box-sizing: border-box;
   animation: ${showButton} 0.5s ease forwards;
   background: ${({ copySuccess }) => (copySuccess ? '#FF7E36' : '#dcdee3')};
 `;

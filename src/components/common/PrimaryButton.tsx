@@ -18,7 +18,7 @@ function PrimaryButton({ children, onClick, className }: Props): ReactElement {
 
 const Button = styled.div`
   width: 100%;
-  height: 4.8rem;
+  padding: 0.9rem 1.6rem;
 
   display: flex;
   justify-content: center;
