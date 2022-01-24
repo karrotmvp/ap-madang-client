@@ -6,11 +6,10 @@ import { logEvent } from '@firebase/analytics';
 import { callState } from '.';
 import { InfoType } from '../../api/agora';
 import { analytics } from '../../App';
-import happy_scratch from '../../assets/image/happy_scratch.png';
+import orange_house from '../../assets/icon/common/orange_house.svg';
 import nav_logo from '../../assets/image/nav_logo.png';
-import un_happy_scratch from '../../assets/image/un_happy_scratch.png';
-import { COLOR } from '../../style/color';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
+import PrimaryButton from '../common/PrimaryButton';
 
 function WaitingRoom({
   callState,
@@ -45,31 +44,22 @@ function WaitingRoom({
         onCustomCloseButton={goBackHandler}
         appendMiddle={<PageTitle src={nav_logo} />}
       />
-      {callState.state === 'error' ? (
+      {callState.state === 'waiting' ? (
         <ContentsWrapper className="join WaitingRoom">
-          <Image src={un_happy_scratch} />
-          <Title>
-            {`${
-              callState.message
-                ? callState.message
-                : '올바르지 않은 접근이에요.'
-            }\n당근마켓 앱을 통해 다시 접속해 주세요.`}
-          </Title>
-          <GreenBtn onClick={goBackHandler}>당근마켓 앱으로 돌아가기</GreenBtn>
-        </ContentsWrapper>
-      ) : callState.state === 'finish' ? (
-        <ContentsWrapper className="join WaitingRoom">
-          <Image src={happy_scratch} />
-          <Title>{`모임이 종료되었어요.`}</Title>
-          <GreenBtn onClick={goBackHandler}>랜선동네모임으로 돌아가기</GreenBtn>
+          <Image src={orange_house} />
+          <Title>모임에 들어가는 중이에요</Title>
         </ContentsWrapper>
       ) : (
         <ContentsWrapper className="join WaitingRoom">
-          <Image src={un_happy_scratch} />
+          <Image src={orange_house} />
           <Title>
-            {`모임에서 나갔어요.\n랜선동네모임에서 다른 모임도 구경해 보세요.`}
+            {callState.state === 'error'
+              ? `에러가 발생했어요.\n당근마켓 앱을 통해 다시 접속해 주세요.`
+              : callState.state === 'finish'
+              ? '모임이 종료되었어요.'
+              : '모임에서 나갔어요'}
           </Title>
-          <GreenBtn onClick={goBackHandler}>랜선동네모임으로 돌아가기</GreenBtn>
+          <Button onClick={goBackHandler}>당근마켓으로 돌아가기</Button>
         </ContentsWrapper>
       )}
     </PageWrapper>
@@ -98,7 +88,7 @@ const ContentsWrapper = styled.div`
 
 const Image = styled.img`
   height: 7.4rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.8rem;
 `;
 
 const Title = styled.div`
@@ -112,15 +102,11 @@ const Title = styled.div`
   margin-bottom: 3rem;
 `;
 
-const GreenBtn = styled.div`
-  width: 19.6rem;
-  height: 4.6rem;
-  background: ${COLOR.LIGHT_GREEN};
-  border-radius: 25px;
-
+const Button = styled(PrimaryButton)`
   font-size: 1.5rem;
   line-height: 2.2rem;
   color: white;
+  background: ${({ theme }) => theme.colors.$button.primary};
   display: flex;
   justify-content: center;
   align-items: center;
