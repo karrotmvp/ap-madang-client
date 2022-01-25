@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
-import dot from '../../../../assets/icon/agora/dot.svg';
+import dot_icon from '../../../../assets/icon/agora/dot_icon.svg';
 import { COLOR } from '../../../../style/color';
 
 interface Props {
@@ -15,7 +15,7 @@ function GuideDescription({ title, subTitle }: Props): ReactElement {
     <DescriptionWrapper>
       <TitleWrapper>
         <DotWrapper>
-          <img src={dot} />
+          <img src={dot_icon} />
         </DotWrapper>
         <Title>{title}</Title>
       </TitleWrapper>
