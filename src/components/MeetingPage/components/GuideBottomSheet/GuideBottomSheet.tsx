@@ -2,10 +2,6 @@ import React, { ReactElement, useCallback, useState } from 'react';
 
 import styled from '@emotion/styled';
 
-import heart_emoji from '../../../../assets/icon/agora/heart_emoji.svg';
-import mic_emoji from '../../../../assets/icon/agora/mic_emoji.svg';
-import talk_emoji from '../../../../assets/icon/agora/talk_emoji.svg';
-import x_emoji from '../../../../assets/icon/agora/x_emoji.svg';
 import closeBtn from '../../../../assets/icon/common/nav_close.svg';
 import orange_house from '../../../../assets/icon/common/orange_house.svg';
 import { COLOR } from '../../../../style/color';
@@ -51,28 +47,24 @@ function GuideBottomSheet({ onClose }: Props): ReactElement {
             subTitle={
               '청소년을 포함한 다양한 이웃들이 대화하는 공간임을 기억해 주세요.'
             }
-            emoji={heart_emoji}
           />
           <GuideDescription
             title={'이웃 모두가 함께 나눌 수 있는 대화를 해요.'}
             subTitle={
               '친분을 과시하지 않기로 해요. 사적인 대화는 다른 공간에서 해요.'
             }
-            emoji={talk_emoji}
           />
           <GuideDescription
             title={'이웃을 공개적으로 비방하지 않아요.'}
             subTitle={
               '남녀노소 모두가 함께하는 공간이에요. 이웃을 공개적으로 비방하지 않기로 해요.'
             }
-            emoji={x_emoji}
           />
           <GuideDescription
             title={'마이크를 켜라고 강요하지 않기로 해요.'}
             subTitle={
               '자유롭게 참여하는 공간이에요. 말하는 것뿐 아니라 듣는 것도 대화에 참여하는 거예요.'
             }
-            emoji={mic_emoji}
           />
         </ContentsWrapper>
       </InfoTextWrapper>
