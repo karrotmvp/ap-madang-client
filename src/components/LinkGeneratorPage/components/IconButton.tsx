@@ -57,8 +57,8 @@ const IconButtonWrapper = styled.div<{ show: boolean }>`
 `;
 
 const Text = styled.span`
-  font-size: 1.4rem;
-  line-height: 2rem;
+  font-size: 1.6rem;
+  line-height: 2.2rem;
   font-weight: 700;
 
   display: flex;
