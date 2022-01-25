@@ -2,21 +2,19 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
-import dot from '../../../../assets/icon/agora/dot.svg';
 import { COLOR } from '../../../../style/color';
 
 interface Props {
   title: string;
   subTitle: string;
+  emoji: `*.svg`;
 }
 
-function GuideDescription({ title, subTitle }: Props): ReactElement {
+function GuideDescription({ title, subTitle, emoji }: Props): ReactElement {
   return (
     <DescriptionWrapper>
       <TitleWrapper>
-        <DotWrapper>
-          <img src={dot} />
-        </DotWrapper>
+        <Emoji src={emoji} />
         <Title>{title}</Title>
       </TitleWrapper>
 
@@ -37,25 +35,28 @@ const TitleWrapper = styled.div`
   margin-bottom: 0.2rem;
 `;
 
-const DotWrapper = styled.div`
-  width: 2.2rem;
-  height: 2.2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const InfoWrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+// `;
 
+const Emoji = styled.img`
+  margin-right: 1rem;
+  width: 2.4rem;
+  height: 2.4rem;
+`;
 const Title = styled.div`
   font-weight: 700;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   line-height: 2.2rem;
 `;
 
 const Discription = styled.div`
   font-size: 1.4rem;
-  line-height: 2rem;
+  line-height: 2.1rem;
   color: ${COLOR.TEXT_GREY};
-  margin-left: 2.2rem;
+  margin-left: 3.4rem;
   margin-bottom: 2.6rem;
 `;
 
