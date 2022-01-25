@@ -18,6 +18,11 @@ export const getRegionId = (search: string): string => {
   return urlSearchParams.get('region_id') || '';
 };
 
+export const getParams = (hash: string, params: string): string => {
+  const urlSearchParams = new URLSearchParams(hash);
+  return urlSearchParams.get(params) || '';
+};
+
 export const uidToNum = (uid: UID | string | number) => {
   if (typeof uid === 'string') return parseInt(uid);
   return uid;

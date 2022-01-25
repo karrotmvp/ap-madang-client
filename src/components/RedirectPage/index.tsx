@@ -1,24 +1,59 @@
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactElement, useCallback, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
+import { useNavigator } from 'karrotframe/lib';
 import { useRecoilValue } from 'recoil';
 
+import { getAgoraCode } from '../../api/agora';
+import { increaseMeetingEnterUserCount } from '../../api/meeting';
 import { analytics } from '../../App';
 import orange_house from '../../assets/icon/common/orange_house.svg';
 import { userInfoAtom } from '../../store/user';
+import { getParams } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
 function RedirectPage(): ReactElement {
   const userInfo = useRecoilValue(userInfoAtom);
+  const { replace } = useNavigator();
   const goBackHandler = () => {
     window.open(process.env.KARROT_SCHEME);
     window.close();
   };
 
+  // redirect to agora meeting page
+  const redirectHandler = useCallback(
+    async (code: string, meetingId: string) => {
+      const windowReference = window.open(
+        `/#/agora?meeting_code=${code}`,
+        '_blank',
+      );
+      await increaseMeetingEnterUserCount(meetingId);
+      windowReference;
+    },
+    [],
+  );
+
+  // get agora code
+  const fetchAgoraCode = useCallback(async () => {
+    const meetingId = getParams(
+      window.location.hash.substring(window.location.hash.indexOf('?')),
+      'meeting_id',
+    );
+    console.log('meetingId', meetingId);
+    const result = await getAgoraCode(meetingId);
+    if (result.success && result.data) {
+      redirectHandler(result.data.code, meetingId);
+    }
+  }, [redirectHandler]);
+
   useEffect(() => {
-    loginWithMini();
-  }, []);
+    try {
+      loginWithMini();
+    } catch (e) {
+      replace('/agora/quit?callstate=error');
+    }
+  }, [replace]);
 
   useEffect(() => {
     if (userInfo) {
@@ -26,8 +61,9 @@ function RedirectPage(): ReactElement {
         userNickname: userInfo?.nickname,
         userRegion: userInfo?.region,
       });
+      fetchAgoraCode();
     }
-  }, [userInfo]);
+  }, [fetchAgoraCode, userInfo]);
 
   return (
     <PageWrapper>
