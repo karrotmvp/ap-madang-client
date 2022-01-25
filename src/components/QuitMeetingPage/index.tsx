@@ -1,12 +1,15 @@
-import React, { ReactElement, useMemo } from 'react';
+import React, { ReactElement, useEffect, useMemo } from 'react';
 
 import styled from '@emotion/styled';
+import { useLocation } from 'react-router-dom';
 
 import orange_house from '../../assets/icon/common/orange_house.svg';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import PrimaryButton from '../common/PrimaryButton';
 
 function QuitMeetingPage(): ReactElement {
+  const location = useLocation();
+
   const callState = useMemo(() => {
     const urlSearchParams = new URLSearchParams(
       window.location.hash.substring(window.location.hash.indexOf('?')),
@@ -18,6 +21,10 @@ function QuitMeetingPage(): ReactElement {
     window.open(process.env.KARROT_SCHEME);
     window.close();
   };
+
+  useEffect(() => {
+    if (location.pathname !== '/agora/quit') window.location.reload();
+  }, [location]);
 
   return (
     <PageWrapper>
