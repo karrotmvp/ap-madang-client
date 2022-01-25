@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useEffect } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
@@ -16,6 +16,8 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
 function RedirectPage(): ReactElement {
   const userInfo = useRecoilValue(userInfoAtom);
+  const [redirected, setRedirected] = useState(false);
+  const [agoraCode, setAgoraCode] = useState('');
   const { replace } = useNavigator();
   const { loginWithMini } = useMini();
   const goBackHandler = () => {
@@ -29,28 +31,23 @@ function RedirectPage(): ReactElement {
   }, []);
 
   // redirect to agora meeting page
-  const redirectHandler = useCallback(
-    async (agoraCode: string) => {
-      if (!meetingId || !agoraCode) return;
-      console.log('agoraCode', agoraCode);
-      const windowReference = window.open(
-        `/daangn?#/agora?meeting_code=${agoraCode}`,
-        '_blank',
-      );
-
-      await increaseMeetingEnterUserCount(meetingId(window.location.hash));
-      windowReference;
-    },
-    [meetingId],
-  );
+  const redirectHandler = useCallback(async () => {
+    if (!meetingId || !agoraCode) return;
+    const windowReference = window.open(
+      `/daangn?#/agora?meeting_code=${agoraCode}`,
+      '_blank',
+    );
+    await increaseMeetingEnterUserCount(meetingId(window.location.hash));
+    windowReference;
+  }, [agoraCode, meetingId]);
 
   // get agora code
   const fetchAgoraCode = useCallback(async () => {
     const result = await getAgoraCode(meetingId(window.location.hash));
     if (result.success && result.data) {
-      redirectHandler(result.data?.code);
+      setAgoraCode(result.data?.code);
     }
-  }, [meetingId, redirectHandler]);
+  }, [meetingId]);
 
   useEffect(() => {
     if (!userInfo) {
@@ -63,18 +60,20 @@ function RedirectPage(): ReactElement {
   }, [loginWithMini, replace, userInfo]);
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout | undefined = undefined;
     if (userInfo) {
       logEvent(analytics, 'meeting_bridge_page__show', {
         userNickname: userInfo?.nickname,
         userRegion: userInfo?.region,
       });
-      timeout = setTimeout(() => {
-        fetchAgoraCode();
-      }, 1000);
+      fetchAgoraCode();
     }
-    return () => timeout && clearTimeout(timeout);
-  }, [fetchAgoraCode, userInfo]);
+  }, [fetchAgoraCode, redirected, userInfo]);
+
+  useEffect(() => {
+    if (agoraCode.length !== 0 && !redirected) {
+      redirectHandler();
+    }
+  }, [agoraCode, redirectHandler, redirected]);
 
   return (
     <PageWrapper>
@@ -86,7 +85,14 @@ function RedirectPage(): ReactElement {
       <ContentsWrapper className="join WaitingRoom">
         <Image src={orange_house} />
         <Title>모임에 들어가는 중이에요</Title>
-        <JoinButton onClick={fetchAgoraCode}>직접 입장하기</JoinButton>
+        <JoinButton
+          onClick={() => {
+            setRedirected(true);
+            agoraCode.length !== 0 && redirectHandler();
+          }}
+        >
+          직접 입장하기
+        </JoinButton>
       </ContentsWrapper>
     </PageWrapper>
   );
