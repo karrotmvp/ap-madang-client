@@ -48,9 +48,7 @@ function RedirectPage(): ReactElement {
   const fetchAgoraCode = useCallback(async () => {
     const result = await getAgoraCode(meetingId(window.location.hash));
     if (result.success && result.data) {
-      setTimeout(() => {
-        result.data && redirectHandler(result.data?.code);
-      }, 1000);
+      redirectHandler(result.data?.code);
     }
   }, [meetingId, redirectHandler]);
 
@@ -65,13 +63,17 @@ function RedirectPage(): ReactElement {
   }, [loginWithMini, replace, userInfo]);
 
   useEffect(() => {
+    let timeout: NodeJS.Timeout | undefined = undefined;
     if (userInfo) {
       logEvent(analytics, 'meeting_bridge_page__show', {
         userNickname: userInfo?.nickname,
         userRegion: userInfo?.region,
       });
-      fetchAgoraCode();
+      timeout = setTimeout(() => {
+        fetchAgoraCode();
+      }, 1000);
     }
+    return () => timeout && clearTimeout(timeout);
   }, [fetchAgoraCode, userInfo]);
 
   return (
