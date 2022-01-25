@@ -2,7 +2,6 @@ import React, { ReactElement, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
-import { useLocation } from 'react-router-dom';
 
 import { callState } from '.';
 import { InfoType } from '../../api/agora';
@@ -19,8 +18,6 @@ function WaitingRoom({
   callState: callState;
   userInfo: InfoType | undefined;
 }): ReactElement {
-  const location = useLocation();
-
   const goBackHandler = () => {
     window.open(process.env.KARROT_SCHEME);
     window.close();
@@ -39,10 +36,6 @@ function WaitingRoom({
       sessionStorage.removeItem('Authorization');
     }
   }, [callState, userInfo]);
-
-  useEffect(() => {
-    if (location.pathname !== '/agora/quit') window.location.reload();
-  }, [location]);
 
   return (
     <PageWrapper>
