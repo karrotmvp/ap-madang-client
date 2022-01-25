@@ -41,16 +41,13 @@ function LinkGeneratorPage(): ReactElement {
   };
 
   useEffect(() => {
-    loginWithMini();
-  }, [loginWithMini]);
-
-  useEffect(() => {
     if (userInfo)
       logEvent(analytics, 'link_gen_page__show', {
         userNickname: userInfo?.nickname,
         userRegion: userInfo?.region,
       });
-  }, [userInfo]);
+    else loginWithMini();
+  }, [loginWithMini, userInfo]);
 
   return (
     <Container>
@@ -69,15 +66,12 @@ function LinkGeneratorPage(): ReactElement {
       <Wrapper>
         <TopBanner>
           <SpeakerImage src={speaker} />
-          {userInfo?.nickname && (
-            <UserNameWrapper>
-              <UserName>{userInfo.nickname}</UserName>님의
-            </UserNameWrapper>
-          )}
           <Title>
-            <OrangeTitle>음성 모임방</OrangeTitle>을
+            동네 이웃과
             <br />
-            만들어드려요
+            <OrangeTitle>음성으로</OrangeTitle>
+            <br />
+            이야기해보세요
           </Title>
         </TopBanner>
         <GuideImage src={link_generator_guide} />
@@ -118,31 +112,8 @@ const TopBanner = styled.div`
 
 const SpeakerImage = styled.img``;
 
-const UserNameWrapper = styled.div`
-  width: 100%;
-  margin-top: 2rem;
-  font-family: 'HGSoftGGothicssi_Pro_80g';
-  font-size: 2.6rem;
-  line-height: 125%;
-  text-align: center;
-  letter-spacing: -0.02rem;
-  color: #4d5159;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
-const UserName = styled.div`
-  font-family: inherit;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 70%;
-`;
-
 const Title = styled.span`
-  margin-top: 0.4rem;
+  margin-top: 2rem;
   font-size: 4rem;
   line-height: 120%;
   text-align: center;
