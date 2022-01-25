@@ -48,7 +48,7 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
       onClose={onClickOutSide}
       open={closeState}
       innerModalStyle={css`
-        transform: ${copySuccess ? 'translateY(0)' : 'translateY(6.4rem)'};
+        transform: ${copySuccess ? 'translateY(0)' : 'translateY(6.2rem)'};
         transition-property: all;
         transition-duration: 0.5s;
       `}
@@ -79,7 +79,7 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
 export default LinkBottomSheet;
 
 const BottomSheetWrapper = styled.div<{ copySuccess: boolean }>`
-  padding: 3.2rem 1.6rem 1.6rem 1.6rem;
+  padding: 2.8rem 1.6rem 1.4rem 1.6rem;
   box-sizing: border-box;
   position: relative;
 
@@ -97,7 +97,7 @@ const IconImg = styled.img`
 const ConfettiIcon = styled.img`
   width: 8rem;
   height: 8rem;
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.2rem;
 `;
 
 const Title = styled.div`
@@ -131,7 +131,7 @@ const SubTitle = styled.div`
 
   /* Scale/Gray/Gray700 */
   color: #4d5159;
-  margin-bottom: 2.4rem;
+  margin-bottom: 2rem;
 `;
 
 const showButton = keyframes`
@@ -147,7 +147,8 @@ const showButton = keyframes`
 `;
 
 const WriteButton = styled(PrimaryButton)<{ copySuccess: boolean }>`
-  margin: 1.6rem 1.6rem 0 1.6rem;
+  height: 4.8rem;
+  margin: 2.4rem 1.6rem 0 1.6rem;
   box-sizing: border-box;
   animation: ${showButton} 0.5s ease forwards;
   background: ${({ copySuccess }) => (copySuccess ? '#FF7E36' : '#dcdee3')};
