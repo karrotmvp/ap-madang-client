@@ -22,7 +22,6 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
 function RedirectPage(): ReactElement {
   const userInfo = useRecoilValue(userInfoAtom);
-  const [redirected, setRedirected] = useState(false);
   const [agoraCode, setAgoraCode] = useState<undefined | string>(undefined);
   const { replace } = useNavigator();
   const { loginWithMini, ejectApp } = useMini();
@@ -85,7 +84,7 @@ function RedirectPage(): ReactElement {
     if (checkMobileType() === 'Android' && agoraCode !== undefined) {
       redirectHandler();
     }
-  }, [agoraCode, redirectHandler, redirected]);
+  }, [agoraCode, redirectHandler]);
 
   // visibilityState hidden 인경우 mini app 종료
   const onVisibilityChange = useCallback(() => {
@@ -110,14 +109,7 @@ function RedirectPage(): ReactElement {
       <ContentsWrapper className="join WaitingRoom">
         <Image src={orange_house} />
         <Title>모임에 들어가는 중이에요</Title>
-        <JoinButton
-          onClick={() => {
-            setRedirected(true);
-            agoraCode !== undefined && redirectHandler();
-          }}
-        >
-          직접 입장하기
-        </JoinButton>
+        <JoinButton onClick={redirectHandler}>직접 입장하기</JoinButton>
       </ContentsWrapper>
     </PageWrapper>
   );
