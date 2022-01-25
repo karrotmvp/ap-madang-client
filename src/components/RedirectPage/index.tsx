@@ -17,7 +17,7 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 function RedirectPage(): ReactElement {
   const userInfo = useRecoilValue(userInfoAtom);
   const [redirected, setRedirected] = useState(false);
-  const [agoraCode, setAgoraCode] = useState('');
+  const [agoraCode, setAgoraCode] = useState<undefined | string>(undefined);
   const { replace } = useNavigator();
   const { loginWithMini, ejectApp } = useMini();
   const goBackHandler = () => {
@@ -39,7 +39,9 @@ function RedirectPage(): ReactElement {
     );
     await increaseMeetingEnterUserCount(meetingId(window.location.hash));
     windowReference;
-    if (checkMobileType() === 'Android') ejectApp();
+    if (checkMobileType() === 'Android') {
+      ejectApp();
+    }
   }, [agoraCode, ejectApp, meetingId]);
 
   // get agora code
@@ -63,6 +65,7 @@ function RedirectPage(): ReactElement {
 
   // fetch agora code
   useEffect(() => {
+    console.log('fetch useEffect', agoraCode, userInfo);
     if (userInfo && !agoraCode) {
       logEvent(analytics, 'meeting_bridge_page__show', {
         userNickname: userInfo?.nickname,
@@ -72,12 +75,13 @@ function RedirectPage(): ReactElement {
     }
   }, [agoraCode, fetchAgoraCode, userInfo]);
 
-  // agoraCode 발급시 redirect page
+  // Android agoraCode 발급시 redirect page
   useEffect(() => {
-    if (agoraCode.length !== 0 && !redirected) {
+    if (checkMobileType() === 'Android' && agoraCode !== undefined) {
+      console.log('android redirect useEffect 내부');
       redirectHandler();
     }
-  }, [agoraCode.length, redirectHandler, redirected]);
+  }, [agoraCode, redirectHandler, redirected]);
 
   // iPhone 직접 입장 버튼 클릭시 mini 종료
   useEffect(() => {
@@ -97,7 +101,7 @@ function RedirectPage(): ReactElement {
         <JoinButton
           onClick={() => {
             setRedirected(true);
-            agoraCode.length !== 0 && redirectHandler();
+            agoraCode !== undefined && redirectHandler();
           }}
         >
           직접 입장하기
