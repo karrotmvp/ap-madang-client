@@ -1,4 +1,10 @@
-import React, { ReactElement, useCallback, useEffect, useState } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
@@ -25,26 +31,27 @@ function RedirectPage(): ReactElement {
     window.close();
   };
 
-  const meetingId = useCallback((hash: string) => {
-    const result = getParams(hash.substring(hash.indexOf('?')), 'meeting');
-    return result.split('&')[0];
+  const meetingId = useMemo(() => {
+    return getParams(
+      window.location.hash.substring(window.location.hash.indexOf('?')),
+      'meeting',
+    ).split('&')[0];
   }, []);
 
   // redirect to agora meeting page
   const redirectHandler = useCallback(async () => {
-    if (!meetingId(window.location.hash) || !agoraCode) return;
+    if (!meetingId || !agoraCode) return;
     const windowReference = window.open(
       `/daangn?#/agora?meeting_code=${agoraCode}`,
       '_blank',
     );
-    await increaseMeetingEnterUserCount(meetingId(window.location.hash));
+    await increaseMeetingEnterUserCount(meetingId);
     windowReference;
-    if (checkMobileType() === 'Android') ejectApp();
-  }, [agoraCode, ejectApp, meetingId]);
+  }, [agoraCode, meetingId]);
 
   // get agora code
   const fetchAgoraCode = useCallback(async () => {
-    const result = await getAgoraCode(meetingId(window.location.hash));
+    const result = await getAgoraCode(meetingId);
     if (result.success && result.data) {
       setAgoraCode(result.data?.code);
     }
@@ -52,7 +59,7 @@ function RedirectPage(): ReactElement {
 
   // user login
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo?.nickname) {
       try {
         loginWithMini();
       } catch (e) {
@@ -74,15 +81,23 @@ function RedirectPage(): ReactElement {
 
   // agoraCode 발급시 redirect page
   useEffect(() => {
-    if (agoraCode.length !== 0 && !redirected) {
+    if (checkMobileType() === 'Android' && agoraCode !== undefined) {
       redirectHandler();
     }
-  }, [agoraCode.length, redirectHandler, redirected]);
+  }, [agoraCode, agoraCode.length, redirectHandler, redirected]);
 
-  // iPhone 직접 입장 버튼 클릭시 mini 종료
+  // visibilityState hidden 인경우 mini app 종료
+  const onVisibilityChange = useCallback(() => {
+    if (document.visibilityState === 'hidden' && agoraCode) {
+      ejectApp();
+    }
+  }, [agoraCode, ejectApp]);
+
   useEffect(() => {
-    if (checkMobileType() === 'Cupertino' && redirected) ejectApp();
-  }, [ejectApp, redirected]);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return () =>
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+  }, [onVisibilityChange]);
 
   return (
     <PageWrapper>
