@@ -23,7 +23,7 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 function RedirectPage(): ReactElement {
   const userInfo = useRecoilValue(userInfoAtom);
   const [redirected, setRedirected] = useState(false);
-  const [agoraCode, setAgoraCode] = useState('');
+  const [agoraCode, setAgoraCode] = useState<undefined | string>(undefined);
   const { replace } = useNavigator();
   const { loginWithMini, ejectApp } = useMini();
   const goBackHandler = () => {
@@ -70,6 +70,7 @@ function RedirectPage(): ReactElement {
 
   // fetch agora code
   useEffect(() => {
+    console.log('fetch useEffect', agoraCode, userInfo);
     if (userInfo && !agoraCode) {
       logEvent(analytics, 'meeting_bridge_page__show', {
         userNickname: userInfo?.nickname,
@@ -79,12 +80,12 @@ function RedirectPage(): ReactElement {
     }
   }, [agoraCode, fetchAgoraCode, userInfo]);
 
-  // agoraCode 발급시 redirect page
+  // Android agoraCode 발급시 redirect page
   useEffect(() => {
     if (checkMobileType() === 'Android' && agoraCode !== undefined) {
       redirectHandler();
     }
-  }, [agoraCode, agoraCode.length, redirectHandler, redirected]);
+  }, [agoraCode, redirectHandler, redirected]);
 
   // visibilityState hidden 인경우 mini app 종료
   const onVisibilityChange = useCallback(() => {
@@ -112,7 +113,7 @@ function RedirectPage(): ReactElement {
         <JoinButton
           onClick={() => {
             setRedirected(true);
-            agoraCode.length !== 0 && redirectHandler();
+            agoraCode !== undefined && redirectHandler();
           }}
         >
           직접 입장하기
