@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useEffect } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
@@ -16,6 +16,7 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
 function RedirectPage(): ReactElement {
   const userInfo = useRecoilValue(userInfoAtom);
+  const [redirected, setRedirected] = useState(false);
   const { replace } = useNavigator();
   const { loginWithMini } = useMini();
   const goBackHandler = () => {
@@ -32,12 +33,10 @@ function RedirectPage(): ReactElement {
   const redirectHandler = useCallback(
     async (agoraCode: string) => {
       if (!meetingId || !agoraCode) return;
-      console.log('agoraCode', agoraCode);
       const windowReference = window.open(
         `/daangn?#/agora?meeting_code=${agoraCode}`,
         '_blank',
       );
-
       await increaseMeetingEnterUserCount(meetingId(window.location.hash));
       windowReference;
     },
@@ -70,11 +69,11 @@ function RedirectPage(): ReactElement {
         userRegion: userInfo?.region,
       });
       timeout = setTimeout(() => {
-        fetchAgoraCode();
+        !redirected && fetchAgoraCode();
       }, 1000);
     }
     return () => timeout && clearTimeout(timeout);
-  }, [fetchAgoraCode, userInfo]);
+  }, [fetchAgoraCode, redirected, userInfo]);
 
   return (
     <PageWrapper>
@@ -86,7 +85,14 @@ function RedirectPage(): ReactElement {
       <ContentsWrapper className="join WaitingRoom">
         <Image src={orange_house} />
         <Title>모임에 들어가는 중이에요</Title>
-        <JoinButton onClick={fetchAgoraCode}>직접 입장하기</JoinButton>
+        <JoinButton
+          onClick={() => {
+            setRedirected(true);
+            fetchAgoraCode();
+          }}
+        >
+          직접 입장하기
+        </JoinButton>
       </ContentsWrapper>
     </PageWrapper>
   );
