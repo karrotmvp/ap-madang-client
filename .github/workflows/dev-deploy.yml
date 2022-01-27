@@ -10,7 +10,7 @@
         name: Build, Deploy to S3 bucket
         runs-on: [ubuntu-latest]
         env:
-          GITHUB_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
           DEV_APP_ID: ${{ secrets.DEV_APP_ID }}
           DEV_API_URL: ${{ secrets.DEV_API_URL }}
           DEV_MINI_PRESET_URL: ${{ secrets.DEV_MINI_PRESET_URL }}
@@ -33,7 +33,7 @@
     
         steps:
           - uses: actions/checkout@v2
-    
+        
           - name: Use Node.js ${{ matrix.node-version }}
             uses: actions/setup-node@v1
             with:
@@ -41,7 +41,7 @@
           
           - name: Create .env
             shell: bash
-            run: |
+            run: 
               touch .env
               echo APP_ID="$DEV_APP_ID" >> .env
               echo API_URL="$DEV_API_URL" >> .env
@@ -58,13 +58,13 @@
               echo AGORA_APP_ID="$AGORA_APP_ID" >> .env
               echo KARROT_SCHEME="$KARROT_SCHEME" >> .env
               echo CLIENT_URL="$CLIENT_URL" >> .env
-              echo GITHUB_TOKEN="$GITHUB_TOKEN" >> .env
+              echo NPM_AUTH_TOKEN="$NPM_AUTH_TOKEN" >> .env
               cat .env
     
           - name: Npm install
             run: npm install
             env:
-              GITHUB_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
+              NPM_AUTH_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
     
           - name: Build
             run: npm run build:dev
