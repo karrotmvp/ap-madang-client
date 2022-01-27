@@ -75,6 +75,7 @@
             run: npm install
             env:
               GITHUB_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
+              NODE_AUTH_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
     
           - name: Build
             run: npm run build:dev
