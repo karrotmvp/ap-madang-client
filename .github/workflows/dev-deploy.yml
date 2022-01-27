@@ -10,7 +10,7 @@
         name: Build, Deploy to S3 bucket
         runs-on: [ubuntu-latest]
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
     
         strategy:
           matrix:
@@ -23,15 +23,6 @@
             uses: actions/setup-node@v1
             with:
               node-version: ${{ matrix.node-version }}
-          
-          - name: Create .envrc
-            shell: bash
-            env:
-              GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-            run: |
-              touch .envrc
-              echo export GITHUB_TOKEN="$GITHUB_TOKEN" >> .envrc
-              cat .envrc
           
           - name: Create .env
             shell: bash
@@ -51,7 +42,7 @@
               AGORA_APP_ID: ${{secrets.AGORA_APP_ID_DEV}}
               KARROT_SCHEME: ${{secrets.KARROT_SCHEME_DEV}}
               CLIENT_URL: ${{secrets.CLIENT_URL_DEV}}
-              GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+              GITHUB_TOKEN: ${{secrets.DAANGN_GITHUB_TOKEN}}
             run: |
               touch .env
               echo APP_ID="$DEV_APP_ID" >> .env
