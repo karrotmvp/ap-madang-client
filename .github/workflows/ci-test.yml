@@ -58,7 +58,6 @@
               echo AGORA_APP_ID="$AGORA_APP_ID" >> .env
               echo KARROT_SCHEME="$KARROT_SCHEME" >> .env
               echo CLIENT_URL="$CLIENT_URL" >> .env
-              echo GITHUB_TOKEN="$DAANGN_GITHUB_TOKEN" >> .env
               cat .env
     
           - name: Npm install
