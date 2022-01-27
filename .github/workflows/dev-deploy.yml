@@ -4,29 +4,20 @@
       push:
         branches:
           - dev
+          - test/ci
     
     jobs:
       deploy:
         name: Build, Deploy to S3 bucket
         runs-on: [ubuntu-latest]
-        env:
-          GITHUB_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
-    
+        
         strategy:
           matrix:
             node-version: [12.16.x]
     
         steps:
           - uses: actions/checkout@v2
-          - uses: actions/setup-node@v2
-            with:
-              node-version: '16.x'
-              registry-url: 'https://npm.pkg.github.com'
-              # Defaults to the user or organization that owns the workflow file
-              scope: '@daangn'
-            env:
-               GITHUB_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
-    
+         
           - name: Use Node.js ${{ matrix.node-version }}
             uses: actions/setup-node@v1
             with:
@@ -76,6 +67,7 @@
             env:
               GITHUB_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
               NPM_AUTH_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
+              NODE_AUTH_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
     
           - name: Build
             run: npm run build:dev
