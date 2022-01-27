@@ -33,7 +33,9 @@ function LinkGeneratorPage(): ReactElement {
     const result = await generateShortLink();
 
     if (result.success && result.data) {
-      setUrl(result.data.short_url);
+      setUrl(
+        `${process.env.CLIENT_URL}/#/short?share_code=${result.data.share_code}`,
+      );
       setOpenLinkBottomSheet(true);
       setLoading(false);
     }

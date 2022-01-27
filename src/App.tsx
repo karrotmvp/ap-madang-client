@@ -18,6 +18,7 @@ import NotServiceRegionPage from './components/NotServiceRegionPage';
 import QuitMeetingPage from './components/QuitMeetingPage';
 import RedirectPage from './components/RedirectPage';
 import GuidePage from './components/ServiceGuidePage/GuidePage';
+import ShortURLPage from './components/ShortURLPage';
 import useMini from './hook/useMini';
 import '@karrotframe/navigator/index.css';
 import { useTheme } from './hook/useTheme';
@@ -58,6 +59,7 @@ const App: React.FC = () => {
         <Screen path="/agora" component={AgoraPage} />
         <Screen path="/agora/quit" component={QuitMeetingPage} />
         <Screen path="/redirect" component={RedirectPage} />
+        <Screen path="/short" component={ShortURLPage} />
         <Screen path="*" component={NotFoundPage} />
       </Navigator>
     </ThemeProvider>

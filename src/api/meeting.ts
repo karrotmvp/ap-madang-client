@@ -89,6 +89,20 @@ export const generateShortLink = async (): Promise<generateShortLinkRes> => {
   }
 };
 
+export const getMeetingKarrotScheme = async (
+  share_code: string,
+): Promise<getMeetingKarrotSchemeRes> => {
+  try {
+    const result = await customAxios().get(
+      `/share/karrot-scheme-url?share_code=${share_code}`,
+    );
+    return { success: true, data: result.data };
+  } catch (e) {
+    console.log(e);
+    return { success: false };
+  }
+};
+
 interface getMeetingsRes {
   success: boolean;
   data?: MeetingList[];
@@ -132,7 +146,13 @@ interface shareMeetingRes {
 interface generateShortLinkRes {
   success: boolean;
   data?: {
-    id: number;
-    short_url: string;
+    share_code: string;
+  };
+}
+
+interface getMeetingKarrotSchemeRes {
+  success: boolean;
+  data?: {
+    karrot_scheme_url: string;
   };
 }

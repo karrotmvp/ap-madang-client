@@ -17,6 +17,8 @@ import { analytics } from '../../App';
 import orange_house from '../../assets/icon/common/orange_house.svg';
 import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
+import { daangnBridge } from '../../util/daangnBridge';
+import mini from '../../util/mini';
 import { checkMobileType, getParams } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
@@ -26,8 +28,9 @@ function RedirectPage(): ReactElement {
   const { replace } = useNavigator();
   const { loginWithMini, ejectApp } = useMini();
   const goBackHandler = () => {
-    window.open(process.env.KARROT_SCHEME);
     window.close();
+    daangnBridge.router.close();
+    mini.close();
   };
 
   const meetingId = useMemo(() => {
@@ -69,7 +72,6 @@ function RedirectPage(): ReactElement {
 
   // fetch agora code
   useEffect(() => {
-    console.log('fetch useEffect', agoraCode, userInfo);
     if (userInfo && !agoraCode) {
       logEvent(analytics, 'meeting_bridge_page__show', {
         userNickname: userInfo?.nickname,
