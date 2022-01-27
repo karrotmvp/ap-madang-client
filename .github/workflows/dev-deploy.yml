@@ -10,22 +10,7 @@
         name: Build, Deploy to S3 bucket
         runs-on: [ubuntu-latest]
         env:
-          NPM_AUTH_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
-          DEV_APP_ID: ${{ secrets.DEV_APP_ID }}
-          DEV_API_URL: ${{ secrets.DEV_API_URL }}
-          DEV_MINI_PRESET_URL: ${{ secrets.DEV_MINI_PRESET_URL }}
-          GA_KEY: ${{ secrets.GA_KEY }}
-          FA_KEY: ${{ secrets.FA_KEY_DEV }}
-          FA_AUTH_DOMAIN: ${{ secrets.FA_AUTH_DOMAIN_DEV }}
-          FA_PROJECT_ID: ${{ secrets.FA_PROJECT_ID_DEV }}
-          FA_STORAGE_BUCKET: ${{ secrets.FA_STORAGE_BUCKET_DEV }}
-          FA_MESSAGING_SENDER_ID: ${{ secrets.FA_MESSAGING_SENDER_ID_DEV }}
-          FA_APP_ID: ${{ secrets.FA_APP_ID_DEV }}
-          FA_MEASUREMENT_ID: ${{ secrets.FA_MEASUREMENT_ID_DEV }}
-          INFO_NOTION_URL: ${{secrets.INFO_NOTION_URL_DEV}}
-          AGORA_APP_ID: ${{secrets.AGORA_APP_ID_DEV}}
-          KARROT_SCHEME: ${{secrets.KARROT_SCHEME_DEV}}
-          CLIENT_URL: ${{secrets.CLIENT_URL_DEV}}
+          GITHUB_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
     
         strategy:
           matrix:
@@ -33,7 +18,15 @@
     
         steps:
           - uses: actions/checkout@v2
-        
+          - uses: actions/setup-node@v2
+            with:
+              node-version: '16.x'
+              registry-url: 'https://npm.pkg.github.com'
+              # Defaults to the user or organization that owns the workflow file
+              scope: '@daangn'
+            env:
+               GITHUB_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
+    
           - name: Use Node.js ${{ matrix.node-version }}
             uses: actions/setup-node@v1
             with:
@@ -41,7 +34,24 @@
           
           - name: Create .env
             shell: bash
-            run: 
+            env:
+              DEV_APP_ID: ${{ secrets.DEV_APP_ID }}
+              DEV_API_URL: ${{ secrets.DEV_API_URL }}
+              DEV_MINI_PRESET_URL: ${{ secrets.DEV_MINI_PRESET_URL }}
+              GA_KEY: ${{ secrets.GA_KEY }}
+              FA_KEY: ${{ secrets.FA_KEY_DEV }}
+              FA_AUTH_DOMAIN: ${{ secrets.FA_AUTH_DOMAIN_DEV }}
+              FA_PROJECT_ID: ${{ secrets.FA_PROJECT_ID_DEV }}
+              FA_STORAGE_BUCKET: ${{ secrets.FA_STORAGE_BUCKET_DEV }}
+              FA_MESSAGING_SENDER_ID: ${{ secrets.FA_MESSAGING_SENDER_ID_DEV }}
+              FA_APP_ID: ${{ secrets.FA_APP_ID_DEV }}
+              FA_MEASUREMENT_ID: ${{ secrets.FA_MEASUREMENT_ID_DEV }}
+              INFO_NOTION_URL: ${{secrets.INFO_NOTION_URL_DEV}}
+              AGORA_APP_ID: ${{secrets.AGORA_APP_ID_DEV}}
+              KARROT_SCHEME: ${{secrets.KARROT_SCHEME_DEV}}
+              CLIENT_URL: ${{secrets.CLIENT_URL_DEV}}
+              GITHUB_TOKEN: ${{secrets.DAANGN_GITHUB_TOKEN}}
+            run: |
               touch .env
               echo APP_ID="$DEV_APP_ID" >> .env
               echo API_URL="$DEV_API_URL" >> .env
@@ -58,13 +68,13 @@
               echo AGORA_APP_ID="$AGORA_APP_ID" >> .env
               echo KARROT_SCHEME="$KARROT_SCHEME" >> .env
               echo CLIENT_URL="$CLIENT_URL" >> .env
-              echo NPM_AUTH_TOKEN="$NPM_AUTH_TOKEN" >> .env
+              echo GITHUB_TOKEN="$GITHUB_TOKEN" >> .env
               cat .env
     
           - name: Npm install
             run: npm install
             env:
-              NPM_AUTH_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
+              GITHUB_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
     
           - name: Build
             run: npm run build:dev
