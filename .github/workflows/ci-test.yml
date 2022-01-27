@@ -16,20 +16,20 @@
     
         steps:
         - uses: actions/checkout@v1
-        
-        - name: Create .envrc
-            shell: bash
-            env:
-              DAANGN_GITHUB_TOKEN: ${{secrets.DAANGN_GITHUB_TOKEN}}
-            run: |
-              touch .envrc
-              echo export NPM_AUTH_TOKEN="$DAANGN_GITHUB_TOKEN" >> .envrc
-              cat .envrc
 
         - name: Use Node.js ${{ matrix.node-version }}
           uses: actions/setup-node@v1
           with:
             node-version: ${{ matrix.node-version }}
+                
+        - name: Create .envrc
+            shell: bash
+            env:
+              DAANGN_GITHUB_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
+            run: |
+              touch .envrc
+              echo export NPM_AUTH_TOKEN="$DAANGN_GITHUB_TOKEN" >> .envrc
+              cat .envrc
 
         - name: npm install
           run: npm install
