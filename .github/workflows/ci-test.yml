@@ -1,0 +1,28 @@
+    name: Deploy to development
+    
+    on:
+      push:
+        branches:
+          - test/ci
+    
+    jobs:
+      deploy:
+        name: Build, Deploy to S3 bucket
+        runs-on: ubuntu-latest
+        
+        strategy:
+          matrix:
+            node-version: [12.16.x]
+    
+        steps:
+        - uses: actions/checkout@v1
+
+        - name: Use Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v1
+          with:
+            node-version: ${{ matrix.node-version }}
+
+        - name: npm install
+          run: npm install
+          env:
+            NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
