@@ -9,6 +9,8 @@
       deploy:
         name: Build, Deploy to S3 bucket
         runs-on: [ubuntu-latest]
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
         strategy:
           matrix:
@@ -38,6 +40,8 @@
               INFO_NOTION_URL: ${{secrets.INFO_NOTION_URL_PROD}}
               AGORA_APP_ID: ${{secrets.AGORA_APP_ID_PROD}}
               KARROT_SCHEME: ${{secrets.KARROT_SCHEME_PROD}}
+              CLIENT_URL: ${{secrets.CLIENT_URL_PROD}}
+              GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
             run: |
               touch .env
               echo APP_ID="$PROD_APP_ID" >> .env
@@ -54,6 +58,8 @@
               echo INFO_NOTION_URL="$INFO_NOTION_URL" >> .env
               echo AGORA_APP_ID="$AGORA_APP_ID" >> .env
               echo KARROT_SCHEME="$KARROT_SCHEME" >> .env
+              echo CLIENT_URL="$CLIENT_URL" >> .env
+              echo GITHUB_TOKEN="$GITHUB_TOKEN" >> .env
               cat .env
     
           - name: Npm install
