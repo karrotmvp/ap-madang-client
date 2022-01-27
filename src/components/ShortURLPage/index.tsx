@@ -25,10 +25,7 @@ function ShortURLPage() {
     if (result.success && result.data) {
       setUrl(result.data.karrot_scheme_url);
       location.href = result.data.karrot_scheme_url;
-      // location.href =
-      //   'karrot.alpha://minikarrot/router?remote=https%3A%2F%2Fshorturl-dev.daangn-meetup.com%2Fshare%2Fredirect%3Fcode%3D63b761891&present=top&navbar=true&scrollable=true';
-      // window.open(result.data.karrot_scheme_url);
-      // replace(result.data.karrot_scheme_url);
+      closeWindow();
     }
   }, [share_code]);
 
