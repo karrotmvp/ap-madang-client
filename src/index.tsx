@@ -9,7 +9,7 @@ import GlobalStyle from './style/GlobalStyle';
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
-      <Suspense fallback={<div>Loading</div>}>
+      <Suspense fallback={<div />}>
         <GlobalStyle />
         <App />
       </Suspense>
