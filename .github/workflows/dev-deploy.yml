@@ -4,7 +4,6 @@
       push:
         branches:
           - dev
-          - ONMEET-33
     
     jobs:
       deploy:
@@ -43,7 +42,6 @@
               AGORA_APP_ID: ${{secrets.AGORA_APP_ID_DEV}}
               KARROT_SCHEME: ${{secrets.KARROT_SCHEME_DEV}}
               CLIENT_URL: ${{secrets.CLIENT_URL_DEV}}
-              GITHUB_TOKEN: ${{secrets.DAANGN_GITHUB_TOKEN}}
             run: |
               touch .env
               echo APP_ID="$DEV_APP_ID" >> .env
@@ -61,7 +59,6 @@
               echo AGORA_APP_ID="$AGORA_APP_ID" >> .env
               echo KARROT_SCHEME="$KARROT_SCHEME" >> .env
               echo CLIENT_URL="$CLIENT_URL" >> .env
-              echo GITHUB_TOKEN="$GITHUB_TOKEN" >> .env
               cat .env
     
           - name: Npm install
