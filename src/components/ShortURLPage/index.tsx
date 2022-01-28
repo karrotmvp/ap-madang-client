@@ -3,11 +3,13 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { css } from '@emotion/css';
 
 import { getMeetingKarrotScheme } from '../../api/meeting';
+import useMini from '../../hook/useMini';
 import { daangnBridge } from '../../util/daangnBridge';
 import { getParams } from '../../util/utils';
 
 function ShortURLPage() {
   const [url, setUrl] = useState('');
+  const { ejectApp } = useMini();
 
   const share_code = useMemo(() => {
     return getParams(
@@ -16,18 +18,20 @@ function ShortURLPage() {
     ).split('&')[0];
   }, []);
 
-  function closeWindow() {
+  const closeWindow = useCallback(() => {
     daangnBridge.router.close();
-  }
+    window.close();
+    ejectApp();
+  }, [ejectApp]);
 
   const fetchKarrotScheme = useCallback(async () => {
     const result = await getMeetingKarrotScheme(share_code);
     if (result.success && result.data) {
       setUrl(result.data.karrot_scheme_url);
-      location.href = result.data.karrot_scheme_url;
+      window.location.href = result.data.karrot_scheme_url;
       closeWindow();
     }
-  }, [share_code]);
+  }, [closeWindow, share_code]);
 
   useEffect(() => {
     if (share_code) fetchKarrotScheme();
@@ -38,7 +42,7 @@ function ShortURLPage() {
     if (document.visibilityState === 'hidden') {
       closeWindow();
     }
-  }, []);
+  }, [closeWindow]);
 
   useEffect(() => {
     document.addEventListener('visibilitychange', onVisibilityChange);
