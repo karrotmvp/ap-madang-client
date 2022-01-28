@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { css } from '@emotion/css';
+import styled from '@emotion/styled';
 
 import { getMeetingKarrotScheme } from '../../api/meeting';
 import useMini from '../../hook/useMini';
@@ -28,8 +29,8 @@ function ShortURLPage() {
     const result = await getMeetingKarrotScheme(share_code);
     if (result.success && result.data) {
       setUrl(result.data.karrot_scheme_url);
-      window.location.href = result.data.karrot_scheme_url;
       closeWindow();
+      window.location.href = result.data.karrot_scheme_url;
     }
   }, [closeWindow, share_code]);
 
@@ -61,8 +62,9 @@ function ShortURLPage() {
           window.open(url);
         }}
       >
-        Move to Daangn///{url}
+        Move to Daangn
       </button>
+      <Span>{url}</Span>
       <br />
     </div>
   );
@@ -70,6 +72,10 @@ function ShortURLPage() {
 
 const ButtonStyle = css`
   font-size: 20px;
+`;
+
+const Span = styled.span`
+  color: red;
 `;
 
 export default ShortURLPage;
