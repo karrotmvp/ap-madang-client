@@ -21,11 +21,15 @@ function ShortURLPage() {
 
   const closeWindow = useCallback(() => {
     try {
+      console.log('1');
       ejectApp();
     } catch (_) {
+      console.log('1 catch');
       try {
+        console.log('2');
         daangnBridge.router.close();
       } catch (_) {
+        console.log('2 catch');
         window.close();
       }
     }
@@ -36,7 +40,9 @@ function ShortURLPage() {
     if (result.success && result.data) {
       setUrl(result.data.karrot_scheme_url);
       closeWindow();
-      window.location.href = result.data.karrot_scheme_url;
+      setTimeout(() => {
+        if (result.data) window.location.href = result.data.karrot_scheme_url;
+      }, 1000);
     }
   }, [closeWindow, share_code]);
 
