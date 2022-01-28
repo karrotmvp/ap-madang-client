@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-
-import { css } from '@emotion/css';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { getMeetingKarrotScheme } from '../../api/meeting';
+import useMini from '../../hook/useMini';
 import { daangnBridge } from '../../util/daangnBridge';
 import { getParams } from '../../util/utils';
 
 function ShortURLPage() {
-  const [url, setUrl] = useState('');
+  const { ejectApp } = useMini();
 
   const share_code = useMemo(() => {
     return getParams(
@@ -16,18 +15,23 @@ function ShortURLPage() {
     ).split('&')[0];
   }, []);
 
-  function closeWindow() {
-    daangnBridge.router.close();
-  }
+  const closeWindow = useCallback(() => {
+    try {
+      daangnBridge.router.close();
+      ejectApp();
+      window.close();
+    } catch (_) {
+      console.log('closeWinodw err');
+    }
+  }, [ejectApp]);
 
   const fetchKarrotScheme = useCallback(async () => {
     const result = await getMeetingKarrotScheme(share_code);
     if (result.success && result.data) {
-      setUrl(result.data.karrot_scheme_url);
-      location.href = result.data.karrot_scheme_url;
-      closeWindow();
+      window.location.href = result.data.karrot_scheme_url;
+      setTimeout(() => closeWindow(), 300);
     }
-  }, [share_code]);
+  }, [closeWindow, share_code]);
 
   useEffect(() => {
     if (share_code) fetchKarrotScheme();
@@ -35,10 +39,8 @@ function ShortURLPage() {
 
   // visibilityState hidden 인경우 mini app 종료
   const onVisibilityChange = useCallback(() => {
-    if (document.visibilityState === 'hidden') {
-      closeWindow();
-    }
-  }, []);
+    if (document.visibilityState === 'hidden') closeWindow();
+  }, [closeWindow]);
 
   useEffect(() => {
     document.addEventListener('visibilitychange', onVisibilityChange);
@@ -46,26 +48,7 @@ function ShortURLPage() {
       document.removeEventListener('visibilitychange', onVisibilityChange);
   }, [onVisibilityChange]);
 
-  return (
-    <div>
-      {share_code}
-      <br />
-      <button
-        className={ButtonStyle}
-        type="button"
-        onClick={() => {
-          window.open(url);
-        }}
-      >
-        Move to Daangn///{url}
-      </button>
-      <br />
-    </div>
-  );
+  return <div />;
 }
-
-const ButtonStyle = css`
-  font-size: 20px;
-`;
 
 export default ShortURLPage;
