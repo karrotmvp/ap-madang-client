@@ -28,9 +28,9 @@ function RedirectPage(): ReactElement {
   const { replace } = useNavigator();
   const { loginWithMini } = useMini();
   const goBackHandler = () => {
-    window.close();
     daangnBridge.router.close();
     mini.close();
+    window.close();
   };
 
   const meetingId = useMemo(() => {
@@ -44,7 +44,7 @@ function RedirectPage(): ReactElement {
   const redirectHandler = useCallback(async () => {
     if (!meetingId || !agoraCode) return;
     const windowReference = window.open(
-      `/daangn?#/agora?meeting_code=${agoraCode}`,
+      `${process.env.CLIENT_URL}/daangn?#/agora?meeting_code=${agoraCode}`,
       '_blank',
     );
     await increaseMeetingEnterUserCount(meetingId);
