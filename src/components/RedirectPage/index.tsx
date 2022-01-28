@@ -28,9 +28,9 @@ function RedirectPage(): ReactElement {
   const { replace } = useNavigator();
   const { loginWithMini } = useMini();
   const goBackHandler = () => {
+    window.close();
     daangnBridge.router.close();
     mini.close();
-    window.close();
   };
 
   const meetingId = useMemo(() => {
@@ -100,10 +100,6 @@ function RedirectPage(): ReactElement {
     return () =>
       document.removeEventListener('visibilitychange', onVisibilityChange);
   }, [onVisibilityChange]);
-
-  useEffect(() => {
-    daangnBridge.router.close();
-  }, []);
 
   return (
     <PageWrapper>

@@ -19,7 +19,6 @@ function ShortURLPage() {
     try {
       daangnBridge.router.close();
       ejectApp();
-
       window.close();
     } catch (_) {
       console.log('closeWinodw err');
@@ -30,7 +29,7 @@ function ShortURLPage() {
     const result = await getMeetingKarrotScheme(share_code);
     if (result.success && result.data) {
       window.location.href = result.data.karrot_scheme_url;
-      closeWindow();
+      setTimeout(() => closeWindow(), 300);
     }
   }, [closeWindow, share_code]);
 
