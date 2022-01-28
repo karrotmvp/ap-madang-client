@@ -183,7 +183,7 @@ const NickNameInfo = styled.div`
   align-items: center;
 `;
 const HostIcon = styled.img`
-  margin-right: 0.2rem;
+  margin-right: 0.3rem;
 `;
 
 const NickName = styled.div`
@@ -194,7 +194,7 @@ const NickName = styled.div`
 `;
 
 const MicIcon = styled.img`
-  margin-left: 0.2rem;
+  margin-left: 0.1rem;
 `;
 
 const LocationInfo = styled.div<{ options: OptionType }>`
