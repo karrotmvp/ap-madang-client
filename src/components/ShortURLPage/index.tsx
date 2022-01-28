@@ -23,13 +23,13 @@ function ShortURLPage() {
     try {
       console.log('1');
       ejectApp();
-    } catch (_) {
-      console.log('1 catch');
+    } catch (e) {
+      console.log('1 catch,', e);
       try {
         console.log('2');
         daangnBridge.router.close();
-      } catch (_) {
-        console.log('2 catch');
+      } catch (e) {
+        console.log('2 catch', e);
         window.close();
       }
     }
@@ -53,6 +53,7 @@ function ShortURLPage() {
   // visibilityState hidden 인경우 mini app 종료
   const onVisibilityChange = useCallback(() => {
     if (document.visibilityState === 'hidden') {
+      console.log('visibilityState hidden event');
       closeWindow();
     }
   }, [closeWindow]);

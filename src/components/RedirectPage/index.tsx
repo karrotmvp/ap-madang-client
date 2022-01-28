@@ -26,7 +26,7 @@ function RedirectPage(): ReactElement {
   const userInfo = useRecoilValue(userInfoAtom);
   const [agoraCode, setAgoraCode] = useState<undefined | string>(undefined);
   const { replace } = useNavigator();
-  const { loginWithMini, ejectApp } = useMini();
+  const { loginWithMini } = useMini();
   const goBackHandler = () => {
     window.close();
     daangnBridge.router.close();
@@ -91,9 +91,9 @@ function RedirectPage(): ReactElement {
   // visibilityState hidden 인경우 mini app 종료
   const onVisibilityChange = useCallback(() => {
     if (document.visibilityState === 'hidden' && agoraCode) {
-      ejectApp();
+      goBackHandler();
     }
-  }, [agoraCode, ejectApp]);
+  }, [agoraCode]);
 
   useEffect(() => {
     document.addEventListener('visibilitychange', onVisibilityChange);

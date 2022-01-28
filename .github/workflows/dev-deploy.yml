@@ -66,11 +66,9 @@
     
           - name: Npm install
             run: npm install
-            
+
           - name: Build
             run: npm run build:dev
-            env:
-              NPM_AUTH_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
     
           - name: Transfer to S3 for serving static
             uses: jakejarvis/s3-sync-action@master
