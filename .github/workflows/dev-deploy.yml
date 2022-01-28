@@ -4,14 +4,15 @@
       push:
         branches:
           - dev
+          - ONMEET-33
     
     jobs:
       deploy:
         name: Build, Deploy to S3 bucket
         runs-on: [ubuntu-latest]
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
+          NPM_AUTH_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
+
         strategy:
           matrix:
             node-version: [12.16.x]
@@ -64,7 +65,7 @@
     
           - name: Npm install
             run: npm install
-    
+
           - name: Build
             run: npm run build:dev
     
