@@ -152,6 +152,7 @@ const JoinButton = styled.div`
   background: ${({ theme }) => theme.colors.$button.primary};
   border-radius: 0.5rem;
 
+  font-weight: 700;
   font-size: 1.5rem;
   line-height: 2.2rem;
   color: white;

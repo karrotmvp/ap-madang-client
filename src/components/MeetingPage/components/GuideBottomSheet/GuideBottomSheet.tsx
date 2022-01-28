@@ -122,6 +122,7 @@ const ContentsWrapper = styled.div`
   flex-direction: column;
   padding-bottom: 2.8rem;
   overflow-y: scroll;
+  padding-right: 0.8rem;
 `;
 
 export default GuideBottomSheet;

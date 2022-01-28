@@ -152,7 +152,7 @@ const ProfileImg = styled.img<{
 const InfoArea = styled.div`
   width: 100%;
   position: absolute;
-  bottom: calc(1.6rem * 2 * -1 + -6px);
+  bottom: calc(2rem * 2 * -1 + -6px);
   font-size: 1.3rem;
   line-height: 2rem;
   letter-spacing: -0.04rem;
@@ -193,7 +193,9 @@ const NickName = styled.div`
   color: ${({ theme }) => theme.colors.$gray900};
 `;
 
-const MicIcon = styled.img``;
+const MicIcon = styled.img`
+  margin-left: 0.2rem;
+`;
 
 const LocationInfo = styled.div<{ options: OptionType }>`
   font-weight: 400;
