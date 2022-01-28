@@ -101,6 +101,10 @@ function RedirectPage(): ReactElement {
       document.removeEventListener('visibilitychange', onVisibilityChange);
   }, [onVisibilityChange]);
 
+  useEffect(() => {
+    daangnBridge.router.close();
+  }, []);
+
   return (
     <PageWrapper>
       <CustomScreenHelmet
