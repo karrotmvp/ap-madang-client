@@ -20,9 +20,15 @@ function ShortURLPage() {
   }, []);
 
   const closeWindow = useCallback(() => {
-    daangnBridge.router.close();
-    window.close();
-    ejectApp();
+    try {
+      ejectApp();
+    } catch (_) {
+      try {
+        daangnBridge.router.close();
+      } catch (_) {
+        window.close();
+      }
+    }
   }, [ejectApp]);
 
   const fetchKarrotScheme = useCallback(async () => {
@@ -72,6 +78,7 @@ function ShortURLPage() {
 
 const ButtonStyle = css`
   font-size: 20px;
+  color: blue;
 `;
 
 const Span = styled.span`
