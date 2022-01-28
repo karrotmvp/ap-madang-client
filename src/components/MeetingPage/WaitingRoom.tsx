@@ -7,7 +7,6 @@ import { callState } from '.';
 import { InfoType } from '../../api/agora';
 import { analytics } from '../../App';
 import orange_house from '../../assets/icon/common/orange_house.svg';
-import nav_logo from '../../assets/image/nav_logo.png';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import PrimaryButton from '../common/PrimaryButton';
 
@@ -42,7 +41,6 @@ function WaitingRoom({
       <CustomScreenHelmet
         onCustomBackButton={goBackHandler}
         onCustomCloseButton={goBackHandler}
-        appendMiddle={<PageTitle src={nav_logo} />}
       />
       {callState.state === 'waiting' ? (
         <ContentsWrapper className="join WaitingRoom">
@@ -69,11 +67,6 @@ function WaitingRoom({
 const PageWrapper = styled.div`
   width: 100%;
   height: 100%;
-`;
-
-const PageTitle = styled.img`
-  height: 1.43rem;
-  width: auto;
 `;
 
 const ContentsWrapper = styled.div`
