@@ -19,11 +19,12 @@
     
         steps:
           - uses: actions/checkout@v2
-    
+         
           - name: Use Node.js ${{ matrix.node-version }}
             uses: actions/setup-node@v1
             with:
               node-version: ${{ matrix.node-version }}
+          
           - name: Create .env
             shell: bash
             env:
@@ -42,7 +43,7 @@
               AGORA_APP_ID: ${{secrets.AGORA_APP_ID_DEV}}
               KARROT_SCHEME: ${{secrets.KARROT_SCHEME_DEV}}
               CLIENT_URL: ${{secrets.CLIENT_URL_DEV}}
-              GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+              GITHUB_TOKEN: ${{secrets.DAANGN_GITHUB_TOKEN}}
             run: |
               touch .env
               echo APP_ID="$DEV_APP_ID" >> .env
@@ -65,9 +66,11 @@
     
           - name: Npm install
             run: npm install
-
+            
           - name: Build
             run: npm run build:dev
+            env:
+              NPM_AUTH_TOKEN: ${{ secrets.DAANGN_GITHUB_TOKEN }}
     
           - name: Transfer to S3 for serving static
             uses: jakejarvis/s3-sync-action@master
