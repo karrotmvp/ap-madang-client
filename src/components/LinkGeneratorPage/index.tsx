@@ -1,10 +1,4 @@
-import React, {
-  ReactElement,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { ReactElement, useCallback, useMemo, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
@@ -60,10 +54,6 @@ function LinkGeneratorPage(): ReactElement {
       setLoading(false);
     }
     setOpenLinkBottomSheet(true);
-  }, [userInfo]);
-
-  useEffect(() => {
-    console.log('userInfo11', userInfo?.nickname, userInfo?.region);
   }, [userInfo]);
 
   return (

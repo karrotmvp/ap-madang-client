@@ -26,10 +26,18 @@ function RedirectPage(): ReactElement {
   const [agoraCode, setAgoraCode] = useState<undefined | string>(undefined);
   const { replace } = useNavigator();
   const { loginWithMini } = useMini();
-  const goBackHandler = () => {
-    window.close();
+
+  const sharedRef = useMemo(() => {
+    return getParams(
+      window.location.hash.substring(window.location.hash.indexOf('?')),
+      'shared',
+    ).split('&')[0];
+  }, []);
+
+  const goBackHandler = useCallback(() => {
+    if (sharedRef) mini.close();
     mini.close();
-  };
+  }, [sharedRef]);
 
   const meetingId = useMemo(() => {
     return getParams(
@@ -91,7 +99,7 @@ function RedirectPage(): ReactElement {
     if (document.visibilityState === 'hidden' && agoraCode) {
       goBackHandler();
     }
-  }, [agoraCode]);
+  }, [agoraCode, goBackHandler]);
 
   useEffect(() => {
     document.addEventListener('visibilitychange', onVisibilityChange);

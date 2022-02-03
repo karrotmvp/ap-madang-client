@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useState } from 'react';
+import React, { ReactElement, useCallback, useMemo, useState } from 'react';
 
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import closeBtn from '../../../assets/icon/common/nav_close.svg';
 import confetti from '../../../assets/icon/linkGenerator/confetti.svg';
 import mini from '../../../util/mini';
+import { getParams } from '../../../util/utils';
 import BottomSheet from '../../common/BottomSheet';
 import PrimaryButton from '../../common/PrimaryButton';
 import CopyButton from './CopyButton';
@@ -19,8 +20,16 @@ type Props = {
 function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
   const [closeState, setCloseState] = useState(!open);
   const [copySuccess, setCopySuccess] = useState(false);
+
+  const sharedRef = useMemo(() => {
+    return getParams(
+      window.location.hash.substring(window.location.hash.indexOf('?')),
+      'shared',
+    ).split('&')[0];
+  }, []);
+
   const goBackHandler = () => {
-    window.close();
+    if (sharedRef) mini.close();
     mini.close();
   };
 
