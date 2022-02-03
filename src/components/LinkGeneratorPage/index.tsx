@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
@@ -13,6 +13,7 @@ import { userInfoAtom } from '../../store/user';
 import { COLOR } from '../../style/color';
 import { daangnBridge } from '../../util/daangnBridge';
 import mini from '../../util/mini';
+import { getParams } from '../../util/utils';
 import CircularProgress from '../common/Circular-progress';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import PrimaryButton from '../common/PrimaryButton';
@@ -26,10 +27,19 @@ function LinkGeneratorPage(): ReactElement {
   const { loginWithMini } = useMini();
   const userInfo = useRecoilValue(userInfoAtom);
 
+  const sharedRef = useMemo(() => {
+    return getParams(
+      window.location.hash.substring(window.location.hash.indexOf('?')),
+      'shared',
+    ).split('&')[0];
+  }, []);
+
   const goBackHandler = () => {
-    window.close();
-    daangnBridge.router.close();
-    mini.close();
+    if (sharedRef) mini.close();
+    else {
+      daangnBridge.router.close();
+      mini.close();
+    }
   };
 
   const onClickGenerateLink = async () => {
