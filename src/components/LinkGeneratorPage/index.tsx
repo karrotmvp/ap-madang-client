@@ -74,10 +74,6 @@ function LinkGeneratorPage(): ReactElement {
   }, [userInfo]);
 
   useEffect(() => {
-    loginWithMini();
-  }, [loginWithMini]);
-
-  useEffect(() => {
     console.log('userInfo11', userInfo?.nickname, userInfo?.region);
   }, [userInfo]);
 
