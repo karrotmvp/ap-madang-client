@@ -5,7 +5,6 @@ import styled from '@emotion/styled';
 
 import closeBtn from '../../../assets/icon/common/nav_close.svg';
 import confetti from '../../../assets/icon/linkGenerator/confetti.svg';
-import daangnBridge from '../../../util/daangnBridge';
 import mini from '../../../util/mini';
 import BottomSheet from '../../common/BottomSheet';
 import PrimaryButton from '../../common/PrimaryButton';
@@ -22,7 +21,6 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
   const [copySuccess, setCopySuccess] = useState(false);
   const goBackHandler = () => {
     window.close();
-    daangnBridge.router.close();
     mini.close();
   };
 

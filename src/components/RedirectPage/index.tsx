@@ -17,7 +17,6 @@ import { analytics } from '../../App';
 import orange_house from '../../assets/icon/common/orange_house.svg';
 import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
-import daangnBridge from '../../util/daangnBridge';
 import mini from '../../util/mini';
 import { checkMobileType, getParams } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
@@ -29,7 +28,6 @@ function RedirectPage(): ReactElement {
   const { loginWithMini } = useMini();
   const goBackHandler = () => {
     window.close();
-    daangnBridge.router.close();
     mini.close();
   };
 

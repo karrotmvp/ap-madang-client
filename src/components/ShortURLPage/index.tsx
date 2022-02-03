@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { getMeetingKarrotScheme } from '../../api/meeting';
 import useMini from '../../hook/useMini';
-import daangnBridge from '../../util/daangnBridge';
 import { getParams } from '../../util/utils';
 
 function ShortURLPage() {
@@ -17,7 +16,6 @@ function ShortURLPage() {
 
   const closeWindow = useCallback(() => {
     try {
-      daangnBridge.router.close();
       ejectApp();
       window.close();
     } catch (_) {
