@@ -11,6 +11,8 @@ import link_generator_guide from '../../assets/image/link_generator_guide.png';
 import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
 import { COLOR } from '../../style/color';
+import { daangnBridge } from '../../util/daangnBridge';
+import mini from '../../util/mini';
 import CircularProgress from '../common/Circular-progress';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import PrimaryButton from '../common/PrimaryButton';
@@ -23,6 +25,12 @@ function LinkGeneratorPage(): ReactElement {
   const [url, setUrl] = useState('');
   const { loginWithMini } = useMini();
   const userInfo = useRecoilValue(userInfoAtom);
+
+  const goBackHandler = () => {
+    window.close();
+    daangnBridge.router.close();
+    mini.close();
+  };
 
   const onClickGenerateLink = async () => {
     logEvent(analytics, 'link_gen_btn__click', {
@@ -53,7 +61,10 @@ function LinkGeneratorPage(): ReactElement {
 
   return (
     <Container>
-      <CustomScreenHelmet />
+      <CustomScreenHelmet
+        onCustomBackButton={goBackHandler}
+        onCustomCloseButton={goBackHandler}
+      />
 
       <Spinner show={loading}>
         <CircularProgress />

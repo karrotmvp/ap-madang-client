@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 
 import closeBtn from '../../../assets/icon/common/nav_close.svg';
 import confetti from '../../../assets/icon/linkGenerator/confetti.svg';
+import { daangnBridge } from '../../../util/daangnBridge';
 import mini from '../../../util/mini';
 import BottomSheet from '../../common/BottomSheet';
 import PrimaryButton from '../../common/PrimaryButton';
@@ -19,6 +20,11 @@ type Props = {
 function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
   const [closeState, setCloseState] = useState(!open);
   const [copySuccess, setCopySuccess] = useState(false);
+  const goBackHandler = () => {
+    window.close();
+    daangnBridge.router.close();
+    mini.close();
+  };
 
   const closeHandler = useCallback(() => {
     setCloseState(true);
@@ -39,7 +45,7 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
           process.env.NODE_ENV === 'production' ? 'karrot' : 'karrot.alpha'
         }://story_articles/new?interest_id=234`,
       );
-      mini.close();
+      goBackHandler();
     }
   };
 
