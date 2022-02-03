@@ -17,7 +17,7 @@ import link_generator_guide from '../../assets/image/link_generator_guide.png';
 import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
 import { COLOR } from '../../style/color';
-import { daangnBridge } from '../../util/daangnBridge';
+// import daangnBridge from '../../util/daangnBridge';
 import mini from '../../util/mini';
 import { getParams } from '../../util/utils';
 import CircularProgress from '../common/Circular-progress';
@@ -45,8 +45,9 @@ function LinkGeneratorPage(): ReactElement {
       event.preventDefault();
       event.stopPropagation();
       if (sharedRef) {
-        daangnBridge.router.close();
+        // daangnBridge.router.close();
         mini.close();
+        window.close();
       } else {
         mini.close();
       }
