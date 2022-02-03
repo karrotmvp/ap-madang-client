@@ -12,8 +12,8 @@ type Props = {
   appendLeft?: React.ReactNode;
   customCloseButton?: React.ReactNode;
   customBackButton?: React.ReactNode;
-  onCustomCloseButton?: () => void;
-  onCustomBackButton?: () => void;
+  onCustomCloseButton?: (e?: any) => void;
+  onCustomBackButton?: (e?: any) => void;
 };
 
 function CustomScreenHelmet({
@@ -29,12 +29,18 @@ function CustomScreenHelmet({
     <ScreenHelmet
       customCloseButton={
         customCloseButton || (
-          <NavCustomBtn src={nav_close} onClick={onCustomCloseButton} />
+          <NavCustomBtn
+            src={nav_close}
+            onClick={e => onCustomCloseButton && onCustomCloseButton(e)}
+          />
         )
       }
       customBackButton={
         customBackButton || (
-          <NavCustomBtn src={nav_back} onClick={onCustomBackButton} />
+          <NavCustomBtn
+            src={nav_back}
+            onClick={e => onCustomBackButton && onCustomBackButton(e)}
+          />
         )
       }
       title={appendMiddle && <Middle>{appendMiddle}</Middle>}

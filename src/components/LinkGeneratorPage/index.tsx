@@ -1,4 +1,10 @@
-import React, { ReactElement, useEffect, useMemo, useState } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
@@ -34,13 +40,18 @@ function LinkGeneratorPage(): ReactElement {
     ).split('&')[0];
   }, []);
 
-  const goBackHandler = () => {
-    if (sharedRef) mini.close();
-    else {
-      daangnBridge.router.close();
-      mini.close();
-    }
-  };
+  const goBackHandler = useCallback(
+    (event: any) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (sharedRef) mini.close();
+      else {
+        daangnBridge.router.close();
+        mini.close();
+      }
+    },
+    [sharedRef],
+  );
 
   const onClickGenerateLink = async () => {
     logEvent(analytics, 'link_gen_btn__click', {
@@ -52,7 +63,7 @@ function LinkGeneratorPage(): ReactElement {
 
     if (result.success && result.data) {
       setUrl(
-        `${process.env.CLIENT_URL}/#/short?share_code=${result.data.share_code}`,
+        `${process.env.CLIENT_URL}/?#/short?share_code=${result.data.share_code}`,
       );
       setOpenLinkBottomSheet(true);
       setLoading(false);
