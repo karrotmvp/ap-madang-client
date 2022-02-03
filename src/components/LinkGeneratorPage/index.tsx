@@ -61,13 +61,8 @@ function LinkGeneratorPage(): ReactElement {
   };
 
   useEffect(() => {
-    if (userInfo)
-      logEvent(analytics, 'link_gen_page__show', {
-        userNickname: userInfo?.nickname,
-        userRegion: userInfo?.region,
-      });
-    else loginWithMini();
-  }, [loginWithMini, userInfo]);
+    loginWithMini();
+  }, [loginWithMini]);
 
   return (
     <Container>
