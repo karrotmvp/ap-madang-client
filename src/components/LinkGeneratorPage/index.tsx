@@ -54,7 +54,7 @@ function LinkGeneratorPage(): ReactElement {
     [sharedRef],
   );
 
-  const onClickGenerateLink = async () => {
+  const onClickGenerateLink = useCallback(async () => {
     logEvent(analytics, 'link_gen_btn__click', {
       userNickname: userInfo?.nickname,
       userRegion: userInfo?.region,
@@ -70,7 +70,7 @@ function LinkGeneratorPage(): ReactElement {
       setLoading(false);
     }
     setOpenLinkBottomSheet(true);
-  };
+  }, [userInfo]);
 
   useEffect(() => {
     loginWithMini();
