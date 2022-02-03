@@ -33,10 +33,15 @@ function LinkGeneratorPage(): ReactElement {
     ).split('&')[0];
   }, []);
 
-  const goBackHandler = useCallback(() => {
-    if (sharedRef) mini.close();
-    mini.close();
-  }, [sharedRef]);
+  const goBackHandler = useCallback(
+    (e?) => {
+      e?.preventDefault();
+      e?.stopPropagation();
+      if (sharedRef) mini.close();
+      mini.close();
+    },
+    [sharedRef],
+  );
 
   const onClickGenerateLink = useCallback(async () => {
     logEvent(analytics, 'link_gen_btn__click', {

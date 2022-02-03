@@ -34,10 +34,15 @@ function RedirectPage(): ReactElement {
     ).split('&')[0];
   }, []);
 
-  const goBackHandler = useCallback(() => {
-    if (sharedRef) mini.close();
-    mini.close();
-  }, [sharedRef]);
+  const goBackHandler = useCallback(
+    (e?) => {
+      e?.preventDefault();
+      e?.stopPropagation();
+      if (sharedRef) mini.close();
+      mini.close();
+    },
+    [sharedRef],
+  );
 
   const meetingId = useMemo(() => {
     return getParams(
