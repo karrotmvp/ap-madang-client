@@ -34,8 +34,11 @@ const useMini = () => {
   // fetch login
   const fetchLoginUser = useCallback(
     async (code: string, runOnSuccess?: () => void) => {
+      console.log('fetchLoginUser code & search', code, window.location.search);
       const urlSearchParams = new URLSearchParams(window.location.search);
       const regionId = urlSearchParams.get('region_id');
+
+      console.log('fetchLoginUser regionId', regionId, window.location.search);
       const res = await login({
         code: code,
         regionId: regionId || '',
@@ -53,18 +56,25 @@ const useMini = () => {
   // with Third-party agreement handler
   const loginWithMini = useCallback(
     async (runOnSuccess?: () => void) => {
+      console.log('loginWithMini111', userInfo);
       if (userInfo) {
         runOnSuccess && runOnSuccess();
         return;
       }
 
+      console.log('loginWithMini22 no info');
       mini.startPreset({
         preset: process.env.MINI_PRESET_URL || '',
         params: { appId: process.env.APP_ID || '' },
         onSuccess: async function (result) {
+          console.log('loginWithMini mini success');
           if (result && result.code) {
+            console.log('loginWithMini mini success code', result, result.code);
             fetchLoginUser(result.code, runOnSuccess);
           }
+        },
+        onFailure: function () {
+          console.log('loginWithMini mini onFailure');
         },
       });
     },
