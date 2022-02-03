@@ -6,7 +6,7 @@ import Reward, { RewardElement } from 'react-rewards';
 import { User } from '..';
 import host_icon from '../../../assets/icon/agora/host_icon.svg';
 import userMicOff from '../../../assets/icon/agora/user_micOff.svg';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 import useOnScreenRatio from '../useOnScreenRatio';
 import { OptionType } from './AudioList';
 
@@ -130,12 +130,18 @@ const ProfileImg = styled.img<{
   position: relative;
   z-index: 1;
 
-  border: ${({ volumeState }) =>
-    volumeState > 10 ? '2px solid #41ac70;' : 'none'};
-  -webkit-box-shadow: ${({ volumeState }) =>
-    volumeState > 10 ? '0px 0px 30px #41AC70' : 'none'};
-  box-shadow: ${({ volumeState }) =>
-    volumeState > 10 ? '0px 0px 30px #41AC70' : 'none'};
+  border: ${({ volumeState, theme }) =>
+    volumeState > 10
+      ? `2px solid ${theme.colors.$meeting.user.shadow}`
+      : 'none'};
+  -webkit-box-shadow: ${({ volumeState, theme }) =>
+    volumeState > 10
+      ? `0px 0px 30px ${theme.colors.$meeting.user.shadow}`
+      : 'none'};
+  box-shadow: ${({ volumeState, theme }) =>
+    volumeState > 10
+      ? `0px 0px 30px ${theme.colors.$meeting.user.shadow}`
+      : 'none'};
 
   transition-property: width, height, background-size, box-shadow, transform;
   transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
@@ -146,10 +152,10 @@ const ProfileImg = styled.img<{
 const InfoArea = styled.div`
   width: 100%;
   position: absolute;
-  bottom: calc(1.6rem * 2 * -1 + -6px);
+  bottom: calc(2rem * 2 * -1 + -6px);
   font-size: 1.3rem;
-  line-height: 1.6rem;
-  letter-spacing: -0.3px;
+  line-height: 2rem;
+  letter-spacing: -0.04rem;
   text-align: center;
 
   display: flex;
@@ -177,19 +183,23 @@ const NickNameInfo = styled.div`
   align-items: center;
 `;
 const HostIcon = styled.img`
-  margin-right: 0.2rem;
+  margin-right: 0.3rem;
 `;
 
 const NickName = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: ${({ theme }) => theme.colors.$gray900};
 `;
 
-const MicIcon = styled.img``;
+const MicIcon = styled.img`
+  margin-left: 0.1rem;
+`;
 
 const LocationInfo = styled.div<{ options: OptionType }>`
-  color: ${COLOR.LIGHT_GREEN};
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.$gray600};
   width: 100%;
 
   white-space: nowrap;

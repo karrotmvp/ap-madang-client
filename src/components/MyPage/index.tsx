@@ -6,9 +6,9 @@ import { MeetingList as MeetingListType } from 'meeting';
 import { useRecoilValue } from 'recoil';
 
 import { getMyMeetings } from '../../api/meeting';
-import { COLOR } from '../../constant/color';
 import { MY_PAGE } from '../../constant/message';
 import { userInfoAtom } from '../../store/user';
+import { COLOR } from '../../style/color';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
 import EmptyMeeting from './components/EmptyMeeting';

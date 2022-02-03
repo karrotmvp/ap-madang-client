@@ -2,11 +2,11 @@ import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
-import CustomScreenHelmet from '../common/CustomScreenHelmet';
+import CustomScreenHelmet from './CustomScreenHelmet';
 
 interface Props {
-  imgSource: any;
-  footer?: any;
+  imgSource: string;
+  footer?: ReactElement;
 }
 function FullImgPage({ imgSource, footer }: Props): ReactElement {
   return (

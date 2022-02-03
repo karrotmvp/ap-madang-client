@@ -1,24 +1,44 @@
 import React, { useEffect } from 'react';
 
 import { css } from '@emotion/css';
+import { ThemeProvider } from '@emotion/react';
 import { Navigator, Screen } from '@karrotframe/navigator';
 import { getAnalytics, logEvent } from 'firebase/analytics';
 import { ToastContainer } from 'react-toast';
 
-import CreateMeetingForm from './components/CreateMeetingPage/CreateMeetingForm';
-import CreateGuidePage from './components/FullImgPage/CreateGuidePage';
-import GuidePage from './components/FullImgPage/GuidePage';
-import LandingPage from './components/LandingPage';
-import MeetingDetailPage from './components/MeetingDetailPage';
-const AgoraPage = React.lazy(() => import('./components/MeetingPage'));
-import MeetingSuggestionPage from './components/MeetingSuggestionPage';
-import MyPage from './components/MyPage';
-import NotFoundPage from './components/NotFountPage';
-import NotServiceRegionPage from './components/NotServiceRegionPage';
-import ReservationPage from './components/ReservationPage';
 import useMini from './hook/useMini';
+import '@karrotframe/navigator/index.css';
+import { useTheme } from './hook/useTheme';
 import { app } from './util/firebase';
 import { checkMobileType } from './util/utils';
+
+const CreateGuidePage = React.lazy(
+  () => import('./components/CreateGuidePage/CreateGuidePage'),
+);
+const CreateMeetingForm = React.lazy(
+  () => import('./components/CreateMeetingPage/CreateMeetingForm'),
+);
+const LandingPage = React.lazy(() => import('./components/LandingPage'));
+const LinkGeneratorPage = React.lazy(
+  () => import('./components/LinkGeneratorPage'),
+);
+const MeetingDetailPage = React.lazy(
+  () => import('./components/MeetingDetailPage'),
+);
+const MyPage = React.lazy(() => import('./components/MyPage'));
+const NotFoundPage = React.lazy(() => import('./components/NotFoundPage'));
+const NotServiceRegionPage = React.lazy(
+  () => import('./components/NotServiceRegionPage'),
+);
+const QuitMeetingPage = React.lazy(
+  () => import('./components/QuitMeetingPage'),
+);
+const AgoraPage = React.lazy(() => import('./components/MeetingPage'));
+const RedirectPage = React.lazy(() => import('./components/RedirectPage'));
+const GuidePage = React.lazy(
+  () => import('./components/ServiceGuidePage/GuidePage'),
+);
+const ShortURLPage = React.lazy(() => import('./components/ShortURLPage'));
 
 const NavigatorStyle = css`
   --kf_navigator_navbar-height: 5.6rem !important;
@@ -28,6 +48,7 @@ export const analytics = getAnalytics(app);
 
 const App: React.FC = () => {
   const { ejectApp, loginWithoutMini } = useMini();
+  const theme = useTheme();
 
   useEffect(() => {
     logEvent(analytics, 'launch_app');
@@ -35,24 +56,28 @@ const App: React.FC = () => {
   }, [loginWithoutMini]);
 
   return (
-    <Navigator
-      theme={checkMobileType()}
-      onClose={ejectApp}
-      className={NavigatorStyle}
-    >
-      <ToastContainer position="bottom-center" delay={2000} />
-      <Screen path="/" component={LandingPage} />
-      <Screen path="/create-guide" component={CreateGuidePage} />
-      <Screen path="/guide" component={GuidePage} />
-      <Screen path="/me" component={MyPage} />
-      <Screen path="/meetings/:id" component={MeetingDetailPage} />
-      <Screen path="/create" component={CreateMeetingForm} />
-      <Screen path="/suggestion/meeting" component={MeetingSuggestionPage} />
-      <Screen path="/reservation" component={ReservationPage} />
-      <Screen path="/not-service-region" component={NotServiceRegionPage} />
-      <Screen path="/agora" component={AgoraPage} />
-      <Screen path="*" component={NotFoundPage} />
-    </Navigator>
+    <ThemeProvider theme={theme}>
+      <Navigator
+        theme={checkMobileType()}
+        onClose={ejectApp}
+        className={NavigatorStyle}
+      >
+        <ToastContainer position="bottom-center" delay={2000} />
+        <Screen path="/" component={LandingPage} />
+        <Screen path="/generator" component={LinkGeneratorPage} />
+        <Screen path="/guide/create" component={CreateGuidePage} />
+        <Screen path="/guide/service" component={GuidePage} />
+        <Screen path="/me" component={MyPage} />
+        <Screen path="/meetings/:id" component={MeetingDetailPage} />
+        <Screen path="/create" component={CreateMeetingForm} />
+        <Screen path="/not-service-region" component={NotServiceRegionPage} />
+        <Screen path="/agora" component={AgoraPage} />
+        <Screen path="/agora/quit" component={QuitMeetingPage} />
+        <Screen path="/redirect" component={RedirectPage} />
+        <Screen path="/short" component={ShortURLPage} />
+        <Screen path="*" component={NotFoundPage} />
+      </Navigator>
+    </ThemeProvider>
   );
 };
 

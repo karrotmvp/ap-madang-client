@@ -21,6 +21,5 @@ yarn-error.log*
 /src/config/env.prod.ts
 
 .env*
-
 deploy.zip
 

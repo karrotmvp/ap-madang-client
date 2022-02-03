@@ -1,3 +1,5 @@
+import type { ColorScheme as DaangnColorSheme } from '@karrotmarket/design-token';
+
 export const COLOR = {
   TEXT_BLACK: '#111111',
   TEXT_REAL_BLACK: '#000000',
@@ -39,3 +41,19 @@ export const COLOR = {
   LIGHT_GREY: '#5C5C5C',
   LIGHT_GREEN_000: '#90D5AE',
 };
+
+export type ColorScheme = {
+  $button: {
+    primary: string;
+    disable: string;
+  };
+  $meeting: {
+    notice: {
+      background: string;
+      text: string;
+    };
+    user: {
+      shadow: string;
+    };
+  };
+} & DaangnColorSheme;

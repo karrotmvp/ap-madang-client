@@ -1,138 +1,164 @@
-import React, { ReactElement, useCallback } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
-import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
+import { useNavigator } from 'karrotframe/lib';
+import { useRecoilValue } from 'recoil';
 
-import RedirectHouse from '../../assets/icon/RedirectHouse';
-import { COLOR } from '../../constant/color';
-import { REDIRECT } from '../../constant/message';
+import { getAgoraCode } from '../../api/agora';
+import { increaseMeetingEnterUserCount } from '../../api/meeting';
+import { analytics } from '../../App';
+import orange_house from '../../assets/icon/common/orange_house.svg';
+import useMini from '../../hook/useMini';
+import { userInfoAtom } from '../../store/user';
+import { daangnBridge } from '../../util/daangnBridge';
+import mini from '../../util/mini';
+import { checkMobileType, getParams } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
 function RedirectPage(): ReactElement {
-  const redirectToHome = useCallback(() => {
-    window.open(process.env.KARROT_SCHEME);
+  const userInfo = useRecoilValue(userInfoAtom);
+  const [agoraCode, setAgoraCode] = useState<undefined | string>(undefined);
+  const { replace } = useNavigator();
+  const { loginWithMini } = useMini();
+  const goBackHandler = () => {
+    window.close();
+    daangnBridge.router.close();
+    mini.close();
+  };
+
+  const meetingId = useMemo(() => {
+    return getParams(
+      window.location.hash.substring(window.location.hash.indexOf('?')),
+      'meeting',
+    ).split('&')[0];
   }, []);
+
+  // redirect to agora meeting page
+  const redirectHandler = useCallback(async () => {
+    if (!meetingId || !agoraCode) return;
+    const windowReference = window.open(
+      `${process.env.CLIENT_URL}/daangn?#/agora?meeting_code=${agoraCode}`,
+      '_blank',
+    );
+    await increaseMeetingEnterUserCount(meetingId);
+    windowReference;
+  }, [agoraCode, meetingId]);
+
+  // get agora code
+  const fetchAgoraCode = useCallback(async () => {
+    const result = await getAgoraCode(meetingId);
+    if (result.success && result.data) {
+      setAgoraCode(result.data?.code);
+    }
+  }, [meetingId]);
+
+  // user login
+  useEffect(() => {
+    if (!userInfo?.nickname) {
+      try {
+        loginWithMini();
+      } catch (e) {
+        replace('/agora/quit?callstate=error');
+      }
+    }
+  }, [loginWithMini, replace, userInfo]);
+
+  // fetch agora code
+  useEffect(() => {
+    if (userInfo && !agoraCode) {
+      logEvent(analytics, 'meeting_bridge_page__show', {
+        userNickname: userInfo?.nickname,
+        userRegion: userInfo?.region,
+      });
+      fetchAgoraCode();
+    }
+  }, [agoraCode, fetchAgoraCode, userInfo]);
+
+  // Android agoraCode 발급시 redirect page
+  useEffect(() => {
+    if (checkMobileType() === 'Android' && agoraCode !== undefined) {
+      redirectHandler();
+    }
+  }, [agoraCode, redirectHandler]);
+
+  // visibilityState hidden 인경우 mini app 종료
+  const onVisibilityChange = useCallback(() => {
+    if (document.visibilityState === 'hidden' && agoraCode) {
+      goBackHandler();
+    }
+  }, [agoraCode]);
+
+  useEffect(() => {
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return () =>
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+  }, [onVisibilityChange]);
 
   return (
     <PageWrapper>
-      <CustomScreenHelmet />
-      <ContentsWrapper>
-        <ContentsArea>
-          <RedirectHouseStyle />
-          <TextArea className="body2">{REDIRECT.TITLE}</TextArea>
-        </ContentsArea>
+      <CustomScreenHelmet
+        onCustomBackButton={goBackHandler}
+        onCustomCloseButton={goBackHandler}
+      />
 
-        <BtnWrapper className="body4">
-          {REDIRECT.CANT_JOIN}
-          <GoHomeBtn onClick={redirectToHome}>{REDIRECT.GO_HOME}</GoHomeBtn>
-        </BtnWrapper>
+      <ContentsWrapper className="join WaitingRoom">
+        <Image src={orange_house} />
+        <Title>모임에 들어가는 중이에요</Title>
+        <JoinButton onClick={redirectHandler}>직접 입장하기</JoinButton>
       </ContentsWrapper>
     </PageWrapper>
   );
 }
 
 const PageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
   width: 100%;
-  font-size: 20px;
+  height: 100%;
 `;
 
 const ContentsWrapper = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   flex: 1;
 `;
 
-const ContentsArea = styled.div`
+const Image = styled.img`
+  margin-bottom: 2.2rem;
+`;
+
+const Title = styled.div`
+  font-size: 1.6rem;
+  line-height: 2.2rem;
+
+  text-align: center;
+  letter-spacing: -0.04rem;
+
+  color: #5c5c5c;
+  margin-bottom: 2.4rem;
+`;
+
+const JoinButton = styled.div`
+  padding: 0.9rem 1.6rem;
+  background: ${({ theme }) => theme.colors.$button.primary};
+  border-radius: 0.5rem;
+
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 2.2rem;
+  color: white;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 1;
-`;
-
-const TextArea = styled.div`
-  color: ${COLOR.LIGHT_GREY};
-  margin-top: 1.8rem;
-  margin-bottom: 4.8rem;
-`;
-
-const changeHouseColor = keyframes`
-  0% {
-    fill: ${COLOR.LIGHT_GREEN_000}
-  }
-
-  32% {
-    fill: ${COLOR.LIGHT_GREEN_000}
-  }
-
-  33% {
-    fill: ${COLOR.LIGHT_GREEN}
-  }
-  65% {
-    fill: ${COLOR.LIGHT_GREEN}
-  }
-
-  66% {   
-    fill: ${COLOR.SECONDARY};
-  }
-  100% {   
-    fill: ${COLOR.SECONDARY};
-  }
-`;
-
-const changeWindowColor = keyframes`
-  0%{
-    fill: ${COLOR.TEXT_WHITE}
-  }
-  32%{
-    fill: ${COLOR.TEXT_WHITE}
-  }
-
-  33% {
-    fill: ${COLOR.SECONDARY}
-  }
-  65% {
-    fill: ${COLOR.SECONDARY}
-  }
-
-  66% {   
-    fill: ${COLOR.LIGHT_GREEN}
-  }
-  100% {   
-    fill: ${COLOR.LIGHT_GREEN}
-  }
-  
-`;
-
-const RedirectHouseStyle = styled(RedirectHouse)`
-  .house {
-    animation: ${changeHouseColor} 2s ease infinite;
-  }
-  .window {
-    animation: ${changeWindowColor} 2s ease infinite;
-  }
-`;
-
-const BtnWrapper = styled.div`
-  color: ${COLOR.TEXT_GREY};
-  margin-bottom: 9rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex-wrap: wrap;
-`;
-
-const GoHomeBtn = styled.div`
-  font-weight: 500;
-  margin-left: 0.5rem;
-  color: ${COLOR.LIGHT_GREEN};
 `;
 
 export default RedirectPage;

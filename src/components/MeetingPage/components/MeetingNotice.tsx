@@ -40,7 +40,7 @@ function MeetingNotice({ subTopic, userNum }: Props): ReactElement {
         <NoticeNewUserWrapper>
           <EmojiWrapper src={welcome} />
           <Message>
-            모임에 오신 것을 환영해요! 설레는 마음으로 이웃들을 기다려보세요🤗
+            모임에 오신 것을 환영해요! 설레는 마음으로 이웃들을 기다려보세요 🤗
           </Message>
         </NoticeNewUserWrapper>
       ) : (
@@ -79,7 +79,7 @@ const NoticeInnerWrapper = styled.div`
   position: fixed;
   width: calc(100% - 4rem);
   margin: 0 2rem;
-  padding: 1rem 1.2rem;
+  padding: 1.2rem 1.2rem;
   border-radius: 0.8rem;
   display: flex;
   flex-direction: row;
@@ -88,11 +88,11 @@ const NoticeInnerWrapper = styled.div`
 `;
 
 const NoticeNewUserWrapper = styled(NoticeInnerWrapper)`
-  background: #ecf9f2;
+  background: ${({ theme }) => theme.colors.$meeting.notice.background};
 `;
 
 const EmojiWrapper = styled.img`
-  margin-right: 1rem;
+  margin-right: 0.6rem;
   &.show {
     animation: ${changeNotice} 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97)
       forwards;
@@ -101,8 +101,10 @@ const EmojiWrapper = styled.img`
 `;
 
 const Message = styled.div`
-  font-size: 1.3rem;
-  line-height: 2rem;
+  font-size: 1.4rem;
+  line-height: 135%;
+  letter-spacing: -0.02rem;
+  color: ${({ theme }) => theme.colors.$meeting.notice.text};
 `;
 
 export default MeetingNotice;

@@ -5,7 +5,7 @@ import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 
 import { analytics } from '../../../App';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 
 function CreateFooter(): ReactElement {
   const { push } = useNavigator();

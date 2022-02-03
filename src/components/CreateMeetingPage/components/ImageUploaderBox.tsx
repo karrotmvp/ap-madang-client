@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 
 import delete_icon from '../../../assets/icon/createMeeting/delete_icon.svg';
 import upload_img from '../../../assets/icon/createMeeting/upload_img.svg';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 interface Props {
   previewRef: React.MutableRefObject<HTMLImageElement | null>;
   onSetImageHandler: (e?: ChangeEvent<HTMLInputElement>) => void;
@@ -61,7 +61,10 @@ function ImageUploaderBox({
           />
         </FileUploadBox>
         {image && (
-          <RemoveImg src={delete_icon} onClick={() => onSetImageHandler()} />
+          <DeleteIconImg
+            src={delete_icon}
+            onClick={() => onSetImageHandler()}
+          />
         )}
       </FileWrapper>
     </ImageUploaderBoxWrapper>
@@ -143,7 +146,7 @@ const ImageInputPreview = styled.img<{ hasImage: boolean }>`
   height: auto;
 `;
 
-const RemoveImg = styled.img`
+const DeleteIconImg = styled.img`
   margin-left: 0.2rem;
 `;
 

@@ -20,8 +20,8 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import AudioList from './components/AudioList';
 import Controls from './components/Controls';
 import GuideBottomSheet from './components/GuideBottomSheet/GuideBottomSheet';
-import MannerGuideBtn from './components/MannerGuideBtn';
 import MeetingTitle from './components/MeetingTitle';
+import QuitMeetingBtn from './components/QuitMeetingBtn';
 
 const agoraConfig: ClientConfig = {
   mode: 'rtc',
@@ -32,11 +32,11 @@ export const useClient = createClient(agoraConfig);
 const useMicrophoneAudioTrack = createMicrophoneAudioTrack();
 
 const MeetingRoom = ({
-  setInCall,
+  setCallState,
   info,
   code,
 }: {
-  setInCall: React.Dispatch<React.SetStateAction<callState>>;
+  setCallState: (callState: callState) => void;
   info: InfoType;
   code: string;
 }) => {
@@ -126,7 +126,7 @@ const MeetingRoom = ({
 
     //token expired
     client.on('token-privilege-did-expire', async () => {
-      setInCall({ state: 'finish' });
+      setCallState({ state: 'finish' });
     });
 
     // 로컬 유저 가입
@@ -142,7 +142,7 @@ const MeetingRoom = ({
         ...info.meeting,
       });
     } catch (e) {
-      setInCall({
+      setCallState({
         state: 'error',
         error: e as string,
       });
@@ -150,11 +150,35 @@ const MeetingRoom = ({
 
     if (track) await client.publish(track);
     setStart(true);
-  }, [client, fetchNewUser, info, setInCall, track]);
+  }, [
+    client,
+    fetchNewUser,
+    info.agora_token,
+    info.meeting,
+    info.user,
+    setCallState,
+    track,
+  ]);
+
+  const leaveChannel = async () => {
+    logEvent(analytics, `quit_meeting__click`, {
+      meeting_user_num: userNum,
+      user_nickname: info.user.nickname,
+      user_id: info.user.id,
+      meeting_id: info.meeting.id,
+      meeting_title: info.meeting.title,
+      is_host: info.meeting.host.id === info.user.id,
+    });
+    await client.leave();
+    client.removeAllListeners();
+    track?.close();
+    setStart(false);
+    setCallState({ state: 'quit' });
+  };
 
   useEffect(() => {
     if (error) {
-      setInCall({
+      setCallState({
         state: 'error',
         message: AGORA_ERROR_MSG[error.code],
         error: error,
@@ -169,7 +193,7 @@ const MeetingRoom = ({
       sessionStorage.removeItem('info');
       sessionStorage.removeItem('Authorization');
     };
-  }, [code, error, info, init, ready, setInCall, track]);
+  }, [code, error, info, init, ready, setCallState, track]);
 
   useEffect(() => {
     if (!noSleep.isEnabled) noSleep.enable();
@@ -181,9 +205,7 @@ const MeetingRoom = ({
       <CustomScreenHelmet
         customCloseButton={<div />}
         customBackButton={<div />}
-        appendRight={
-          <MannerGuideBtn onClickHandler={() => setOpenBottomSheet(true)} />
-        }
+        appendRight={<QuitMeetingBtn quitHandler={leaveChannel} />}
       />
       {openBottomSheet && (
         <GuideBottomSheet onClose={() => setOpenBottomSheet(false)} />
@@ -205,12 +227,10 @@ const MeetingRoom = ({
       {ready && track && (
         <Controls
           track={track}
-          setStart={setStart}
-          setInCall={setInCall}
           trackState={trackState}
           setTrackState={setTrackState}
+          setOpenBottomSheet={setOpenBottomSheet}
           info={info}
-          userNum={userNum}
         />
       )}
     </MeetingRoomWrapper>

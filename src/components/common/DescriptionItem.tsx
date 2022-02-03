@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import classnames from 'classnames';
 
 import { Dot } from '../../assets/icon';
-import { COLOR } from '../../constant/color';
+import { COLOR } from '../../style/color';
 
 interface Props {
   text: string;

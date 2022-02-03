@@ -5,8 +5,8 @@ import { css, jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import classnames from 'classnames';
 
-import { COLOR } from '../../../constant/color';
 import { MEETING_DETAIL } from '../../../constant/message';
+import { COLOR } from '../../../style/color';
 import Modal from './Modal';
 
 interface Props {

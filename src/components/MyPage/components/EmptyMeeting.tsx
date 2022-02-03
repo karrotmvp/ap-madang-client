@@ -6,7 +6,7 @@ import classnames from 'classnames';
 
 import plus__white from '../../../assets/icon/myPage/plus__white.svg';
 import un_happy_scratch from '../../../assets/image/un_happy_scratch.png';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 
 interface Props {
   className?: string;
@@ -27,11 +27,9 @@ function EmptyMeeting({ className }: Props): ReactElement {
         <EmptyText>
           {'아직 만든 모임이 없어요.\n모임을 만들고 이웃을 만나보세요.'}
         </EmptyText>
-        <CreateBtn>
+        <CreateBtn onClick={() => push('/create')}>
           <img src={plus__white} />
-          <CreateBtnText onClick={() => push('/create')}>
-            모임 만들기
-          </CreateBtnText>
+          <CreateBtnText>모임 만들기</CreateBtnText>
         </CreateBtn>
       </EmptyWrapper>
     </CurrMeetingListWrapper>

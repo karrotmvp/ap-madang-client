@@ -1,9 +1,9 @@
 import React, { ReactElement, useCallback, useState } from 'react';
 
-// import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
+import dayjs from 'dayjs';
 import { LiveStatus, MeetingList } from 'meeting';
 import { useRecoilValue } from 'recoil';
 
@@ -13,10 +13,9 @@ import upcoming_noti_off__green from '../../../../assets/icon/landingPage/upcomi
 import upcoming_noti_on__green from '../../../../assets/icon/landingPage/upcoming_noti_on__green.svg';
 import video_upcoming_tag__green from '../../../../assets/icon/landingPage/video_upcoming_tag__green.svg';
 import voice_upcoming_tag__green from '../../../../assets/icon/landingPage/voice_upcoming_tag__green.svg';
-import { COLOR } from '../../../../constant/color';
 import useMini from '../../../../hook/useMini';
 import { userInfoAtom } from '../../../../store/user';
-import { getStartTimeForm } from '../../../../util/utils';
+import { COLOR } from '../../../../style/color';
 // import ImageRenderer from '../../../common/LazyLoading/ImageRenderer';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../../../common/Modal/NewAlarmModal';
@@ -32,6 +31,25 @@ interface WrapperProps {
   idx: number;
   live_status: LiveStatus;
 }
+
+const getStartTimeForm = (
+  date: string,
+  start_time: string,
+  live_status: LiveStatus,
+  head_text?: boolean,
+) => {
+  let text = '';
+  const startDate = dayjs(
+    `${date} ${start_time}`,
+    'YYYY-MM-DD HH:mm:ss',
+  ).format('a hh:mm');
+
+  if (head_text && live_status === 'tomorrow') text += '내일 ';
+  else if (head_text && live_status === 'today') text += '오늘 ';
+
+  text += startDate;
+  return text;
+};
 
 function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
   const [openNewAlarmModal, setOpenNewAlarmModal] = useState(false);
@@ -170,23 +188,25 @@ function MeetingCard({ idx, data, setMeetings }: Props): ReactElement {
           />
         </InfoWrapper>
         <AlarmWrapper>
-          <AlarmBtn
-            hasAlarm={data.alarm_id ? true : false}
-            className="meeting-card__alarm-icon"
-            onClick={e => {
-              e.stopPropagation();
-              loginWithMini(alarmHandler);
-            }}
-          >
-            <AlarmIcon
-              src={
-                data.alarm_id
-                  ? upcoming_noti_on__green
-                  : upcoming_noti_off__green
-              }
-            />
-            {data.alarm_num}
-          </AlarmBtn>
+          {!data.is_host && (
+            <AlarmBtn
+              hasAlarm={data.alarm_id ? true : false}
+              className="meeting-card__alarm-icon"
+              onClick={e => {
+                e.stopPropagation();
+                loginWithMini(alarmHandler);
+              }}
+            >
+              <AlarmIcon
+                src={
+                  data.alarm_id
+                    ? upcoming_noti_on__green
+                    : upcoming_noti_off__green
+                }
+              />
+              {data.alarm_num}
+            </AlarmBtn>
+          )}
         </AlarmWrapper>
       </ContentsWrapper>
     </MeetingCardWrapper>

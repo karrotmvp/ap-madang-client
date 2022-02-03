@@ -4,7 +4,7 @@ import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import spinner_icon from '../../assets/icon/common/spinner.svg';
-import { COLOR } from '../../constant/color';
+import { COLOR } from '../../style/color';
 
 function Spinner(): ReactElement {
   const spinnerOnclick = (
@@ -12,6 +12,7 @@ function Spinner(): ReactElement {
   ): void => {
     e.stopPropagation();
   };
+
   return (
     <SpinnerWrapper className="spinner" onClick={spinnerOnclick}>
       <SpinnerIcon src={spinner_icon} />

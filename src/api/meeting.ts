@@ -80,6 +80,29 @@ export const shareMeeting = async (id: string): Promise<shareMeetingRes> => {
   }
 };
 
+export const generateShortLink = async (): Promise<generateShortLinkRes> => {
+  try {
+    const result = await customAxios().post(`/meetings/link`);
+    return { success: true, data: result.data };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
+export const getMeetingKarrotScheme = async (
+  share_code: string,
+): Promise<getMeetingKarrotSchemeRes> => {
+  try {
+    const result = await customAxios().get(
+      `/share/karrot-scheme-url?share_code=${share_code}`,
+    );
+    return { success: true, data: result.data };
+  } catch (e) {
+    console.log(e);
+    return { success: false };
+  }
+};
+
 interface getMeetingsRes {
   success: boolean;
   data?: MeetingList[];
@@ -118,4 +141,18 @@ interface deleteMeetingRes {
 interface shareMeetingRes {
   success: boolean;
   data?: { short_url: string };
+}
+
+interface generateShortLinkRes {
+  success: boolean;
+  data?: {
+    share_code: string;
+  };
+}
+
+interface getMeetingKarrotSchemeRes {
+  success: boolean;
+  data?: {
+    karrot_scheme_url: string;
+  };
 }

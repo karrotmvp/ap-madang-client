@@ -7,7 +7,7 @@ import { increaseMeetingEnterUserCount } from '../../../api/meeting';
 import { analytics } from '../../../App';
 import closeBtn from '../../../assets/icon/common/nav_close.svg';
 import agoraBottomSheet from '../../../assets/image/agora_bottom_sheet.png';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 import BottomSheet from '../../common/BottomSheet';
 
 interface Props {

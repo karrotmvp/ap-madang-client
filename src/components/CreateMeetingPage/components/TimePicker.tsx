@@ -6,7 +6,7 @@ import { TimeType } from 'meeting';
 import { z } from 'zod';
 
 import nav_close from '../../../assets/icon/common/nav_close.svg';
-import { COLOR } from '../../../constant/color';
+import { COLOR } from '../../../style/color';
 import { FormValid } from '../CreateMeetingForm';
 
 interface Props {
@@ -141,8 +141,6 @@ const SelectorStyle = styled.select<{ selected: boolean; trySubmit: boolean }>`
   font-size: 1.5rem;
   line-height: 2.3rem;
 
-  background: url('http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png')
-    no-repeat right #ffffff;
   -webkit-appearance: none;
   background-position-x: calc(100% - 20px);
 
