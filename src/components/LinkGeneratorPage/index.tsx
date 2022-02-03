@@ -44,9 +44,10 @@ function LinkGeneratorPage(): ReactElement {
     (event: any) => {
       event.preventDefault();
       event.stopPropagation();
-      if (sharedRef) mini.close();
-      else {
+      if (sharedRef) {
         daangnBridge.router.close();
+        mini.close();
+      } else {
         mini.close();
       }
     },
