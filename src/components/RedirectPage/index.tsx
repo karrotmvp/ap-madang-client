@@ -17,7 +17,6 @@ import { analytics } from '../../App';
 import orange_house from '../../assets/icon/common/orange_house.svg';
 import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
-import { daangnBridge } from '../../util/daangnBridge';
 import mini from '../../util/mini';
 import { checkMobileType, getParams } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
@@ -27,11 +26,23 @@ function RedirectPage(): ReactElement {
   const [agoraCode, setAgoraCode] = useState<undefined | string>(undefined);
   const { replace } = useNavigator();
   const { loginWithMini } = useMini();
-  const goBackHandler = () => {
-    window.close();
-    daangnBridge.router.close();
-    mini.close();
-  };
+
+  const sharedRef = useMemo(() => {
+    return getParams(
+      window.location.hash.substring(window.location.hash.indexOf('?')),
+      'shared',
+    ).split('&')[0];
+  }, []);
+
+  const goBackHandler = useCallback(
+    (e?) => {
+      e?.preventDefault();
+      e?.stopPropagation();
+      if (sharedRef) mini.close();
+      mini.close();
+    },
+    [sharedRef],
+  );
 
   const meetingId = useMemo(() => {
     return getParams(
@@ -93,7 +104,7 @@ function RedirectPage(): ReactElement {
     if (document.visibilityState === 'hidden' && agoraCode) {
       goBackHandler();
     }
-  }, [agoraCode]);
+  }, [agoraCode, goBackHandler]);
 
   useEffect(() => {
     document.addEventListener('visibilitychange', onVisibilityChange);

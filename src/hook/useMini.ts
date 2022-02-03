@@ -57,7 +57,6 @@ const useMini = () => {
         runOnSuccess && runOnSuccess();
         return;
       }
-
       mini.startPreset({
         preset: process.env.MINI_PRESET_URL || '',
         params: { appId: process.env.APP_ID || '' },

@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback, useMemo, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
@@ -11,8 +11,8 @@ import link_generator_guide from '../../assets/image/link_generator_guide.png';
 import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
 import { COLOR } from '../../style/color';
-import { daangnBridge } from '../../util/daangnBridge';
 import mini from '../../util/mini';
+import { getParams } from '../../util/utils';
 import CircularProgress from '../common/Circular-progress';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import PrimaryButton from '../common/PrimaryButton';
@@ -26,13 +26,24 @@ function LinkGeneratorPage(): ReactElement {
   const { loginWithMini } = useMini();
   const userInfo = useRecoilValue(userInfoAtom);
 
-  const goBackHandler = () => {
-    window.close();
-    daangnBridge.router.close();
-    mini.close();
-  };
+  const sharedRef = useMemo(() => {
+    return getParams(
+      window.location.hash.substring(window.location.hash.indexOf('?')),
+      'shared',
+    ).split('&')[0];
+  }, []);
 
-  const onClickGenerateLink = async () => {
+  const goBackHandler = useCallback(
+    (e?) => {
+      e?.preventDefault();
+      e?.stopPropagation();
+      if (sharedRef) mini.close();
+      mini.close();
+    },
+    [sharedRef],
+  );
+
+  const onClickGenerateLink = useCallback(async () => {
     logEvent(analytics, 'link_gen_btn__click', {
       userNickname: userInfo?.nickname,
       userRegion: userInfo?.region,
@@ -42,22 +53,13 @@ function LinkGeneratorPage(): ReactElement {
 
     if (result.success && result.data) {
       setUrl(
-        `${process.env.CLIENT_URL}/#/short?share_code=${result.data.share_code}`,
+        `${process.env.CLIENT_URL}/?#/short?share_code=${result.data.share_code}`,
       );
       setOpenLinkBottomSheet(true);
       setLoading(false);
     }
     setOpenLinkBottomSheet(true);
-  };
-
-  useEffect(() => {
-    if (userInfo)
-      logEvent(analytics, 'link_gen_page__show', {
-        userNickname: userInfo?.nickname,
-        userRegion: userInfo?.region,
-      });
-    else loginWithMini();
-  }, [loginWithMini, userInfo]);
+  }, [userInfo]);
 
   return (
     <Container>
