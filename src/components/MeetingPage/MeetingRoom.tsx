@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import styled from '@emotion/styled';
-import { logEvent } from '@firebase/analytics';
 import {
   createClient,
   ClientConfig,
   createMicrophoneAudioTrack,
   IAgoraRTCRemoteUser,
 } from 'agora-rtc-react';
+import { logEvent } from 'firebase/analytics';
 
 import { AgoraRTCUsers, callState } from '.';
 import { InfoType } from '../../api/agora';

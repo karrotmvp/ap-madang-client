@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import styled from '@emotion/styled';
-import { logEvent } from '@firebase/analytics';
+import { logEvent } from 'firebase/analytics';
 import { useRecoilValue } from 'recoil';
 
 import { analytics } from '../../../App';
@@ -20,8 +20,8 @@ function CopyButton({ url, copySuccess, onCopySuccess }: Props): ReactElement {
   const userInfo = useRecoilValue(userInfoAtom);
   const onClickHandler = () => {
     logEvent(analytics, 'copy_link__click', {
-      userNickname: userInfo?.nickname,
-      userRegion: userInfo?.region,
+      user_nickname: userInfo?.nickname,
+      user_region: userInfo?.region,
     });
     const textField = document.createElement('textarea');
     textField.innerText = url;
