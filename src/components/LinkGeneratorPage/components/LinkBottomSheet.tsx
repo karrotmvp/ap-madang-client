@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useMemo, useState } from 'react';
+import React, { ReactElement, useCallback, useState } from 'react';
 
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -10,7 +10,7 @@ import closeBtn from '../../../assets/icon/common/nav_close.svg';
 import confetti from '../../../assets/icon/linkGenerator/confetti.svg';
 import { userInfoAtom } from '../../../store/user';
 import mini from '../../../util/mini';
-import { getParams } from '../../../util/utils';
+import { getQueryString } from '../../../util/utils';
 import BottomSheet from '../../common/BottomSheet';
 import PrimaryButton from '../../common/PrimaryButton';
 import CopyButton from './CopyButton';
@@ -26,17 +26,14 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
   const [copySuccess, setCopySuccess] = useState(false);
   const userInfo = useRecoilValue(userInfoAtom);
 
-  const sharedRef = useMemo(() => {
-    return getParams(
+  const goBackHandler = useCallback(() => {
+    const sharedRef = getQueryString(
       window.location.hash.substring(window.location.hash.indexOf('?')),
       'shared',
-    ).split('&')[0];
-  }, []);
-
-  const goBackHandler = useCallback(() => {
+    );
     if (sharedRef) mini.close();
     mini.close();
-  }, [sharedRef]);
+  }, []);
 
   const closeHandler = useCallback(() => {
     setCloseState(true);
@@ -56,7 +53,6 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
         user_nickname: userInfo?.nickname,
         user_region: userInfo?.region,
       });
-
       window.open(
         `${
           process.env.NODE_ENV === 'production' ? 'karrot' : 'karrot.alpha'
