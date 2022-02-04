@@ -8,14 +8,26 @@ const useBlockBack = (
   const history = useHistory();
 
   useEffect(() => {
-    return history.block((_, action) => {
+    window.onpopstate = () => callback();
+    return () => {
+      window.onpopstate = null;
+    };
+  }, [callback]);
+
+  useEffect(() => {
+    window.history.pushState(null, '', window.location.href);
+  }, []);
+
+  useEffect(() => {
+    const unblock = history.block((_, action) => {
       if (action === 'POP') {
-        callback();
         return false;
       }
       return undefined;
     });
-  }, [callback, history]);
+
+    return () => unblock();
+  }, [history]);
 };
 
 export default useBlockBack;
