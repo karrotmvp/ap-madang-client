@@ -6,7 +6,6 @@ import { logEvent } from 'firebase/analytics';
 import { useRecoilValue } from 'recoil';
 
 import { analytics } from '../../../App';
-import closeBtn from '../../../assets/icon/common/nav_close.svg';
 import confetti from '../../../assets/icon/linkGenerator/confetti.svg';
 import { userInfoAtom } from '../../../store/user';
 import mini from '../../../util/mini';
@@ -71,9 +70,9 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
         transition-property: all;
         transition-duration: 0.5s;
       `}
+      showCloseButton
     >
       <BottomSheetWrapper copySuccess={copySuccess}>
-        <IconImg src={closeBtn} onClick={closeHandler} />
         <ConfettiIcon src={confetti} />
         <Title>
           생성된 링크를 복사하고
@@ -105,12 +104,6 @@ const BottomSheetWrapper = styled.div<{ copySuccess: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const IconImg = styled.img`
-  position: absolute;
-  top: 1.6rem;
-  right: 1.6rem;
 `;
 
 const ConfettiIcon = styled.img`
