@@ -18,7 +18,7 @@ import orange_house from '../../assets/icon/common/orange_house.svg';
 import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
 import mini from '../../util/mini';
-import { checkMobileType, getParams } from '../../util/utils';
+import { checkMobileType, getQueryString } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 
 function RedirectPage(): ReactElement {
@@ -27,32 +27,30 @@ function RedirectPage(): ReactElement {
   const { replace } = useNavigator();
   const { loginWithMini } = useMini();
 
-  const sharedRef = useMemo(() => {
-    return getParams(
+  const goBackHandler = useCallback((e?) => {
+    e?.preventDefault();
+    e?.stopPropagation();
+    const sharedRef = getQueryString(
       window.location.hash.substring(window.location.hash.indexOf('?')),
       'shared',
-    ).split('&')[0];
+    );
+    if (sharedRef) mini.close();
+    mini.close();
   }, []);
 
-  const goBackHandler = useCallback(
-    (e?) => {
-      e?.preventDefault();
-      e?.stopPropagation();
-      if (sharedRef) mini.close();
-      mini.close();
-    },
-    [sharedRef],
-  );
-
   const meetingId = useMemo(() => {
-    return getParams(
+    return getQueryString(
       window.location.hash.substring(window.location.hash.indexOf('?')),
       'meeting',
-    ).split('&')[0];
+    );
   }, []);
 
   // redirect to agora meeting page
   const redirectHandler = useCallback(async () => {
+    const meetingId = getQueryString(
+      window.location.hash.substring(window.location.hash.indexOf('?')),
+      'meeting',
+    );
     if (!meetingId || !agoraCode) return;
     const windowReference = window.open(
       `${process.env.CLIENT_URL}/daangn?#/agora?meeting_code=${agoraCode}`,
@@ -60,7 +58,7 @@ function RedirectPage(): ReactElement {
     );
     await increaseMeetingEnterUserCount(meetingId);
     windowReference;
-  }, [agoraCode, meetingId]);
+  }, [agoraCode]);
 
   // get agora code
   const fetchAgoraCode = useCallback(async () => {

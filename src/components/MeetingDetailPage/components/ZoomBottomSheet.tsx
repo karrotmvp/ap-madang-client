@@ -62,6 +62,7 @@ function ZoomBottomSheet({
       className="zoom_bottom_sheet"
       onClose={onClickOutSide}
       open={closeState}
+      showCloseButton={false}
     >
       <InfoTextWrapper>
         <TitleWrapper>

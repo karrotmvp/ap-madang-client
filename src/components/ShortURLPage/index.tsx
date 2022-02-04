@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { getMeetingKarrotScheme } from '../../api/meeting';
 import mini from '../../util/mini';
-import { getParams } from '../../util/utils';
+import { getParams, getQueryString } from '../../util/utils';
 
 function ShortURLPage() {
   const share_code = useMemo(() => {
@@ -12,21 +12,18 @@ function ShortURLPage() {
     ).split('&')[0];
   }, []);
 
-  const sharedRef = useMemo(() => {
-    return getParams(
-      window.location.hash.substring(window.location.hash.indexOf('?')),
-      'shared',
-    ).split('&')[0];
-  }, []);
-
   const closeWindow = useCallback(() => {
     try {
+      const sharedRef = getQueryString(
+        window.location.hash.substring(window.location.hash.indexOf('?')),
+        'shared',
+      );
       if (sharedRef) mini.close();
       mini.close();
     } catch (_) {
       console.log('closeWinodw err');
     }
-  }, [sharedRef]);
+  }, []);
 
   const fetchKarrotScheme = useCallback(async () => {
     const result = await getMeetingKarrotScheme(share_code);

@@ -63,6 +63,7 @@ function AudioMeetBottomSheet({
       className="audio_bottom_sheet"
       onClose={onClickOutSide}
       open={closeState}
+      showCloseButton={false}
     >
       <InfoTextWrapper>
         <HeaderWrapper>

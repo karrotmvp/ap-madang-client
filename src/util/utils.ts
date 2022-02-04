@@ -23,6 +23,11 @@ export const getParams = (hash: string, params: string): string => {
   return urlSearchParams.get(params) || '';
 };
 
+export const getQueryString = (query: string, params: string): string => {
+  const urlSearchParams = new URLSearchParams(query);
+  return urlSearchParams.get(params)?.split('&')[0] || '';
+};
+
 export const uidToNum = (uid: UID | string | number) => {
   if (typeof uid === 'string') return parseInt(uid);
   return uid;

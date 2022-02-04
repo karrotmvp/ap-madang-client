@@ -1,11 +1,12 @@
 /** @jsx jsx */
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { jsx, keyframes, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import classnamse from 'classnames';
 import { createPortal } from 'react-dom';
 
+import closeBtn from '../../assets/icon/common/nav_close.svg';
 import useBlockBack from '../../hook/useBlockBack';
 import { COLOR } from '../../style/color';
 
@@ -33,6 +34,7 @@ type ModalProps = {
   children: React.ReactNode;
   className?: string;
   innerModalStyle?: SerializedStyles;
+  showCloseButton?: boolean;
 };
 
 export default function BottomSheet({
@@ -41,11 +43,17 @@ export default function BottomSheet({
   open,
   className,
   innerModalStyle,
+  showCloseButton,
 }: ModalProps) {
-  const onMaskClick = (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e?.stopPropagation();
-    onClose && onClose(e);
-  };
+  const onMaskClick = useCallback(
+    (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e?.stopPropagation();
+      if (e) window.history.back();
+      onClose && onClose(e);
+    },
+    [onClose],
+  );
+
   useBlockBack(onMaskClick);
 
   return (
@@ -66,6 +74,11 @@ export default function BottomSheet({
           onClick={e => e.stopPropagation()}
           css={innerModalStyle}
         >
+          {showCloseButton && (
+            <IconWrapper onClick={onMaskClick}>
+              <IconImg src={closeBtn} />
+            </IconWrapper>
+          )}
           {children}
         </BottomSheetInner>
       </BottomSheetOverlay>
@@ -154,6 +167,22 @@ const BottomSheetInner = styled.div`
   &.close-bottom-sheet {
     animation: ${closeSheet} 0.2s ease forwards;
   }
+`;
+
+const IconWrapper = styled.div`
+  z-index: 10000;
+  position: absolute;
+  width: 2.4rem;
+  height: 2.4rem;
+  top: 2rem;
+  right: 2.4rem;
+`;
+
+const IconImg = styled.img`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;
 
 type PortalProps = {
