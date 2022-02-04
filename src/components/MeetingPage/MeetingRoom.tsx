@@ -224,7 +224,7 @@ const MeetingRoom = ({
         />
       )}
 
-      {ready && track && (
+      {start && track && (
         <Controls
           track={track}
           trackState={trackState}
