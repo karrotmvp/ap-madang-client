@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { logEvent } from '@firebase/analytics';
 import { IMicrophoneAudioTrack } from 'agora-rtc-react';
+import { logEvent } from 'firebase/analytics';
 
 import { InfoType } from '../../../api/agora';
 import { analytics } from '../../../App';

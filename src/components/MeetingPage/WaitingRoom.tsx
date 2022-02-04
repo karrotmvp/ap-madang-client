@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect } from 'react';
 
 import styled from '@emotion/styled';
-import { logEvent } from '@firebase/analytics';
+import { logEvent } from 'firebase/analytics';
 
 import { callState } from '.';
 import { InfoType } from '../../api/agora';

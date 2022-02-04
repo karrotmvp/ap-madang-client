@@ -1,7 +1,13 @@
-import React, { ReactElement, useCallback, useMemo, useState } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import styled from '@emotion/styled';
-import { logEvent } from '@firebase/analytics';
+import { logEvent } from 'firebase/analytics';
 import { useRecoilValue } from 'recoil';
 
 import { generateShortLink } from '../../api/meeting';
@@ -45,8 +51,8 @@ function LinkGeneratorPage(): ReactElement {
 
   const onClickGenerateLink = useCallback(async () => {
     logEvent(analytics, 'link_gen_btn__click', {
-      userNickname: userInfo?.nickname,
-      userRegion: userInfo?.region,
+      user_nickname: userInfo?.nickname,
+      user_region: userInfo?.region,
     });
     setLoading(true);
     const result = await generateShortLink();
@@ -60,6 +66,10 @@ function LinkGeneratorPage(): ReactElement {
     }
     setOpenLinkBottomSheet(true);
   }, [userInfo]);
+
+  useEffect(() => {
+    logEvent(analytics, 'link_gen_page__show');
+  }, []);
 
   return (
     <Container>
