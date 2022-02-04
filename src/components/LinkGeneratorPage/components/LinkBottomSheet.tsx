@@ -2,9 +2,13 @@ import React, { ReactElement, useCallback, useMemo, useState } from 'react';
 
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { logEvent } from 'firebase/analytics';
+import { useRecoilValue } from 'recoil';
 
+import { analytics } from '../../../App';
 import closeBtn from '../../../assets/icon/common/nav_close.svg';
 import confetti from '../../../assets/icon/linkGenerator/confetti.svg';
+import { userInfoAtom } from '../../../store/user';
 import mini from '../../../util/mini';
 import { getParams } from '../../../util/utils';
 import BottomSheet from '../../common/BottomSheet';
@@ -20,6 +24,7 @@ type Props = {
 function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
   const [closeState, setCloseState] = useState(!open);
   const [copySuccess, setCopySuccess] = useState(false);
+  const userInfo = useRecoilValue(userInfoAtom);
 
   const sharedRef = useMemo(() => {
     return getParams(
@@ -28,10 +33,10 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
     ).split('&')[0];
   }, []);
 
-  const goBackHandler = () => {
+  const goBackHandler = useCallback(() => {
     if (sharedRef) mini.close();
     mini.close();
-  };
+  }, [sharedRef]);
 
   const closeHandler = useCallback(() => {
     setCloseState(true);
@@ -45,8 +50,13 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
     closeHandler();
   };
 
-  const moveToDanngn = () => {
+  const moveToDanngn = useCallback(() => {
     if (copySuccess) {
+      logEvent(analytics, 'move_to_write__click', {
+        user_nickname: userInfo?.nickname,
+        user_region: userInfo?.region,
+      });
+
       window.open(
         `${
           process.env.NODE_ENV === 'production' ? 'karrot' : 'karrot.alpha'
@@ -54,7 +64,7 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
       );
       goBackHandler();
     }
-  };
+  }, [copySuccess, goBackHandler, userInfo]);
 
   return (
     <BottomSheet
