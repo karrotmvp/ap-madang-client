@@ -11,6 +11,7 @@ import { logEvent } from 'firebase/analytics';
 
 import { AgoraRTCUsers, callState } from '.';
 import { InfoType } from '../../api/agora';
+import { increaseMeetingEnterUserCount } from '../../api/meeting';
 import { getMeetingUsersInfo } from '../../api/user';
 import { analytics } from '../../App';
 import AGORA_ERROR_MSG from '../../constant/agoraErrMsg';
@@ -195,10 +196,21 @@ const MeetingRoom = ({
     };
   }, [code, error, info, init, ready, setCallState, track]);
 
+  // 참가자 입장 업데이트
+  const fetchIncreaseUser = useCallback(async info => {
+    await increaseMeetingEnterUserCount(info.meeting.id);
+  }, []);
+
   useEffect(() => {
     if (!noSleep.isEnabled) noSleep.enable();
     return () => noSleep.disable();
   }, []);
+
+  useEffect(() => {
+    if (start && track && info) {
+      fetchIncreaseUser(info);
+    }
+  }, [fetchIncreaseUser, info, start, track]);
 
   return (
     <MeetingRoomWrapper className="meeting-room">
