@@ -12,7 +12,6 @@ import { useNavigator } from 'karrotframe/lib';
 import { useRecoilValue } from 'recoil';
 
 import { getAgoraCode } from '../../api/agora';
-import { increaseMeetingEnterUserCount } from '../../api/meeting';
 import { analytics } from '../../App';
 import orange_house from '../../assets/icon/common/orange_house.svg';
 import useMini from '../../hook/useMini';
@@ -56,7 +55,6 @@ function RedirectPage(): ReactElement {
       `${process.env.CLIENT_URL}/daangn?#/agora?meeting_code=${agoraCode}`,
       '_blank',
     );
-    await increaseMeetingEnterUserCount(meetingId);
     windowReference;
   }, [agoraCode]);
 
