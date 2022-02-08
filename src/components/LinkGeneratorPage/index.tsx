@@ -1,10 +1,4 @@
-import React, {
-  ReactElement,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 import { logEvent } from 'firebase/analytics';
@@ -18,7 +12,7 @@ import useMini from '../../hook/useMini';
 import { userInfoAtom } from '../../store/user';
 import { COLOR } from '../../style/color';
 import mini from '../../util/mini';
-import { getParams } from '../../util/utils';
+import { getQueryString } from '../../util/utils';
 import CircularProgress from '../common/Circular-progress';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import PrimaryButton from '../common/PrimaryButton';
@@ -32,22 +26,16 @@ function LinkGeneratorPage(): ReactElement {
   const { loginWithMini } = useMini();
   const userInfo = useRecoilValue(userInfoAtom);
 
-  const sharedRef = useMemo(() => {
-    return getParams(
+  const goBackHandler = useCallback((e?) => {
+    e?.preventDefault();
+    e?.stopPropagation();
+    const sharedRef = getQueryString(
       window.location.hash.substring(window.location.hash.indexOf('?')),
       'shared',
-    ).split('&')[0];
+    );
+    if (sharedRef) mini.close();
+    mini.close();
   }, []);
-
-  const goBackHandler = useCallback(
-    (e?) => {
-      e?.preventDefault();
-      e?.stopPropagation();
-      if (sharedRef) mini.close();
-      mini.close();
-    },
-    [sharedRef],
-  );
 
   const onClickGenerateLink = useCallback(async () => {
     logEvent(analytics, 'link_gen_btn__click', {

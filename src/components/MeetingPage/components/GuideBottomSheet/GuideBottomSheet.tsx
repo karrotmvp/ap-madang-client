@@ -2,7 +2,6 @@ import React, { ReactElement, useCallback, useState } from 'react';
 
 import styled from '@emotion/styled';
 
-import closeBtn from '../../../../assets/icon/common/nav_close.svg';
 import orange_house from '../../../../assets/icon/common/orange_house.svg';
 import { COLOR } from '../../../../style/color';
 import BottomSheet from '../../../common/BottomSheet';
@@ -32,11 +31,9 @@ function GuideBottomSheet({ onClose }: Props): ReactElement {
       className="guide_bottom_sheet"
       onClose={onClickOutSide}
       open={closeState}
+      showCloseButton
     >
       <InfoTextWrapper>
-        <IconWrapper>
-          <IconImg src={closeBtn} onClick={closeHandler} />
-        </IconWrapper>
         <TitleWrapper>
           <LogoImg src={orange_house} />
           <TitleText>따뜻한 모임을 함께 만들어요</TitleText>
@@ -79,20 +76,6 @@ const InfoTextWrapper = styled.div`
   flex-direction: column;
   max-height: 95%;
   padding: 2rem 2.4rem 2rem 2.4rem;
-`;
-
-const IconWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-const IconImg = styled.img`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
 `;
 
 const TitleWrapper = styled.div`
