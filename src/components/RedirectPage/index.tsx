@@ -23,6 +23,7 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 function RedirectPage(): ReactElement {
   const userInfo = useRecoilValue(userInfoAtom);
   const [agoraCode, setAgoraCode] = useState<undefined | string>(undefined);
+  const [errorMsg, setErrorMsg] = useState<undefined | string>(undefined);
   const { replace } = useNavigator();
   const { loginWithMini } = useMini();
 
@@ -61,8 +62,12 @@ function RedirectPage(): ReactElement {
   // get agora code
   const fetchAgoraCode = useCallback(async () => {
     const result = await getAgoraCode(meetingId);
-    if (result.success && result.data) {
-      setAgoraCode(result.data?.code);
+    if (result.success && result.data?.code) {
+      setAgoraCode(result.data.code);
+    } else {
+      setErrorMsg(
+        '현재 대화방 인원이 꽉 찼어요.\n잠시 후 다시 시도해주세요 🙌',
+      );
     }
   }, [meetingId]);
 
@@ -117,8 +122,17 @@ function RedirectPage(): ReactElement {
 
       <ContentsWrapper className="join WaitingRoom">
         <Image src={orange_house} />
-        <Title>모임에 들어가는 중이에요</Title>
-        <JoinButton onClick={redirectHandler}>직접 입장하기</JoinButton>
+        {errorMsg ? (
+          <>
+            <Title>{errorMsg}</Title>
+            <JoinButton onClick={goBackHandler}>돌아가기</JoinButton>
+          </>
+        ) : (
+          <>
+            <Title>모임에 들어가는 중이에요</Title>
+            <JoinButton onClick={redirectHandler}>직접 입장하기</JoinButton>
+          </>
+        )}
       </ContentsWrapper>
     </PageWrapper>
   );
