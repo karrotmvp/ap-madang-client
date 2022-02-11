@@ -65,7 +65,9 @@ function RedirectPage(): ReactElement {
     if (result.success && result.data?.code) {
       setAgoraCode(result.data.code);
     } else {
-      setErrorMsg('현재 대화방 인원이 꽉 찼어요. 잠시 후 다시 시도해주세요 🙌');
+      setErrorMsg(
+        '현재 대화방 인원이 꽉 찼어요.\n잠시 후 다시 시도해주세요 🙌',
+      );
     }
   }, [meetingId]);
 
