@@ -9,6 +9,7 @@ import { InfoType } from '../../../api/agora';
 import { analytics } from '../../../App';
 import MicOff from '../../../assets/icon/agora/MicOff';
 import micOn from '../../../assets/icon/agora/micOn.svg';
+import EmojiInteraction from './EmojiInteraction';
 import MannerGuideBtn from './MannerGuideBtn';
 
 const Controls = (props: {
@@ -18,9 +19,17 @@ const Controls = (props: {
     React.SetStateAction<{ audioStreamValue: boolean }>
   >;
   setOpenBottomSheet: React.Dispatch<boolean>;
+  sendInteraction?: () => void;
   info: InfoType;
 }) => {
-  const { track, trackState, setTrackState, setOpenBottomSheet } = props;
+  const {
+    track,
+    trackState,
+    setTrackState,
+    setOpenBottomSheet,
+    sendInteraction,
+    info,
+  } = props;
 
   const [micBtnState, setMicBtnState] = useState(false);
   const theme = useTheme();
@@ -47,6 +56,7 @@ const Controls = (props: {
   return (
     <Controller>
       <MannerGuideBtn onClickHandler={() => setOpenBottomSheet(true)} />
+
       <MicBtn
         onClick={() => mute('audio')}
         btnState={micBtnState}
@@ -63,6 +73,13 @@ const Controls = (props: {
           ? '마이크가 켜져 있어요'
           : '마이크가 꺼져 있어요'}
       </MicBtn>
+      {info.meeting.id && (
+        <EmojiInteraction
+          sendInteraction={sendInteraction}
+          meetingId={info.meeting.id}
+          userId={info.user.id}
+        />
+      )}
     </Controller>
   );
 };

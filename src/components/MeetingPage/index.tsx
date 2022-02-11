@@ -4,7 +4,9 @@ import { useNavigator, useQueryParams } from '@karrotframe/navigator';
 import { AgoraRTCError, UID } from 'agora-rtc-react';
 
 import { InfoType, validateMeetingCode } from '../../api/agora';
+import { auth } from '../../util/firebase';
 import MeetingRoom from './MeetingRoom';
+import { anonymousLogin } from './util/EmojiFirebase';
 import WaitingRoom from './WaitingRoom';
 
 export type AgoraRTCUsers = User & audioStreamState;
@@ -31,6 +33,7 @@ const AgoraMeetingPage = () => {
   const [inCall, setInCall] = useState<callState>({ state: 'waiting' });
   const [info, setInfo] = useState<InfoType | undefined>(undefined);
   const [meetingCode, setMeetingCode] = useState<string>('');
+  const [firebaseUser, setFirebaseUser] = useState<any>(null);
   const { replace } = useNavigator();
 
   const querystring: Partial<{ meeting_code: string }> = useQueryParams();
@@ -88,6 +91,21 @@ const AgoraMeetingPage = () => {
       sessionStorage.removeItem('Authorization');
     };
   }, [fetchMeetingData, info, leaveHandler, querystring, setCallState]);
+
+  const updateUser = async () => {
+    const result = await anonymousLogin(auth);
+    setFirebaseUser(result?.user);
+  };
+
+  // firebase login
+  useEffect(() => {
+    console.log('useEffect');
+    updateUser();
+  }, []);
+
+  useEffect(() => {
+    console.log('fa user update ', firebaseUser);
+  }, [firebaseUser]);
 
   return inCall.state === 'calling' && info ? (
     <MeetingRoom setCallState={setCallState} info={info} code={meetingCode} />
