@@ -79,7 +79,7 @@ const MeetingRoom = ({
                 {
                   ...user,
                   ...fetchUserInfo.data,
-                  audioStreamValue: true,
+                  audioStreamValue: user.hasAudio,
                   isHost: info.meeting.host.id === fetchUserInfo.data.id,
                 },
               ]
