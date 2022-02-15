@@ -23,12 +23,14 @@ import Divider from '../common/Divider';
 import CarouselBanner from './components/CarouselBanner';
 import CurrMeetingList from './components/MeetingList/CurrMeetingList';
 import MeetingList from './components/MeetingList/MeetingList';
+import { useRedirect } from './useRedirect';
 
 const LandingPage: React.FC = () => {
-  const { push } = useNavigator();
+  const { push, replace } = useNavigator();
   const [showTooltip, setShowTooltip] = useState(false);
   const [meetings, setMeetings] = useState<MeetingListType[]>([]);
   const userInfo = useRecoilValue(userInfoAtom);
+  const redirectUrl = useRedirect();
   const { loginWithMini } = useMini();
 
   const meetingListHandler = useCallback(async () => {
@@ -54,6 +56,10 @@ const LandingPage: React.FC = () => {
   const myPageHandler = () => {
     push('/me');
   };
+
+  useEffect(() => {
+    if (redirectUrl) replace(redirectUrl);
+  }, [redirectUrl, replace]);
 
   useEffect(() => {
     meetingListHandler();
