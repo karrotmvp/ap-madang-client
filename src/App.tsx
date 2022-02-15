@@ -6,26 +6,19 @@ import { Navigator, Screen } from '@karrotframe/navigator';
 import { getAnalytics, logEvent } from 'firebase/analytics';
 import { ToastContainer } from 'react-toast';
 
-import useMini from './hook/useMini';
 import '@karrotframe/navigator/index.css';
+
+import CreateGuidePage from './components/CreateGuidePage/CreateGuidePage';
+import CreateMeetingForm from './components/CreateMeetingPage/CreateMeetingForm';
+import LandingPage from './components/LandingPage';
+import LinkGeneratorPage from './components/LinkGeneratorPage';
+import MeetingDetailPage from './components/MeetingDetailPage';
+import MyPage from './components/MyPage';
+import GuidePage from './components/ServiceGuidePage/GuidePage';
+import useMini from './hook/useMini';
 import { useTheme } from './hook/useTheme';
 import { app } from './util/firebase';
 import { checkMobileType } from './util/utils';
-
-const CreateGuidePage = React.lazy(
-  () => import('./components/CreateGuidePage/CreateGuidePage'),
-);
-const CreateMeetingForm = React.lazy(
-  () => import('./components/CreateMeetingPage/CreateMeetingForm'),
-);
-const LandingPage = React.lazy(() => import('./components/LandingPage'));
-const LinkGeneratorPage = React.lazy(
-  () => import('./components/LinkGeneratorPage'),
-);
-const MeetingDetailPage = React.lazy(
-  () => import('./components/MeetingDetailPage'),
-);
-const MyPage = React.lazy(() => import('./components/MyPage'));
 const NotFoundPage = React.lazy(() => import('./components/NotFoundPage'));
 const NotServiceRegionPage = React.lazy(
   () => import('./components/NotServiceRegionPage'),
@@ -35,9 +28,6 @@ const QuitMeetingPage = React.lazy(
 );
 const AgoraPage = React.lazy(() => import('./components/MeetingPage'));
 const RedirectPage = React.lazy(() => import('./components/RedirectPage'));
-const GuidePage = React.lazy(
-  () => import('./components/ServiceGuidePage/GuidePage'),
-);
 const ShortURLPage = React.lazy(() => import('./components/ShortURLPage'));
 
 const NavigatorStyle = css`
@@ -52,7 +42,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     logEvent(analytics, 'launch_app');
-    loginWithoutMini();
+    // loginWithoutMini();
   }, [loginWithoutMini]);
 
   return (
