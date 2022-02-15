@@ -15,7 +15,6 @@ import { increaseMeetingEnterUserCount } from '../../api/meeting';
 import { getMeetingUsersInfo } from '../../api/user';
 import { analytics } from '../../App';
 import AGORA_ERROR_MSG from '../../constant/agoraErrMsg';
-import { noSleep } from '../../util/nosleep';
 import { uidToNum } from '../../util/utils';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import AudioList from './components/AudioList';
@@ -199,11 +198,6 @@ const MeetingRoom = ({
   // 참가자 입장 업데이트
   const fetchIncreaseUser = useCallback(async info => {
     await increaseMeetingEnterUserCount(info.meeting.id);
-  }, []);
-
-  useEffect(() => {
-    if (!noSleep.isEnabled) noSleep.enable();
-    return () => noSleep.disable();
   }, []);
 
   useEffect(() => {
