@@ -40,6 +40,8 @@ import MeetingMannerCard from './components/MannerCard';
 import MoreActionModal from './components/Modal/MoreActionModal';
 import UserProfile from './components/UserProfile';
 import ZoomBottomSheet from './components/ZoomBottomSheet';
+import 'dayjs/locale/ko';
+dayjs.locale('ko');
 
 interface MatchParams {
   id: string;

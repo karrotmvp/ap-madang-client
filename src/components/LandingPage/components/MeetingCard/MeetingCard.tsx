@@ -20,6 +20,8 @@ import { COLOR } from '../../../../style/color';
 import DeleteAlarmModal from '../../../common/Modal/DeleteAlarmModal';
 import NewAlarmModal from '../../../common/Modal/NewAlarmModal';
 import UserProfile from '../UserProfile';
+import 'dayjs/locale/ko';
+dayjs.locale('ko');
 
 interface Props {
   data: MeetingList;
