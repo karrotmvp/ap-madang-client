@@ -55,7 +55,7 @@ function LinkBottomSheet({ onClose, open, url }: Props): ReactElement {
       window.open(
         `${
           process.env.NODE_ENV === 'production' ? 'karrot' : 'karrot.alpha'
-        }://story_articles/new?interest_id=234`,
+        }://story_articles/new?interest_id=431`,
       );
       goBackHandler();
     }
