@@ -52,14 +52,28 @@ const MeetingRoom = ({
   const { ready, track, error } = useMicrophoneAudioTrack();
   const client = useClient();
 
-  const userNum = useMemo(() => users.length, [users.length]);
+  const userNum = useMemo(() => users.length, [users]);
+
+  // 유저 중복 제거
+  const deduplicatUsers = useCallback(
+    (users: (AgoraRTCUsers & { isHost: boolean })[]) => {
+      const userIdMap = users.map(el => el.id);
+      return users.filter(user => {
+        const firstIdx = userIdMap.indexOf(user.id);
+        const lastIdx = userIdMap.lastIndexOf(user.id);
+        if (firstIdx === lastIdx) return true;
+        else return false;
+      });
+    },
+    [],
+  );
 
   const fetchNewUser = useCallback(
     async (user: IAgoraRTCRemoteUser) => {
       const fetchUserInfo = await getMeetingUsersInfo(uidToNum(user.uid));
       if (fetchUserInfo.success && fetchUserInfo.data) {
-        setUsers(prevUsers =>
-          fetchUserInfo.data
+        setUsers(prevUsers => {
+          const newUsers = fetchUserInfo.data
             ? [
                 ...prevUsers,
                 {
@@ -69,11 +83,12 @@ const MeetingRoom = ({
                   isHost: info.meeting.host.id === fetchUserInfo.data.id,
                 },
               ]
-            : prevUsers,
-        );
+            : prevUsers;
+          return deduplicatUsers(newUsers);
+        });
       }
     },
-    [info.meeting.host.id],
+    [deduplicatUsers, info.meeting.host.id],
   );
 
   const init = useCallback(async () => {
@@ -88,11 +103,12 @@ const MeetingRoom = ({
       if (mediaType === 'audio') {
         user.audioTrack?.play();
         setUsers(prevUsers => {
-          return prevUsers.map(User => {
+          const newUsers = prevUsers.map(User => {
             if (User.id == user.uid)
               return { ...User, ...user, audioStreamValue: true };
             return User;
           });
+          return deduplicatUsers(newUsers);
         });
       }
     });
@@ -101,13 +117,14 @@ const MeetingRoom = ({
     client.on('user-unpublished', (user, type) => {
       if (type === 'audio') {
         user.audioTrack?.stop();
-        setUsers(prevUsers =>
-          prevUsers.map(User => {
+        setUsers(prevUsers => {
+          const newUsers = prevUsers.map(User => {
             if (User.id == user.uid)
               return { ...User, ...user, audioStreamValue: false };
             return User;
-          }),
-        );
+          });
+          return deduplicatUsers(newUsers);
+        });
       }
     });
 
@@ -152,6 +169,7 @@ const MeetingRoom = ({
     setStart(true);
   }, [
     client,
+    deduplicatUsers,
     fetchNewUser,
     info.agora_token,
     info.meeting,
