@@ -5,7 +5,7 @@ import { MeetingList as MeetingListType } from 'meeting-v2';
 import { getMeetings } from '../../../../api/v2/meeting';
 import { getRegionId } from '../../../../util/utils';
 import MeetingCard from '../MeetingCard';
-import LineDivider from '../MeetingCard/LineDivider';
+import LineDivider from './LineDivider';
 
 function MeetingList() {
   const [meetings, setMeetings] = useState<MeetingListType[]>([]);
