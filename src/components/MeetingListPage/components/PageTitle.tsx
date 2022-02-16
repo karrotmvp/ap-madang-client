@@ -21,7 +21,7 @@ function PageTitle() {
   );
 }
 
-const Container = styled.div`
+const Container = styled.header`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
