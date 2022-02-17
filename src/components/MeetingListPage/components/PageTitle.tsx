@@ -1,9 +1,8 @@
 import React from 'react';
 
+import title_house_icon from '@assets/icon/MeetingListPage/title_house_icon.svg';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-
-import title_house_icon from '../../../assets/icon/MeetingListPage/title_house_icon.svg';
 
 function PageTitle() {
   const theme = useTheme();

@@ -1,9 +1,8 @@
 import React from 'react';
 
 import styled from '@emotion/styled';
-
-import mic_icon from '../../../../assets/icon/MeetingListPage/mic_icon.svg';
-import video_icon from '../../../../assets/icon/MeetingListPage/video_icon.svg';
+import mic_icon from '@icon/MeetingListPage/mic_icon.svg';
+import video_icon from '@icon/MeetingListPage/video_icon.svg';
 
 type Props = {
   isVideo: boolean;

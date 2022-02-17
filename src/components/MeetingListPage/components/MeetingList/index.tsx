@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { getMeetings } from '@api/v2/meeting';
+import { getRegionId } from '@util/utils';
 import { MeetingList as MeetingListType } from 'meeting-v2';
 
-import { getMeetings } from '../../../../api/v2/meeting';
-import { getRegionId } from '../../../../util/utils';
 import MeetingCard from '../MeetingCard';
 import LineDivider from './LineDivider';
 
