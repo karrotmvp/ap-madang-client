@@ -1,10 +1,10 @@
-import customAxios from '../util/request';
+import landongmoAxios from '../util/request';
 
 export const meetingSuggestion = async (
   text: string,
 ): Promise<meetingSuggestionRes> => {
   try {
-    await customAxios().post(`/support/opinion/`, {
+    await landongmoAxios().post(`/support/opinion/`, {
       body: text,
     });
     return { success: true };
