@@ -7,7 +7,7 @@ import Banner from './components/Banner';
 import MeetingList from './components/MeetingList';
 import PageTitle from './components/PageTitle';
 
-const MainContents: React.FC = () => {
+const MainContents = () => {
   return (
     <main>
       <MeetingList />
@@ -15,7 +15,7 @@ const MainContents: React.FC = () => {
   );
 };
 
-const MeetingListPage: React.FC = () => {
+const MeetingListPage = () => {
   return (
     <View className="meeting-list">
       <CustomScreenHelmet />

@@ -37,7 +37,7 @@ const NavigatorStyle = css`
 
 export const analytics = getAnalytics(app);
 
-const App: React.FC = () => {
+const App = () => {
   const { ejectApp, loginWithoutMini } = useMini();
   const theme = useTheme();
 
