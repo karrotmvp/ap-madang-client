@@ -15,9 +15,9 @@ const MainContents = () => {
   );
 };
 
-const MeetingListPage = () => {
+const Home = () => {
   return (
-    <View className="meeting-list">
+    <View className="home">
       <CustomScreenHelmet />
       <PageTitle />
       <Spacing size="2.4rem" />
@@ -40,4 +40,4 @@ const Spacing = styled.div<{ size: string }>`
   height: ${({ size = '1.6rem' }) => size};
 `;
 
-export default MeetingListPage;
+export default Home;

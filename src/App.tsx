@@ -10,10 +10,10 @@ import '@karrotframe/navigator/index.css';
 
 import CreateGuidePage from './components/CreateGuidePage/CreateGuidePage';
 import CreateMeetingForm from './components/CreateMeetingPage/CreateMeetingForm';
+import Home from './components/Home';
 import LandingPage from './components/LandingPage';
 import LinkGeneratorPage from './components/LinkGeneratorPage';
 import MeetingDetailPage from './components/MeetingDetailPage';
-import MeetingListPage from './components/MeetingListPage';
 import MyPage from './components/MyPage';
 import GuidePage from './components/ServiceGuidePage/GuidePage';
 import useMini from './hook/useMini';
@@ -55,7 +55,7 @@ const App = () => {
       >
         <ToastContainer position="bottom-center" delay={2000} />
         <Screen path="/" component={LandingPage} />
-        <Screen path="/home" component={MeetingListPage} />
+        <Screen path="/home" component={Home} />
         <Screen path="/generator" component={LinkGeneratorPage} />
         <Screen path="/guide/create" component={CreateGuidePage} />
         <Screen path="/guide/service" component={GuidePage} />
