@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 
 import { css } from '@emotion/css';
 import { ThemeProvider } from '@emotion/react';
+import { getAnalytics, logEvent } from '@firebase/analytics';
 import { Navigator, Screen } from '@karrotframe/navigator';
-import { getAnalytics, logEvent } from 'firebase/analytics';
 import { ToastContainer } from 'react-toast';
 
 import '@karrotframe/navigator/index.css';
