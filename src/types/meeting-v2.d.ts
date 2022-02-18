@@ -10,6 +10,7 @@ declare module 'meeting-v2' {
     host: HostInfo;
     description_text: string;
     agora_user_list: AgoraUserType[];
+    meeting_url: string;
   };
 
   export type AgoraUserType = Pick<
