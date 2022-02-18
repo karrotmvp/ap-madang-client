@@ -11,7 +11,6 @@ import '@karrotframe/navigator/index.css';
 import CreateGuidePage from './components/CreateGuidePage/CreateGuidePage';
 import CreateMeetingForm from './components/CreateMeetingPage/CreateMeetingForm';
 import Home from './components/Home';
-import LandingPage from './components/LandingPage';
 import LinkGeneratorPage from './components/LinkGeneratorPage';
 import MeetingDetailPage from './components/MeetingDetailPage';
 import MyPage from './components/MyPage';
