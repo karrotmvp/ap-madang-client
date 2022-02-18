@@ -13,6 +13,15 @@ export const getMeetings = async (region_id: string) => {
   }
 };
 
+export const closeMeeting = async (meetingId: string) => {
+  try {
+    await landongmoAxios().get(`/meetings${meetingId}/close/`);
+    return { success: true };
+  } catch (e) {
+    return { success: false };
+  }
+};
+
 interface getMeetingsRes {
   success: boolean;
   data?: MeetingList[];
