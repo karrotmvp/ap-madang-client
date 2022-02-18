@@ -1,8 +1,8 @@
-import customAxios from '../util/request';
+import landongmoAxios from '../util/request';
 
 export const login = async ({ code, regionId }: loginReq) => {
   try {
-    const result: loginRes = await customAxios().post('/users/login', {
+    const result: loginRes = await landongmoAxios().post('/users/login', {
       code,
       region_id: regionId,
     });
@@ -14,7 +14,7 @@ export const login = async ({ code, regionId }: loginReq) => {
 
 export const getMeetingUsersInfo = async (users: number): Promise<usersRes> => {
   try {
-    const result = await customAxios().get(`/users/${users}/`);
+    const result = await landongmoAxios().get(`/users/${users}/`);
     return { success: true, data: result.data };
   } catch (e) {
     return { success: false };

@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 
 import styled from '@emotion/styled';
-import { logEvent } from 'firebase/analytics';
+import { logEvent } from '@firebase/analytics';
 import { useNavigator } from 'karrotframe/lib';
 import { useRecoilValue } from 'recoil';
 
