@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { MeetingList as MeetingListType } from 'meeting-v2';
 
 import useMeetingDetail from '../../hook/useMeetingDetail';
+import Spacing from '../Spacing';
 import EnteredUserList from './EnteredUserList';
 import TagWrapper from './Tag';
 import TitleWrapper from './Title';
@@ -21,13 +22,13 @@ function MeetingCard({
   return (
     <CardWrapper onClick={() => openMeetingDetail(id)}>
       <TagWrapper isVideo={is_video} />
-      <Spacing size="0.4rem" />
+      <Spacing height="0.4rem" />
       <TitleWrapper title={title} />
-      <Spacing size="0.4rem" />
+      <Spacing height="0.4rem" />
       <HostProfile nickname={host.nickname} regionName={host.region_name} />
       {agora_user_list.length !== 0 && (
         <>
-          <Spacing size="2.4rem" />
+          <Spacing height="2.4rem" />
           <EnteredUserList users={agora_user_list} />
         </>
       )}
@@ -37,11 +38,6 @@ function MeetingCard({
 
 const CardWrapper = styled.article`
   padding: 1.6rem 0;
-`;
-
-const Spacing = styled.div<{ size: string }>`
-  width: 100%;
-  height: ${({ size = '1.6rem' }) => size};
 `;
 
 export default React.memo(MeetingCard);

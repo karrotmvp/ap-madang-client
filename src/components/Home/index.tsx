@@ -6,6 +6,7 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Banner from './components/Banner';
 import MeetingList from './components/MeetingList';
 import PageTitle from './components/PageTitle';
+import Spacing from './components/Spacing';
 import useMeetingDetail from './hook/useMeetingDetail';
 
 const MainContents = () => {
@@ -24,11 +25,11 @@ const Home = () => {
     <View className="home">
       <CustomScreenHelmet />
       <PageTitle />
-      <Spacing size="2.4rem" />
       <Banner />
-      <Spacing size="1.6rem" />
       <MainContents />
     </View>
+        <Spacing height="2.4rem" />
+        <Spacing height="1.6rem" />
   );
 };
 
