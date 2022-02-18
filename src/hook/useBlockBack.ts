@@ -11,9 +11,9 @@ const useBlockBack = (
   }, [callback]);
 
   useEffect(() => {
-    window.history.pushState(null, '', window.location.href);
+    window.history.pushState({ block: true }, '', window.location.href);
     return () => {
-      window.history.back();
+      window.history?.state?.block && window.history.back();
     };
   }, []);
 };
