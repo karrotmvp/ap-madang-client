@@ -3,6 +3,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { MeetingList as MeetingListType } from 'meeting-v2';
 
+import useMeetingDetail from '../../hook/useMeetingDetail';
 import EnteredUserList from './EnteredUserList';
 import TagWrapper from './Tag';
 import TitleWrapper from './Title';
@@ -14,6 +15,8 @@ function MeetingCard({
   host,
   agora_user_list,
 }: MeetingListType) {
+  const { openMeetingDetail } = useMeetingDetail();
+
   return (
     <CardWrapper>
       <TagWrapper isVideo={is_video} />

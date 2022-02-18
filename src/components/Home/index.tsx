@@ -6,6 +6,7 @@ import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Banner from './components/Banner';
 import MeetingList from './components/MeetingList';
 import PageTitle from './components/PageTitle';
+import useMeetingDetail from './hook/useMeetingDetail';
 
 const MainContents = () => {
   return (
@@ -16,6 +17,9 @@ const MainContents = () => {
 };
 
 const Home = () => {
+
+  useMeetingDetail();
+
   return (
     <View className="home">
       <CustomScreenHelmet />
