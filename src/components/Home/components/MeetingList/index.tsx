@@ -22,4 +22,4 @@ function MeetingList() {
   );
 }
 
-export default MeetingList;
+export default React.memo(MeetingList);
