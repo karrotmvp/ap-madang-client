@@ -10,6 +10,7 @@ import TitleWrapper from './Title';
 import HostProfile from './UserProfile';
 
 function MeetingCard({
+  id,
   is_video,
   title,
   host,
@@ -18,7 +19,7 @@ function MeetingCard({
   const { openMeetingDetail } = useMeetingDetail();
 
   return (
-    <CardWrapper>
+    <CardWrapper onClick={() => openMeetingDetail(id)}>
       <TagWrapper isVideo={is_video} />
       <Spacing size="0.4rem" />
       <TitleWrapper title={title} />
