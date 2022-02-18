@@ -13,10 +13,11 @@ function Banner(props: HTMLAttributes<HTMLDivElement>) {
 
 const Container = styled.div`
   border-radius: 12px;
+  min-height: 7rem;
 `;
 
 const BannerImage = styled.img`
   width: 100%;
   height: 100%;
 `;
-export default Banner;
+export default React.memo(Banner);
