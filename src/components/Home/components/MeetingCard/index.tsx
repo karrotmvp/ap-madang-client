@@ -44,4 +44,4 @@ const Spacing = styled.div<{ size: string }>`
   height: ${({ size = '1.6rem' }) => size};
 `;
 
-export default MeetingCard;
+export default React.memo(MeetingCard);
