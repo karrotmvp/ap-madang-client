@@ -38,13 +38,13 @@ const NavigatorStyle = css`
 export const analytics = getAnalytics(app);
 
 const App = () => {
-  const { ejectApp, loginWithoutMini } = useMini();
+  const { ejectApp, loginWithMini } = useMini();
   const theme = useTheme();
 
   useEffect(() => {
     logEvent(analytics, 'launch_app');
-    // loginWithoutMini();
-  }, [loginWithoutMini]);
+    loginWithMini();
+  }, [loginWithMini]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -53,9 +53,8 @@ const App = () => {
         onClose={ejectApp}
         className={NavigatorStyle}
       >
-        <ToastContainer position="bottom-center" delay={2000} />
-        <Screen path="/" component={LandingPage} />
-        <Screen path="/home" component={Home} />
+        <ToastContainer />
+        <Screen path="/" component={Home} />
         <Screen path="/generator" component={LinkGeneratorPage} />
         <Screen path="/guide/create" component={CreateGuidePage} />
         <Screen path="/guide/service" component={GuidePage} />
