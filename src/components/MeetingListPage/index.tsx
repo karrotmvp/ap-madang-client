@@ -4,7 +4,16 @@ import styled from '@emotion/styled';
 
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Banner from './components/Banner';
+import MeetingList from './components/MeetingList';
 import PageTitle from './components/PageTitle';
+
+const MainContents: React.FC = () => {
+  return (
+    <main>
+      <MeetingList />
+    </main>
+  );
+};
 
 const MeetingListPage: React.FC = () => {
   return (
@@ -13,6 +22,8 @@ const MeetingListPage: React.FC = () => {
       <PageTitle />
       <Spacing size="2.4rem" />
       <Banner />
+      <Spacing size="1.6rem" />
+      <MainContents />
     </View>
   );
 };
