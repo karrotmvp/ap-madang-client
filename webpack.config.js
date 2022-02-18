@@ -22,6 +22,7 @@ module.exports = {
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src/'),
+      '@style': path.resolve(__dirname, 'src/style'),
       '@api': path.resolve(__dirname, 'src/api/'),
       '@assets': path.resolve(__dirname, 'src/assets/'),
       '@icon': path.resolve(__dirname, 'src/assets/icon/'),
