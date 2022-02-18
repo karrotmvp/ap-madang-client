@@ -5,25 +5,29 @@ import { AgoraUserType } from 'meeting-v2';
 
 type Props = { users: AgoraUserType[] };
 
-function Profiles({ users }: Props) {
-  return (
-    <ProfilesWrapper>
-      {users.slice(0, 3).map((user, idx) => (
-        <ProfilesImage key={idx} src={user.profile_image_url} idx={idx} />
-      ))}
-    </ProfilesWrapper>
-  );
-}
-
 function EnteredUserList({ users }: Props) {
+  const firstUser = users[0];
+  const usersNum = users.length;
   return (
     <Wrapper>
       <Profiles users={users} />
       <JoinUserText>
-        {users.length === 1 ? users[0].nickname : users[0].nickname} 외{' '}
-        {users.length - 1}명
+        {firstUser.nickname}
+        {usersNum > 1 && ` 외 ${usersNum - 1}명`}
       </JoinUserText>
     </Wrapper>
+  );
+}
+
+const MAXIMUN_PROFILE_NUM = 3; //프로필 표시 최대 인원
+
+function Profiles({ users }: Props) {
+  return (
+    <ProfilesWrapper>
+      {users.slice(0, MAXIMUN_PROFILE_NUM).map((user, idx) => (
+        <ProfilesImage key={idx} src={user.profile_image_url} idx={idx} />
+      ))}
+    </ProfilesWrapper>
   );
 }
 

@@ -1,8 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 
 import styled from '@emotion/styled';
-
-import meeting_list_banner from '../../../assets/image/meeting_list_banner.png';
+import meeting_list_banner from '@image/meeting_list_banner.png';
 
 function Banner(props: HTMLAttributes<HTMLDivElement>) {
   return (

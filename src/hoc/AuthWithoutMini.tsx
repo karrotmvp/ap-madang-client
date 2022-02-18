@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 
-import { logEvent } from 'firebase/analytics';
+import { logEvent } from '@firebase/analytics';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 import { useRecoilState } from 'recoil';
 
