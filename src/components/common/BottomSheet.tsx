@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { jsx, keyframes, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -45,13 +45,16 @@ export default function BottomSheet({
   innerModalStyle,
   showCloseButton,
 }: ModalProps) {
+  const [isClicked, setIsClicked] = useState(false);
+
   const onMaskClick = useCallback(
     (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e?.stopPropagation();
-      if (e) window.history.back();
+      if (e && !isClicked) window.history.back();
       onClose && onClose(e);
+      setIsClicked(true);
     },
-    [onClose],
+    [isClicked, onClose],
   );
 
   useBlockBack(onMaskClick);
