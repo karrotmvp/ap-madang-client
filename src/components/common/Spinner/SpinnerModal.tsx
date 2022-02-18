@@ -1,13 +1,13 @@
 /** @jsx jsx */
 import React, { useMemo } from 'react';
 
-import { jsx, keyframes, useTheme } from '@emotion/react';
+import { jsx, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { COLOR } from '@style/color';
 import classnames from 'classnames';
 import { createPortal } from 'react-dom';
 
-import SpinnerIconComponents from '../../assets/icon/common/Spinner';
-import { COLOR } from '../../style/color';
+import SpinnerIcon from './SpinnerIcon';
 
 export type Confirm = {
   text: React.ReactNode;
@@ -34,8 +34,6 @@ type ModalProps = {
 };
 
 export default function Spinner({ show, className, children }: ModalProps) {
-  const theme = useTheme();
-
   return (
     <Portal>
       {show && (
@@ -45,7 +43,7 @@ export default function Spinner({ show, className, children }: ModalProps) {
             show ? 'show-spinner-animation' : 'stop-spinner-animation',
           )}
         >
-          {children ?? <SpinnerIcon mainColor={theme.colors.$carrot400} />}
+          {children ?? <SpinnerIcon />}
         </SpinnerOverlay>
       )}
     </Portal>
@@ -95,21 +93,6 @@ const SpinnerOverlay = styled.div`
   &.close-modal-animation {
     animation: ${closeSpinnerBackground} 0.4s ease forwards;
   }
-`;
-
-const spinAnimation = keyframes` 
-    0% {
-        transform:rotate(0);
-    }
-    100% {
-        transform:rotate(360deg);
-    }
-`;
-
-const SpinnerIcon = styled(SpinnerIconComponents)`
-  animation-name: ${spinAnimation};
-  animation-duration: 0.8s;
-  animation-iteration-count: infinite;
 `;
 
 type PortalProps = {
