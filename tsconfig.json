@@ -24,13 +24,25 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*" :["./src/*"],
+      "@api/*" :["./src/api/*"],
+      "@assets/*" :[ "./src/assets/*"],
+      "@icon/*" :[ "./src/assets/icon/*"],
+      "@image/*" :[ "./src/assets/image/*"],
+      "@components/*" :["./src/components/*"],
+      "@constant/*" :["./src/constant/*"],
+      "@store/*" :["./src/store/*"],
+      "@util/*" :[ "./src/util/*"],
+    },
   },
   "exclude": [
     "node_modules",
     "dist"
   ],
   "include": [
-    "./src/**/*"
+    "./src/**/*",
   ]
 }

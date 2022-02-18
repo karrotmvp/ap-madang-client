@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { jsx, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -25,7 +25,7 @@ import CurrMeetingList from './components/MeetingList/CurrMeetingList';
 import MeetingList from './components/MeetingList/MeetingList';
 import { useRedirect } from './useRedirect';
 
-const LandingPage: React.FC = () => {
+const LandingPage = () => {
   const { push, replace } = useNavigator();
   const [showTooltip, setShowTooltip] = useState(false);
   const [meetings, setMeetings] = useState<MeetingListType[]>([]);

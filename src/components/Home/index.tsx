@@ -4,15 +4,26 @@ import styled from '@emotion/styled';
 
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Banner from './components/Banner';
+import MeetingList from './components/MeetingList';
 import PageTitle from './components/PageTitle';
 
-const MeetingListPage: React.FC = () => {
+const MainContents = () => {
   return (
-    <View className="meeting-list">
+    <main>
+      <MeetingList />
+    </main>
+  );
+};
+
+const Home = () => {
+  return (
+    <View className="home">
       <CustomScreenHelmet />
       <PageTitle />
       <Spacing size="2.4rem" />
       <Banner />
+      <Spacing size="1.6rem" />
+      <MainContents />
     </View>
   );
 };
@@ -29,4 +40,4 @@ const Spacing = styled.div<{ size: string }>`
   height: ${({ size = '1.6rem' }) => size};
 `;
 
-export default MeetingListPage;
+export default Home;
