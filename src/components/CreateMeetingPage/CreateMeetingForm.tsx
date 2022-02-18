@@ -24,7 +24,7 @@ import useMini from '../../hook/useMini';
 import { COLOR } from '../../style/color';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Divider from '../common/Divider';
-import SpinnerModal from '../common/SpinnerModal';
+import SpinnerModal from '../common/Spinner/SpinnerModal';
 import DatePicker from './components/DatePicker';
 import EditableTextarea from './components/EditableTextarea';
 import ImageUploaderBox from './components/ImageUploaderBox';
