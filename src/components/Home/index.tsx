@@ -1,5 +1,6 @@
 import React from 'react';
 
+import main_logo from '@assets/icon/common/main_logo.svg';
 import styled from '@emotion/styled';
 import { useNavigator } from '@karrotframe/navigator';
 
@@ -27,7 +28,11 @@ const Home = () => {
   return (
     <>
       <View className="home">
-        <CustomScreenHelmet />
+        <CustomScreenHelmet
+          appendMiddle={<img src={main_logo} />}
+          appendRight={<Spacing width="1.75rem" />}
+        />
+
         <DetailSheet />
         <PageTitle />
         <Spacing height="2.4rem" />
