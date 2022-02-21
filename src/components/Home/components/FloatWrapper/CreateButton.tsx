@@ -6,6 +6,7 @@ import { useNavigator } from '@karrotframe/navigator';
 
 import { TOAST_DELAY } from '../../../../App';
 import { useToastState } from '../../../../lib/Toast/util/toastContext';
+import useMeetingDetail from '../../hook/useMeetingDetail';
 
 function CreateButton({
   className,
@@ -20,14 +21,16 @@ function CreateButton({
   const maxToastHeight = hasToast
     ? Math.max(...toastState.toasts.map(toast => toast.height))
     : 0;
+  const { openMeetingDetail } = useMeetingDetail();
 
   return (
     <Wrapper>
       <CreateBtn
         className={className}
         toastState={hasToast}
-        onClick={() => {
-          push('/create');
+        onClick={async () => {
+          const popData: number | null = await push('/create');
+          if (popData) openMeetingDetail(popData);
         }}
         yPos={maxToastHeight - 8}
       >
