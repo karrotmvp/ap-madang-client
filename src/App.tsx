@@ -4,7 +4,6 @@ import { css } from '@emotion/css';
 import { ThemeProvider } from '@emotion/react';
 import { getAnalytics, logEvent } from '@firebase/analytics';
 import { Navigator, Screen } from '@karrotframe/navigator';
-import { ToastContainer } from 'react-toast';
 
 import '@karrotframe/navigator/index.css';
 
@@ -17,6 +16,7 @@ import MyPage from './components/MyPage';
 import GuidePage from './components/ServiceGuidePage/GuidePage';
 import useMini from './hook/useMini';
 import { useTheme } from './hook/useTheme';
+import ToastContainer from './lib/Toast/components/ToastContainer';
 import { app } from './util/firebase';
 import { checkMobileType } from './util/utils';
 const NotFoundPage = React.lazy(() => import('./components/NotFoundPage'));
@@ -47,28 +47,31 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Navigator
-        theme={checkMobileType()}
-        onClose={ejectApp}
-        className={NavigatorStyle}
-      >
-        <ToastContainer />
-        <Screen path="/" component={Home} />
-        <Screen path="/generator" component={LinkGeneratorPage} />
-        <Screen path="/guide/create" component={CreateGuidePage} />
-        <Screen path="/guide/service" component={GuidePage} />
-        <Screen path="/me" component={MyPage} />
-        <Screen path="/meetings/:id" component={MeetingDetailPage} />
-        <Screen path="/create" component={CreateMeetingForm} />
-        <Screen path="/not-service-region" component={NotServiceRegionPage} />
-        <Screen path="/agora" component={AgoraPage} />
-        <Screen path="/agora/quit" component={QuitMeetingPage} />
-        <Screen path="/redirect" component={RedirectPage} />
-        <Screen path="/short" component={ShortURLPage} />
-        <Screen path="*" component={NotFoundPage} />
-      </Navigator>
+      <ToastContainer delay={TOAST_DELAY}>
+        <Navigator
+          theme={checkMobileType()}
+          onClose={ejectApp}
+          className={NavigatorStyle}
+        >
+          <Screen path="/" component={Home} />
+          <Screen path="/generator" component={LinkGeneratorPage} />
+          <Screen path="/guide/create" component={CreateGuidePage} />
+          <Screen path="/guide/service" component={GuidePage} />
+          <Screen path="/me" component={MyPage} />
+          <Screen path="/meetings/:id" component={MeetingDetailPage} />
+          <Screen path="/create" component={CreateMeetingForm} />
+          <Screen path="/not-service-region" component={NotServiceRegionPage} />
+          <Screen path="/agora" component={AgoraPage} />
+          <Screen path="/agora/quit" component={QuitMeetingPage} />
+          <Screen path="/redirect" component={RedirectPage} />
+          <Screen path="/short" component={ShortURLPage} />
+          <Screen path="*" component={NotFoundPage} />
+        </Navigator>
+      </ToastContainer>
     </ThemeProvider>
   );
 };
+
+export const TOAST_DELAY = 3000;
 
 export default App;
