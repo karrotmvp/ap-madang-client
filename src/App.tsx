@@ -8,7 +8,7 @@ import { Navigator, Screen } from '@karrotframe/navigator';
 import '@karrotframe/navigator/index.css';
 
 import CreateGuidePage from './components/CreateGuidePage/CreateGuidePage';
-import CreateMeetingForm from './components/CreateMeetingPage/CreateMeetingForm';
+import CreatePage from './components/CreatePage';
 import Home from './components/Home';
 import LinkGeneratorPage from './components/LinkGeneratorPage';
 import MeetingDetailPage from './components/MeetingDetailPage';
@@ -58,7 +58,7 @@ const App = () => {
           <Screen path="/guide/service" component={GuidePage} />
           <Screen path="/me" component={MyPage} />
           <Screen path="/meetings/:id" component={MeetingDetailPage} />
-          <Screen path="/create" component={CreateMeetingForm} />
+          <Screen path="/create" component={CreatePage} />
           <Screen path="/not-service-region" component={NotServiceRegionPage} />
           <Screen path="/agora" component={AgoraPage} />
           <Screen path="/agora/quit" component={QuitMeetingPage} />
