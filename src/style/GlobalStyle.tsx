@@ -23,6 +23,12 @@ const GlobalStyle = () => {
   return (
     <Global
       styles={css`
+        body {
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
         html,
         body,
         textarea {
