@@ -2,7 +2,6 @@ import React, { useReducer } from 'react';
 
 import styled from '@emotion/styled';
 
-import { Events } from '../types';
 import {
   reducer,
   ToastContext,
@@ -10,24 +9,19 @@ import {
 } from '../util/toastContext';
 import Toast from './Toast';
 
-type hnadlerType = {
-  type: Events;
-  handler: (args: any) => void;
-};
-
 type Props = {
   delay?: number;
-  handler?: hnadlerType;
   children: React.ReactNode;
+  className?: string;
 };
 
-function ToastContainer({ delay = 2000, children }: Props) {
+function ToastContainer({ delay = 2000, children, className }: Props) {
   const [toastState, toastDispatch] = useReducer(reducer, { toasts: [] });
 
   return (
     <ToastContext.Provider value={toastState}>
       <ToastDispatchContext.Provider value={toastDispatch}>
-        <Wrapper>
+        <Wrapper className={className}>
           {toastState.toasts?.map(toast => (
             <Toast
               key={toast.id}
