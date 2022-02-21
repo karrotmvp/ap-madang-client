@@ -38,7 +38,6 @@ function DetailSheet() {
         <ContentsWrapper>
           <Header
             is_video={meetingDetail.is_video}
-            hostNickname={meetingDetail.host.nickname}
             closeHandler={closeHandler}
           />
           <Contents />

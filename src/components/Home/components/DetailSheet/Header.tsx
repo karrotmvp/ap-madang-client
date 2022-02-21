@@ -3,7 +3,6 @@ import React from 'react';
 import { closeMeeting } from '@api/v2/meeting';
 import styled from '@emotion/styled';
 import { meetingDetailSelector } from '@store/meeting';
-import { userInfoAtom } from '@store/user';
 import { MeetingList } from 'meeting-v2';
 import { useRecoilValue } from 'recoil';
 
@@ -11,13 +10,10 @@ import Tag from '../MeetingCard/Tag';
 
 type Props = {
   is_video: boolean;
-  hostNickname: string;
   closeHandler: () => void;
 };
 
-function Header({ is_video, hostNickname, closeHandler }: Props) {
-  //TODO: 서버에서 isHost 정보 받아오기
-  const userInfo = useRecoilValue(userInfoAtom);
+function Header({ is_video, closeHandler }: Props) {
   const detailMeeting = useRecoilValue(meetingDetailSelector) as MeetingList;
 
   const closeMeetingHandler = async () => {
@@ -28,7 +24,7 @@ function Header({ is_video, hostNickname, closeHandler }: Props) {
   return (
     <Wrapper>
       <Tag isVideo={is_video} />
-      {hostNickname === userInfo?.nickname && (
+      {detailMeeting.is_host && (
         <CloseMeetingButton onClick={closeMeetingHandler}>
           모임 종료
         </CloseMeetingButton>
