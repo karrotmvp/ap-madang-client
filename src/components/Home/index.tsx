@@ -7,6 +7,7 @@ import { useNavigator } from '@karrotframe/navigator';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Banner from './components/Banner';
 import DetailSheet from './components/DetailSheet';
+import FloatWrapper from './components/FloatWrapper';
 import MeetingList from './components/MeetingList';
 import PageTitle from './components/PageTitle';
 import Spacing from './components/Spacing';
@@ -27,6 +28,7 @@ const Home = () => {
 
   return (
     <>
+      <FloatWrapper />
       <View className="home">
         <CustomScreenHelmet
           appendMiddle={<img src={main_logo} />}
