@@ -17,6 +17,7 @@ function Description() {
     formState: { errors },
   } = useFormContext();
   const wordLength = watch('description')?.length ?? 0;
+  const validError = wordLength > DESCRIPTION_MAX_LENGTH || errors.description;
 
   return (
     <Wrapper>
@@ -26,7 +27,7 @@ function Description() {
       <Spacing height="1.3rem" />
       <TextreaWrapper>
         <Textarea
-          validError={wordLength > DESCRIPTION_MAX_LENGTH || errors.description}
+          validError={validError}
           placeholder="모임 내용을 자세히 적으면 이웃들이 더 쉽게 참여할 수 있어요."
           {...register('description', { maxLength: 140 })}
         />
@@ -37,9 +38,7 @@ function Description() {
 
       <ValidationInfoWarpper>
         <ValidationInfo>
-          {(wordLength > DESCRIPTION_MAX_LENGTH ||
-            (errors.description &&
-              errors.description.type === 'maxLength')) && (
+          {validError && (
             <span role="alert">
               모임 내용은 최대 140자까지 입력할 수 있어요.
             </span>

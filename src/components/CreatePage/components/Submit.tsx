@@ -20,20 +20,17 @@ function Submit({ className, fetchStateSetter }: Props) {
   const { pop } = useNavigator();
   const { loginWithMini } = useMini();
 
-  const submit = async (data: FormValues) => {
-    const createdMeetingId = await submitHandler(data);
-    if (createdMeetingId) {
-      pop().send(createdMeetingId);
-    }
-  };
+  const submit = async (data: FormValues) =>
+    loginWithMini(async () => {
+      const createdMeetingId = await submitHandler(data);
+      if (createdMeetingId) {
+        pop().send(createdMeetingId);
+      }
+    });
 
   return (
     <SubmitArea className={className}>
-      <SubmitButton
-        onClick={handleSubmit(data => loginWithMini(() => submit(data)))}
-      >
-        모임 만들기
-      </SubmitButton>
+      <SubmitButton onClick={handleSubmit(submit)}>모임 만들기</SubmitButton>
     </SubmitArea>
   );
 }

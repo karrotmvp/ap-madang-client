@@ -16,6 +16,10 @@ function MeetingTitle() {
   } = useFormContext();
 
   const wordLength = watch('title')?.length ?? 0;
+  const requiredError = errors.title && errors.title.type === 'required';
+  const maxLengthError =
+    wordLength > TITLE_MAX_LENGTH ||
+    (errors.title && errors.title.type === 'maxLength');
 
   return (
     <Title>
@@ -30,11 +34,8 @@ function MeetingTitle() {
       />
       <ValidationInfoWarpper>
         <ValidationInfo>
-          {errors.title && errors.title.type === 'required' && (
-            <span role="alert">모임 제목을 입력해주세요.</span>
-          )}
-          {(wordLength > TITLE_MAX_LENGTH ||
-            (errors.title && errors.title.type === 'maxLength')) && (
+          {requiredError && <span role="alert">모임 제목을 입력해주세요.</span>}
+          {maxLengthError && (
             <span role="alert">제목은 최대 40자까지 입력할 수 있어요.</span>
           )}
         </ValidationInfo>

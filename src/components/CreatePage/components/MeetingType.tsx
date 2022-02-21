@@ -20,10 +20,13 @@ function MeetingType() {
   const {
     formState: { errors },
   } = useFormContext();
+
+  const validError = errors.type;
+
   return (
     <MeetingTypeWrapper>
       <TitleText>진행 방식</TitleText>
-      {errors.type && (
+      {validError && (
         <>
           <Spacing height="0.8rem" />
           <ValidationMessage>모임 진행 방식을 선택해주세요.</ValidationMessage>
