@@ -1,7 +1,6 @@
-import React, { Suspense, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import BottomSheet from '@components/common/BottomSheet';
-import CircularProgress from '@components/common/Spinner/Circular-progress';
 import styled from '@emotion/styled';
 import { meetingDetailSelector } from '@store/meeting';
 import { useRecoilValue } from 'recoil';
@@ -43,21 +42,12 @@ function DetailSheet() {
           <Contents />
         </ContentsWrapper>
         <Spacing height="2.4rem" />
-        <Suspense fallback={<FallbackSpinner />}>
-          <ButtonGroup closeHandler={closeHandler} />
-        </Suspense>
+
+        <ButtonGroup closeHandler={closeHandler} />
       </Wrapper>
     </BottomSheet>
   ) : null;
 }
-
-const FallbackSpinner = () => {
-  return (
-    <SpinnerWrapper>
-      <CircularProgress />
-    </SpinnerWrapper>
-  );
-};
 
 const Wrapper = styled.div`
   display: flex;
@@ -67,12 +57,5 @@ const Wrapper = styled.div`
 `;
 
 const ContentsWrapper = styled.div``;
-
-const SpinnerWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
 
 export default DetailSheet;
