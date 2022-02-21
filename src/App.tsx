@@ -15,8 +15,8 @@ import MeetingDetailPage from './components/MeetingDetailPage';
 import MyPage from './components/MyPage';
 import GuidePage from './components/ServiceGuidePage/GuidePage';
 import useMini from './hook/useMini';
-import { useTheme } from './hook/useTheme';
 import ToastContainer from './lib/Toast/components/ToastContainer';
+import { carrotTheme } from './style/carrotTheme';
 import { app } from './util/firebase';
 import { checkMobileType } from './util/utils';
 const NotFoundPage = React.lazy(() => import('./components/NotFoundPage'));
@@ -38,7 +38,6 @@ export const analytics = getAnalytics(app);
 
 const App = () => {
   const { ejectApp, loginWithMini } = useMini();
-  const theme = useTheme();
 
   useEffect(() => {
     logEvent(analytics, 'launch_app');
@@ -46,7 +45,7 @@ const App = () => {
   }, [loginWithMini]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={carrotTheme}>
       <ToastContainer delay={TOAST_DELAY}>
         <Navigator
           theme={checkMobileType()}
