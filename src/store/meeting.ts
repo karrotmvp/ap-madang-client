@@ -2,6 +2,8 @@ import { getAgoraCode } from '@api/agora';
 import { MeetingList } from 'meeting-v2';
 import { atom, selector } from 'recoil';
 
+import { userInfoAtom } from './user';
+
 type DescriptionType = {
   text?: string;
   recommend_user?: { text: string }[];
@@ -50,7 +52,8 @@ export const codeSelector = selector({
   key: 'codeSelector',
   get: async ({ get }) => {
     const meetingId = get(detailMeetingIdAtom);
-    if (!meetingId) return undefined;
+    const userInfo = get(userInfoAtom);
+    if (!meetingId || !userInfo) return undefined;
     const code = await getAgoraCode(meetingId.toString());
     return code.data?.code;
   },
