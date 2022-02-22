@@ -3,7 +3,7 @@ import React from 'react';
 import PrimaryButton from '@components/common/PrimaryButton';
 import styled from '@emotion/styled';
 import useMini from '@hook/useMini';
-import { useNavigator } from '@karrotframe/navigator';
+import { useCurrentScreen, useNavigator } from '@karrotframe/navigator';
 import { useFormContext } from 'react-hook-form';
 
 import { FormValues } from '..';
@@ -17,14 +17,16 @@ type Props = {
 function Submit({ className, fetchStateSetter }: Props) {
   const { handleSubmit } = useFormContext<FormValues>();
   const { submitHandler } = useSubmit({ fetchStateSetter });
-  const { pop } = useNavigator();
+  const { pop, replace } = useNavigator();
+  const { isRoot } = useCurrentScreen();
   const { loginWithMini } = useMini();
 
   const submit = async (data: FormValues) =>
     loginWithMini(async () => {
       const createdMeetingId = await submitHandler(data);
       if (createdMeetingId) {
-        pop().send(createdMeetingId);
+        if (!isRoot) pop().send(createdMeetingId);
+        else replace(`/?meeting=${createdMeetingId}`);
       }
     });
 
