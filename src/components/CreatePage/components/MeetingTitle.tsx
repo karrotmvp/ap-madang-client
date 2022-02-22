@@ -4,6 +4,7 @@ import Spacing from '@components/Home/components/Spacing';
 import styled from '@emotion/styled';
 import { useFormContext } from 'react-hook-form';
 
+import ValidError from './ValidError';
 import WordCounter from './WordCounter';
 
 const TITLE_MAX_LENGTH = 40;
@@ -29,18 +30,19 @@ function MeetingTitle() {
         className="body3"
         placeholder="이웃과 함께 하고 싶은 모임을 입력해주세요."
         height="8.6rem"
-        validError={errors.title}
+        validError={requiredError || maxLengthError}
         {...register('title', { required: true, maxLength: TITLE_MAX_LENGTH })}
       />
-      <ValidationInfoWarpper>
-        <ValidationInfo>
-          {requiredError && <span role="alert">모임 제목을 입력해주세요.</span>}
+      <Spacing height="0.8rem" />
+      <SubInfoWrapper>
+        <ValidationInfoWarpper>
+          {requiredError && <ValidError message="모임 제목을 입력해주세요." />}
           {maxLengthError && (
-            <span role="alert">제목은 최대 40자까지 입력할 수 있어요.</span>
+            <ValidError message="제목은 최대 40자까지 입력할 수 있어요." />
           )}
-        </ValidationInfo>
+        </ValidationInfoWarpper>
         <WordCounter maxWords={40} words={wordLength} />
-      </ValidationInfoWarpper>
+      </SubInfoWrapper>
     </Title>
   );
 }
@@ -76,7 +78,7 @@ const TitleInput = styled.input<{ validError: boolean }>`
   color: ${({ theme }) => theme.colors.$gray900};
   border: 1px solid
     ${({ theme, validError }) =>
-      validError ? '#ff5638' : theme.colors.$gray600};
+      validError ? '#E81300' : theme.colors.$gray400};
   box-sizing: border-box;
   border-radius: 5px;
 
@@ -88,21 +90,24 @@ const TitleInput = styled.input<{ validError: boolean }>`
   &::placeholder {
     color: ${({ theme }) => theme.colors.$gray500};
   }
+
+  &:focus {
+    outline: none !important;
+    border: 1px solid
+      ${({ theme, validError }) =>
+        validError ? '#E81300' : theme.colors.$gray900};
+  }
+`;
+const SubInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const ValidationInfoWarpper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-`;
-
-const ValidationInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: 1.3rem;
-  line-height: 1.6rem;
-  letter-spacing: -0.03rem;
-  color: #ff5638;
 `;
 
 export default MeetingTitle;
