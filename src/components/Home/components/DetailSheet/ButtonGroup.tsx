@@ -1,6 +1,5 @@
 import React, { Suspense, useCallback } from 'react';
 
-import { shareMeeting } from '@api/meeting';
 import share_icon from '@assets/icon/home/share_icon.svg';
 import PrimaryButton from '@components/common/PrimaryButton';
 import styled from '@emotion/styled';
@@ -18,17 +17,12 @@ function ButtonGroup({ closeHandler }: Props) {
   const detailMeeting = useRecoilValue(meetingDetailSelector) as MeetingList;
 
   const shareMeetingHandler = useCallback(async () => {
-    // TODO : Share link 확인
-    const result = await shareMeeting(detailMeeting.id.toString());
-    if (result.success && result.data) {
-      mini.share({
-        url: result.data.short_url,
-        text: '[랜동모] ' + detailMeeting.title,
-      });
-    }
-  }, [detailMeeting]);
+    mini.share({
+      url: `${process.env.CLIENT_URL}/?#/short?share_code=${detailMeeting.share_code}`,
+      text: '[랜동모] ' + detailMeeting.title,
+    });
+  }, [detailMeeting.share_code, detailMeeting.title]);
 
-  //TODO: share btn 이미지 교체
   return (
     <Wrapper>
       <ShareButton onClick={shareMeetingHandler}>
