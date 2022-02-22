@@ -80,6 +80,11 @@ const TitleInput = styled.input<{ validError: boolean }>`
   box-sizing: border-box;
   border-radius: 5px;
 
+  // safari shadow 제거
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+
   &::placeholder {
     color: ${({ theme }) => theme.colors.$gray500};
   }

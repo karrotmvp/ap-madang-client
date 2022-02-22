@@ -92,6 +92,11 @@ const Textarea = styled.textarea<{ validError: boolean }>`
 
   letter-spacing: -0.02rem;
 
+  // safari shadow 제거
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+
   &::placeholder {
     color: ${({ theme }) => theme.colors.$gray500};
   }
