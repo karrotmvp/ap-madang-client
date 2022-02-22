@@ -29,7 +29,10 @@ function CreatePage() {
         <CircularProgress />
       </Spinner>
       <Wrapper>
-        <CustomScreenHelmet appendMiddle={<PageTitle>모임만들기</PageTitle>} />
+        <CustomScreenHelmet
+          appendMiddle={<PageTitle>모임 만들기</PageTitle>}
+          appendRight={<Spacing width="1.75rem" />}
+        />
         <FormWrapper>
           <MeetingTitle />
           <Spacing height="3.2rem" />
