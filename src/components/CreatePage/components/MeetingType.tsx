@@ -117,6 +117,7 @@ const TypeBtn = styled.label`
   width: 100%;
 
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 `;
 
 const RadioInput = styled.input<{ validError: boolean }>`
