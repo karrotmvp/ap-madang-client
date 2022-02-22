@@ -20,7 +20,7 @@ export type FormValues = {
 };
 
 function CreatePage() {
-  const methods = useForm<FormValues>();
+  const methods = useForm<FormValues>({ defaultValues: { type: 'audio' } });
   const [loading, setLoading] = useState<fetchingStateType>('SUCCESS');
 
   return (
@@ -35,9 +35,9 @@ function CreatePage() {
         />
         <FormWrapper>
           <MeetingTitle />
-          <Spacing height="3.2rem" />
+          <Spacing height="3.2rem" width="100%" />
           <MeetingType />
-          <Spacing height="2rem" />
+          <Spacing height="4.8rem" width="100%" />
           <Description />
         </FormWrapper>
         <SubmitArea fetchStateSetter={setLoading} />
