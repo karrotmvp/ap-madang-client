@@ -3,7 +3,9 @@ import { useEffect } from 'react';
 import { useQueryParams } from '@karrotframe/navigator';
 import { detailMeetingIdAtom, meetingsAtom } from '@store/meeting';
 import { useHistory } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
+
+import { meetingListHandler } from './useGetMeetingList';
 
 type queryParams = {
   [key: string]: string;
@@ -14,7 +16,8 @@ const QUERY_KEY = 'meeting';
 function useMeetingDetail() {
   const [openMeetingId, setOpenMeetingId] = useRecoilState(detailMeetingIdAtom);
   const queryParams: Partial<queryParams> = useQueryParams();
-  const meetings = useRecoilValue(meetingsAtom);
+  const [meetings, setMeetings] = useRecoilState(meetingsAtom);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -23,9 +26,12 @@ function useMeetingDetail() {
       const path = getOriginPath(QUERY_KEY);
       path && history.replace(path);
     }
-  }, [history, queryParams, setOpenMeetingId, meetings]);
+  }, [history, queryParams, setOpenMeetingId, meetings, setMeetings]);
 
-  const openMeetingDetail = (id: number) => {
+  const openMeetingDetail = async (id: number) => {
+    if (meetings.findIndex(meeting => meeting.id === id) === -1) {
+      await meetingListHandler({ setMeetings });
+    }
     setOpenMeetingId(id);
   };
 
