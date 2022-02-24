@@ -57,15 +57,18 @@ const useMini = () => {
         runOnSuccess && runOnSuccess();
         return;
       }
-      mini.startPreset({
-        preset: process.env.MINI_PRESET_URL || '',
-        params: { appId: process.env.APP_ID || '' },
-        onSuccess: async function (result) {
-          if (result && result.code) {
-            fetchLoginUser(result.code, runOnSuccess);
-          }
-        },
-      });
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const isPreload = urlSearchParams.get('preload');
+      if (isPreload !== 'true')
+        mini.startPreset({
+          preset: process.env.MINI_PRESET_URL || '',
+          params: { appId: process.env.APP_ID || '' },
+          onSuccess: async function (result) {
+            if (result && result.code) {
+              fetchLoginUser(result.code, runOnSuccess);
+            }
+          },
+        });
     },
     [fetchLoginUser, userInfo],
   );

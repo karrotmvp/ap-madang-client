@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { jsx, keyframes, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -45,13 +45,16 @@ export default function BottomSheet({
   innerModalStyle,
   showCloseButton,
 }: ModalProps) {
+  const [isClicked, setIsClicked] = useState(false);
+
   const onMaskClick = useCallback(
     (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e?.stopPropagation();
-      if (e) window.history.back();
+      if (e && !isClicked) window.history.back();
       onClose && onClose(e);
+      setIsClicked(true);
     },
-    [onClose],
+    [isClicked, onClose],
   );
 
   useBlockBack(onMaskClick);
@@ -141,6 +144,7 @@ const BottomSheetOverlay = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
+  will-change: all;
 
   &.open-bottom-sheet {
     animation: ${openSheetBackground} 0.2s ease forwards;
@@ -160,7 +164,7 @@ const BottomSheetInner = styled.div`
   border-radius: 1.2rem 1.2rem 0 0;
   display: flex;
   flex-direction: column;
-
+  will-change: all;
   &.open-bottom-sheet {
     animation: ${openSheet} 0.2s ease forwards;
   }

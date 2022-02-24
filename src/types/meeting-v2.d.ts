@@ -8,8 +8,11 @@ declare module 'meeting-v2' {
     live_status: LiveStatus;
     is_video: boolean;
     host: HostInfo;
+    is_host: boolean;
     description_text: string;
     agora_user_list: AgoraUserType[];
+    meeting_url: string;
+    share_code: string;
   };
 
   export type AgoraUserType = Pick<
