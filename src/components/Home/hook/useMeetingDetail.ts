@@ -22,26 +22,16 @@ function useMeetingDetail() {
 
   const handleQueryMeetingId = useCallback(async () => {
     const meetingId = Number(queryParams[QUERY_KEY]);
-    if (meetings.findIndex(meeting => meeting.id === meetingId) === -1) {
-      await meetingListHandler({ setMeetings });
-    }
     setOpenMeetingId(meetingId);
     const path = getOriginPath(QUERY_KEY);
     path && history.replace(path);
-  }, [history, meetings, queryParams, setMeetings, setOpenMeetingId]);
+  }, [history, queryParams, setOpenMeetingId]);
 
   useEffect(() => {
     if (queryParams[QUERY_KEY]) {
       handleQueryMeetingId();
     }
-  }, [
-    history,
-    queryParams,
-    setOpenMeetingId,
-    meetings,
-    setMeetings,
-    handleQueryMeetingId,
-  ]);
+  }, [queryParams, handleQueryMeetingId]);
 
   const openMeetingDetail = async (id: number) => {
     if (meetings.findIndex(meeting => meeting.id === id) === -1) {
