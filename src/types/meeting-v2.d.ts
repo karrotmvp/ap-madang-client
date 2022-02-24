@@ -12,6 +12,7 @@ declare module 'meeting-v2' {
     description_text: string;
     agora_user_list: AgoraUserType[];
     meeting_url: string;
+    share_code: string;
   };
 
   export type AgoraUserType = Pick<

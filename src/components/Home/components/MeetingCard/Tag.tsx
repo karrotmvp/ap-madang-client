@@ -32,7 +32,7 @@ const TagName = styled.span`
   line-height: 2rem;
   letter-spacing: -0.04rem;
 
-  color: ${({ theme }) => theme.colors.$gray600};
+  color: ${({ theme }) => theme.colors.$gray700};
 `;
 
 export default Tag;

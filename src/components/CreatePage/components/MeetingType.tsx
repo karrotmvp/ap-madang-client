@@ -17,21 +17,9 @@ type MeetingTypeCardType = {
 };
 
 function MeetingType() {
-  const {
-    formState: { errors },
-  } = useFormContext();
-
-  const validError = errors.type;
-
   return (
     <MeetingTypeWrapper>
       <TitleText>진행 방식</TitleText>
-      {validError && (
-        <>
-          <Spacing height="0.8rem" />
-          <ValidationMessage>모임 진행 방식을 선택해주세요.</ValidationMessage>
-        </>
-      )}
       <Spacing height="1.3rem" />
       <TypeBtnWrapper>
         <MeetingTypeCard
@@ -42,7 +30,7 @@ function MeetingType() {
           title="음성모임"
           info="음성모임은 목소리로만 진행되는 모임이에요. 모임 링크는 자동으로 생성돼요."
         />
-        <Spacing height="2rem" />
+        <Spacing height="1.6rem" />
         <MeetingTypeCard
           id="video"
           value="video"
@@ -112,18 +100,6 @@ const MeetingTypeWrapper = styled.div`
   color: ${COLOR.GREY_500};
 `;
 
-const ValidationMessage = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-
-  font-size: 1.3rem;
-  line-height: 1.6rem;
-  letter-spacing: -0.03rem;
-  color: #ff5638;
-`;
-
 const TypeBtnWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -141,6 +117,7 @@ const TypeBtn = styled.label`
   width: 100%;
 
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 `;
 
 const RadioInput = styled.input<{ validError: boolean }>`
