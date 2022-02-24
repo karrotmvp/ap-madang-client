@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 import mini from '@util/mini';
+import { getQueryString } from '@util/utils';
 
 import { analytics } from '../../App';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
@@ -34,8 +35,11 @@ const Home = () => {
   }, []);
 
   const goBackHandler = useCallback(() => {
-    mini.close();
-    mini.close();
+    const withScheme = getQueryString(
+      window.location.hash.substring(window.location.hash.indexOf('?')),
+      'scheme',
+    );
+    if (withScheme) mini.close();
   }, []);
 
   return (
