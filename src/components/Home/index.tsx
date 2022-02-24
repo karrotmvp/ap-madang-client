@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import main_logo from '@assets/icon/common/main_logo.svg';
 import styled from '@emotion/styled';
 import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
+import mini from '@util/mini';
 
 import { analytics } from '../../App';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
@@ -32,6 +33,11 @@ const Home = () => {
     logEvent(analytics, 'home__show');
   }, []);
 
+  const goBackHandler = useCallback(() => {
+    mini.close();
+    mini.close();
+  }, []);
+
   return (
     <>
       <FloatWrapper />
@@ -39,6 +45,7 @@ const Home = () => {
         <CustomScreenHelmet
           appendMiddle={<img src={main_logo} />}
           appendRight={<Spacing width="1.75rem" />}
+          onCustomCloseButton={goBackHandler}
         />
 
         <DetailSheet />
