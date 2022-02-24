@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import main_logo from '@assets/icon/common/main_logo.svg';
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { useNavigator } from '@karrotframe/navigator';
 
+import { analytics } from '../../App';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Banner from './components/Banner';
 import DetailSheet from './components/DetailSheet';
@@ -25,6 +27,10 @@ const Home = () => {
   const { push } = useNavigator();
 
   useMeetingDetail();
+
+  useEffect(() => {
+    logEvent(analytics, 'home__show');
+  }, []);
 
   return (
     <>

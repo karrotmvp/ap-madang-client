@@ -2,11 +2,13 @@ import React from 'react';
 
 import PrimaryButton from '@components/common/PrimaryButton';
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import useMini from '@hook/useMini';
 import { useCurrentScreen, useNavigator } from '@karrotframe/navigator';
 import { useFormContext } from 'react-hook-form';
 
 import { FormValues } from '..';
+import { analytics } from '../../../App';
 import useSubmit, { fetchingStateType } from '../useSubmit';
 
 type Props = {
@@ -23,6 +25,8 @@ function Submit({ className, fetchStateSetter }: Props) {
 
   const submit = async (data: FormValues) =>
     loginWithMini(async () => {
+      logEvent(analytics, 'create_meeting_submit__click');
+
       const createdMeetingId = await submitHandler(data);
       if (createdMeetingId) {
         if (!isRoot) pop().send(createdMeetingId);
