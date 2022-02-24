@@ -1,5 +1,9 @@
 import { INavigatorTheme } from '@karrotframe/navigator';
 import { UID } from 'agora-rtc-sdk-ng';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+
+dayjs.extend(duration);
 
 export const checkMobileType = (): INavigatorTheme => {
   const UA = navigator.userAgent.toLowerCase(); // userAgent 값 얻기
@@ -31,4 +35,16 @@ export const getQueryString = (query: string, params: string): string => {
 export const uidToNum = (uid: UID | string | number) => {
   if (typeof uid === 'string') return parseInt(uid);
   return uid;
+};
+
+export const getRemainMilliSec = (
+  start_time: string,
+  end_time: string,
+  date: string,
+) => {
+  let endDate = dayjs(`${date} ${end_time}`, 'YYYY-MM-DD HH:mm:ss');
+  const now = dayjs();
+  if (start_time >= end_time) endDate = endDate.add(1, 'day');
+  const timeDiff = dayjs.duration(endDate.diff(now)).asMilliseconds();
+  return timeDiff;
 };

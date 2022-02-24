@@ -1,19 +1,35 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 
+import useRemainTime from '@components/Home/hook/useRemainTime';
 import { keyframes } from '@emotion/css';
 import styled from '@emotion/styled';
+import { getRemainMilliSec } from '@util/utils';
 
 import welcome from '../../../assets/icon/agora/welcome.svg';
+import ReaminTimeNotice from './ReaminTimeNotice';
 import TopicBox from './TopicBox';
 
 interface Props {
   subTopic: string[];
   userNum: number;
+  start_time: string;
+  end_time: string;
+  date: string;
 }
 
-function MeetingNotice({ subTopic, userNum }: Props): ReactElement {
+function MeetingNotice({
+  subTopic,
+  userNum,
+  start_time,
+  end_time,
+  date,
+}: Props): ReactElement {
   const [userNumState, setUserNumState] = useState(0);
   const [newUserState, setNewUserState] = useState(false);
+
+  const remainMilliSec = getRemainMilliSec(start_time, end_time, date);
+  const { remainTime } = useRemainTime({ remainMilliSec });
+  const isRemain10Min = remainTime.hours === 0 && remainTime.minutes <= 10;
 
   const newUserStateChanger = () => {
     setTimeout(() => {
@@ -36,6 +52,8 @@ function MeetingNotice({ subTopic, userNum }: Props): ReactElement {
           <EmojiWrapper src={welcome} />
           <Message>새로운 이웃이 참여했어요! 환영해 주세요 🥳</Message>
         </NoticeNewUserWrapper>
+      ) : isRemain10Min ? (
+        <ReaminTimeNotice remainTime={remainTime} />
       ) : userNum === 1 ? (
         <NoticeNewUserWrapper>
           <EmojiWrapper src={welcome} />

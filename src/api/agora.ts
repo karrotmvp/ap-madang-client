@@ -28,6 +28,9 @@ export type InfoType = {
     title: string;
     channel_name: string;
     sub_topics: string[];
+    start_time: string;
+    end_time: string;
+    date: string;
     description: {
       text: string;
       recommend_user: { text: string }[];
