@@ -6,6 +6,7 @@ import { MeetingList as MeetingListType } from 'meeting-v2';
 import useMeetingDetail from '../../hook/useMeetingDetail';
 import Spacing from '../Spacing';
 import EnteredUserList from './EnteredUserList';
+import RemainTimer from './RemainTimer';
 import TagWrapper from './Tag';
 import TitleWrapper from './Title';
 import HostProfile from './UserProfile';
@@ -16,12 +17,20 @@ function MeetingCard({
   title,
   host,
   agora_user_list,
+  start_time,
+  end_time,
+  date,
 }: MeetingListType) {
   const { openMeetingDetail } = useMeetingDetail();
 
   return (
     <CardWrapper onClick={() => openMeetingDetail(id)}>
-      <TagWrapper isVideo={is_video} />
+      <CardHeader>
+        <TagWrapper isVideo={is_video} />
+        <Spacing width="0.6rem" />
+        <RemainTimer start_time={start_time} end_time={end_time} date={date} />
+      </CardHeader>
+
       <Spacing height="0.4rem" />
       <TitleWrapper title={title} />
       <Spacing height="0.4rem" />
@@ -38,6 +47,14 @@ function MeetingCard({
 
 const CardWrapper = styled.article`
   padding: 1.6rem 0;
+`;
+
+const CardHeader = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 export default React.memo(MeetingCard);

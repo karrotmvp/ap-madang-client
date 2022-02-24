@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react';
 
+import { InfoType } from '@api/agora';
 import styled from '@emotion/styled';
 
 import { AgoraRTCUsers, User } from '..';
@@ -15,9 +16,9 @@ import UserAudioCard from './UserAudioCard';
 
 interface Props {
   users: (AgoraRTCUsers & { isHost: boolean })[];
+  info: InfoType;
   localUser: User & { audioStreamValue: boolean; isHost: boolean };
   volumeState: Map<number, number>;
-  subTopic: string[];
 }
 export type OptionType = {
   size: number;
@@ -37,9 +38,9 @@ const defaultOptions = {
 
 function AudioList({
   users,
+  info,
   localUser,
   volumeState,
-  subTopic,
 }: Props): ReactElement {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -112,7 +113,13 @@ function AudioList({
 
   return (
     <AudioListWrapper ref={rootRef} userNum={users.length + 1}>
-      <MeetingNotice subTopic={subTopic} userNum={users.length + 1} />
+      <MeetingNotice
+        subTopic={info.meeting.sub_topics}
+        userNum={users.length + 1}
+        start_time={info.meeting.start_time}
+        end_time={info.meeting.end_time}
+        date={info.meeting.date}
+      />
       <ChildrenWrapper>{children}</ChildrenWrapper>
     </AudioListWrapper>
   );

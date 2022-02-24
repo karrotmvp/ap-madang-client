@@ -144,6 +144,7 @@ const BottomSheetOverlay = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
+  will-change: all;
 
   &.open-bottom-sheet {
     animation: ${openSheetBackground} 0.2s ease forwards;
@@ -163,7 +164,7 @@ const BottomSheetInner = styled.div`
   border-radius: 1.2rem 1.2rem 0 0;
   display: flex;
   flex-direction: column;
-
+  will-change: all;
   &.open-bottom-sheet {
     animation: ${openSheet} 0.2s ease forwards;
   }
