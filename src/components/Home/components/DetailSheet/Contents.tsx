@@ -40,10 +40,13 @@ function Contents() {
 const Wrapper = styled.div``;
 
 const DescriptionWrapper = styled.div`
+  max-height: 28rem;
+  overflow-y: auto;
+
   padding: 1rem 0.8rem;
 
   background: ${({ theme }) => theme.colors.$gray100};
-  border-radius: 1.2rem;
+  border-radius: 0.6rem;
 
   font-size: 1.4rem;
   line-height: 2rem;

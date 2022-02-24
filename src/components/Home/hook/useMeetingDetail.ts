@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { useQueryParams } from '@karrotframe/navigator';
 import { detailMeetingIdAtom, meetingsAtom } from '@store/meeting';
 import { useHistory } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
+
+import { meetingListHandler } from './useGetMeetingList';
 
 type queryParams = {
   [key: string]: string;
@@ -14,18 +16,37 @@ const QUERY_KEY = 'meeting';
 function useMeetingDetail() {
   const [openMeetingId, setOpenMeetingId] = useRecoilState(detailMeetingIdAtom);
   const queryParams: Partial<queryParams> = useQueryParams();
-  const meetings = useRecoilValue(meetingsAtom);
+  const [meetings, setMeetings] = useRecoilState(meetingsAtom);
+
   const history = useHistory();
 
-  useEffect(() => {
-    if (meetings && queryParams[QUERY_KEY]) {
-      setOpenMeetingId(Number(queryParams[QUERY_KEY]));
-      const path = getOriginPath(QUERY_KEY);
-      path && history.replace(path);
+  const handleQueryMeetingId = useCallback(async () => {
+    const meetingId = Number(queryParams[QUERY_KEY]);
+    if (meetings.findIndex(meeting => meeting.id === meetingId) === -1) {
+      await meetingListHandler({ setMeetings });
     }
-  }, [history, queryParams, setOpenMeetingId, meetings]);
+    setOpenMeetingId(meetingId);
+    const path = getOriginPath(QUERY_KEY);
+    path && history.replace(path);
+  }, [history, meetings, queryParams, setMeetings, setOpenMeetingId]);
 
-  const openMeetingDetail = (id: number) => {
+  useEffect(() => {
+    if (queryParams[QUERY_KEY]) {
+      handleQueryMeetingId();
+    }
+  }, [
+    history,
+    queryParams,
+    setOpenMeetingId,
+    meetings,
+    setMeetings,
+    handleQueryMeetingId,
+  ]);
+
+  const openMeetingDetail = async (id: number) => {
+    if (meetings.findIndex(meeting => meeting.id === id) === -1) {
+      await meetingListHandler({ setMeetings });
+    }
     setOpenMeetingId(id);
   };
 
