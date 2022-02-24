@@ -20,9 +20,8 @@ function JoinButton({ closeHandler }: Props) {
     if (detailMeeting.is_video) {
       return window.open(detailMeeting.meeting_url);
     }
-    //TODO: 로컬 url 변경
     const windowReference = window.open(
-      `http://localhost:3000/#/agora?meeting_code=${code}`,
+      `/#/agora?meeting_code=${code}`,
       '_blank',
     );
     windowReference;
