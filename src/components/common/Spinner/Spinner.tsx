@@ -1,10 +1,9 @@
 import React, { ReactElement } from 'react';
 
+import spinner_icon from '@assets/icon/common/spinner.svg';
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-
-import spinner_icon from '../../assets/icon/common/spinner.svg';
-import { COLOR } from '../../style/color';
+import { COLOR } from '@style/color';
 
 function Spinner(): ReactElement {
   const spinnerOnclick = (

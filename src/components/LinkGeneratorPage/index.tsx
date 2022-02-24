@@ -13,10 +13,10 @@ import { userInfoAtom } from '../../store/user';
 import { COLOR } from '../../style/color';
 import mini from '../../util/mini';
 import { getQueryString } from '../../util/utils';
-import CircularProgress from '../common/Circular-progress';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import PrimaryButton from '../common/PrimaryButton';
-import Spinner from '../common/SpinnerModal';
+import CircularProgress from '../common/Spinner/Circular-progress';
+import Spinner from '../common/Spinner/SpinnerModal';
 import LinkBottomSheet from './components/LinkBottomSheet';
 
 function LinkGeneratorPage(): ReactElement {

@@ -1,14 +1,11 @@
 import React from 'react';
 
-import { getRegionId } from '@util/utils';
-
-import useGetMeetingList from '../../util/useGetMeetingList';
+import useGetMeetingList from '../../hook/useGetMeetingList';
 import MeetingCard from '../MeetingCard';
 import LineDivider from './LineDivider';
 
 function MeetingList() {
-  const regionId = getRegionId(window.location.search);
-  const { meetings } = useGetMeetingList(regionId);
+  const { meetings } = useGetMeetingList();
 
   return (
     <section>
@@ -22,4 +19,4 @@ function MeetingList() {
   );
 }
 
-export default MeetingList;
+export default React.memo(MeetingList);

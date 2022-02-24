@@ -1,8 +1,8 @@
 import React from 'react';
 
 import styled from '@emotion/styled';
+import video_icon from '@icon/home/video_icon.svg';
 import mic_icon from '@icon/MeetingListPage/mic_icon.svg';
-import video_icon from '@icon/MeetingListPage/video_icon.svg';
 
 type Props = {
   isVideo: boolean;
@@ -32,7 +32,7 @@ const TagName = styled.span`
   line-height: 2rem;
   letter-spacing: -0.04rem;
 
-  color: ${({ theme }) => theme.colors.$gray600};
+  color: ${({ theme }) => theme.colors.$gray700};
 `;
 
 export default Tag;
