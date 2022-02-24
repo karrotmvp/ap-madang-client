@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { closeMeeting } from '@api/v2/meeting';
+import CircularProgress from '@components/common/Spinner/Circular-progress';
+import Spinner from '@components/common/Spinner/SpinnerModal';
 import styled from '@emotion/styled';
 import { meetingDetailSelector } from '@store/meeting';
 import { MeetingList } from 'meeting-v2';
@@ -14,15 +16,21 @@ type Props = {
 };
 
 function Header({ is_video, closeHandler }: Props) {
+  const [loading, setLoading] = useState(false);
   const detailMeeting = useRecoilValue(meetingDetailSelector) as MeetingList;
 
   const closeMeetingHandler = async () => {
+    setLoading(true);
     const result = await closeMeeting(detailMeeting.id.toString());
     if (result.success) closeHandler();
+    setLoading(false);
   };
 
   return (
     <Wrapper>
+      <Spinner show={loading}>
+        <CircularProgress />
+      </Spinner>
       <Tag isVideo={is_video} />
       {detailMeeting.is_host && (
         <CloseMeetingButton onClick={closeMeetingHandler}>

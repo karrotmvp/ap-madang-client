@@ -66,6 +66,10 @@ export const toastAnimation = keyframes`
 
 const ToastWrapper = styled.div<{ delay: number }>`
   padding: 1.4rem 1.6rem;
+  font-size: 1.4rem;
+  line-height: 2rem;
+  letter-spacing: -0.02rem;
+  color: #ffffff;
 
   word-break: break-all;
   box-sizing: border-box;
