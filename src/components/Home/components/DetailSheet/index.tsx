@@ -42,8 +42,15 @@ function DetailSheet() {
   useEffect(() => {
     if (meetings.length !== 0 && !meetingDetail && detailMeetingId) {
       openToast({ content: '종료된 모임이에요.' });
+      setDetailMeetingId(undefined);
     }
-  }, [detailMeetingId, meetingDetail, meetings, openToast, setDetailMeetingId]);
+  }, [
+    detailMeetingId,
+    meetingDetail,
+    meetings.length,
+    openToast,
+    setDetailMeetingId,
+  ]);
 
   return meetingDetail ? (
     <BottomSheet open={closeState} onClose={onClickOutSide}>
