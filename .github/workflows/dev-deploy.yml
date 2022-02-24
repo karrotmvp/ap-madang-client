@@ -4,7 +4,6 @@
       push:
         branches:
           - dev
-          - ONMEET-71
     
     jobs:
       deploy:

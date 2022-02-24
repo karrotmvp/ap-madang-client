@@ -4,6 +4,7 @@ import Spacing from '@components/Home/components/Spacing';
 import styled from '@emotion/styled';
 import { useFormContext } from 'react-hook-form';
 
+import ValidError from './ValidError';
 import WordCounter from './WordCounter';
 
 // type Props = {};
@@ -36,15 +37,12 @@ function Description() {
         </WordCounterWrapper>
       </TextreaWrapper>
 
-      <ValidationInfoWarpper>
-        <ValidationInfo>
-          {validError && (
-            <span role="alert">
-              모임 내용은 최대 140자까지 입력할 수 있어요.
-            </span>
-          )}
-        </ValidationInfo>
-      </ValidationInfoWarpper>
+      {validError && (
+        <ValidationInfoWarpper>
+          <Spacing height="0.8rem" width="100%" />
+          <ValidError message="모임 내용은 최대 140자까지 입력할 수 있어요." />
+        </ValidationInfoWarpper>
+      )}
     </Wrapper>
   );
 }
@@ -83,7 +81,7 @@ const Textarea = styled.textarea<{ validError: boolean }>`
   box-sizing: border-box;
   border: 1px solid
     ${({ theme, validError }) =>
-      validError ? '#ff5638' : theme.colors.$gray600};
+      validError ? '#E81300' : theme.colors.$gray400};
   border-radius: 0.6rem;
   resize: none;
 
@@ -92,8 +90,20 @@ const Textarea = styled.textarea<{ validError: boolean }>`
 
   letter-spacing: -0.02rem;
 
+  // safari shadow 제거
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+
   &::placeholder {
     color: ${({ theme }) => theme.colors.$gray500};
+  }
+
+  &:focus {
+    outline: none !important;
+    border: 1px solid
+      ${({ theme, validError }) =>
+        validError ? '#E81300' : theme.colors.$gray900};
   }
 `;
 
@@ -110,17 +120,8 @@ const WordCounterWrapper = styled.div`
 
 const ValidationInfoWarpper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const ValidationInfo = styled.div`
-  display: flex;
   flex-direction: column;
-  font-size: 1.3rem;
-  line-height: 1.6rem;
-  letter-spacing: -0.03rem;
-  color: #ff5638;
+  justify-content: flex-start;
 `;
 
 export default Description;

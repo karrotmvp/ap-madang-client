@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import BottomSheet from '@components/common/BottomSheet';
 import styled from '@emotion/styled';
-import { meetingDetailSelector } from '@store/meeting';
-import { useRecoilValue } from 'recoil';
+import { detailMeetingIdAtom, meetingDetailSelector } from '@store/meeting';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
+import { useToast } from '../../../../lib/Toast/util';
 import useMeetingDetail from '../../hook/useMeetingDetail';
 import Spacing from '../Spacing';
 import ButtonGroup from './ButtonGroup';
@@ -14,7 +15,9 @@ import Header from './Header';
 function DetailSheet() {
   const { closeMeetingDetail } = useMeetingDetail();
   const [closeState, setCloseState] = useState(false);
-
+  const { openToast } = useToast();
+  const [detailMeetingId, setDetailMeetingId] =
+    useRecoilState(detailMeetingIdAtom);
   const meetingDetail = useRecoilValue(meetingDetailSelector);
 
   const closeHandler = useCallback(() => {
@@ -30,6 +33,13 @@ function DetailSheet() {
     e?.preventDefault();
     closeHandler();
   };
+
+  useEffect(() => {
+    if (!meetingDetail && detailMeetingId) {
+      openToast({ content: '종료된 모임이에요.' });
+      setDetailMeetingId(undefined);
+    }
+  }, [detailMeetingId, meetingDetail, openToast, setDetailMeetingId]);
 
   return meetingDetail ? (
     <BottomSheet open={closeState} onClose={onClickOutSide}>

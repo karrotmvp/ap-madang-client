@@ -28,7 +28,7 @@ const Container = styled.header`
 
 const TextWrapper = styled.span`
   font-weight: 700;
-  font-size: 1.8rem;
+  font-size: 2rem;
   line-height: 2.4rem;
   letter-spacing: -0.04rem;
 `;

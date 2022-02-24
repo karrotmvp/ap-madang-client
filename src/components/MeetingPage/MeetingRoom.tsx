@@ -238,7 +238,7 @@ const MeetingRoom = ({
       {start && track && info && (
         <AudioList
           users={users}
-          subTopic={info.meeting.sub_topics}
+          info={info}
           localUser={{
             ...info.user,
             audioStreamValue: trackState.audioStreamValue,
