@@ -39,7 +39,7 @@ const Home = () => {
       window.location.hash.substring(window.location.hash.indexOf('?')),
       'scheme',
     );
-    if (withScheme) mini.close();
+    if (!withScheme) mini.close();
   }, []);
 
   return (
