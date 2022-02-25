@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { MeetingList as MeetingListType } from 'meeting-v2';
 
+import { analytics } from '../../../../App';
 import useMeetingDetail from '../../hook/useMeetingDetail';
 import Spacing from '../Spacing';
 import EnteredUserList from './EnteredUserList';
@@ -23,8 +25,13 @@ function MeetingCard({
 }: MeetingListType) {
   const { openMeetingDetail } = useMeetingDetail();
 
+  const onClickOpenMeetingHandler = useCallback(() => {
+    logEvent(analytics, 'meeting_card__click');
+    openMeetingDetail(id);
+  }, [id, openMeetingDetail]);
+
   return (
-    <CardWrapper onClick={() => openMeetingDetail(id)}>
+    <CardWrapper onClick={onClickOpenMeetingHandler}>
       <CardHeader>
         <TagWrapper isVideo={is_video} />
         <Spacing width="0.6rem" />

@@ -1,10 +1,12 @@
 import { useCallback, useEffect } from 'react';
 
+import { logEvent } from '@firebase/analytics';
 import { useQueryParams } from '@karrotframe/navigator';
 import { detailMeetingIdAtom, meetingsAtom } from '@store/meeting';
 import { useHistory } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
+import { analytics } from '../../../App';
 import { meetingListHandler } from './useGetMeetingList';
 
 type queryParams = {
@@ -22,26 +24,17 @@ function useMeetingDetail() {
 
   const handleQueryMeetingId = useCallback(async () => {
     const meetingId = Number(queryParams[QUERY_KEY]);
-    if (meetings.findIndex(meeting => meeting.id === meetingId) === -1) {
-      await meetingListHandler({ setMeetings });
-    }
+    logEvent(analytics, `shared_meeting_${meetingId}__show`);
     setOpenMeetingId(meetingId);
     const path = getOriginPath(QUERY_KEY);
     path && history.replace(path);
-  }, [history, meetings, queryParams, setMeetings, setOpenMeetingId]);
+  }, [history, queryParams, setOpenMeetingId]);
 
   useEffect(() => {
     if (queryParams[QUERY_KEY]) {
       handleQueryMeetingId();
     }
-  }, [
-    history,
-    queryParams,
-    setOpenMeetingId,
-    meetings,
-    setMeetings,
-    handleQueryMeetingId,
-  ]);
+  }, [queryParams, handleQueryMeetingId]);
 
   const openMeetingDetail = async (id: number) => {
     if (meetings.findIndex(meeting => meeting.id === id) === -1) {

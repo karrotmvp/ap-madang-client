@@ -3,10 +3,13 @@ import React, { useCallback } from 'react';
 import PrimaryButton from '@components/common/PrimaryButton';
 import CircularProgress from '@components/common/Spinner/Circular-progress';
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import useMini from '@hook/useMini';
 import { codeSelector, meetingDetailSelector } from '@store/meeting';
 import { MeetingList } from 'meeting-v2';
 import { useRecoilRefresher_UNSTABLE, useRecoilValue } from 'recoil';
+
+import { analytics } from '../../../../App';
 
 type Props = { closeHandler: () => void };
 
@@ -17,6 +20,11 @@ function JoinButton({ closeHandler }: Props) {
   const detailMeeting = useRecoilValue(meetingDetailSelector) as MeetingList;
 
   const onClickJoinHandler = useCallback(async () => {
+    logEvent(analytics, `join_btn__click`, {
+      isVideo: detailMeeting.is_video,
+      meetingId: detailMeeting.id,
+    });
+
     if (detailMeeting.is_video) {
       return window.open(detailMeeting.meeting_url);
     }
@@ -33,6 +41,7 @@ function JoinButton({ closeHandler }: Props) {
     closeHandler,
     code,
     codeRefresh,
+    detailMeeting.id,
     detailMeeting.is_video,
     detailMeeting.meeting_url,
   ]);

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
+import { logEvent } from '@firebase/analytics';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { analytics } from '../../App';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import CircularProgress from '../common/Spinner/Circular-progress';
 import Spinner from '../common/Spinner/SpinnerModal';
@@ -22,6 +24,10 @@ export type FormValues = {
 function CreatePage() {
   const methods = useForm<FormValues>({ defaultValues: { type: 'audio' } });
   const [loading, setLoading] = useState<fetchingStateType>('SUCCESS');
+
+  useEffect(() => {
+    logEvent(analytics, 'create_meeting__show');
+  }, []);
 
   return (
     <FormProvider {...methods}>

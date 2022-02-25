@@ -6,15 +6,11 @@ import { AgoraUserType } from 'meeting-v2';
 type Props = { users: AgoraUserType[] };
 
 function EnteredUserList({ users }: Props) {
-  const firstUser = users[0];
   const usersNum = users.length;
   return (
     <Wrapper>
       <Profiles users={users} />
-      <JoinUserText>
-        {firstUser.nickname}
-        {usersNum > 1 && ` 외 ${usersNum - 1}명`}
-      </JoinUserText>
+      <JoinUserText>{usersNum}명 참여 중</JoinUserText>
     </Wrapper>
   );
 }
