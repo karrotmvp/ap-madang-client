@@ -20,7 +20,20 @@ module.exports = {
 
   // 번들링 될 파일 확장자 등록
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.svg'],
+    alias: {
+      '@': path.resolve(__dirname, 'src/'),
+      '@hook': path.resolve(__dirname, 'src/hook'),
+      '@style': path.resolve(__dirname, 'src/style'),
+      '@api': path.resolve(__dirname, 'src/api/'),
+      '@assets': path.resolve(__dirname, 'src/assets/'),
+      '@icon': path.resolve(__dirname, 'src/assets/icon/'),
+      '@image': path.resolve(__dirname, 'src/assets/image/'),
+      '@components': path.resolve(__dirname, 'src/components/'),
+      '@constant': path.resolve(__dirname, 'src/constant/'),
+      '@store': path.resolve(__dirname, 'src/store/'),
+      '@util': path.resolve(__dirname, 'src/util/'),
+    },
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   // 로더 등록
   module: {

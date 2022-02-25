@@ -1,10 +1,12 @@
-import customAxios from '../util/request';
+import landongmoAxios from '../util/request';
 
 export const validateMeetingCode = async (
   code: string,
 ): Promise<validAgoraCodeRes> => {
   try {
-    const result = await customAxios().get(`/agora/validate-code?code=${code}`);
+    const result = await landongmoAxios().get(
+      `/agora/validate-code?code=${code}`,
+    );
     return { success: true, data: result.data };
   } catch (e) {
     return { success: false };
@@ -13,7 +15,7 @@ export const validateMeetingCode = async (
 
 export const getAgoraCode = async (id: string): Promise<getAgoraCodeRes> => {
   try {
-    const result = await customAxios().get(`/agora/code?meeting=${id}`);
+    const result = await landongmoAxios().get(`/agora/code?meeting=${id}`);
     return { success: true, data: result.data };
   } catch (e) {
     return { success: false };
@@ -26,6 +28,9 @@ export type InfoType = {
     title: string;
     channel_name: string;
     sub_topics: string[];
+    start_time: string;
+    end_time: string;
+    date: string;
     description: {
       text: string;
       recommend_user: { text: string }[];

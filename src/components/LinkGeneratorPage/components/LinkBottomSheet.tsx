@@ -2,7 +2,7 @@ import React, { ReactElement, useCallback, useState } from 'react';
 
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { logEvent } from 'firebase/analytics';
+import { logEvent } from '@firebase/analytics';
 import { useRecoilValue } from 'recoil';
 
 import { analytics } from '../../../App';

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import customAxios from '../util/request';
+import landongmoAxios from '../util/request';
 
 export const uploadImage = async (file: File): Promise<string | undefined> => {
   const preSignedUrl = await getPreSignedUrl(file.name);
@@ -11,7 +11,7 @@ export const uploadImage = async (file: File): Promise<string | undefined> => {
 };
 
 const getPreSignedUrl = async (fileName: string) => {
-  const result: presignedUrlRes = await customAxios().get(
+  const result: presignedUrlRes = await landongmoAxios().get(
     `/meetings/presigned-url?file_name=${fileName}`,
   );
   return result;
