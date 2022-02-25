@@ -11,21 +11,23 @@ import { analytics } from '../../App';
 import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Banner from './components/Banner';
 import DetailSheet from './components/DetailSheet';
+import EmptyMeeting from './components/EmptyMeeting';
 import FloatWrapper from './components/FloatWrapper';
 import MeetingList from './components/MeetingList';
 import PageTitle from './components/PageTitle';
 import Spacing from './components/Spacing';
+import useGetMeetingList from './hook/useGetMeetingList';
 import useMeetingDetail from './hook/useMeetingDetail';
 
-const MainContents = () => {
-  return (
-    <main>
-      <MeetingList />
-    </main>
-  );
+type MainProps = { existMeetings: boolean };
+
+const MainContents = ({ existMeetings }: MainProps) => {
+  return <main>{existMeetings ? <MeetingList /> : <EmptyMeeting />}</main>;
 };
 
 const Home = () => {
+  const { meetings } = useGetMeetingList();
+  const existMeetings = meetings.length !== 0;
   const { push } = useNavigator();
 
   useMeetingDetail();
@@ -44,7 +46,7 @@ const Home = () => {
 
   return (
     <>
-      <FloatWrapper />
+      {existMeetings && <FloatWrapper />}
       <View className="home">
         <CustomScreenHelmet
           appendMiddle={<img src={main_logo} />}
@@ -57,7 +59,7 @@ const Home = () => {
         <Spacing height="2.4rem" />
         <Banner onClick={() => push('/guide/service')} />
         <Spacing height="1.6rem" />
-        <MainContents />
+        <MainContents existMeetings={existMeetings} />
       </View>
     </>
   );
