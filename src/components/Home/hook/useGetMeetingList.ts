@@ -42,7 +42,6 @@ export const meetingListHandler = async ({
       }
       return 1;
     });
-    console.log(sortMeetings);
     setMeetings(sortMeetings);
   }
 };
