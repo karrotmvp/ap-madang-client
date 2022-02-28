@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { closeMeeting } from '@api/v2/meeting';
+import { closeMeeting, deleteMeeting } from '@api/v2/meeting';
 import CircularProgress from '@components/common/Spinner/Circular-progress';
 import Spinner from '@components/common/Spinner/SpinnerModal';
 import styled from '@emotion/styled';
@@ -26,17 +26,29 @@ function Header({ is_video, closeHandler }: Props) {
     setLoading(false);
   };
 
+  const deleteMeetingHandler = async () => {
+    setLoading(true);
+    const result = await deleteMeeting(detailMeeting.id.toString());
+    if (result.success) closeHandler();
+    setLoading(false);
+  };
+
   return (
     <Wrapper>
       <Spinner show={loading}>
         <CircularProgress />
       </Spinner>
       <Tag isVideo={is_video} />
-      {detailMeeting.is_host && (
-        <CloseMeetingButton onClick={closeMeetingHandler}>
-          모임 종료
-        </CloseMeetingButton>
-      )}
+      {detailMeeting.is_host &&
+        (detailMeeting.live_status === 'live' ? (
+          <CloseMeetingButton onClick={closeMeetingHandler}>
+            모임 종료
+          </CloseMeetingButton>
+        ) : (
+          <CloseMeetingButton onClick={deleteMeetingHandler}>
+            모임 삭제
+          </CloseMeetingButton>
+        ))}
     </Wrapper>
   );
 }
@@ -52,9 +64,6 @@ const CloseMeetingButton = styled.div`
   font-size: 1.4rem;
   line-height: 2rem;
   letter-spacing: -0.02rem;
-
-  /* Scale/Red/Red950 */
-  // TODO: 색상 theme 추가
   color: #b61709;
 `;
 

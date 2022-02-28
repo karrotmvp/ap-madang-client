@@ -22,6 +22,7 @@ function MeetingCard({
   start_time,
   end_time,
   date,
+  live_status,
 }: MeetingListType) {
   const { openMeetingDetail } = useMeetingDetail();
 
@@ -35,11 +36,16 @@ function MeetingCard({
       <CardHeader>
         <TagWrapper isVideo={is_video} />
         <Spacing width="0.6rem" />
-        <RemainTimer start_time={start_time} end_time={end_time} date={date} />
+        <RemainTimer
+          start_time={start_time}
+          end_time={end_time}
+          date={date}
+          live_status={live_status}
+        />
       </CardHeader>
 
       <Spacing height="0.4rem" />
-      <TitleWrapper title={title} />
+      <TitleWrapper title={title} live_status={live_status} />
       <Spacing height="0.4rem" />
       <HostProfile nickname={host.nickname} regionName={host.region_name} />
       {agora_user_list.length !== 0 && (

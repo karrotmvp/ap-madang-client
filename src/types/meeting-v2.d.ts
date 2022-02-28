@@ -13,19 +13,15 @@ declare module 'meeting-v2' {
     agora_user_list: AgoraUserType[];
     meeting_url: string;
     share_code: string;
+    live_status: liveStatusType;
   };
+
+  export type liveStatusType = 'live' | 'finish';
 
   export type AgoraUserType = Pick<
     HostInfo,
     'id' | 'nickname' | 'profile_image_url'
   >;
-
-  export type LiveStatus =
-    | 'live'
-    | 'tomorrow'
-    | 'upcoming'
-    | 'finish'
-    | 'today';
 
   export type HostInfo = {
     id: number;
