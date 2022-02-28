@@ -12,13 +12,13 @@ import Spacing from '../Spacing';
 
 function Contents() {
   const meetingDetail = useRecoilValue(meetingDetailSelector);
-  const { title, host, agora_user_list, description_text } =
+  const { title, host, agora_user_list, description_text, live_status } =
     meetingDetail as MeetingList;
 
   return (
     <Wrapper>
       <Spacing height="0.4rem" />
-      <TitleWrapper title={title} />
+      <TitleWrapper title={title} live_status={live_status} />
       <Spacing height="0.4rem" />
       <HostProfile nickname={host.nickname} regionName={host.region_name} />
       {agora_user_list.length !== 0 && (

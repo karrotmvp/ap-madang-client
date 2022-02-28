@@ -41,7 +41,7 @@ function DetailSheet() {
 
   useEffect(() => {
     if (meetings.length !== 0 && !meetingDetail && detailMeetingId) {
-      openToast({ content: '종료된 모임이에요.' });
+      openToast({ content: '삭제된 모임이에요.' });
       setDetailMeetingId(undefined);
     }
   }, [
@@ -64,7 +64,10 @@ function DetailSheet() {
         </ContentsWrapper>
         <Spacing height="2.4rem" />
 
-        <ButtonGroup closeHandler={closeHandler} />
+        <ButtonGroup
+          closeHandler={closeHandler}
+          live_status={meetingDetail.live_status}
+        />
       </Wrapper>
     </BottomSheet>
   ) : null;
