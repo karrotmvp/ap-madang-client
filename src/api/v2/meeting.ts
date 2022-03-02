@@ -45,7 +45,7 @@ export const closeMeeting = async (meetingId: string) => {
 
 export const deleteMeeting = async (meetingId: string) => {
   try {
-    await landongmoAxios().delete(`/meetings/${meetingId}`);
+    await landongmoAxios().delete(`/meetings/${meetingId}/`);
     return { success: true };
   } catch (e) {
     return { success: false };
