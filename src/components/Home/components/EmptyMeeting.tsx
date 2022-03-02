@@ -15,7 +15,6 @@ function EmptyMeeting({ className }: Props): ReactElement {
 
   return (
     <EmptyWrapper className={className}>
-      <Spacing height="6rem" />
       <EmptyText>
         {'현재 진행중인 모임이 없어요.\n지금 모임을 만들고 이웃을 만나보세요.'}
       </EmptyText>
@@ -34,6 +33,7 @@ const EmptyWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 5.6rem 0;
 `;
 
 const EmptyText = styled.div`
