@@ -65,7 +65,7 @@ const Home = () => {
 const View = styled.div`
   width: 100%;
   height: 100%;
-  padding: 2.4rem 1.6rem;
+  padding: 2.4rem 0;
   box-sizing: border-box;
 `;
 

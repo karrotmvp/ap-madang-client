@@ -8,6 +8,7 @@ import { meetingDetailSelector } from '@store/meeting';
 import { MeetingList } from 'meeting-v2';
 import { useRecoilValue } from 'recoil';
 
+import { useToast } from '../../../../lib/Toast/util';
 import Tag from '../MeetingCard/Tag';
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
 
 function Header({ is_video, closeHandler }: Props) {
   const [loading, setLoading] = useState(false);
+  const { openToast } = useToast();
   const detailMeeting = useRecoilValue(meetingDetailSelector) as MeetingList;
 
   const closeMeetingHandler = async () => {
@@ -24,6 +26,7 @@ function Header({ is_video, closeHandler }: Props) {
     const result = await closeMeeting(detailMeeting.id.toString());
     if (result.success) closeHandler();
     setLoading(false);
+    openToast({ content: '모임을 종료했어요.' });
   };
 
   const deleteMeetingHandler = async () => {
@@ -31,6 +34,7 @@ function Header({ is_video, closeHandler }: Props) {
     const result = await deleteMeeting(detailMeeting.id.toString());
     if (result.success) closeHandler();
     setLoading(false);
+    openToast({ content: '모임이 삭제됐어요.' });
   };
 
   return (
