@@ -12,6 +12,7 @@ function Banner(props: HTMLAttributes<HTMLDivElement>) {
 }
 
 const Container = styled.div`
+  padding: 0 1.6rem;
   border-radius: 12px;
   min-height: 7rem;
 `;

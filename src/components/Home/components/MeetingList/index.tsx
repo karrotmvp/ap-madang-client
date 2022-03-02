@@ -1,20 +1,16 @@
 import React from 'react';
 
 import useGetMeetingList from '../../hook/useGetMeetingList';
-import MeetingCard from '../MeetingCard';
-import LineDivider from './LineDivider';
+import FinishMeetingList from './FinishMeetingList';
+import LiveMeetingList from './LiveMeetingList';
 
 function MeetingList() {
-  const { meetings } = useGetMeetingList();
+  const { liveMeetings, finishMeetings } = useGetMeetingList();
 
   return (
     <section>
-      {meetings.map(meeting => (
-        <div key={meeting.id}>
-          <MeetingCard key={meeting.id} {...meeting} />
-          <LineDivider />
-        </div>
-      ))}
+      {liveMeetings && <LiveMeetingList meetings={liveMeetings} />}
+      {finishMeetings && <FinishMeetingList meetings={finishMeetings} />}
     </section>
   );
 }

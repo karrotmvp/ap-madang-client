@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { closeMeeting } from '@api/v2/meeting';
+import { closeMeeting, deleteMeeting } from '@api/v2/meeting';
 import CircularProgress from '@components/common/Spinner/Circular-progress';
 import Spinner from '@components/common/Spinner/SpinnerModal';
 import styled from '@emotion/styled';
@@ -8,6 +8,7 @@ import { meetingDetailSelector } from '@store/meeting';
 import { MeetingList } from 'meeting-v2';
 import { useRecoilValue } from 'recoil';
 
+import { useToast } from '../../../../lib/Toast/util';
 import Tag from '../MeetingCard/Tag';
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
 
 function Header({ is_video, closeHandler }: Props) {
   const [loading, setLoading] = useState(false);
+  const { openToast } = useToast();
   const detailMeeting = useRecoilValue(meetingDetailSelector) as MeetingList;
 
   const closeMeetingHandler = async () => {
@@ -24,6 +26,15 @@ function Header({ is_video, closeHandler }: Props) {
     const result = await closeMeeting(detailMeeting.id.toString());
     if (result.success) closeHandler();
     setLoading(false);
+    openToast({ content: '모임을 종료했어요.' });
+  };
+
+  const deleteMeetingHandler = async () => {
+    setLoading(true);
+    const result = await deleteMeeting(detailMeeting.id.toString());
+    if (result.success) closeHandler();
+    setLoading(false);
+    openToast({ content: '모임이 삭제됐어요.' });
   };
 
   return (
@@ -32,11 +43,16 @@ function Header({ is_video, closeHandler }: Props) {
         <CircularProgress />
       </Spinner>
       <Tag isVideo={is_video} />
-      {detailMeeting.is_host && (
-        <CloseMeetingButton onClick={closeMeetingHandler}>
-          모임 종료
-        </CloseMeetingButton>
-      )}
+      {detailMeeting.is_host &&
+        (detailMeeting.live_status === 'live' ? (
+          <CloseMeetingButton onClick={closeMeetingHandler}>
+            모임 종료
+          </CloseMeetingButton>
+        ) : (
+          <CloseMeetingButton onClick={deleteMeetingHandler}>
+            모임 삭제
+          </CloseMeetingButton>
+        ))}
     </Wrapper>
   );
 }
@@ -52,9 +68,6 @@ const CloseMeetingButton = styled.div`
   font-size: 1.4rem;
   line-height: 2rem;
   letter-spacing: -0.02rem;
-
-  /* Scale/Red/Red950 */
-  // TODO: 색상 theme 추가
   color: #b61709;
 `;
 

@@ -5,15 +5,16 @@ import PrimaryButton from '@components/common/PrimaryButton';
 import styled from '@emotion/styled';
 import { meetingDetailSelector } from '@store/meeting';
 import mini from '@util/mini';
-import { MeetingList } from 'meeting-v2';
+import { liveStatusType, MeetingList } from 'meeting-v2';
 import { useRecoilValue } from 'recoil';
 
 import Spacing from '../Spacing';
+import CloseMeetingButton from './CloseMeetingButton';
 import JoinButton, { SpinnerButton } from './JoinButton';
 
-type Props = { closeHandler: () => void };
+type Props = { closeHandler: () => void; live_status: liveStatusType };
 
-function ButtonGroup({ closeHandler }: Props) {
+function ButtonGroup({ closeHandler, live_status }: Props) {
   const detailMeeting = useRecoilValue(meetingDetailSelector) as MeetingList;
 
   const shareMeetingHandler = useCallback(async () => {
@@ -23,7 +24,7 @@ function ButtonGroup({ closeHandler }: Props) {
     });
   }, [detailMeeting.share_code, detailMeeting.title]);
 
-  return (
+  return live_status === 'live' ? (
     <Wrapper>
       <ShareButton onClick={shareMeetingHandler}>
         <img src={share_icon} />
@@ -32,6 +33,10 @@ function ButtonGroup({ closeHandler }: Props) {
       <Suspense fallback={<SpinnerButton />}>
         <JoinButton closeHandler={closeHandler} />
       </Suspense>
+    </Wrapper>
+  ) : (
+    <Wrapper>
+      <CloseMeetingButton />
     </Wrapper>
   );
 }

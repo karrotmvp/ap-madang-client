@@ -1,11 +1,19 @@
 import React from 'react';
 
 import styled from '@emotion/styled';
+import { liveStatusType } from 'meeting-v2';
 
-type Props = { title: string };
+import CloseMeetingTag from '../CloseMeetingTag';
 
-function TitleWrapper({ title }: Props) {
-  return <Title>{title}</Title>;
+type Props = { title: string; live_status: liveStatusType };
+
+function TitleWrapper({ title, live_status }: Props) {
+  return (
+    <Title>
+      {live_status === 'finish' && <CloseMeetingTag />}
+      {title}
+    </Title>
+  );
 }
 
 const Title = styled.h1`

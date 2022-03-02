@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { getMeetings } from '@api/v2/meeting';
 import { useQueryParams } from '@karrotframe/navigator';
@@ -21,7 +21,15 @@ const useGetMeetingList = () => {
     meetingListHandler({ setMeetings });
   }, [queryParams, setMeetings, detailMeetingId]);
 
-  return { meetings };
+  const liveMeetings = useMemo(() => {
+    return meetings.filter(meeting => meeting.live_status === 'live');
+  }, [meetings]);
+
+  const finishMeetings = useMemo(() => {
+    return meetings.filter(meeting => meeting.live_status === 'finish');
+  }, [meetings]);
+
+  return { meetings, liveMeetings, finishMeetings };
 };
 
 export const meetingListHandler = async ({
@@ -34,7 +42,15 @@ export const meetingListHandler = async ({
   if (!regionId) return;
   const result = await getMeetings(regionId);
   if (result.success && result.data) {
-    setMeetings(result.data);
+    const sortMeetings = result.data.sort((a, b) => {
+      if (a.live_status === b.live_status) {
+        if (a.date === b.date) return a.start_time < b.start_time ? 1 : -1;
+        return a.date < b.date ? 1 : -1;
+      }
+      if (a.live_status === 'live') return -1;
+      return 1;
+    });
+    setMeetings(sortMeetings);
   }
 };
 

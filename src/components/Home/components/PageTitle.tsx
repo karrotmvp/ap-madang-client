@@ -20,6 +20,7 @@ const Container = styled.header`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
+  padding: 0 1.6rem;
 `;
 
 const TextWrapper = styled.span`
