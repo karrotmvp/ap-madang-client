@@ -1,17 +1,11 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
-import daangnBridge from '@util/daangnBridge';
 
 import PrimaryButton from '../common/PrimaryButton';
 import Spacing from '../Home/components/Spacing';
 
 function CloseServicePage() {
-  const goBackHandler = useCallback(() => {
-    daangnBridge.router.close();
-    window.close();
-  }, []);
-
   return (
     <Page>
       <Title>
@@ -23,7 +17,6 @@ function CloseServicePage() {
         앞으로 들어올 새로운 서비스를 기대해주세요!
       </Text>
       <Spacing height="3.2rem" />
-      <Button onClick={goBackHandler}>당근마켓으로 돌아가기</Button>
     </Page>
   );
 }
