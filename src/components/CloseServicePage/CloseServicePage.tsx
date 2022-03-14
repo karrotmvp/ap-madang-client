@@ -2,7 +2,6 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
-import PrimaryButton from '../common/PrimaryButton';
 import Spacing from '../Home/components/Spacing';
 
 function CloseServicePage() {
@@ -16,7 +15,6 @@ function CloseServicePage() {
         그동안 관심을 가지고 랜선동네모임을 이용해주신 여러분께 감사드려요.
         앞으로 들어올 새로운 서비스를 기대해주세요!
       </Text>
-      <Spacing height="3.2rem" />
     </Page>
   );
 }
@@ -65,8 +63,4 @@ const Text = styled.span`
   word-break: keep-all;
 `;
 
-const Button = styled(PrimaryButton)`
-  padding: 0.9rem 1.6rem;
-  width: auto;
-`;
 export default CloseServicePage;
