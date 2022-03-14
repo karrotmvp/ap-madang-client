@@ -1,19 +1,15 @@
 import React, { useCallback } from 'react';
 
 import styled from '@emotion/styled';
-import mini from '@util/mini';
-import { getQueryString } from '@util/utils';
+import daangnBridge from '@util/daangnBridge';
 
 import PrimaryButton from '../common/PrimaryButton';
 import Spacing from '../Home/components/Spacing';
 
 function CloseServicePage() {
   const goBackHandler = useCallback(() => {
-    const withScheme = getQueryString(
-      window.location.hash.substring(window.location.hash.indexOf('?')),
-      'scheme',
-    );
-    if (!withScheme) mini.close();
+    daangnBridge.router.close();
+    window.close();
   }, []);
 
   return (
