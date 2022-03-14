@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import mini from '@util/mini';
 import { getQueryString } from '@util/utils';
 
-import CustomScreenHelmet from '../common/CustomScreenHelmet';
+import PrimaryButton from '../common/PrimaryButton';
 import Spacing from '../Home/components/Spacing';
 
 function CloseServicePage() {
@@ -18,8 +18,6 @@ function CloseServicePage() {
 
   return (
     <Page>
-      <CustomScreenHelmet onCustomCloseButton={goBackHandler} />
-
       <Title>
         <EmphasisTitle>랜선동네모임</EmphasisTitle> 베타서비스가 종료되었어요.
       </Title>
@@ -28,6 +26,8 @@ function CloseServicePage() {
         그동안 관심을 가지고 랜선동네모임을 이용해주신 여러분께 감사드려요.
         앞으로 들어올 새로운 서비스를 기대해주세요!
       </Text>
+      <Spacing height="3.2rem" />
+      <Button onClick={goBackHandler}>당근마켓으로 돌아가기</Button>
     </Page>
   );
 }
@@ -76,4 +76,8 @@ const Text = styled.span`
   word-break: keep-all;
 `;
 
+const Button = styled(PrimaryButton)`
+  padding: 0.9rem 1.6rem;
+  width: auto;
+`;
 export default CloseServicePage;
