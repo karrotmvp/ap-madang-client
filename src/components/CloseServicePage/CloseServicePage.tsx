@@ -2,18 +2,14 @@ import React, { useCallback } from 'react';
 
 import styled from '@emotion/styled';
 import mini from '@util/mini';
-import { getQueryString } from '@util/utils';
 
 import PrimaryButton from '../common/PrimaryButton';
 import Spacing from '../Home/components/Spacing';
 
 function CloseServicePage() {
   const goBackHandler = useCallback(() => {
-    const withScheme = getQueryString(
-      window.location.hash.substring(window.location.hash.indexOf('?')),
-      'scheme',
-    );
-    if (!withScheme) mini.close();
+    mini.close();
+    window.close();
   }, []);
 
   return (
