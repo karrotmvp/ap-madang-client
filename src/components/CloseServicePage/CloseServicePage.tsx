@@ -2,13 +2,11 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
-import CustomScreenHelmet from '../common/CustomScreenHelmet';
 import Spacing from '../Home/components/Spacing';
 
 function CloseServicePage() {
   return (
     <Page>
-      <CustomScreenHelmet />
       <Title>
         <EmphasisTitle>랜선동네모임</EmphasisTitle> 베타서비스가 종료되었어요.
       </Title>
